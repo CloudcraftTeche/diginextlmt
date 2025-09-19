@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { ImageConstatns } from "@/constants/ImageConstants";
+import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
 
 interface HeroSectionProps {
@@ -91,7 +91,7 @@ const   HeroSection: React.FC<HeroSectionProps> = ({
             <div className="p-4 sm:p-6 lg:p-10 relative">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400/10 to-orange-600/10 rounded-full blur-xl animate-pulse" />
               <Image
-                src={ImageConstatns.LOGO_SHAPE}
+                src={ImageConstants.LOGO_SHAPE}
                 alt="DigiNext Logo Shape"
                 width={400}
                 height={400}
@@ -108,7 +108,7 @@ const   HeroSection: React.FC<HeroSectionProps> = ({
               className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-thin mb-3 sm:mb-4 md:mb-5 leading-tight"
             >
               <span
-                className={`text-orange-500 font-medium block sm:inline transition-all duration-700 ease-out ${
+                className={`text-orange-500 font-normal block sm:inline transition-all duration-700 ease-out ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"
@@ -118,7 +118,7 @@ const   HeroSection: React.FC<HeroSectionProps> = ({
                 {title.part1}
               </span>
               <span
-                className={`text-white font-medium block sm:inline transition-all duration-700 ease-out ${
+                className={`text-white font-normal block sm:inline transition-all duration-700 ease-out ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"
@@ -129,7 +129,7 @@ const   HeroSection: React.FC<HeroSectionProps> = ({
                 . {title.part2}
               </span>
               <span
-                className={`text-white font-medium block sm:inline transition-all duration-700 ease-out ${
+                className={`text-white font-normal block sm:inline transition-all duration-700 ease-out ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"
@@ -164,7 +164,7 @@ const   HeroSection: React.FC<HeroSectionProps> = ({
             >
               <Link
                 href={primaryButtonLink}
-                className="group inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-sm sm:text-base overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25"
+                className="group inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-normal rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-sm sm:text-base overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25"
               >
                 <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
                   {primaryButtonText}
@@ -175,7 +175,7 @@ const   HeroSection: React.FC<HeroSectionProps> = ({
 
               <Link
                 href={secondaryButtonLink}
-                className="group inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-white/90 backdrop-blur-sm text-black font-semibold rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/50 text-sm sm:text-base overflow-hidden relative hover:bg-white hover:shadow-xl hover:shadow-white/10"
+                className="group inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-white/90 backdrop-blur-sm text-black font-normal rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/50 text-sm sm:text-base overflow-hidden relative hover:bg-white hover:shadow-xl hover:shadow-white/10"
               >
                 <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
                   {secondaryButtonText}

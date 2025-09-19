@@ -113,39 +113,37 @@ const TrustSection: React.FC<TrustSectionProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // Mock client logos - you can replace these with actual logo URLs
+  // Updated client logos with proper SVG structure and dimensions
   const clientLogos = [
     {
-      name: "Hitachi",
-      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Ctext x='10' y='35' font-family='Arial' font-size='20' font-weight='bold' fill='%23333'%3EHitachi%3C/text%3E%3C/svg%3E",
-    },
-    {
       name: "Tata Power",
-      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Ctext x='10' y='35' font-family='Arial' font-size='16' font-weight='bold' fill='%23333'%3ETATA POWER%3C/text%3E%3C/svg%3E",
+      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Crect width='200' height='60' fill='%23f8f9fa'/%3E%3Ctext x='100' y='35' text-anchor='middle' font-family='Arial, sans-serif' font-size='18' font-weight='bold' fill='%23d73502'%3ETATA POWER%3C/text%3E%3C/svg%3E",
+      width: 200,
+      height: 60,
     },
     {
       name: "Gulf Logistics",
-      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Ctext x='10' y='35' font-family='Arial' font-size='14' font-weight='bold' fill='%23333'%3EGulf Logistics%3C/text%3E%3C/svg%3E",
+      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Crect width='200' height='60' fill='%23f8f9fa'/%3E%3Ctext x='100' y='35' text-anchor='middle' font-family='Arial, sans-serif' font-size='14' font-weight='bold' fill='%23004c8c'%3EGulf Logistics%3C/text%3E%3C/svg%3E",
+      width: 200,
+      height: 60,
     },
     {
       name: "Ramada",
-      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Ctext x='10' y='35' font-family='Arial' font-size='18' font-weight='bold' fill='%23d4237a'%3ERAMADA%3C/text%3E%3C/svg%3E",
+      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Crect width='200' height='60' fill='%23f8f9fa'/%3E%3Ctext x='100' y='35' text-anchor='middle' font-family='Arial, sans-serif' font-size='20' font-weight='bold' fill='%23d4237a'%3ERAMADA%3C/text%3E%3C/svg%3E",
+      width: 200,
+      height: 60,
     },
     {
       name: "Award Badge",
-      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='25' fill='%23d4af37' stroke='%23b8941f' stroke-width='2'/%3E%3Ctext x='30' y='35' text-anchor='middle' font-family='Arial' font-size='10' fill='white'%3EAWARD%3C/text%3E%3C/svg%3E",
+      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='35' fill='%23d4af37' stroke='%23b8941f' stroke-width='3'/%3E%3Cpath d='M40,20 L45,30 L56,30 L48,38 L51,48 L40,43 L29,48 L32,38 L24,30 L35,30 Z' fill='white'/%3E%3Ctext x='40' y='62' text-anchor='middle' font-family='Arial, sans-serif' font-size='8' font-weight='bold' fill='%23b8941f'%3EAWARD%3C/text%3E%3C/svg%3E",
+      width: 80,
+      height: 80,
     },
     {
       name: "IMT Business School",
-      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Ctext x='10' y='25' font-family='Arial' font-size='12' font-weight='bold' fill='%23333'%3EIMT%3C/text%3E%3Ctext x='10' y='40' font-family='Arial' font-size='10' fill='%23666'%3EBusiness School%3C/text%3E%3C/svg%3E",
-    },
-    {
-      name: "Space",
-      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Ctext x='10' y='35' font-family='Arial' font-size='20' font-weight='bold' fill='%23333'%3ESpace%3C/text%3E%3C/svg%3E",
-    },
-    {
-      name: "Contour",
-      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Ctext x='10' y='25' font-family='Arial' font-size='16' font-weight='bold' fill='%23333'%3ECONTOUR%3C/text%3E%3Ctext x='10' y='40' font-family='Arial' font-size='10' fill='%23666'%3EAesthetic Clinic%3C/text%3E%3C/svg%3E",
+      logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Crect width='200' height='60' fill='%23f8f9fa'/%3E%3Ctext x='100' y='25' text-anchor='middle' font-family='Arial, sans-serif' font-size='16' font-weight='bold' fill='%23333'%3EIMT%3C/text%3E%3Ctext x='100' y='45' text-anchor='middle' font-family='Arial, sans-serif' font-size='10' fill='%23666'%3EBusiness School%3C/text%3E%3C/svg%3E",
+      width: 200,
+      height: 60,
     },
   ];
 
@@ -202,6 +200,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
           </div>
         </div>
 
+        {/* Client Logos Section */}
         <div
           className={`transform transition-all duration-1000 ease-out ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -209,7 +208,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
           style={{ transitionDelay: "800ms" }}
         >
           <div className="border-t border-gray-200 pt-16">
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-8 items-center">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
               {clientLogos.map((client, index) => (
                 <div
                   key={client.name}
@@ -222,7 +221,14 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                     <Image
                       src={client.logo}
                       alt={`${client.name} logo`}
-                      className="h-8 w-auto max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                      width={client.width}
+                      height={client.height}
+                      className={`max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 ${
+                        client.name === "Award Badge"
+                          ? "h-16 w-16"
+                          : "h-12 w-auto"
+                      }`}
+                      priority={index < 2} // Prioritize loading first 2 images
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-orange-400/0 to-orange-600/0 group-hover:from-orange-400/5 group-hover:to-orange-600/5 transition-all duration-300 rounded-lg" />
                   </div>

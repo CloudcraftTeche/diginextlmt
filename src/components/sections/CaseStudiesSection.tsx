@@ -63,7 +63,10 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
         <Image
           src={image}
           alt={title}
+          width={400}
+          height={300}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          priority={delay < 600} // Prioritize loading for first few images
         />
         <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-300" />
       </div>
@@ -104,7 +107,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
   caseStudies = [
     {
       image:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f4f4f4;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23e0e0e0;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23grad1)'/%3E%3Ccircle cx='200' cy='120' r='40' fill='%23d4a574'/%3E%3Crect x='120' y='180' width='160' height='60' rx='30' fill='%23d4a574'/%3E%3Ctext x='200' y='250' text-anchor='middle' font-family='Arial' font-size='16' font-weight='bold' fill='%23333'%3ELuxury Interior%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f4f4f4;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23e0e0e0;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23grad1)'/%3E%3Ccircle cx='200' cy='120' r='40' fill='%23d4a574'/%3E%3Crect x='120' y='180' width='160' height='60' rx='30' fill='%23d4a574'/%3E%3Ctext x='200' y='250' text-anchor='middle' font-family='Arial, sans-serif' font-size='16' font-weight='bold' fill='%23333'%3ELuxury Interior%3C/text%3E%3C/svg%3E",
       title: "Organic Growth",
       percentage: "100X",
       description:
@@ -112,14 +115,14 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
     },
     {
       image:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23000'/%3E%3Crect x='50' y='80' width='300' height='140' fill='%23008000' stroke='%23333' stroke-width='2'/%3E%3Ctext x='200' y='160' text-anchor='middle' font-family='Arial' font-size='24' font-weight='bold' fill='white'%3EAL-MANARA%3C/text%3E%3Cpath d='M180 120 L220 120 L210 140 L190 140 Z' fill='white'/%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23000'/%3E%3Crect x='50' y='80' width='300' height='140' fill='%23008000' stroke='%23333' stroke-width='2'/%3E%3Ctext x='200' y='160' text-anchor='middle' font-family='Arial, sans-serif' font-size='24' font-weight='bold' fill='white'%3EAL-MANARA%3C/text%3E%3Cpath d='M180 120 L220 120 L210 140 L190 140 Z' fill='white'/%3E%3C/svg%3E",
       title: "Branding Design",
       description:
         "Achieve greater exposure to your target market and a competitive edge in online search with relevant, targeted, and cost-effective revised marketing strategies.",
     },
     {
       image:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f8f8f8;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23e8e8e8;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23grad2)'/%3E%3Ccircle cx='320' cy='80' r='60' fill='%2364a364'/%3E%3Crect x='280' y='130' width='80' height='120' rx='8' fill='%2364a364'/%3E%3Ctext x='320' y='200' text-anchor='middle' font-family='Arial' font-size='10' font-weight='bold' fill='white'%3EDO NOT%3C/text%3E%3Ctext x='320' y='220' text-anchor='middle' font-family='Arial' font-size='10' font-weight='bold' fill='white'%3EDISTURB%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f8f8f8;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23e8e8e8;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23grad2)'/%3E%3Ccircle cx='320' cy='80' r='60' fill='%2364a364'/%3E%3Crect x='280' y='130' width='80' height='120' rx='8' fill='%2364a364'/%3E%3Ctext x='320' y='200' text-anchor='middle' font-family='Arial, sans-serif' font-size='10' font-weight='bold' fill='white'%3EDO NOT%3C/text%3E%3Ctext x='320' y='220' text-anchor='middle' font-family='Arial, sans-serif' font-size='10' font-weight='bold' fill='white'%3EDISTURB%3C/text%3E%3C/svg%3E",
       title: "Design Concepts",
       description:
         "Achieve greater exposure to your target market and a competitive edge in online search with relevant, targeted, and cost-effective revised marketing strategies.",
