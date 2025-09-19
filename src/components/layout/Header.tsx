@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ImageConstatns } from "@/constants/ImageConstants";
+import { ImageConstants } from "@/constants/ImageConstants";
 
 interface NavItem {
   name: string;
@@ -45,11 +45,13 @@ const Header = () => {
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
               <Image
-                src={ImageConstatns.BLACK_LOGO}
+                src={ImageConstants.BLACK_LOGO}
                 alt="Diginext Logo"
+                width={120}
+                height={32}
                 className="h-8 w-auto transition-all duration-300 hover:scale-105"
+                priority
               />
-              
             </Link>
           </div>
 

@@ -8,6 +8,9 @@ import TrustSection from "@/components/sections/TrustSection";
 import CaseStudiesSection from "@/components/sections/CaseStudiesSection";
 import EthosSection from "@/components/sections/EthosSection";
 import ServicesSection from "@/components/sections/ServicesSection";
+import BrandingMarketingSection from "@/components/sections/BrandingMarketingSection";
+import FAQSection from "@/components/sections/FAQSection";
+import Footer from "@/components/layout/Footer";
 
 // SEO Metadata Export
 export const metadata: Metadata = generateHomePageMetadata();
@@ -40,6 +43,9 @@ export default function HomePage() {
         <CaseStudiesSection />
         <EthosSection />
         <ServicesSection />
+        <BrandingMarketingSection />
+        <FAQSection />
+        <Footer />
       </div>
     </>
   );
