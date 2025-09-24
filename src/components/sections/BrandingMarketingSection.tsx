@@ -62,34 +62,12 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
               {/* Main Donut Image */}
               <div className="relative z-10">
                 <Image
-                  src={ImageConstants.DONET}
+                  src={ImageConstants.PLANT}
                   alt="Creative donut with sprinkles"
                   width={400}
                   height={400}
                   className="w-90 h-auto"
                   priority
-                />
-              </div>
-
-              {/* Glasses - Top Right */}
-              <div className="absolute top-8 right-4 lg:right-8 z-20">
-                <Image
-                  src={ImageConstants.SUN_GLASS}
-                  alt="Black glasses"
-                  width={80}
-                  height={40}
-                  className="w-80 lg:w-20 h-auto"
-                />
-              </div>
-
-              {/* Plant - Bottom Right */}
-              <div className="absolute bottom-4 right-2 lg:right-4 z-20">
-                <Image
-                  src={ImageConstants.PLANT}
-                  alt="Succulent plant"
-                  width={400}
-                  height={400}
-                  className="w-80 lg:w-28 h-auto transform rotate-12"
                 />
               </div>
             </div>

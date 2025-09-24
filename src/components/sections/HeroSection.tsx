@@ -17,14 +17,14 @@ interface HeroSectionProps {
   secondaryButtonLink?: string;
 }
 
-const   HeroSection: React.FC<HeroSectionProps> = ({
+const HeroSection: React.FC<HeroSectionProps> = ({
   title = {
-    part1: "Invite",
-    part2: "Inform",
-    part3: "Involve",
+    part1: "Discover",
+    part2: "Connect",
+    part3: "Grow",
   },
-  description = "To create, build and deploy innovative, engaging and integrated end to end marketing strategies that will reflect and propel the business.",
-  primaryButtonText = "Request a Quote",
+  description = "In Dubai's digital landscape, businesses need the right IT partner to thrive. We create integrated marketing strategies that don't just build campaigns—we design solutions that accurately represent and advance your company.",
+  primaryButtonText = "Get Your Quote",
   secondaryButtonText = "Why Digi Next?",
   primaryButtonLink = "/quote",
   secondaryButtonLink = "/about",
@@ -73,7 +73,7 @@ const   HeroSection: React.FC<HeroSectionProps> = ({
       style={{ transform: `translateY(${scrollY * 0.1}px)` }}
     >
       <div className="w-full bg-black via-black to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 relative overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center min-h-[300px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-[420px] relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 lg:gap-20 xl:gap-24 items-center min-h-[300px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-[420px] relative z-10">
           {/* Left Side - Circular Logo */}
           <div
             className={`flex justify-center lg:justify-end order-1 lg:order-1 transition-all duration-1000 ease-out ${
@@ -105,10 +105,10 @@ const   HeroSection: React.FC<HeroSectionProps> = ({
             {/* Animated Title */}
             <h1
               id="hero-heading"
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-thin mb-3 sm:mb-4 md:mb-5 leading-tight"
+              className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-thin mb-3 sm:mb-4 md:mb-5 leading-tight"
             >
               <span
-                className={`text-orange-500 font-normal block sm:inline transition-all duration-700 ease-out ${
+                className={`text-orange-500 font-light block sm:inline transition-all duration-700 ease-out ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"
@@ -118,7 +118,7 @@ const   HeroSection: React.FC<HeroSectionProps> = ({
                 {title.part1}
               </span>
               <span
-                className={`text-white font-normal block sm:inline transition-all duration-700 ease-out ${
+                className={`text-white font-light block sm:inline transition-all duration-700 ease-out ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"
@@ -143,7 +143,7 @@ const   HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Animated Description */}
             <p
-              className={`text-gray-300 text-sm sm:text-base md:text-lg lg:text-xl mb-6 sm:mb-7 md:mb-8 leading-relaxed font-normal max-w-full sm:max-w-md md:max-w-lg mx-auto lg:mx-0 transition-all duration-700 ease-out ${
+              className={`text-gray-300 text-xs sm:text-xs md:text-sm lg:text-base mb-6 sm:mb-7 md:mb-8 leading-relaxed font-normal max-w-full sm:max-w-md md:max-w-lg mx-auto lg:mx-0 transition-all duration-700 ease-out ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-4"

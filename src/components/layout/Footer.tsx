@@ -207,31 +207,13 @@ const Footer: React.FC<FooterProps> = ({
                     onChange={(e) => setEmail(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder={newsletter.placeholder}
-                    className="flex-1 px-12 sm:px-20 py-3 sm:py-4
-               text-left                   
-               bg-white/90 backdrop-blur-sm
-               text-black placeholder-gray-500
-               rounded-l-md sm:rounded-r-none
-               border-2 border-transparent
-               focus:border-orange-500 focus:outline-none
-               focus:ring-4 focus:ring-orange-500/20
-               transition-all duration-300
-               text-sm sm:text-base"
+                    className="flex-1 px-12 sm:px-20 py-3 sm:py-4 text-left bg-white/90 backdrop-blur-sm text-black placeholder-gray-500 rounded-l-md sm:rounded-r-none border-2 border-transparent focus:border-orange-500 focus:outline-none focus:ring-4 focus:ring-orange-500/20 transition-all duration-300 text-sm sm:text-base"
                   />
 
                   <button
                     onClick={handleNewsletterSubmit}
                     disabled={!isValidEmail(email) || isSubmitting}
-                    className="px-6 sm:px-8 py-3 sm:py-4
-               bg-orange-500 hover:bg-orange-600  /* <-- real orange classes */
-               text-white font-medium
-               rounded-r-md sm:rounded-l-none
-               transition-all duration-300
-               focus:outline-none focus:ring-4 focus:ring-orange-300
-               text-sm sm:text-base
-               hover:shadow-xl hover:shadow-orange-500/25
-               disabled:opacity-50 disabled:cursor-not-allowed
-               min-w-[100px] sm:min-w-[120px]"
+                    className="px-6 sm:px-8 py-3 sm:py-4 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-r-md sm:rounded-l-none transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-sm sm:text-base hover:shadow-xl hover:shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px] sm:min-w-[120px]"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center justify-center">
