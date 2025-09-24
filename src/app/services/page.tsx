@@ -43,12 +43,7 @@ export default function HomePage() {
         {/* <HeroSection /> */}
         <HeroBanner />
         <ShowcaseSection />
-        <TrustSection />
-        <CaseStudiesSection />
-        <EthosSection />
-        <ServicesSection />
-        <BrandingMarketingSection />
-        <FAQSection />
+
         <Footer />
       </div>
     </>
