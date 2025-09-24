@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { getServiceBySlug, SERVICES_DATA } from "@/lib/services-data";
 import Link from "next/link";
+import Image from "next/image";
 
 interface CategoryPageProps {
   params: {
@@ -58,7 +59,10 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           {/* Breadcrumb */}
           <nav className="mb-8" aria-label="Breadcrumb">
             <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <Link href="/" className="hover:text-orange-600 transition-colors">
+              <Link
+                href="/"
+                className="hover:text-orange-600 transition-colors"
+              >
                 Home
               </Link>
               <svg
@@ -166,10 +170,13 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
             <div className="relative">
               <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img
+                <Image
                   src={service.image}
                   alt={service.imageAlt}
+                  width={500}
+                  height={400}
                   className="w-full h-80 lg:h-96 object-cover"
+                  priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/20 to-transparent"></div>
               </div>
@@ -224,9 +231,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                   className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
                 >
                   <div className="aspect-video overflow-hidden relative">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.name}
+                      width={400}
+                      height={225}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -408,7 +417,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                 Ready to Get Started?
               </h2>
               <p className="text-xl mb-8 text-orange-100 max-w-2xl mx-auto">
-                Let's discuss your project and create something amazing
+                Let&apos;s discuss your project and create something amazing
                 together. Contact us today for a free consultation.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
