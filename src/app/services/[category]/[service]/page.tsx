@@ -77,7 +77,10 @@ export default function ServicePage({ params }: ServicePageProps) {
           {/* Breadcrumb */}
           <nav className="mb-8" aria-label="Breadcrumb">
             <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <Link href="/" className="hover:text-orange-600 transition-colors">
+              <Link
+                href="/"
+                className="hover:text-orange-600 transition-colors"
+              >
                 Home
               </Link>
               <svg
@@ -185,10 +188,13 @@ export default function ServicePage({ params }: ServicePageProps) {
 
             <div className="relative">
               <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img
+                <Image
                   src={serviceItem.image}
                   alt={serviceItem.name}
+                  width={500}
+                  height={400}
                   className="w-full h-80 lg:h-96 object-cover"
+                  priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/10 to-transparent"></div>
               </div>
@@ -239,7 +245,7 @@ export default function ServicePage({ params }: ServicePageProps) {
               {/* Features */}
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  What's Included
+                  What&apos;s Included
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {serviceItem.features.map((feature, index) => (
@@ -451,9 +457,11 @@ export default function ServicePage({ params }: ServicePageProps) {
                     className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
                   >
                     <div className="aspect-video overflow-hidden relative">
-                      <img
+                      <Image
                         src={relatedService.image}
                         alt={relatedService.name}
+                        width={400}
+                        height={225}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -536,7 +544,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   <p className="text-gray-600 leading-relaxed">
                     The timeline for {serviceItem.name.toLowerCase()} varies
                     depending on project complexity and requirements. Typically,
-                    projects range from 1-4 weeks. We'll provide a detailed
+                    projects range from 1-4 weeks. We&apos;ll provide a detailed
                     timeline during our initial consultation based on your
                     specific needs and goals.
                   </p>
@@ -565,10 +573,10 @@ export default function ServicePage({ params }: ServicePageProps) {
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <p className="text-gray-600 leading-relaxed">
                     To begin your {serviceItem.name.toLowerCase()} project,
-                    we'll need to understand your goals, target audience, brand
-                    guidelines (if available), and any specific requirements or
-                    preferences. We'll guide you through our discovery process
-                    to gather all necessary information.
+                    we&apos;ll need to understand your goals, target audience,
+                    brand guidelines (if available), and any specific
+                    requirements or preferences. We&apos;ll guide you through
+                    our discovery process to gather all necessary information.
                   </p>
                 </div>
               </details>
@@ -592,7 +600,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                     />
                   </svg>
                 </summary>
-                <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="mt-4 pt-4 border-gray-100">
                   <p className="text-gray-600 leading-relaxed">
                     Yes! We include multiple revision rounds in all our projects
                     to ensure the final result meets your expectations. We also
@@ -625,10 +633,11 @@ export default function ServicePage({ params }: ServicePageProps) {
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <p className="text-gray-600 leading-relaxed">
                     Our approach combines strategic thinking with creative
-                    excellence. We don't just focus on aesthetics – we ensure
-                    every element serves your business objectives. Our team
-                    brings years of experience and stays current with industry
-                    trends to deliver solutions that drive real results.
+                    excellence. We don&apos;t just focus on aesthetics – we
+                    ensure every element serves your business objectives. Our
+                    team brings years of experience and stays current with
+                    industry trends to deliver solutions that drive real
+                    results.
                   </p>
                 </div>
               </details>
@@ -659,8 +668,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                   Ready to Start Your {serviceItem.name} Project?
                 </h2>
                 <p className="text-xl mb-8 text-orange-100 max-w-2xl mx-auto">
-                  Let's discuss your vision and create something exceptional
-                  together. Get in touch for a free consultation.
+                  Let&apos;s discuss your vision and create something
+                  exceptional together. Get in touch for a free consultation.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link

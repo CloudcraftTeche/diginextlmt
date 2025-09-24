@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { SERVICES_DATA, ServiceItem } from "@/lib/services-data";
+import Image from "next/image";
 
 interface ServicesShowcaseSectionProps {
   services?: ServiceItem[];
@@ -162,11 +163,14 @@ const ServiceCard: React.FC<{
         <Link href={`/services/${service.slug}`}>
           <div className="relative group cursor-pointer">
             <div className="relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500">
-              <img
+              <Image
                 src={service.image}
                 alt={service.imageAlt}
-                className="w-full h-64 lg:h-80 object-cover transition-transform duration-700 group-hover:scale-110"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
+
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               {/* Overlay content */}
