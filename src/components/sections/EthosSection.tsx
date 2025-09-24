@@ -1,5 +1,6 @@
 "use client";
 import { ImageConstants } from "@/constants/ImageConstants";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 interface EthosSectionProps {
@@ -14,12 +15,6 @@ const EthosSection: React.FC<EthosSectionProps> = ({
   subtitle = "Engineering creativity and innovation to stay abreast of emerging trends and technology is one of DigiNext's core values.",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-
-  // Ensure component only renders animated lines on client side
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   // Intersection Observer for fade-in animation
   useEffect(() => {
@@ -37,9 +32,6 @@ const EthosSection: React.FC<EthosSectionProps> = ({
   }, []);
 
   // ImageConstants equivalent - using your three assets
-  const ROUND_LINE_1 = "/assets/icons/Asset 1.svg";
-  const ROUND_LINE_2 = "/assets/icons/Asset 2.svg";
-  const ROUND_LINE_3 = "/assets/icons/Asset 3.svg";
 
   return (
     <section
@@ -103,16 +95,20 @@ const EthosSection: React.FC<EthosSectionProps> = ({
           >
             <div className="relative w-80 h-80 sm:w-96 sm:h-96 md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px]">
               {/* Radiating Lines Pattern - Layer 1 */}
-              <img
+              <Image
                 src={ImageConstants.ROUND_LINE}
                 alt="Radiating lines pattern 1"
+                fill
                 className="absolute inset-0 w-full h-full animate-slow-rotate object-contain"
+                sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 500px"
               />
-              <img
+              <Image
                 src={ImageConstants.ROUND_LINE}
                 alt="Radiating lines pattern 2"
+                fill
                 className="absolute inset-0 w-full h-full object-contain"
                 style={{ animation: "spin 40s linear infinite reverse" }}
+                sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 500px"
               />
 
               {/* Radiating Lines Pattern - Layer 2 */}

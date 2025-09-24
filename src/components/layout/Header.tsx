@@ -53,7 +53,7 @@ const Header = ({
       window.addEventListener("scroll", handleScroll, { passive: true });
       return () => window.removeEventListener("scroll", handleScroll);
     }
-  }, []);
+  }, [isTransparent, forceTransparent, forceSolid]);
 
   useEffect(() => {
     const handleClickOutside = () => {
