@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { SITE_CONFIG } from "./constants";
 
 export function generateHomePageMetadata(): Metadata {
-  const title = `${SITE_CONFIG.name} - Professional Web Development Services`;
+  const title = `${SITE_CONFIG.name}`;
   const description =
     "Expert web development services using Next.js, React, and TypeScript. Fast, SEO-optimized websites that drive results for your business.";
 

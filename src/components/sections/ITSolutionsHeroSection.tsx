@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
 
-interface HeroSectionProps {
+interface ITSolutionsHeroProps {
   title?: {
     part1: string;
     part2: string;
@@ -17,43 +17,20 @@ interface HeroSectionProps {
   secondaryButtonLink?: string;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({
+const ITSolutionsHero: React.FC<ITSolutionsHeroProps> = ({
   title = {
-    part1: "Discover",
+    part1: "Click",
     part2: "Connect",
-    part3: "Grow",
+    part3: "Convert",
   },
-  description = "In Dubai's digital landscape, businesses need the right IT partner to thrive. We create integrated marketing strategies that don't just build campaigns—we design solutions that accurately represent and advance your company.",
-  primaryButtonText = "Get Your Quote",
-  secondaryButtonText = "Why Digi Next?",
-  primaryButtonLink = "/quote",
-  secondaryButtonLink = "/about",
+  description = "We help companies to achieve success in the digital world. As your number 1 choice for IT solutions, we do more than just increase traffic, we build deep relationships with your audience with our specialized IT services and solutions. Every click has a purpose, thanks to our data-focused plans and reliable IT support solutions, which will convert your visitors into loyal customers.",
+  primaryButtonText = "Know More",
+  secondaryButtonText = "Our Services",
+  primaryButtonLink = "/about",
+  secondaryButtonLink = "/services",
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const [isVisible] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  // Intersection Observer for fade-in animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    const heroElement = document.querySelector("#hero-section");
-    if (heroElement) observer.observe(heroElement);
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Parallax scroll effect
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Mouse movement tracking for parallax
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -67,25 +44,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section
       id="hero-section"
-      className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 bg-white overflow-hidden"
+      className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 bg-white"
       aria-labelledby="hero-heading"
       onMouseMove={handleMouseMove}
-      style={{ transform: `translateY(${scrollY * 0.1}px)` }}
     >
       <div className="w-full bg-black via-black to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 relative overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 lg:gap-20 xl:gap-24 items-center min-h-[300px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-[420px] relative z-10">
           {/* Left Side - Circular Logo */}
           <div
-            className={`flex justify-center lg:justify-end order-1 lg:order-1 transition-all duration-1000 ease-out ${
-              isVisible
-                ? "opacity-100 translate-y-0 scale-100"
-                : "opacity-0 translate-y-8 scale-95"
-            }`}
+            className={`flex justify-center lg:justify-end order-1 lg:order-1 transition-all duration-1000 ease-out ${"opacity-100 translate-y-0 scale-100"}`}
             style={{
               transitionDelay: "200ms",
               transform: `translate(${mousePosition.x * 0.5}px, ${
                 mousePosition.y * 0.5
-              }px) scale(${isVisible ? 1 : 0.95})`,
+              }px) scale(${1})`,
             }}
           >
             <div className="p-4 sm:p-6 lg:p-10 relative">
@@ -108,32 +80,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-thin mb-3 sm:mb-4 md:mb-5 leading-tight"
             >
               <span
-                className={`text-orange-500 font-light block sm:inline transition-all duration-700 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
+                className={`text-orange-500 font-light block sm:inline transition-all duration-700 ease-out ${"opacity-100 translate-y-0"}`}
                 style={{ transitionDelay: "400ms" }}
               >
                 {title.part1}
               </span>
               <span
-                className={`text-white font-light block sm:inline transition-all duration-700 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
+                className={`text-white font-light block sm:inline transition-all duration-700 ease-out ${"opacity-100 translate-y-0"}`}
                 style={{ transitionDelay: "600ms" }}
               >
                 {" "}
                 . {title.part2}
               </span>
               <span
-                className={`text-white font-normal block sm:inline transition-all duration-700 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
+                className={`text-white font-normal block sm:inline transition-all duration-700 ease-out ${"opacity-100 translate-y-0"}`}
                 style={{ transitionDelay: "800ms" }}
               >
                 {" "}
@@ -143,11 +103,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Animated Description */}
             <p
-              className={`text-gray-300 text-xs sm:text-xs md:text-sm lg:text-base mb-6 sm:mb-7 md:mb-8 leading-relaxed font-normal max-w-full sm:max-w-md md:max-w-lg mx-auto lg:mx-0 transition-all duration-700 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
+              className={`text-gray-300 text-xs sm:text-xs md:text-sm lg:text-base mb-6 sm:mb-7 md:mb-8 leading-relaxed font-normal max-w-full sm:max-w-md md:max-w-lg mx-auto lg:mx-0 transition-all duration-700 ease-out ${"opacity-100 translate-y-0"}`}
               style={{ transitionDelay: "1000ms" }}
             >
               {description}
@@ -155,11 +111,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Animated Buttons */}
             <div
-              className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start max-w-md mx-auto lg:max-w-none lg:mx-0 transition-all duration-700 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
+              className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start max-w-md mx-auto lg:max-w-none lg:mx-0 transition-all duration-700 ease-out ${"opacity-100 translate-y-0"}`}
               style={{ transitionDelay: "1200ms" }}
             >
               <Link
@@ -186,58 +138,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px) rotate(0deg);
-          }
-          25% {
-            transform: translateY(-10px) rotate(5deg);
-          }
-          50% {
-            transform: translateY(-20px) rotate(0deg);
-          }
-          75% {
-            transform: translateY(-10px) rotate(-5deg);
-          }
-        }
-
-        @keyframes slow-bounce {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-
-        @keyframes bounce-slow {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-5px);
-          }
-        }
-
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-
-        .animate-slow-bounce {
-          animation: slow-bounce 3s ease-in-out infinite;
-        }
-
-        .animate-bounce-slow {
-          animation: bounce-slow 2s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
 };
 
-export default HeroSection;
+export default ITSolutionsHero;

@@ -45,7 +45,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
   return (
     <section
       id="branding-marketing-section"
-      className="py-16 sm:py-20 lg:py-24 bg-white overflow-hidden"
+      className="py-6 sm:py-8 lg:py-10 bg-white overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Content Grid - Updated proportions */}
@@ -64,9 +64,9 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
                 <Image
                   src={ImageConstants.PLANT}
                   alt="Creative donut with sprinkles"
-                  width={400}
-                  height={400}
-                  className="w-90 h-auto"
+                  width={600}
+                  height={600}
+                  className="w-100 h-auto"
                   priority
                 />
               </div>
@@ -84,7 +84,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
           >
             {/* Main Title and Description */}
             <div className="mb-8">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal text-black mb-6 leading-tight">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-black mb-6 leading-tight">
                 {title}
               </h2>
               <p className="text-gray-700 text-base lg:text-lg leading-relaxed mb-8">
@@ -96,7 +96,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* SEO Section */}
               <div className="space-y-3">
-                <h3 className="text-xl font-medium text-black">{seoTitle}</h3>
+                <h3 className="text-lg font-semibold text-black">{seoTitle}</h3>
                 <p className="text-gray-700 text-sm leading-relaxed">
                   {seoDescription}
                 </p>
@@ -104,7 +104,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
 
               {/* Social Media Section */}
               <div className="space-y-3">
-                <h3 className="text-xl font-medium text-black">
+                <h3 className="text-lg font-semibold text-black">
                   {socialMediaTitle}
                 </h3>
                 <p className="text-gray-700 text-sm leading-relaxed">
@@ -126,7 +126,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
             }`}
             style={{ transitionDelay: "400ms" }}
           >
-            <h3 className="text-xl font-medium text-black mb-4">
+            <h3 className="text-lg font-semibold text-black mb-4">
               {paidCampaignsTitle}
             </h3>
             <p className="text-gray-700 text-base leading-relaxed">
@@ -167,7 +167,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
 
               {/* Text Content */}
               <div className="relative z-10 ml-32 flex-1">
-                <p className="text-white text-base lg:text-lg leading-relaxed">
+                <p className="text-white text-base lg:text-sm leading-relaxed">
                   {bottomSectionText}
                 </p>
               </div>

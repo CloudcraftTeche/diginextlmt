@@ -1,7 +1,7 @@
 export const SITE_CONFIG = {
-  name: "YourCompany",
+  name: "Diginext",
   description:
-    "Professional web development services using modern technologies",
+    "invite.infrom.involve",
   url: "https://yourwebsite.com",
   author: "Your Name",
   twitter: "@yourtwitter",
@@ -11,8 +11,8 @@ export const SITE_CONFIG = {
 } as const;
 
 export const SEO_DEFAULTS = {
-  titleTemplate: "%s | YourCompany",
-  defaultTitle: "YourCompany - Professional Web Development",
+  titleTemplate: "%s | Diginext",
+  defaultTitle: "Diginext - invite.infrom.involve",
   description:
     "Expert web development services using Next.js, React, and TypeScript",
   openGraph: {

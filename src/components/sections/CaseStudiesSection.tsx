@@ -75,7 +75,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
       <div className="p-6 lg:p-8">
         {/* Title with Percentage */}
         <div className="mb-4">
-          <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
+          <h3 className="text-md sm:text-lg lg:text-xl font-semibold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
             {title}
             {percentage && (
               <span className="text-gray-400 font-normal ml-2">
@@ -150,7 +150,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
   return (
     <section
       id="case-studies-section"
-      className="py-16 sm:py-20 lg:py-24 bg-gray-50 overflow-hidden"
+      className="py-6 sm:py-8 lg:py-10 bg-white overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}

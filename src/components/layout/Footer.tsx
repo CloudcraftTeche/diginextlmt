@@ -36,16 +36,16 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({
   newsletter = {
-    title: "Subscribe our Newsletter & Growth Tips",
+    title: "Subscribe to our Newsletter & Growth Tips",
     description:
-      "Advertising on social media offers businesses highly effective ways of reaching their audiences with precise targeting.",
+      "We give you the latest tips for growing your business and market insights. Subscribe to get the latest news and give your business more power.",
     placeholder: "Enter your email address",
     buttonText: "Submit",
   },
   company = {
     logo: "/assets/logos/LOGO_DIGINxt-White 1.svg",
     description:
-      "Seamlessly blending the aspects of design and functionality in the digital world. DigiNext Dubai has been successful in has been in making this aspect its core competency.",
+      "By combining creativity and technology, DigiNext has built its reputation on delivering necessary digital solutions.",
   },
   contact = {
     address: "The Metropolis Tower, Business Bay, Dubai",
@@ -175,7 +175,7 @@ const Footer: React.FC<FooterProps> = ({
   };
 
   return (
-    <footer id="footer-section" className="py-16 sm:py-20 lg:py-24 bg-white">
+    <footer id="footer-section" className="py-4 sm:py-6 lg:py-8 bg-white">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="bg-black rounded-xl p-6 sm:p-8 lg:p-12">
           <div className="max-w-7xl mx-auto">
@@ -213,7 +213,7 @@ const Footer: React.FC<FooterProps> = ({
                   <button
                     onClick={handleNewsletterSubmit}
                     disabled={!isValidEmail(email) || isSubmitting}
-                    className="px-6 sm:px-8 py-3 sm:py-4 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-r-md sm:rounded-l-none transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-sm sm:text-base hover:shadow-xl hover:shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px] sm:min-w-[120px]"
+                    className="px-6 sm:px-8 py-3 sm:py-4 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-r-md sm:rounded-l-none transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-sm sm:text-base hover:shadow-xl hover:shadow-orange-500/25  disabled:cursor-not-allowed min-w-[100px] sm:min-w-[120px]"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center justify-center">
@@ -426,30 +426,30 @@ const Footer: React.FC<FooterProps> = ({
 
               {/* Copyright and Legal Links */}
               <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0 text-center lg:text-left">
-                <p className="text-gray-400 text-xs sm:text-sm">
+                <p className="text-gray-400 text-xs sm:text-xs">
                   © 2025 DigiNext - Branding Agency Dubai. All Rights Reserved
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center lg:justify-end gap-2 sm:gap-4 items-center">
-                  <span className="text-gray-400 text-xs sm:text-sm">
+                  <span className="text-gray-400 text-xs sm:text-xs">
                     DigiNext is a part of L M TECH IT SERVICES
                   </span>
                   <span className="text-gray-400 hidden sm:inline">|</span>
                   <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
                     <a
                       href="/terms"
-                      className="text-gray-400 text-xs sm:text-sm hover:text-orange-400 transition-colors"
+                      className="text-gray-400 text-xs sm:text-xs hover:text-orange-400 transition-colors"
                     >
                       Terms & Conditions
                     </a>
                     <a
                       href="/privacy"
-                      className="text-gray-400 text-xs sm:text-sm hover:text-orange-400 transition-colors"
+                      className="text-gray-400 text-xs sm:text-xs hover:text-orange-400 transition-colors"
                     >
                       Privacy Policy
                     </a>
                     <a
                       href="/payment"
-                      className="text-gray-400 text-xs sm:text-sm hover:text-orange-400 transition-colors"
+                      className="text-gray-400 text-xs sm:text-xs hover:text-orange-400 transition-colors"
                     >
                       Payment Policy
                     </a>

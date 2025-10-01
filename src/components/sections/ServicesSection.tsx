@@ -15,56 +15,32 @@ interface ServicesProps {
 }
 
 const ServicesSection: React.FC<ServicesProps> = ({
-  title = "What we do",
+  title = "Our Main IT Solutions",
   subtitle = "Maintain high standards of ethics in engaging and delivering content and strategy that will result in the growth of the customer business.",
   services = [
     {
-      title: "Branding & Graphic Design",
+      title: "Web UI/UX & eCommerce Development",
       description:
-        "Through sound technical knowledge and a flair for website design Lamp Media Tech has been successful in",
-      link: "#branding",
-    },
-    {
-      title: "Web UI/UX Design",
-      description:
-        "Through sound technical knowledge and a flair for website design Lamp Media Tech has been successful in",
+        "We do not just design websites, We make digital experiences that are easy to use. From engaging UI/UX designs to custom eCommerce platforms, we help businesses attract customers, improve conversions and maximize sales.",
       link: "#web-design",
-    },
-    {
-      title: "eCommerce Development",
-      description:
-        "Through sound technical knowledge and a flair for website design Lamp Media Tech has been successful in",
-      link: "#ecommerce",
     },
     {
       title: "Mobile App Development",
       description:
-        "Through sound technical knowledge and a flair for website design Lamp Media Tech has been successful in",
+        "We transform app ideas into fully functional mobile solutions. We make apps that stand out in highly competitive markets and give users a smooth experience by using attractive designs and excellent performance.",
       link: "#mobile-app",
     },
     {
-      title: "Photography Video Graphy",
+      title: "Cloud & Data Solutions",
       description:
-        "Through sound technical knowledge and a flair for website design Lamp Media Tech has been successful in",
-      link: "#photography",
+        "We help businesses move to the cloud with ease because we are a creative and forward-thinking IT solutions provider. Our cloud services keep your business open and ready for the future by making it easy to grow up, store data securely and collaborate together more easily.",
+      link: "#cloud",
     },
     {
-      title: "Print & Signage",
+      title: "System Optimisation & Infrastructure Management",
       description:
-        "Through sound technical knowledge and a flair for website design Lamp Media Tech has been successful in",
-      link: "#print",
-    },
-    {
-      title: "Content Writing",
-      description:
-        "Through sound technical knowledge and a flair for website design Lamp Media Tech has been successful in",
-      link: "#content",
-    },
-    {
-      title: "IT & Marketing Consultancy",
-      description:
-        "Through sound technical knowledge and a flair for website design Lamp Media Tech has been successful in",
-      link: "#consultancy",
+        "We provide proactive IT support to make sure your systems work smoothly. From network optimization to server management and cybersecurity, our IT solution services keep your business safe from digital threats and failures.",
+      link: "#infrastructure",
     },
   ],
 }) => {
@@ -83,7 +59,7 @@ const ServicesSection: React.FC<ServicesProps> = ({
   return (
     <section
       id="services-section"
-      className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 bg-white"
+      className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 bg-white"
       aria-labelledby="services-heading"
     >
       <div className="max-w-7xl mx-auto">
@@ -119,18 +95,19 @@ const ServicesSection: React.FC<ServicesProps> = ({
               className={`relative flex flex-col p-7 lg:p-8 bg-white border border-gray-300 rounded-2xl shadow-none 
                 hover:bg-black hover:border-black hover:text-white hover:shadow-lg
                 transition-[background,border,color,box-shadow] duration-500 ease-out group
-                focus:outline-none focus:ring-2 focus:ring-orange-400
+                focus:outline-none focus:ring-2 
               `}
               tabIndex={0}
               aria-labelledby={`service-title-${index}`}
             >
               <h3
                 id={`service-title-${index}`}
-                className="text-lg sm:text-xl font-semibold mb-3 text-black group-hover:text-white transition-colors duration-500"
+                className="text-md sm:text-md font-semibold mb-3 text-black group-hover:text-white transition-colors duration-500"
               >
                 {service.title}
               </h3>
-              <p className="text-sm text-gray-600 group-hover:text-gray-200 transition-colors duration-500 mb-8">
+              <p className="text-gray-600 text-xs sm:text-xs md:text-sm lg:text-sm  group-hover:text-gray-200 transition-colors duration-500 mb-2 leading-relaxed">
+                {" "}
                 {service.description}
               </p>
               <a
@@ -141,9 +118,6 @@ const ServicesSection: React.FC<ServicesProps> = ({
                 <span>Connect to Us</span>
                 <Send className="w-4 h-4 ml-2 group-hover/link:translate-x-1 group-hover:rotate-45 transition-all duration-300" />
               </a>
-
-              {/* Glow effect on hover */}
-              <div className="pointer-events-none absolute -inset-1 rounded-2xl bg-gradient-to-r from-orange-400 to-orange-600 opacity-0 group-hover:opacity-20 blur-lg transition-all duration-300" />
             </div>
           ))}
         </div>

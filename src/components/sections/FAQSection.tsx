@@ -45,7 +45,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
   };
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24 bg-white">
+    <section className="py-6 sm:py-8 lg:py-10 bg-white">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="bg-blue-50 rounded-xl p-6 sm:p-8 lg:p-12">
           <div className="max-w-7xl mx-auto p-6">
