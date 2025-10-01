@@ -37,7 +37,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         "Grow your business confidently on a secure infrastructure that is optimized while we take care of all technical management and strategic growth.",
     },
   ],
-  storyText = "In the busy digital world of Dubai, a business owner once had an idea. Their company was ready to grow, but the complexity of technology overpowered them. They needed a partner, an IT solutions company that could guide them. We exist to solve that problem. Our goal is to develop craft-integrated, end-to-end marketing strategies. Not only do we create campaigns, but we also design, develop and implement solutions that accurately represent and significantly advance your company.",
   primaryButtonText = "Get Your Quote",
   secondaryButtonText = "Why Digi Next?",
   primaryButtonLink = "/quote",

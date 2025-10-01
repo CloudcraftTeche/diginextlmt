@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 // Extend Window interface for THREE.js
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     THREE: any;
   }
 }
@@ -49,13 +50,14 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     if (!containerRef.current || !threeLoaded || !window.THREE) return;
 
     const THREE = window.THREE;
+    const container = containerRef.current;
 
     // Scene setup
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(
       50,
-      containerRef.current.clientWidth / containerRef.current.clientHeight,
+      container.clientWidth / container.clientHeight,
       0.1,
       1000
     );
@@ -65,12 +67,9 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       antialias: true,
       alpha: true,
     });
-    renderer.setSize(
-      containerRef.current.clientWidth,
-      containerRef.current.clientHeight
-    );
+    renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setClearColor(0x000000, 0);
-    containerRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
     // Create sphere geometry
     const geometry = new THREE.SphereGeometry(1.5, 64, 64);
@@ -90,10 +89,12 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     scene.add(sphere);
 
     // Create rings/torus shapes - subtle metallic rings
-    const rings: Array<{
+    interface Ring {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       mesh: any;
       rotationSpeed: { x: number; y: number; z: number };
-    }> = [];
+    }
+    const rings: Ring[] = [];
     const ringCount = 6;
 
     for (let i = 0; i < ringCount; i++) {
@@ -186,9 +187,9 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
 
     // Handle resize
     const handleResize = () => {
-      if (!containerRef.current) return;
-      const width = containerRef.current.clientWidth;
-      const height = containerRef.current.clientHeight;
+      if (!container) return;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
@@ -200,15 +201,15 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.2 }
     );
-    if (containerRef.current) observer.observe(containerRef.current);
+    observer.observe(container);
 
     // Cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
       observer.disconnect();
-      if (containerRef.current && renderer.domElement) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (container && renderer.domElement) {
+        container.removeChild(renderer.domElement);
       }
       geometry.dispose();
       material.dispose();

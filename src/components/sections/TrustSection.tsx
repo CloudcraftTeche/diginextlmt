@@ -92,7 +92,6 @@ const StatItem: React.FC<StatItemProps> = ({
 
 const TrustSection: React.FC<TrustSectionProps> = ({
   title = "Companies That Trust Us",
-  description = "We at DigiNext are proud to play a significant role in our client's success stories. We think that building trust is the most important and basic part of any great partnership we begin. Our dedicated team does not just do marketing duties, we also learn all about the specific needs of your business. We help you research, plan and come up with new ideas for your approach in a completely transparent way, making sure that every solution we give you perfectly fits your specific digital and business goals. We are totally committed to delivering results that are valuable and can be measured, turning your problems into successes. We have built a strong reputation in the market by working closely with our partners for their success. We look forward to building one with you.",
   stats = [
     { number: "300", suffix: "+", label: "Happy Clients" },
     { number: "1000", suffix: "+", label: "Projects Delivered" },
@@ -158,7 +157,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
             <div className="space-y-6" itemProp="description">
               <p className="text-sm sm:text-base lg:text-md font-light text-gray-600 leading-relaxed">
                 We at <span itemProp="legalName">DigiNext</span> are proud to
-                play a significant role in our client's success stories. We
+                play a significant role in our client&apos;s success stories. We
                 think that building trust is the most important and basic part
                 of any great partnership we begin.
               </p>

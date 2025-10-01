@@ -190,12 +190,12 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
               IT Consultancy in Dubai
             </h3>
             <p className="text-gray-700 text-base leading-relaxed">
-              As a leading IT solution company, we don't just offer services, we
-              work with you to come up with plans that bring technology and
-              business closer together. DigiNext makes sure that every solution
-              is practical, scalable, and focused on getting results, whether
-              you need cloud integration, infrastructure planning or enterprise
-              IT consulting.
+              As a leading IT solution company, we don&apos;t just offer
+              services, we work with you to come up with plans that bring
+              technology and business closer together. DigiNext makes sure that
+              every solution is practical, scalable, and focused on getting
+              results, whether you need cloud integration, infrastructure
+              planning or enterprise IT consulting.
             </p>
           </div>
 

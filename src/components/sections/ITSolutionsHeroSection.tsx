@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
 
@@ -25,11 +25,8 @@ const ITSolutionsHero: React.FC<ITSolutionsHeroProps> = ({
   },
   description = "We help companies to achieve success in the digital world. As your number 1 choice for IT solutions, we do more than just increase traffic, we build deep relationships with your audience with our specialized IT services and solutions. Every click has a purpose, thanks to our data-focused plans and reliable IT support solutions, which will convert your visitors into loyal customers.",
   primaryButtonText = "Know More",
-  secondaryButtonText = "Our Services",
   primaryButtonLink = "/about",
-  secondaryButtonLink = "/services",
 }) => {
-  const [isVisible] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   // Mouse movement tracking for parallax
