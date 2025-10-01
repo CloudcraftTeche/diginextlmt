@@ -36,7 +36,7 @@ const StatItem: React.FC<StatItemProps> = ({
           setIsVisible(true);
           // Animate the number
           const targetNumber = parseInt(number);
-          const duration = 2000; // 2 seconds
+          const duration = 1000; // 2 seconds
           const steps = 50;
           const increment = targetNumber / steps;
           let current = 0;
@@ -76,10 +76,10 @@ const StatItem: React.FC<StatItemProps> = ({
       style={{ transitionDelay: `${delay}ms` }}
     >
       <div className="mb-3">
-        <span className="text-xl sm:text-2xl lg:text-3xl font-semibold text-black">
+        <span className="text-md sm:text-lg lg:text-xl font-semibold text-black">
           {animatedNumber}
         </span>
-        <span className="text-xl sm:text-2xl lg:text-3xl font-semibold text-black">
+        <span className="text-md sm:text-lg lg:text-xl font-semibold text-black">
           {suffix}
         </span>
       </div>
@@ -118,60 +118,28 @@ const TrustSection: React.FC<TrustSectionProps> = ({
 
   // Client logos using actual images
   const clientLogos = [
-    {
-      name: "Tata Power",
-      logo: ImageConstants.COMPANY_LOGO,
-      width: 200,
-      height: 60,
-    },
-    {
-      name: "Gulf Logistics",
-      logo: ImageConstants.COMPANY_LOGO_2,
-      width: 200,
-      height: 60,
-    },
-    {
-      name: "Ramada",
-      logo: ImageConstants.COMPANY_LOGO_3,
-      width: 200,
-      height: 60,
-    },
-    {
-      name: "Award Badge",
-      logo: ImageConstants.COMPANY_LOGO_4,
-      width: 80,
-      height: 80,
-    },
-    {
-      name: "IMT Business School",
-      logo: ImageConstants.COMPANY_LOGO_5,
-      width: 200,
-      height: 60,
-    },
-    {
-      name: "Company 6",
-      logo: ImageConstants.COMPANY_LOGO_6,
-      width: 200,
-      height: 60,
-    },
-    {
-      name: "Company 7",
-      logo: ImageConstants.COMPANY_LOGO_7,
-      width: 200,
-      height: 60,
-    },
-    {
-      name: "Company 8",
-      logo: ImageConstants.COMPANY_LOGO_8,
-      width: 200,
-      height: 60,
-    },
+    { name: "Tata Power", logo: ImageConstants.COMPANY_LOGO_1 },
+    { name: "Gulf Logistics", logo: ImageConstants.COMPANY_LOGO_2 },
+    { name: "Ramada", logo: ImageConstants.COMPANY_LOGO_3 },
+    { name: "Award Badge", logo: ImageConstants.COMPANY_LOGO_4 },
+    { name: "IMT Business School", logo: ImageConstants.COMPANY_LOGO_5 },
+    { name: "Company 6", logo: ImageConstants.COMPANY_LOGO_6 },
+    { name: "Company 7", logo: ImageConstants.COMPANY_LOGO_7 },
+    { name: "Company 8", logo: ImageConstants.COMPANY_LOGO_8 },
+    { name: "Company 9", logo: ImageConstants.COMPANY_LOGO_9 },
+    { name: "Company 10", logo: ImageConstants.COMPANY_LOGO_10 },
+    { name: "Company 11", logo: ImageConstants.COMPANY_LOGO_11 },
+    { name: "Company 12", logo: ImageConstants.COMPANY_LOGO_12 },
+    { name: "Company 13", logo: ImageConstants.COMPANY_LOGO_13 },
+    { name: "Company 14", logo: ImageConstants.COMPANY_LOGO_14 },
+    { name: "Company 15", logo: ImageConstants.COMPANY_LOGO_15 },
+    { name: "Company 16", logo: ImageConstants.COMPANY_LOGO_16 },
   ];
 
   return (
     <section
       id="trust-section"
-      className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-gray-50 via-white to-gray-100 overflow-hidden"
+      className="py-16 sm:py-20 lg:py-24 bg-white overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
@@ -184,10 +152,10 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                 : "opacity-0 -translate-x-8"
             }`}
           >
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900 mb-6 leading-tight">
+            <h2 className="text-md sm:text-lg lg:text-xl font-semibold text-gray-900 mb-6 leading-tight">
               {title}
             </h2>
-            <p className="text-xs sm:text-xs md:text-sm lg:text-base text-gray-600 leading-relaxed">
+            <p className="text-xs sm:text-xs md:text-sm lg:text-base font-light text-gray-600 leading-relaxed">
               {description}
             </p>
           </div>
@@ -221,7 +189,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
           </div>
         </div>
 
-        {/* Client Logos Section */}
+        {/* Client Logos Section - Auto Scrolling */}
         <div
           className={`transform transition-all duration-1000 ease-out ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -229,18 +197,57 @@ const TrustSection: React.FC<TrustSectionProps> = ({
           style={{ transitionDelay: "800ms" }}
         >
           <div className="border-t border-gray-200 pt-16">
-            <div className="flex flex-wrap justify-center items-center gap-8 lg:gap-12">
-              {clientLogos.map((client, index) => (
-                <Image
-                  key={`${client.name}-${index}`}
-                  src={client.logo}
-                  alt={`${client.name} logo`}
-                  width={client.width}
-                  height={client.height}
-                  className={`max-w-full object-contain  transition-all duration-300 ${"h-16 w-auto"}`}
-                  priority={index < 2} 
-                />
-              ))}
+            <div className="relative overflow-hidden">
+              <style jsx>{`
+                @keyframes scroll {
+                  0% {
+                    transform: translateX(0);
+                  }
+                  100% {
+                    transform: translateX(-50%);
+                  }
+                }
+                .animate-scroll {
+                  animation: scroll 10s linear infinite;
+                }
+                .animate-scroll:hover {
+                  animation-play-state: paused;
+                }
+              `}</style>
+
+              <div className="flex animate-scroll">
+                {/* First set of logos */}
+                {clientLogos.map((client, index) => (
+                  <div
+                    key={`${client.name}-${index}`}
+                    className="flex-shrink-0 mx-8 lg:mx-12"
+                  >
+                    <Image
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      width={160}
+                      height={60}
+                      className="h-16 w-auto object-contain opacity-100 "
+                      priority={index < 4}
+                    />
+                  </div>
+                ))}
+                {/* Duplicate set for seamless loop */}
+                {clientLogos.map((client, index) => (
+                  <div
+                    key={`${client.name}-duplicate-${index}`}
+                    className="flex-shrink-0 mx-8 lg:mx-12"
+                  >
+                    <Image
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      width={160}
+                      height={60}
+                      className="h-16 w-auto object-contain opacity-100  duration-300"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

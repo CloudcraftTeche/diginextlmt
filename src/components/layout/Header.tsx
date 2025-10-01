@@ -98,7 +98,6 @@ const Header = ({
                   }`}
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg blur-md" />
               </div>
             </Link>
           </div>
@@ -126,10 +125,6 @@ const Header = ({
                     >
                       {item.name}
                     </span>
-
-                    {isActive && (
-                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full animate-pulse" />
-                    )}
                   </Link>
                 );
               })}

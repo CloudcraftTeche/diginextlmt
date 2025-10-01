@@ -1,6 +1,5 @@
 "use client";
 import { ImageConstants } from "@/constants/ImageConstants";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 
 interface EthosSectionProps {
@@ -10,9 +9,9 @@ interface EthosSectionProps {
 }
 
 const EthosSection: React.FC<EthosSectionProps> = ({
-  title = "Our Ethos",
-  description = "DigiNext's success can attribute to their ethos of being a customer centric organization. They believe that satisfied customers are the cornerstone to building a successful digital ago system. DigiNext envisions themselves as the extended arm of their customers and ensure that they deliver on their vision, mission and goals. DigiNext takes pride in ensuring 24/7 customer support to all of their partners across the world. They research, analyze, create, innovate and work transparently to achieve the business and digital needs of their customers.",
-  subtitle = "Engineering creativity and innovation to stay abreast of emerging trends and technology is one of DigiNext's core values.",
+  title = "Our Vision",
+  description = "Our vision is simple, to be more than just a service provider. We are a part of each business we partner with. For a leading IT solutions and services company, this means providing more than just marketing, it means becoming their trusted partner for strategic IT solutions consulting. We believe that the secret to building a successful digital ecosystem is true partnership.",
+  subtitle = "We are proud of our research, analysis and innovation skills, offering essential IT solution services that support businesses in reaching their objectives and staying ahead of new trends. Our dedication to providing 24/7 support and open communication guarantees that our partners will always have the help they need to be successful.",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -31,12 +30,10 @@ const EthosSection: React.FC<EthosSectionProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // ImageConstants equivalent - using your three assets
-
   return (
     <section
       id="ethos-section"
-      className="px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 bg-white"
+      className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 bg-white"
       aria-labelledby="ethos-heading"
     >
       <div className="w-full bg-black rounded-xl sm:rounded-2xl p-8 sm:p-10 md:p-12 lg:p-16 relative overflow-hidden">
@@ -65,7 +62,7 @@ const EthosSection: React.FC<EthosSectionProps> = ({
             >
               <p className="mb-6">
                 {description.split(".")[0]}.{" "}
-                <span className="font-light text-white">DigiNext</span>{" "}
+                <span className="font-light text-white">We</span>{" "}
                 {description.split(".").slice(1, 3).join(". ")}.
               </p>
               <p>{description.split(".").slice(3).join(". ")}</p>
@@ -95,39 +92,17 @@ const EthosSection: React.FC<EthosSectionProps> = ({
           >
             <div className="relative w-80 h-80 sm:w-96 sm:h-96 md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px]">
               {/* Radiating Lines Pattern - Layer 1 */}
-              <Image
+              <img
                 src={ImageConstants.ROUND_LINE}
                 alt="Radiating lines pattern 1"
-                fill
                 className="absolute inset-0 w-full h-full animate-slow-rotate object-contain"
-                sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 500px"
               />
-              <Image
+              <img
                 src={ImageConstants.ROUND_LINE}
                 alt="Radiating lines pattern 2"
-                fill
                 className="absolute inset-0 w-full h-full object-contain"
                 style={{ animation: "spin 40s linear infinite reverse" }}
-                sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 500px"
               />
-
-              {/* Radiating Lines Pattern - Layer 2 */}
-              {/* <img
-                src={ImageConstants.ROUND_LINE_2}
-                alt="Radiating lines pattern 2"
-                className="absolute inset-0 w-full h-full  object-contain "
-              />
-
-              <img
-                src={ImageConstants.ROUND_LINE_3}
-                alt="Radiating lines pattern 3"
-                className="absolute inset-0 w-full h-full animate-fast-rotate object-contain "
-              /> */}
-
-              {/* Central glow effect */}
-              {/* <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-32 h-32 bg-white/10 rounded-full blur-2xl animate-pulse-slow" />
-              </div> */}
 
               {/* Outer glow effect */}
               <div className="absolute inset-0 bg-gradient-radial from-white/5 via-transparent to-transparent rounded-full blur-3xl" />
