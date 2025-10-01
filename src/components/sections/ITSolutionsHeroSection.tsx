@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
 
@@ -25,11 +25,8 @@ const ITSolutionsHero: React.FC<ITSolutionsHeroProps> = ({
   },
   description = "We help companies to achieve success in the digital world. As your number 1 choice for IT solutions, we do more than just increase traffic, we build deep relationships with your audience with our specialized IT services and solutions. Every click has a purpose, thanks to our data-focused plans and reliable IT support solutions, which will convert your visitors into loyal customers.",
   primaryButtonText = "Know More",
-  secondaryButtonText = "Our Services",
   primaryButtonLink = "/about",
-  secondaryButtonLink = "/services",
 }) => {
-  const [isVisible] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   // Mouse movement tracking for parallax
@@ -123,16 +120,6 @@ const ITSolutionsHero: React.FC<ITSolutionsHeroProps> = ({
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-300" />
-              </Link>
-
-              <Link
-                href={secondaryButtonLink}
-                className="group inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-white/90 backdrop-blur-sm text-black font-normal rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/50 text-sm sm:text-base overflow-hidden relative hover:bg-white hover:shadow-xl hover:shadow-white/10"
-              >
-                <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
-                  {secondaryButtonText}
-                </span>
-                <div className="absolute -inset-1 bg-white rounded-full opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-300" />
               </Link>
             </div>
           </div>

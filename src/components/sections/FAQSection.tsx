@@ -13,32 +13,27 @@ interface FAQSectionProps {
 }
 
 const FAQSection: React.FC<FAQSectionProps> = ({
-  title = "Have Any Questions in Mind?",
-  description = "DigiNext specializes on creating websites with optimum user interphases backed with new-age technology and functionality. Be it Static, Dynamic, E-commerce or Web Design, DigiNext are one of the most sought after Web Design Agency in Dubai. Employing some of the best Web Designers and Developers, DigiNext is able to deliver on functionality, scalability and sustainability. We are best Web Development Company in Dubai and able to create and innovate website according to current customer requirements keeping in mind their long-term needs, thus achieving a coherence in the current and future business purpose. With the objective of being an extension of your online business DigiNext is the only Website Design Company in Dubai that raises the bar higher when it comes to catering to customer needs. The technology know-how coupled with the business knowledge to develop online strategies is at the fore-front of all aspects of how the Web Design is conceived and developed in Dubai.",
+  title = "Have Any Questions In Mind?",
+  description = "Our team is available to help you if you require trustworthy IT solution services, customised strategies or professional advice on IT solutions. Together, we can transform your questions into opportunities.",
   faqs = [
     {
-      question: "How we can calculate the Organic Growth?",
+      question: "How can we calculate organic growth?",
       answer:
-        "Organic growth can be calculated by analyzing various metrics such as website traffic, search engine rankings, conversion rates, and revenue growth over time without paid advertising efforts.",
+        "As a trusted IT solution company in Dubai, we measure organic growth by analyzing website traffic, search rankings and keyword performance. With our smart IT solutions, we help you keep track of actual growth and make sure your online presence keeps growing.",
     },
     {
-      question: "Is it any process for web design and Development?",
+      question: "Is there any process for web design and development?",
       answer:
-        "Yes, we follow a structured process that includes discovery and planning, design conceptualization, development, testing, and deployment. Each phase involves client collaboration and feedback to ensure the final product meets your requirements.",
-    },
-    {
-      question: "How i can submit my resume?",
-      answer:
-        "You can submit your resume through our careers page on our website, or send it directly to our HR email. We review all applications and will contact qualified candidates for further discussion.",
+        "Every great website begins with a process. As a trusted IT solution provider, we plan, design and build websites step by step, making sure that creativity and functionality work together. Our expert IT solutions give your brand a digital presence that is both engaging and successful.",
     },
     {
       question: "How will social media advertising benefit my business?",
       answer:
-        "Advertising on social media offers businesses highly effective ways of reaching their audiences with precise targeting. It is flexible, affordable, and dynamic. It is one of the best avenues for advertising online. It can benefit your business in many ways, from growing your online community to generating traffic and closing deals.",
+        "Through precise targeting, social media ads can help your business reach the right people. It is flexible, cost-effective and one of the most powerful ways to grow your online presence. It provides you with measurable results, from building communities to getting more visitors and sales.",
     },
   ],
 }) => {
-  const [openIndex, setOpenIndex] = useState<number>(3); // Last item open by default
+  const [openIndex, setOpenIndex] = useState<number>(0); // Last item open by default
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? -1 : index);
