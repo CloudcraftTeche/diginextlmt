@@ -76,7 +76,7 @@ const StatItem: React.FC<StatItemProps> = ({
       style={{ transitionDelay: `${delay}ms` }}
     >
       <div className="mb-3">
-        <span className="text-md sm:text-lg lg:text-xl font-semibold text-black">
+        <span className="text-xl sm:text-2xl lg:text-3xl font-semibold text-black">
           {animatedNumber}
         </span>
         <span className="text-md sm:text-lg lg:text-xl font-semibold text-black">
@@ -92,7 +92,7 @@ const StatItem: React.FC<StatItemProps> = ({
 
 const TrustSection: React.FC<TrustSectionProps> = ({
   title = "Companies That Trust Us",
-  description = "We at DigiNext are proud to play a significant role in our clients' success. Our team of experts will in researching, strategizing, and innovating with complete transparency, ensuring every solution meets your digital and business goals. One partnership at a time, this is the trust we have built.",
+  description = "We at DigiNext are proud to play a significant role in our client's success stories. We think that building trust is the most important and basic part of any great partnership we begin. Our dedicated team does not just do marketing duties, we also learn all about the specific needs of your business. We help you research, plan and come up with new ideas for your approach in a completely transparent way, making sure that every solution we give you perfectly fits your specific digital and business goals. We are totally committed to delivering results that are valuable and can be measured, turning your problems into successes. We have built a strong reputation in the market by working closely with our partners for their success. We look forward to building one with you.",
   stats = [
     { number: "300", suffix: "+", label: "Happy Clients" },
     { number: "1000", suffix: "+", label: "Projects Delivered" },
@@ -152,12 +152,34 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                 : "opacity-0 -translate-x-8"
             }`}
           >
-            <h2 className="text-md sm:text-lg lg:text-xl font-semibold text-gray-900 mb-6 leading-tight">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 mb-6 leading-tight">
               {title}
             </h2>
-            <p className="text-xs sm:text-xs md:text-sm lg:text-base font-light text-gray-600 leading-relaxed">
-              {description}
-            </p>
+            <div className="space-y-6" itemProp="description">
+              <p className="text-sm sm:text-base lg:text-md font-light text-gray-600 leading-relaxed">
+                We at <span itemProp="legalName">DigiNext</span> are proud to
+                play a significant role in our client's success stories. We
+                think that building trust is the most important and basic part
+                of any great partnership we begin.
+              </p>
+
+              <p className="text-sm sm:text-base lg:text-md font-light text-gray-600 leading-relaxed">
+                Our dedicated team does not just do marketing duties, we also
+                learn all about the specific needs of your business. We help you
+                research, plan and come up with new ideas for your approach in a
+                completely transparent way, making sure that every solution we
+                give you perfectly fits your specific digital and business
+                goals. We are totally committed to delivering results that are
+                valuable and can be measured, turning your problems into
+                successes.
+              </p>
+
+              <p className="text-sm sm:text-base lg:text-md font-light text-gray-600 leading-relaxed">
+                We have built a strong reputation in the market by working
+                closely with our partners for their success. We look forward to
+                building one with you.
+              </p>
+            </div>
           </div>
 
           {/* Right Side - Statistics Grid */}

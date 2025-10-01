@@ -4,34 +4,51 @@ import { useState, useEffect } from "react";
 import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
 
+interface Slide {
+  title: string;
+  content: string;
+}
+
 interface HeroSectionProps {
-  title?: {
-    part1: string;
-    part2: string;
-    part3: string;
-  };
-  description?: string;
+  slides?: Slide[];
   primaryButtonText?: string;
   secondaryButtonText?: string;
   primaryButtonLink?: string;
   secondaryButtonLink?: string;
+  autoPlayInterval?: number;
+  storyText?: string;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
-  title = {
-    part1: "Discover",
-    part2: "Connect",
-    part3: "Grow",
-  },
-  description = "In Dubai's digital landscape, businesses need the right IT partner to thrive. We create integrated marketing strategies that don't just build campaigns—we design solutions that accurately represent and advance your company.",
+  slides = [
+    {
+      title: "Discover",
+      content:
+        "Discover the true potential of your business by transforming complicated IT into a simple, clear strategy for business optimization.",
+    },
+    {
+      title: "Connect",
+      content:
+        "Connect with trusted, proactive, 24/7 IT support that ensures company continuity and manages your systems with ease.",
+    },
+    {
+      title: "Grow",
+      content:
+        "Grow your business confidently on a secure infrastructure that is optimized while we take care of all technical management and strategic growth.",
+    },
+  ],
+  storyText = "In the busy digital world of Dubai, a business owner once had an idea. Their company was ready to grow, but the complexity of technology overpowered them. They needed a partner, an IT solutions company that could guide them. We exist to solve that problem. Our goal is to develop craft-integrated, end-to-end marketing strategies. Not only do we create campaigns, but we also design, develop and implement solutions that accurately represent and significantly advance your company.",
   primaryButtonText = "Get Your Quote",
   secondaryButtonText = "Why Digi Next?",
   primaryButtonLink = "/quote",
   secondaryButtonLink = "/about",
+  autoPlayInterval = 5000,
 }) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Intersection Observer for fade-in animation
   useEffect(() => {
@@ -47,6 +64,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
     return () => observer.disconnect();
   }, []);
+
+  // Auto-play slides
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+        setIsAnimating(false);
+      }, 300);
+    }, autoPlayInterval);
+
+    return () => clearInterval(interval);
+  }, [slides.length, autoPlayInterval]);
 
   // Parallax scroll effect
   useEffect(() => {
@@ -64,6 +94,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     });
   };
 
+  const handleDotClick = (index: number) => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentSlide(index);
+      setIsAnimating(false);
+    }, 300);
+  };
+
   return (
     <section
       id="hero-section"
@@ -73,7 +111,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       style={{ transform: `translateY(${scrollY * 0.1}px)` }}
     >
       <div className="w-full bg-black via-black to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 relative overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 lg:gap-20 xl:gap-24 items-center min-h-[300px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-[420px] relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 lg:gap-20 xl:gap-24 items-center min-h-[300px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-[420px] relative z-10 mb-8">
           {/* Left Side - Circular Logo */}
           <div
             className={`flex justify-center lg:justify-end order-1 lg:order-1 transition-all duration-1000 ease-out ${
@@ -102,56 +140,54 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* Right Side - Content */}
           <div className="text-center lg:text-left order-2 lg:order-2 px-2 sm:px-0">
-            {/* Animated Title */}
-            <h1
-              id="hero-heading"
-              className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-thin mb-3 sm:mb-4 md:mb-5 leading-tight"
-            >
-              <span
-                className={`text-orange-500 font-light block sm:inline transition-all duration-700 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
-                style={{ transitionDelay: "400ms" }}
-              >
-                {title.part1}
-              </span>
-              <span
-                className={`text-white font-light block sm:inline transition-all duration-700 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
-                style={{ transitionDelay: "600ms" }}
-              >
-                {" "}
-                . {title.part2}
-              </span>
-              <span
-                className={`text-white font-normal block sm:inline transition-all duration-700 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
-                style={{ transitionDelay: "800ms" }}
-              >
-                {" "}
-                . {title.part3}
-              </span>
-            </h1>
+            {/* Title Navigation */}
+            <div className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3 md:gap-4 mb-6">
+              {slides.map((slide, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleDotClick(index)}
+                  className={`text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light transition-all duration-500 ease-out hover:scale-105 ${
+                    currentSlide === index
+                      ? "text-orange-500"
+                      : "text-white/50 hover:text-white/70"
+                  }`}
+                >
+                  {slide.title}
+                  {index < slides.length - 1 && (
+                    <span className="text-white/30 mx-1">.</span>
+                  )}
+                </button>
+              ))}
+            </div>
 
-            {/* Animated Description */}
-            <p
-              className={`text-gray-300 text-xs sm:text-xs md:text-sm lg:text-base mb-6 sm:mb-7 md:mb-8 leading-relaxed font-normal max-w-full sm:max-w-md md:max-w-lg mx-auto lg:mx-0 transition-all duration-700 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-              style={{ transitionDelay: "1000ms" }}
-            >
-              {description}
-            </p>
+            {/* Animated Content */}
+            <div className="relative min-h-[120px] sm:min-h-[100px]">
+              <p
+                className={`text-gray-300 text-xs sm:text-xs md:text-sm lg:text-base mb-6 sm:mb-7 md:mb-8 leading-relaxed font-normal max-w-full sm:max-w-md md:max-w-lg mx-auto lg:mx-0 transition-all duration-300 ease-out ${
+                  isAnimating
+                    ? "opacity-0 translate-y-4"
+                    : "opacity-100 translate-y-0"
+                }`}
+              >
+                {slides[currentSlide].content}
+              </p>
+            </div>
+
+            {/* Progress Dots */}
+            <div className="flex justify-center lg:justify-start gap-2 mb-6">
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleDotClick(index)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    currentSlide === index
+                      ? "w-8 bg-orange-500"
+                      : "w-2 bg-white/30 hover:bg-white/50"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
 
             {/* Animated Buttons */}
             <div
@@ -185,25 +221,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Story Text - Full Width Bottom Section */}
+        {/* <div className="relative z-10 border-t border-white/10 pt-6 sm:pt-8">
+          <p className="text-gray-400 text-xs sm:text-sm md:text-base leading-relaxed font-normal text-center">
+            {storyText}
+          </p>
+        </div> */}
       </div>
 
       <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px) rotate(0deg);
-          }
-          25% {
-            transform: translateY(-10px) rotate(5deg);
-          }
-          50% {
-            transform: translateY(-20px) rotate(0deg);
-          }
-          75% {
-            transform: translateY(-10px) rotate(-5deg);
-          }
-        }
-
         @keyframes slow-bounce {
           0%,
           100% {
@@ -214,26 +241,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           }
         }
 
-        @keyframes bounce-slow {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-5px);
-          }
-        }
-
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-
         .animate-slow-bounce {
           animation: slow-bounce 3s ease-in-out infinite;
-        }
-
-        .animate-bounce-slow {
-          animation: bounce-slow 2s ease-in-out infinite;
         }
       `}</style>
     </section>

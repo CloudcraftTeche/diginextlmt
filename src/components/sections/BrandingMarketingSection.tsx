@@ -16,15 +16,15 @@ interface BrandingMarketingSectionProps {
 }
 
 const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
-  title = "Branding & Marketing Agency, Dubai",
-  description = "Digital Marketing plays a strategic and significant role in propelling your business to the next level, in today's world. It is imperative to have the online presence to leverage the reach and the messaging to the diverse demographic panning across different geographies.",
-  seoTitle = "SEO Search Engine Optimisation",
-  seoDescription = "SEO is vital aspect in Digital Marketing to ensuring your website receives the visibility it needs. Catering to a range of enhancements to your website, optimising content, identifying key words are imperative to increase the Company's ranking in a Google Search.",
-  socialMediaTitle = "Social Media Marketing",
-  socialMediaDescription = "Facebook, Instagram, LinkedIn, Twitter and Youtube are an extremely important tools for building and sustaining Corporate Identity and customer outreach. Optimising your social media channels to enhance your brand and grow your customer base is at the forefront of any Social Media Strategy.",
-  paidCampaignsTitle = "Paid Campaigns",
-  paidCampaignsDescription = "Google Ads help you achieve greater exposure to your target market and a competitive edge in online search with relevant, targeted, and cost-effective revised marketing strategies. From display ads on popular websites, to text ads in Google Search, one needs to create aggressive campaigns that can ensure the optimized reach to potential customers.",
-  bottomSectionText = "We focus on designing to connect your brand with your customer. We adopt a collaborative approach to projects together with you. Our aim is to make your designs and collaterals memorable and striking with your target market.",
+  title = "Creative & Supportive Services",
+  description = "We create comprehensive solutions that blend creativity with technology to deliver exceptional results for your business needs.",
+  seoTitle = "Branding & Graphic Design",
+  seoDescription = "We create visual identities that are powerful and reflect the personality of your brand.",
+  socialMediaTitle = "Photography, Videography & Print",
+  socialMediaDescription = "Our creative services use strong visuals, signs and prints of excellent quality to bring your brand story to life.",
+  paidCampaignsTitle = "Content Development",
+  paidCampaignsDescription = "We deliver engaging and business related content that connects with your audience and makes your online presence stronger.",
+  bottomSectionText = "At DigiNext, our primary focus is to develop strategies that really connect your brand with your audience. We work with you to create successful marketing efforts through our IT solution services. We want to provide you with experiences that are memorable, unique, and will connect with your target audience.",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -59,11 +59,11 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
             }`}
           >
             <div className="relative w-full max-w-lg mx-auto lg:mx-0">
-              {/* Main Donut Image */}
+              {/* Main Plant Image */}
               <div className="relative z-10">
                 <Image
                   src={ImageConstants.PLANT}
-                  alt="Creative donut with sprinkles"
+                  alt="Creative plant illustration"
                   width={600}
                   height={600}
                   className="w-100 h-auto"
@@ -94,7 +94,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
 
             {/* Services Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* SEO Section */}
+              {/* Branding & Graphic Design Section */}
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold text-black">{seoTitle}</h3>
                 <p className="text-gray-700 text-sm leading-relaxed">
@@ -102,7 +102,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
                 </p>
               </div>
 
-              {/* Social Media Section */}
+              {/* Photography, Videography & Print Section */}
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold text-black">
                   {socialMediaTitle}
@@ -117,7 +117,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
 
         {/* Bottom Section - Two Columns */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
-          {/* Left - Paid Campaigns */}
+          {/* Left - Content Development */}
           <div
             className={`transform transition-all duration-1000 ease-out ${
               isVisible
@@ -134,7 +134,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
             </p>
           </div>
 
-          {/* Right - Bottom Message with Radial Design */}
+          {/* Right - DigiNext Focus Message with Radial Design */}
           <div
             className={`transform transition-all duration-1000 ease-out ${
               isVisible
@@ -172,6 +172,53 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Additional IT Services Section */}
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+          {/* IT Consultancy in Dubai */}
+          <div
+            className={`transform transition-all duration-1000 ease-out ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+            style={{ transitionDelay: "800ms" }}
+          >
+            <h3 className="text-lg font-semibold text-black mb-4">
+              IT Consultancy in Dubai
+            </h3>
+            <p className="text-gray-700 text-base leading-relaxed">
+              As a leading IT solution company, we don't just offer services, we
+              work with you to come up with plans that bring technology and
+              business closer together. DigiNext makes sure that every solution
+              is practical, scalable, and focused on getting results, whether
+              you need cloud integration, infrastructure planning or enterprise
+              IT consulting.
+            </p>
+          </div>
+
+          {/* Partner with DigiNext */}
+          <div
+            className={`transform transition-all duration-1000 ease-out ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+            style={{ transitionDelay: "1000ms" }}
+          >
+            <h3 className="text-lg font-semibold text-black mb-4">
+              Partner with DigiNext
+            </h3>
+            <p className="text-gray-700 text-base leading-relaxed">
+              DigiNext is a trustworthy IT solution company in Dubai with an
+              excellent reputation. We promise to provide solutions that are
+              both innovative and efficient. Our broad range of IT solutions
+              services are made to help you succeed, whether you are a startup
+              looking to grow or an established business looking for ways to
+              improve.
+            </p>
           </div>
         </div>
       </div>
