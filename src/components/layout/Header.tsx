@@ -200,7 +200,7 @@ const Header = ({
 
         <div
           className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${
-            isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+            isMenuOpen ? "max-h-auto opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           <div className="py-4 space-y-2 bg-white/95 backdrop-blur-xl rounded-2xl mt-4 shadow-2xl border border-white/20">

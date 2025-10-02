@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+import { ImageConstants } from "@/constants/ImageConstants";
 
 interface CaseStudyProps {
   image: string;
@@ -37,7 +38,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     const element = document.querySelector(
@@ -51,7 +52,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
   return (
     <div
       id={`case-study-${title.replace(/\s+/g, "-").toLowerCase()}`}
-      className={`group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 transform ${
+      className={`group bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 transform ${
         isVisible
           ? "opacity-100 translate-y-0 scale-100"
           : "opacity-0 translate-y-8 scale-95"
@@ -59,26 +60,26 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
       style={{ transitionDelay: `${delay}ms` }}
     >
       {/* Image Section */}
-      <div className="relative overflow-hidden h-48 sm:h-56 lg:h-64">
+      <div className="relative overflow-hidden h-32 xs:h-36 sm:h-48 md:h-56 lg:h-64">
         <Image
           src={image}
           alt={title}
           width={400}
           height={300}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          priority={delay < 600} // Prioritize loading for first few images
+          priority={delay < 600}
         />
         <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-300" />
       </div>
 
       {/* Content Section */}
-      <div className="p-6 lg:p-8">
+      <div className="p-3 xs:p-4 sm:p-5 md:p-6 lg:p-8">
         {/* Title with Percentage */}
-        <div className="mb-4">
-          <h3 className="text-md sm:text-lg lg:text-xl font-semibold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
+        <div className="mb-2 xs:mb-3 sm:mb-4">
+          <h3 className="text-sm xs:text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-1 sm:mb-2 group-hover:text-gray-800 transition-colors duration-300">
             {title}
             {percentage && (
-              <span className="text-gray-400 font-normal ml-2">
+              <span className="text-gray-400 font-normal ml-1 xs:ml-2 text-xs xs:text-sm sm:text-base">
                 {percentage}
               </span>
             )}
@@ -86,16 +87,14 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 text-xs sm:text-xs md:text-sm lg:text-base leading-relaxed mb-6">
+        <p className="text-gray-600 text-xs xs:text-sm sm:text-base leading-relaxed mb-3 xs:mb-4 sm:mb-5 md:mb-6 line-clamp-3">
           {description}
         </p>
 
         {/* Connect to Us Button */}
-        <button className="group/btn flex items-center gap-2 text-gray-700 hover:text-orange-500 font-medium transition-colors duration-300">
-          <span className="text-xs sm:text-xs md:text-sm lg:text-base">
-            Connect to Us
-          </span>
-          <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+        <button className="group/btn flex items-center gap-1 xs:gap-2 text-gray-700 hover:text-orange-500 font-medium transition-colors duration-300">
+          <span className="text-xs xs:text-sm sm:text-base">Connect to Us</span>
+          <ArrowUpRight className="w-3 xs:w-4 sm:w-5 h-3 xs:h-4 sm:h-5 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
         </button>
       </div>
     </div>
@@ -108,23 +107,20 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
   buttonText = "Our Works",
   caseStudies = [
     {
-      image:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f4f4f4;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23e0e0e0;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23grad1)'/%3E%3Ccircle cx='200' cy='120' r='40' fill='%23d4a574'/%3E%3Crect x='120' y='180' width='160' height='60' rx='30' fill='%23d4a574'/%3E%3Ctext x='200' y='250' text-anchor='middle' font-family='Arial, sans-serif' font-size='16' font-weight='bold' fill='%23333'%3ELuxury Interior%3C/text%3E%3C/svg%3E",
+      image: ImageConstants.CASE_STUDY_1,
       title: "Organic Growth",
       percentage: "100X",
       description:
         "By providing professional IT solutions consulting, we helped businesses to achieve excellent organic growth, giving them an advantage over their competitors and a chance to reach a larger audience.",
     },
     {
-      image:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23000'/%3E%3Crect x='50' y='80' width='300' height='140' fill='%23008000' stroke='%23333' stroke-width='2'/%3E%3Ctext x='200' y='160' text-anchor='middle' font-family='Arial, sans-serif' font-size='24' font-weight='bold' fill='white'%3EAL-MANARA%3C/text%3E%3Cpath d='M180 120 L220 120 L210 140 L190 140 Z' fill='white'/%3E%3C/svg%3E",
+      image: ImageConstants.CASE_STUDY_2,
       title: "Branding Design",
       description:
         "Partner with us to build a strong brand identity that accurately reflects our whole range of IT solutions and services.",
     },
     {
-      image:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f8f8f8;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23e8e8e8;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23grad2)'/%3E%3Ccircle cx='320' cy='80' r='60' fill='%2364a364'/%3E%3Crect x='280' y='130' width='80' height='120' rx='8' fill='%2364a364'/%3E%3Ctext x='320' y='200' text-anchor='middle' font-family='Arial, sans-serif' font-size='10' font-weight='bold' fill='white'%3EDO NOT%3C/text%3E%3Ctext x='320' y='220' text-anchor='middle' font-family='Arial, sans-serif' font-size='10' font-weight='bold' fill='white'%3EDISTURB%3C/text%3E%3C/svg%3E",
+      image: ImageConstants.CASE_STUDY_3,
       title: "Design Concepts",
       description:
         "As the best IT solution company in Dubai, we transform brands by creating powerful designs that communicate our innovative IT solution services with clarity and visual appeal.",
@@ -132,6 +128,16 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
   ],
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -150,72 +156,113 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
   return (
     <section
       id="case-studies-section"
-      className="py-6 sm:py-8 lg:py-10 bg-white overflow-hidden"
+      className="py-8 sm:py-12 lg:py-16 bg-white overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="mb-12 lg:mb-16">
-          {/* Single Row Layout - Title, Description, and Button */}
-          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-8 mb-8">
-            {/* Title */}
+        <div className="mb-8 sm:mb-10 lg:mb-16">
+          {/* Mobile Layout - Stacked */}
+          <div className="lg:hidden space-y-4 sm:space-y-5">
             <div
               className={`transform transition-all duration-1000 ease-out ${
                 isVisible
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 -translate-x-8"
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
             >
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900 leading-tight whitespace-nowrap">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 leading-tight">
                 {mainTitle}
               </h2>
             </div>
-
-            {/* Vertical Divider */}
-            <div className="hidden lg:block bg-gray-300 w-px h-16"></div>
-
-            {/* Description */}
             <div
-              className={`flex-1 transform transition-all duration-1000 ease-out ${
+              className={`transform transition-all duration-1000 ease-out ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: "100ms" }}
             >
-              <p className="text-gray-600 text-xs sm:text-xs md:text-sm lg:text-base leading-relaxed">
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                 {subtitle}
               </p>
             </div>
-
-            {/* Button */}
             <div
               className={`transform transition-all duration-1000 ease-out ${
                 isVisible
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 translate-x-8"
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: "200ms" }}
             >
-              <button className="group inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-xs sm:text-xs md:text-sm lg:text-base overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25 hover:scale-105 whitespace-nowrap">
+              <button className="group inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-sm sm:text-base overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25 hover:scale-105">
                 <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
                   {buttonText}
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </button>
             </div>
+            <div
+              className={`w-full h-px bg-gray-200 transform transition-all duration-1000 ease-out ${
+                isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+              }`}
+              style={{ transitionDelay: "300ms" }}
+            ></div>
           </div>
 
-          {/* Divider Line */}
-          <div
-            className={`w-full h-px bg-gray-200 transform transition-all duration-1000 ease-out ${
-              isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
-            }`}
-            style={{ transitionDelay: "300ms" }}
-          ></div>
+          {/* Desktop Layout - Single Row */}
+          <div className="hidden lg:block">
+            <div className="flex items-center gap-8 mb-8">
+              <div
+                className={`transform transition-all duration-1000 ease-out ${
+                  isVisible
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-8"
+                }`}
+              >
+                <h2 className="text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-900 leading-tight whitespace-nowrap">
+                  {mainTitle}
+                </h2>
+              </div>
+              <div className="bg-gray-300 w-px h-16 flex-shrink-0"></div>
+              <div
+                className={`flex-1 transform transition-all duration-1000 ease-out ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: "100ms" }}
+              >
+                <p className="text-gray-600 text-base lg:text-lg leading-relaxed">
+                  {subtitle}
+                </p>
+              </div>
+              <div
+                className={`transform transition-all duration-1000 ease-out flex-shrink-0 ${
+                  isVisible
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-8"
+                }`}
+                style={{ transitionDelay: "200ms" }}
+              >
+                <button className="group inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-base overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25 hover:scale-105 whitespace-nowrap">
+                  <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
+                    {buttonText}
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </button>
+              </div>
+            </div>
+            <div
+              className={`w-full h-px bg-gray-200 transform transition-all duration-1000 ease-out ${
+                isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+              }`}
+              style={{ transitionDelay: "300ms" }}
+            ></div>
+          </div>
         </div>
 
         {/* Case Studies Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 md:gap-6 lg:gap-8">
           {caseStudies.map((study, index) => (
             <CaseStudyCard
               key={`${study.title}-${index}`}

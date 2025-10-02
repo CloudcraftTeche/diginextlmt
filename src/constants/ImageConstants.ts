@@ -26,4 +26,7 @@ export class ImageConstants {
   static COMPANY_LOGO_14 = "/assets/images/Client-Logo-14.svg";
   static COMPANY_LOGO_15 = "/assets/images/Client-Logo-15.svg";
   static COMPANY_LOGO_16 = "/assets/images/Client-Logo-16.svg";
+  static CASE_STUDY_1 = "/assets/images/30.jpg";
+  static CASE_STUDY_2 = "/assets/images/0f5b55d8-6fdb-4fbe-a605-6d70b234183d.png";
+  static CASE_STUDY_3 = "/assets/images/7a12ddaf-3a12-47e3-a8a6-b9cebd6a1ae3.png";
 }
