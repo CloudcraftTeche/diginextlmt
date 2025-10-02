@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 
-// Extend Window interface for THREE.js
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ThreeJS = any;
+
 declare global {
   interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    THREE: any;
+    THREE: ThreeJS;
   }
 }
 
@@ -24,6 +25,17 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
   const [isVisible, setIsVisible] = useState(false);
   const [threeLoaded, setThreeLoaded] = useState(false);
   const [rotation, setRotation] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Load Three.js from CDN
   useEffect(() => {
@@ -61,7 +73,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       0.1,
       1000
     );
-    camera.position.z = 5;
+    camera.position.z = isMobile ? 6 : 5;
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -71,8 +83,9 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
-    // Create sphere geometry
-    const geometry = new THREE.SphereGeometry(1.5, 64, 64);
+    // Create sphere geometry - smaller on mobile
+    const sphereSize = isMobile ? 1.2 : 1.5;
+    const geometry = new THREE.SphereGeometry(sphereSize, 64, 64);
 
     const material = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
@@ -88,18 +101,18 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
 
-    // Create rings/torus shapes - subtle metallic rings
+    // Create rings/torus shapes
     interface Ring {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       mesh: any;
       rotationSpeed: { x: number; y: number; z: number };
     }
     const rings: Ring[] = [];
-    const ringCount = 6;
+    const ringCount = isMobile ? 4 : 6;
 
     for (let i = 0; i < ringCount; i++) {
       const torusGeometry = new THREE.TorusGeometry(
-        1.5 + i * 0.05,
+        sphereSize + i * 0.05,
         0.008,
         16,
         100
@@ -219,7 +232,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       });
       renderer.dispose();
     };
-  }, [threeLoaded]);
+  }, [threeLoaded, isMobile]);
 
   const stats = [
     { number: "300+", label: "Happy Clients", angle: 0 },
@@ -230,12 +243,12 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
 
   return (
     <section className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 bg-white">
-      <div className="w-full bg-black rounded-xl sm:rounded-2xl p-8 sm:p-10 md:p-12 lg:p-16 relative overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center relative z-10">
+      <div className="w-full bg-black rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-10 lg:p-16 relative overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
           {/* Left Side - Text Content */}
           <div className="text-left order-2 lg:order-1">
             <h2
-              className={`text-3xl sm:text-2xl md:text-3xl lg:text-4xl font-normal mb-8 text-white leading-tight transition-all duration-1000 ease-out ${
+              className={`text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-normal mb-6 sm:mb-8 text-white leading-tight transition-all duration-1000 ease-out ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
@@ -246,14 +259,14 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
             </h2>
 
             <div
-              className={`text-gray-300 font-light text-base sm:text-md md:text-lg leading-relaxed mb-8 transition-all duration-1000 ease-out ${
+              className={`text-gray-300 font-light text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8 transition-all duration-1000 ease-out ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: "400ms" }}
             >
-              <p className="mb-6">
+              <p className="mb-4 sm:mb-6">
                 {description.split(".")[0]}.{" "}
                 <span className="font-light text-white">We</span>{" "}
                 {description.split(".").slice(1, 3).join(". ")}.
@@ -262,7 +275,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
             </div>
 
             <p
-              className={`text-gray-300 text-base font-light sm:text-md md:text-lg leading-relaxed transition-all duration-1000 ease-out ${
+              className={`text-gray-300 text-sm sm:text-base md:text-lg font-light leading-relaxed transition-all duration-1000 ease-out ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
@@ -280,7 +293,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
             }`}
             style={{ transitionDelay: "300ms" }}
           >
-            <div className="relative w-full h-[500px] sm:h-[550px] md:h-[600px]">
+            <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px]">
               {/* 3D Canvas */}
               <div
                 ref={containerRef}
@@ -290,7 +303,9 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
               {/* Loading State */}
               {!threeLoaded && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-white text-lg">Loading...</div>
+                  <div className="text-white text-sm sm:text-lg">
+                    Loading...
+                  </div>
                 </div>
               )}
 
@@ -298,7 +313,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
               {threeLoaded &&
                 stats.map((stat, index) => {
                   const angle = stat.angle + rotation;
-                  const radius = 180;
+                  const radius = isMobile ? 120 : 180;
                   const x = Math.cos(angle) * radius;
                   const y = Math.sin(angle) * radius;
                   const z = Math.sin(angle * 2) * 50;
@@ -318,11 +333,11 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
                         zIndex: Math.round(z + 50),
                       }}
                     >
-                      <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg px-5 py-3 border border-gray-600/40 shadow-2xl min-w-[140px] text-center">
-                        <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
+                      <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg px-3 py-2 sm:px-5 sm:py-3 border border-gray-600/40 shadow-2xl min-w-[110px] sm:min-w-[140px] text-center">
+                        <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-0.5 sm:mb-1">
                           {stat.number}
                         </div>
-                        <div className="text-xs sm:text-sm text-gray-300 whitespace-nowrap">
+                        <div className="text-[10px] sm:text-xs md:text-sm text-gray-300 whitespace-nowrap">
                           {stat.label}
                         </div>
                       </div>
