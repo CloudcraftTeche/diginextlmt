@@ -88,9 +88,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
 
-    // Create rings/torus shapes - subtle metallic rings
     interface Ring {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       mesh: any;
       rotationSpeed: { x: number; y: number; z: number };
     }
