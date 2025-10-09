@@ -27,6 +27,15 @@ export class ImageConstants {
   static COMPANY_LOGO_15 = "/assets/images/Client-Logo-15.svg";
   static COMPANY_LOGO_16 = "/assets/images/Client-Logo-16.svg";
   static CASE_STUDY_1 = "/assets/images/30.jpg";
-  static CASE_STUDY_2 = "/assets/images/0f5b55d8-6fdb-4fbe-a605-6d70b234183d.png";
-  static CASE_STUDY_3 = "/assets/images/7a12ddaf-3a12-47e3-a8a6-b9cebd6a1ae3.png";
+  static CASE_STUDY_2 =
+    "/assets/images/0f5b55d8-6fdb-4fbe-a605-6d70b234183d.png";
+  static CASE_STUDY_3 =
+    "/assets/images/7a12ddaf-3a12-47e3-a8a6-b9cebd6a1ae3.png";
+  static INSIDE_BANNER_1 = "/assets/banner/inside-banner-01.png";
+  static INSIDE_BANNER_2 = "/assets/banner/inside-banner-02.png";
+  static INSIDE_BANNER_3 = "/assets/banner/inside-banner-03.png";
+  static INSIDE_BANNER_4 = "/assets/banner/inside-banner-04.png";
+  static INSIDE_BANNER_5 = "/assets/banner/inside-banner-05.png";
+  static INSIDE_BANNER_6 = "/assets/banner/inside-banner-06.png";
+  static INSIDE_BANNER_7 = "/assets/banner/inside-banner-07.png";
 }

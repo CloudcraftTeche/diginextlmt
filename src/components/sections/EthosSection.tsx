@@ -242,111 +242,115 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
   ];
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 bg-white">
-      <div className="w-full bg-black rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-10 lg:p-16 relative overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
-          {/* Left Side - Text Content */}
-          <div className="text-left order-2 lg:order-1">
-            <h2
-              className={`text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-normal mb-6 sm:mb-8 text-white leading-tight transition-all duration-1000 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: "200ms" }}
-            >
-              {title}
-            </h2>
+    <section className="px-3 xs:px-4 sm:px-6 lg:px-8 py-4 xs:py-6 sm:py-8 lg:py-10 bg-white">
+      {/* Full-width black background */}
+      <div className="w-full bg-black rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-8 lg:p-12 relative overflow-hidden">
+        {/* Constrained content wrapper */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
+            {/* Left Side - Text Content */}
+            <div className="text-left order-2 lg:order-1">
+              <h2
+                className={`text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-normal mb-6 sm:mb-8 text-white leading-tight transition-all duration-1000 ease-out ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: "200ms" }}
+              >
+                {title}
+              </h2>
 
-            <div
-              className={`text-gray-300 font-light text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8 transition-all duration-1000 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: "400ms" }}
-            >
-              <p className="mb-4 sm:mb-6">
-                {description.split(".")[0]}.{" "}
-                <span className="font-light text-white">We</span>{" "}
-                {description.split(".").slice(1, 3).join(". ")}.
+              <div
+                className={`text-gray-300 font-light text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8 transition-all duration-1000 ease-out ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: "400ms" }}
+              >
+                <p className="mb-4 sm:mb-6">
+                  {description.split(".")[0]}.{" "}
+                  <span className="font-light text-white">We</span>{" "}
+                  {description.split(".").slice(1, 3).join(". ")}.
+                </p>
+                <p>{description.split(".").slice(3).join(". ")}</p>
+              </div>
+
+              <p
+                className={`text-gray-300 text-sm sm:text-base md:text-lg font-light leading-relaxed transition-all duration-1000 ease-out ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: "600ms" }}
+              >
+                {subtitle}
               </p>
-              <p>{description.split(".").slice(3).join(". ")}</p>
             </div>
 
-            <p
-              className={`text-gray-300 text-sm sm:text-base md:text-lg font-light leading-relaxed transition-all duration-1000 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
+            {/* Right Side - 3D Sphere with Rotating Stats */}
+            <div
+              className={`relative order-1 lg:order-2 transition-all duration-1000 ease-out ${
+                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
               }`}
-              style={{ transitionDelay: "600ms" }}
+              style={{ transitionDelay: "300ms" }}
             >
-              {subtitle}
-            </p>
-          </div>
+              <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px]">
+                {/* 3D Canvas */}
+                <div
+                  ref={containerRef}
+                  className="absolute inset-0 w-full h-full"
+                />
 
-          {/* Right Side - 3D Sphere with Rotating Stats */}
-          <div
-            className={`relative order-1 lg:order-2 transition-all duration-1000 ease-out ${
-              isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-            }`}
-            style={{ transitionDelay: "300ms" }}
-          >
-            <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px]">
-              {/* 3D Canvas */}
-              <div
-                ref={containerRef}
-                className="absolute inset-0 w-full h-full"
-              />
-
-              {/* Loading State */}
-              {!threeLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-white text-sm sm:text-lg">
-                    Loading...
+                {/* Loading State */}
+                {!threeLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-white text-sm sm:text-lg">
+                      Loading...
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Rotating Stats */}
-              {threeLoaded &&
-                stats.map((stat, index) => {
-                  const angle = stat.angle + rotation;
-                  const radius = isMobile ? 120 : 180;
-                  const x = Math.cos(angle) * radius;
-                  const y = Math.sin(angle) * radius;
-                  const z = Math.sin(angle * 2) * 50;
-                  const scale = 0.8 + (z + 50) / 200;
-                  const opacity = 0.4 + (z + 50) / 100;
-                  const blur = Math.max(0, 3 - (z + 50) / 25);
+                {/* Rotating Stats */}
+                {threeLoaded &&
+                  stats.map((stat, index) => {
+                    const angle = stat.angle + rotation;
+                    const radius = isMobile ? 120 : 180;
+                    const x = Math.cos(angle) * radius;
+                    const y = Math.sin(angle) * radius;
+                    const z = Math.sin(angle * 2) * 50;
+                    const scale = 0.8 + (z + 50) / 200;
+                    const opacity = 0.4 + (z + 50) / 100;
+                    const blur = Math.max(0, 3 - (z + 50) / 25);
 
-                  return (
-                    <div
-                      key={index}
-                      className="absolute top-1/2 left-1/2 pointer-events-none"
-                      style={{
-                        transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale})`,
-                        opacity: opacity,
-                        filter: `blur(${blur}px)`,
-                        transition: "all 0.1s linear",
-                        zIndex: Math.round(z + 50),
-                      }}
-                    >
-                      <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg px-3 py-2 sm:px-5 sm:py-3 border border-gray-600/40 shadow-2xl min-w-[110px] sm:min-w-[140px] text-center">
-                        <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-0.5 sm:mb-1">
-                          {stat.number}
-                        </div>
-                        <div className="text-[10px] sm:text-xs md:text-sm text-gray-300 whitespace-nowrap">
-                          {stat.label}
+                    return (
+                      <div
+                        key={index}
+                        className="absolute top-1/2 left-1/2 pointer-events-none"
+                        style={{
+                          transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale})`,
+                          opacity: opacity,
+                          filter: `blur(${blur}px)`,
+                          transition: "all 0.1s linear",
+                          zIndex: Math.round(z + 50),
+                        }}
+                      >
+                        <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg px-3 py-2 sm:px-5 sm:py-3 border border-gray-600/40 shadow-2xl min-w-[110px] sm:min-w-[140px] text-center">
+                          <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-0.5 sm:mb-1">
+                            {stat.number}
+                          </div>
+                          <div className="text-[10px] sm:text-xs md:text-sm text-gray-300 whitespace-nowrap">
+                            {stat.label}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
 
-              {/* Background glow */}
-              <div className="absolute inset-0 bg-gradient-radial from-blue-500/10 via-purple-500/5 to-transparent blur-3xl pointer-events-none" />
+                {/* Background glow */}
+                <div className="absolute inset-0 bg-gradient-radial from-blue-500/10 via-purple-500/5 to-transparent blur-3xl pointer-events-none" />
+              </div>
             </div>
           </div>
         </div>
