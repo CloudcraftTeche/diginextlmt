@@ -6,6 +6,7 @@ import { generateHomePageMetadata } from "@/lib/metadata";
 import Footer from "@/components/layout/Footer";
 import HeroBanner from "@/components/ui/HeroBanner";
 import ShowcaseSection from "@/components/sections/ShowcaseSection";
+import { ImageConstants } from "@/constants/ImageConstants";
 
 // SEO Metadata Export
 export const metadata: Metadata = generateHomePageMetadata();
@@ -34,7 +35,7 @@ export default function HomePage() {
       {/* Main content with top padding to account for fixed header */}
       <div className="pt-16">
         {/* <HeroSection /> */}
-        <HeroBanner />
+        <HeroBanner backgorundImage={ImageConstants.INSIDE_BANNER_1} />
         <ShowcaseSection />
 
         <Footer />

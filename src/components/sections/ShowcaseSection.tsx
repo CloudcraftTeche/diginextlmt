@@ -1,8 +1,66 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { SERVICES_DATA, ServiceItem } from "@/lib/services-data";
 import Image from "next/image";
+import { ImageConstants } from "@/constants/ImageConstants";
+
+// Type Definitions
+interface ServiceSubItem {
+  name: string;
+  slug: string;
+}
+
+interface ServiceItem {
+  title: string;
+  description: string;
+  slug: string;
+  image: string;
+  imageAlt: string;
+}
+
+// Services Data
+const SERVICES_DATA: ServiceItem[] = [
+  {
+    title: "Branding & Graphic Design",
+    description:
+      "We at DigiNext believe that a brand is more than just a logo. It is the story that your customers remember. As a branding agency in Dubai, we bring creativity and strategy together to build designs that truly represent your business. We help you build a brand identity that connects, inspires and lasts, from the first sketch to the final print.",
+    slug: "branding-graphic-design",
+    image: ImageConstants.CASE_STUDY_1,
+    imageAlt: "Branding and Graphic Design Services",
+  },
+  {
+    title: "Building Identities That Speak",
+    description:
+      "A strong character is what makes a story great, and for businesses, that character is your brand identity. Our team is an expert in logo design, corporate identity, and brand guidelines. We make sure that your brand voice is always professional, consistent, and easy to remember. DigiNext is one of the best branding agencies in Dubai. We can help you create an identity that makes a lasting first impression, no matter if you are a new business or an established one.",
+    slug: "building-brand-identity",
+    image: ImageConstants.CASE_STUDY_2,
+    imageAlt: "Branding and Graphic Design Services",
+  },
+  {
+    title: "Designs That Build Connections",
+    description:
+      "A logo is just the beginning of your brand's journey, it is how your audience engages with it every day. We create visuals for everything from marketing collateral design to social media and digital graphics that communicate your message clearly and powerfully. As one of the top branding agencies in Dubai, DigiNext makes sure that your designs not only look good, but they also connect with the people who matter most, your customers.",
+    slug: "design-marketing-collateral",
+    image: ImageConstants.CASE_STUDY_3,
+    imageAlt: "Branding and Graphic Design Services",
+  },
+  {
+    title: "Telling stories With Visuals Beyond Screens",
+    description:
+      "In today's competitive market, your brand's presence can depend on its packaging and advertising. We are experts in packaging design, web and UI/UX design, and advertising and campaign design that make your products and services stand out. We are one of the best branding agencies in Dubai. We combine strategy with style to make every design a story that people will want to share.",
+    slug: "visual-storytelling",
+    image: ImageConstants.CASE_STUDY_1,
+    imageAlt: "Branding and Graphic Design Services",
+  },
+  {
+    title: "Making Ideas Become Reality",
+    description:
+      "A strong brand is not just online, it also is present in the real world. That is why we offer custom illustrations and infographics along with print production support, making sure that your brand is consistent at all points of contact. As the best branding agencies in Dubai, DigiNext makes sure that your brand always feels genuine, creative and reliable no matter where your customers see it.",
+    slug: "making-ideas-reality",
+    image: ImageConstants.CASE_STUDY_2,
+    imageAlt: "Branding and Graphic Design Services",
+  },
+];
 
 interface ServicesShowcaseSectionProps {
   services?: ServiceItem[];
@@ -49,86 +107,26 @@ const ServiceCard: React.FC<{
           className={`max-w-lg ${isReversed ? "lg:ml-auto lg:text-right" : ""}`}
         >
           {/* Title */}
-          <h3 className="text-xl lg:text-2xl font-medium text-gray-900 mb-1">
+          <h3 className="text-xl lg:text-2xl font-normal text-gray-900 mb-4">
             {service.title}
           </h3>
 
-          {/* Subtitle */}
-          <h4 className="text-xl lg:text-2xl font-medium text-gray-900 mb-8">
-            {service.subtitle}
-          </h4>
+          {/* Description */}
+          <p className="text-sm lg:text-base text-gray-600 leading-relaxed mb-6">
+            {service.description}
+          </p>
 
-          {/* Service Items - Now clickable */}
-          <div className="space-y-3">
-            {service.items.slice(0, 5).map((item, itemIndex) => (
-              <div
-                key={itemIndex}
-                className={`transform transition-all duration-700 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
-                style={{
-                  transitionDelay: `${index * 200 + itemIndex * 100 + 300}ms`,
-                }}
-              >
-                <Link
-                  href={`/services/${service.slug}/${item.slug}`}
-                  className="block p-2 -m-2 rounded-lg  transition-colors duration-200 group"
-                >
-                  <div className="flex items-center justify-between">
-                    <p className="text-black text-base font-light lg:text-sm leading-relaxed group-hover:text-orange-600 transition-colors duration-200">
-                      {item.name}
-                    </p>
-                    <svg
-                      className="w-4 h-4 text-gray-400 group-hover:text-orange-600 transition-colors duration-200 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </div>
-                </Link>
-              </div>
-            ))}
-
-            {/* Show remaining items count if there are more than 5 */}
-            {service.items.length > 5 && (
-              <div
-                className={`transform transition-all duration-700 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
-                style={{
-                  transitionDelay: `${index * 200 + 5 * 100 + 300}ms`,
-                }}
-              >
-                <Link
-                  href={`/services/${service.slug}`}
-                  className="block p-2 -m-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
-                >
-                  <p className="text-gray-500 text-sm italic group-hover:text-orange-600 transition-colors duration-200">
-                    + {service.items.length - 5} more services...
-                  </p>
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* View All Services Link */}
-          <div className="mt-8">
+          {/* Action Buttons */}
+          <div
+            className={`mt-8 flex flex-wrap gap-3 ${
+              isReversed ? "lg:justify-end" : "lg:justify-start"
+            }`}
+          >
             <Link
               href={`/services/${service.slug}`}
-              className="inline-flex items-center text-orange-600 hover:text-orange-700 font-medium transition-colors duration-200"
+              className="inline-flex items-center px-6 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 transition-all duration-200 shadow-md hover:shadow-lg"
             >
-              View All {service.title} Services
+              View Details
               <svg
                 className="ml-2 w-4 h-4"
                 fill="none"
@@ -162,7 +160,7 @@ const ServiceCard: React.FC<{
       >
         <Link href={`/services/${service.slug}`}>
           <div className="relative group cursor-pointer">
-            <div className="relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500">
+            <div className="relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 h-[250px] lg:h-[350px]">
               <Image
                 src={service.image}
                 alt={service.imageAlt}
@@ -174,13 +172,6 @@ const ServiceCard: React.FC<{
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               {/* Overlay content */}
-              <div className="absolute bottom-4 left-4 right-4">
-                <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                  <p className="text-sm font-medium text-gray-900">
-                    {service.items.length} Services Available
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </Link>
@@ -214,23 +205,6 @@ const ShowcaseSection: React.FC<ServicesShowcaseSectionProps> = ({
       className="py-16 lg:py-24 bg-white overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div
-          className={`text-center mb-16 lg:mb-20 transform transition-all duration-1000 ease-out ${
-            sectionVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-8"
-          }`}
-        >
-          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-6">
-            Our Services
-          </h2>
-          <p className="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Comprehensive design solutions tailored to elevate your brand and
-            create exceptional user experiences
-          </p>
-        </div>
-
         {/* Services Grid */}
         <div className="space-y-0">
           {services.map((service, index) => (
