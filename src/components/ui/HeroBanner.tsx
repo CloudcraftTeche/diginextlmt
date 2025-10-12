@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
 interface HeroBannerProps {
   title?: string;
@@ -20,11 +21,16 @@ const HeroBanner = ({
     >
       {/* Background Image */}
       {backgorundImage && (
-        <img
-          src={backgorundImage}
-          alt="Hero Background"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src={backgorundImage}
+            alt="Hero Background"
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
+        </div>
       )}
 
       {/* Fallback gradient if no image */}

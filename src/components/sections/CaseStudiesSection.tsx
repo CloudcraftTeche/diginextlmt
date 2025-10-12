@@ -35,9 +35,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
+      ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.1 }
     );
 
@@ -74,7 +72,6 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
 
       {/* Content Section */}
       <div className="p-3 xs:p-4 sm:p-5 md:p-6 lg:p-8">
-        {/* Title with Percentage */}
         <div className="mb-2 xs:mb-3 sm:mb-4">
           <h3 className="text-sm xs:text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-1 sm:mb-2 group-hover:text-gray-800 transition-colors duration-300">
             {title}
@@ -86,12 +83,10 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
           </h3>
         </div>
 
-        {/* Description */}
         <p className="text-gray-600 text-xs xs:text-sm sm:text-base leading-relaxed mb-3 xs:mb-4 sm:mb-5 md:mb-6 line-clamp-3">
           {description}
         </p>
 
-        {/* Connect to Us Button */}
         <button className="group/btn flex items-center gap-1 xs:gap-2 text-gray-700 hover:text-orange-500 font-medium transition-colors duration-300">
           <span className="text-xs xs:text-sm sm:text-base">Connect to Us</span>
           <ArrowUpRight className="w-3 xs:w-4 sm:w-5 h-3 xs:h-4 sm:h-5 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
@@ -128,22 +123,10 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
   ],
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
+      ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.1 }
     );
 
@@ -206,7 +189,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                 isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
               }`}
               style={{ transitionDelay: "300ms" }}
-            ></div>
+            />
           </div>
 
           {/* Desktop Layout - Single Row */}
@@ -223,7 +206,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                   {mainTitle}
                 </h2>
               </div>
-              <div className="bg-gray-300 w-px h-16 flex-shrink-0"></div>
+              <div className="bg-gray-300 w-px h-16 flex-shrink-0" />
               <div
                 className={`flex-1 transform transition-all duration-1000 ease-out ${
                   isVisible
@@ -257,7 +240,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                 isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
               }`}
               style={{ transitionDelay: "300ms" }}
-            ></div>
+            />
           </div>
         </div>
 

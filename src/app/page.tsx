@@ -35,7 +35,7 @@ export default function HomePage() {
     <>
       <StructuredData data={structuredData} />
 
-      <Header />
+      <Header isTransparent={true} forceTransparent={true} />
 
       {/* Main content with top padding to account for fixed header */}
       <div className="pt-16">
