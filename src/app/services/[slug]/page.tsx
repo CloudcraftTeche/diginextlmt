@@ -26,7 +26,7 @@ interface ServiceDetailPageProps {
 }
 
 export default function ServiceDetailPage({ params }: ServiceDetailPageProps) {
-  const serviceData = getServiceDetailBySlug(params.slug);
+  const serviceData = getServiceDetailBySlug(params?.slug);
 
   // If service not found, you might want to redirect or show 404
   if (!serviceData) {
