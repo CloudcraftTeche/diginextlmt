@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { ImageConstants } from "@/constants/ImageConstants";
 
 // Type Definitions
 interface ServiceSubItem {
@@ -16,49 +14,98 @@ interface ServiceItem {
   slug: string;
   image: string;
   imageAlt: string;
+  services: ServiceSubItem[];
 }
 
 // Services Data
 const SERVICES_DATA: ServiceItem[] = [
   {
     title: "Branding & Graphic Design",
-    description:
-      "We at DigiNext believe that a brand is more than just a logo. It is the story that your customers remember. As a branding agency in Dubai, we bring creativity and strategy together to build designs that truly represent your business. We help you build a brand identity that connects, inspires and lasts, from the first sketch to the final print.",
+    description: "",
     slug: "branding-graphic-design",
-    image: ImageConstants.CASE_STUDY_1,
+    image:
+      "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&h=600&fit=crop",
     imageAlt: "Branding and Graphic Design Services",
+    services: [
+      { name: "Logo Design", slug: "logo-design" },
+      {
+        name: "Corporate Identity & Brand Guidelines",
+        slug: "corporate-identity",
+      },
+      { name: "Marketing Collateral Design", slug: "marketing-collateral" },
+      {
+        name: "Social Media & Digital Graphics",
+        slug: "social-media-graphics",
+      },
+      { name: "Packaging Design", slug: "packaging-design" },
+      { name: "Web & UI/UX Design", slug: "web-uiux-design" },
+      { name: "Advertising & Campaign Design", slug: "advertising-design" },
+      { name: "Custom Illustrations & Infographics", slug: "illustrations" },
+      { name: "Print Production Support", slug: "print-production" },
+    ],
   },
   {
-    title: "Building Identities That Speak",
-    description:
-      "A strong character is what makes a story great, and for businesses, that character is your brand identity. Our team is an expert in logo design, corporate identity, and brand guidelines. We make sure that your brand voice is always professional, consistent, and easy to remember. DigiNext is one of the best branding agencies in Dubai. We can help you create an identity that makes a lasting first impression, no matter if you are a new business or an established one.",
-    slug: "building-brand-identity",
-    image: ImageConstants.CASE_STUDY_2,
-    imageAlt: "Branding and Graphic Design Services",
+    title: "Experience Design",
+    description: "",
+    slug: "experience-design",
+    image:
+      "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop",
+    imageAlt: "Experience Design Services",
+    services: [
+      { name: "UI/UX Design", slug: "ui-ux-design" },
+      { name: "Website Design", slug: "website-design" },
+      { name: "Mobile Experience", slug: "mobile-experience" },
+      { name: "Commerce Experience", slug: "commerce-experience" },
+      { name: "Human Machine Interface (HMI)", slug: "hmi" },
+      { name: "Applications and Dashboards", slug: "applications-dashboards" },
+      { name: "Wearable App Design", slug: "wearable-app-design" },
+      { name: "Cross-Platform Experience Design", slug: "cross-platform" },
+      { name: "Design Support and Maintenance", slug: "design-support" },
+    ],
   },
   {
-    title: "Designs That Build Connections",
-    description:
-      "A logo is just the beginning of your brand's journey, it is how your audience engages with it every day. We create visuals for everything from marketing collateral design to social media and digital graphics that communicate your message clearly and powerfully. As one of the top branding agencies in Dubai, DigiNext makes sure that your designs not only look good, but they also connect with the people who matter most, your customers.",
-    slug: "design-marketing-collateral",
-    image: ImageConstants.CASE_STUDY_3,
+    title: "Branding & Graphic Design",
+    description: "",
+    slug: "branding-graphic-design-2",
+    image:
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop",
     imageAlt: "Branding and Graphic Design Services",
+    services: [
+      { name: "Logo Design", slug: "logo-design" },
+      {
+        name: "Corporate Identity & Brand Guidelines",
+        slug: "corporate-identity",
+      },
+      { name: "Marketing Collateral Design", slug: "marketing-collateral" },
+      {
+        name: "Social Media & Digital Graphics",
+        slug: "social-media-graphics",
+      },
+      { name: "Packaging Design", slug: "packaging-design" },
+      { name: "Web & UI/UX Design", slug: "web-uiux-design" },
+      { name: "Advertising & Campaign Design", slug: "advertising-design" },
+      { name: "Custom Illustrations & Infographics", slug: "illustrations" },
+      { name: "Print Production Support", slug: "print-production" },
+    ],
   },
   {
-    title: "Telling stories With Visuals Beyond Screens",
-    description:
-      "In today's competitive market, your brand's presence can depend on its packaging and advertising. We are experts in packaging design, web and UI/UX design, and advertising and campaign design that make your products and services stand out. We are one of the best branding agencies in Dubai. We combine strategy with style to make every design a story that people will want to share.",
-    slug: "visual-storytelling",
-    image: ImageConstants.CASE_STUDY_1,
-    imageAlt: "Branding and Graphic Design Services",
-  },
-  {
-    title: "Making Ideas Become Reality",
-    description:
-      "A strong brand is not just online, it also is present in the real world. That is why we offer custom illustrations and infographics along with print production support, making sure that your brand is consistent at all points of contact. As the best branding agencies in Dubai, DigiNext makes sure that your brand always feels genuine, creative and reliable no matter where your customers see it.",
-    slug: "making-ideas-reality",
-    image: ImageConstants.CASE_STUDY_2,
-    imageAlt: "Branding and Graphic Design Services",
+    title: "Experience Design",
+    description: "",
+    slug: "experience-design-2",
+    image:
+      "https://images.unsplash.com/photo-1509718443690-d8e2fb3474b7?w=800&h=600&fit=crop",
+    imageAlt: "Experience Design Services",
+    services: [
+      { name: "UI/UX Design", slug: "ui-ux-design" },
+      { name: "Website Design", slug: "website-design" },
+      { name: "Mobile Experience", slug: "mobile-experience" },
+      { name: "Commerce Experience", slug: "commerce-experience" },
+      { name: "Human Machine Interface (HMI)", slug: "hmi" },
+      { name: "Applications and Dashboards", slug: "applications-dashboards" },
+      { name: "Wearable App Design", slug: "wearable-app-design" },
+      { name: "Cross-Platform Experience Design", slug: "cross-platform" },
+      { name: "Design Support and Maintenance", slug: "design-support" },
+    ],
   },
 ];
 
@@ -90,7 +137,7 @@ const ServiceCard: React.FC<{
   return (
     <div
       id={`service-card-${index}`}
-      className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 lg:mb-24"
+      className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 lg:mb-24"
     >
       {/* Content Section */}
       <div
@@ -103,45 +150,28 @@ const ServiceCard: React.FC<{
         }`}
         style={{ transitionDelay: `${index * 200}ms` }}
       >
-        <div
-          className={`max-w-lg ${isReversed ? "lg:ml-auto lg:text-right" : ""}`}
-        >
+        <div className={`max-w-lg ${isReversed ? "lg:ml-auto" : ""}`}>
           {/* Title */}
-          <h3 className="text-xl lg:text-2xl font-normal text-gray-900 mb-4">
+          <h3 className="text-2xl lg:text-3xl font-semibold text-gray-900 mb-6">
             {service.title}
           </h3>
 
-          {/* Description */}
-          <p className="text-sm lg:text-base text-gray-600 leading-relaxed mb-6">
-            {service.description}
-          </p>
-
-          {/* Action Buttons */}
-          <div
-            className={`mt-8 flex flex-wrap gap-3 ${
-              isReversed ? "lg:justify-end" : "lg:justify-start"
-            }`}
-          >
-            <Link
-              href={`/services/${service.slug}`}
-              className="inline-flex items-center px-6 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 transition-all duration-200 shadow-md hover:shadow-lg"
-            >
-              View Details
-              <svg
-                className="ml-2 w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </Link>
-          </div>
+          {/* Service List */}
+          <ul className="space-y-3 mb-6">
+            {service.services.map((item, idx) => (
+              <li key={idx}>
+                <a
+                  href={`/services/${item.slug}`}
+                  className="text-base lg:text-lg text-gray-700 hover:text-orange-600 hover:translate-x-2 inline-block transition-all duration-200 relative group"
+                >
+                  <span className="relative">
+                    {item.name}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
@@ -158,23 +188,21 @@ const ServiceCard: React.FC<{
         }`}
         style={{ transitionDelay: `${index * 200 + 200}ms` }}
       >
-        <Link href={`/services/${service.slug}`}>
+        <a href={`/services/${service.slug}`}>
           <div className="relative group cursor-pointer">
-            <div className="relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 h-[250px] lg:h-[350px]">
+            <div className="relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 h-[300px] lg:h-[400px]">
               <Image
                 src={service.image}
                 alt={service.imageAlt}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-              {/* Overlay content */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
           </div>
-        </Link>
+        </a>
       </div>
     </div>
   );
@@ -183,12 +211,10 @@ const ServiceCard: React.FC<{
 const ShowcaseSection: React.FC<ServicesShowcaseSectionProps> = ({
   services = SERVICES_DATA,
 }) => {
-  const [sectionVisible, setSectionVisible] = useState(false);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setSectionVisible(entry.isIntersecting);
+      () => {
+        // Section visibility tracked but not required for functionality
       },
       { threshold: 0.1 }
     );
@@ -205,6 +231,17 @@ const ShowcaseSection: React.FC<ServicesShowcaseSectionProps> = ({
       className="py-16 lg:py-24 bg-white overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Optional Header */}
+        <div className="text-center mb-12 lg:mb-20">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+            Our Services
+          </h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Comprehensive design and development solutions tailored to your
+            business needs
+          </p>
+        </div>
+
         {/* Services Grid */}
         <div className="space-y-0">
           {services.map((service, index) => (

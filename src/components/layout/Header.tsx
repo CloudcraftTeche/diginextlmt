@@ -73,7 +73,7 @@ const Header = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ease-in-out ${
         shouldBeSolid
           ? "bg-white/90 backdrop-blur-xl shadow-2xl border-b border-white/20"
           : "bg-transparent"
