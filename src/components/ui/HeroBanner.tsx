@@ -17,7 +17,7 @@ const HeroBanner = ({
 }: HeroBannerProps) => {
   return (
     <section
-      className={`relative min-h-[300px] flex items-end overflow-hidden ${className}`}
+      className={`relative min-h-[100px] sm:min-h-[100px] md:min-h-[200px] lg:min-h-[250px] flex items-end overflow-hidden ${className}`}
     >
       {/* Background Image */}
       {backgorundImage && (
@@ -53,7 +53,7 @@ const HeroBanner = ({
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 w-full">
         <div className="max-w-3xl">
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-normal text-white mb-2">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-normal text-white ">
             {title}
           </h1>
           {subtitle && (

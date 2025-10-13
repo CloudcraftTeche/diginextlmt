@@ -12,6 +12,7 @@ import {
 import ServiceHeroSection from "@/components/sections/service/ServiceHeroSection";
 import ServicesOfferedSection from "@/components/sections/service/ServicesOfferedSection";
 import ProcessAccordionSection from "@/components/sections/service/ProcessAccordionSection";
+import CTASection from "@/components/sections/service/CTASection";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -20,15 +21,18 @@ export const metadata: Metadata = {
 };
 
 interface ServiceDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default function ServiceDetailPage({ params }: ServiceDetailPageProps) {
-  const serviceData = getServiceDetailBySlug(params?.slug);
+export default async function ServiceDetailPage({
+  params,
+}: ServiceDetailPageProps) {
+  const { slug } = await params;
+  const serviceData = getServiceDetailBySlug(slug);
 
-  // If service not found, you might want to redirect or show 404
+  // If service not found, show 404
   if (!serviceData) {
     return (
       <>
@@ -71,13 +75,21 @@ export default function ServiceDetailPage({ params }: ServiceDetailPageProps) {
           title={serviceData.title}
           subtitle={serviceData.subtitle}
           description={serviceData.heroDescription}
+          imageUrl={serviceData.imageUrl}
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Services", href: "/services" },
-            // { label: "Experience Design", href: "/services/experience-design" },
-            { label: serviceData.title, href: `/services/${params.slug}` },
+            { label: serviceData.title, href: `/services/${slug}` },
           ]}
         />
+
+        {/* CTA Section */}
+        {serviceData.ctaSection && (
+          <CTASection
+            title={serviceData.ctaSection.title}
+            description={serviceData.ctaSection.description}
+          />
+        )}
 
         {/* Services Offered Section */}
         <ServicesOfferedSection
@@ -86,14 +98,12 @@ export default function ServiceDetailPage({ params }: ServiceDetailPageProps) {
           services={serviceData.servicesOffered.services}
         />
 
-        {/* Process Section with Accordion */}
+        {/* Process Accordion Section */}
         <ProcessAccordionSection
           title={serviceData.process.title}
           steps={serviceData.process.steps}
+          sideImage={serviceData.imageUrl}
         />
-
-        {/* Case Studies Section
-        <CaseStudiesSection /> */}
 
         {/* FAQ Section */}
         <FAQSection
@@ -106,6 +116,7 @@ export default function ServiceDetailPage({ params }: ServiceDetailPageProps) {
     </>
   );
 }
+
 export async function generateStaticParams() {
   const slugs = getAllServiceSlugs();
 
