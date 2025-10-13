@@ -9,8 +9,11 @@ export interface ServiceDetailContent {
   title: string;
   subtitle: string;
   heroDescription: string;
-  ctaTitle: string;
-  ctaDescription: string;
+  ctaSection?: {
+    title: string;
+    description: string;
+  };
+  imageUrl: string;
   servicesOffered: {
     title: string;
     description: string;
@@ -37,15 +40,19 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     slug: "ui-ux-design",
     title: "UI/UX Design Company in Dubai",
     subtitle: "For Improved User Retention and Lower Bounce Rates",
+    imageUrl:
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
     heroDescription:
-      "We are UI/UX design experts focused on the user experience by incorporating research and user-centric innovations. We define each stage of the user's life cycle to ensure we meet the needs of the target audience.",
-    ctaTitle: "Let's Build Something Extraordinary",
-    ctaDescription:
-      "We love transforming ideas into engaging interfaces that give your brand more power. Are you ready to improve your online experience? Let's talk!",
-    servicesOffered: {
-      title: "UI/UX Design Services",
+      "At DigiNext, we believe that good design is more than just how things look. It is about creating experiences that connect, engage, and inspire people. As one of the best UI/UX web design companies in Dubai, we work hard to develop designs that not only look great but also improve performance, keep visitors on your site, and reduce bounce rates.\n\nAs a trusted UI/UX design services company, we combine information based on research and user-focused innovation to define each step of the user journey. Our mission is simple, to create digital experiences that are easy to use and fit perfectly with your business goals and what your customers want.",
+    ctaSection: {
+      title: "Let's Build Something Extraordinary",
       description:
-        "We adopt a rapid and reliable approach with the best UI/UX Design services for organisations to achieve their business goals. Eager to know what our expertise can contribute to your business? Here we go!",
+        "We love transforming ideas into engaging interfaces that give your brand more power. Are you ready to improve your online experience? Let's talk!",
+    },
+    servicesOffered: {
+      title: "Our UI/UX Design Services",
+      description:
+        "We offer innovative and reliable UI/UX design solutions that help businesses grow faster and do better. Find out how our skills can help your business:",
       services: [
         {
           title: "User Experience Design (UX)",
@@ -58,24 +65,24 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
             "Our expert UI/UX developers create interfaces that are both attractive as well as useful, which keeps visitors coming back.",
         },
         {
-          title: "Cross-platform Experience Design",
+          title: "Designing for multiple platforms",
           description:
-            "We make sure that the design is aligned across all the platforms to ensure uniformity in the customer experience.",
+            "We make sure that your brand is consistent across all platforms, whether it is the web, mobile, or desktop, so that users have one look and feel.",
         },
         {
-          title: "Interaction Design",
+          title: "Designing Interactions",
           description:
-            "Designing interactive digital products, environments, systems, and services according to user behaviour.",
+            "We design environments that make things easier to use and leave a lasting impression by learning how people use them.",
         },
         {
           title: "UI/UX Consulting & Auditing",
           description:
-            "Get the best consulting on UI/UX design services to improve the design and usability of your digital products.",
+            "As a top UX/UI design company, we offer complete analysis and guidance to help you make your digital platforms easier to use, more consistent in design, and better at what they do.",
         },
         {
-          title: "Design System",
+          title: "Designing Systems",
           description:
-            "Systematic approach to design and ensure consistency, efficiency, and scalability across different platforms.",
+            "We build design systems that can develop and function well to make sure that all of your digital assets look good, work quickly, and are always the same.",
         },
       ],
     },
@@ -120,7 +127,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
     faqs: {
       description:
-        "At DigiNext, we believe that good design is more than just how things look. It is about creating experiences that connect, engage, and inspire people. As one of the best UI/UX web design companies in Dubai, we work hard to develop designs that not only look great but also improve performance, keep visitors on your site, and reduce bounce rates.",
+        "We plan, work together, and put the user first in our process. We are one of the best UI/UX design companies in Dubai, and we combine creativity and technology to make sure everything goes as planned.",
       items: [
         {
           question: "What exactly does a UX designer do?",
@@ -151,10 +158,14 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     title: "Best Web Design Company in Dubai",
     subtitle: "Creating Powerful, Responsive & Conversion-Focused Websites",
     heroDescription:
-      "Your website is the first thing people see and at DigiNext, we make it unforgettable. As a leading web design company in Dubai, we make websites that are powerful, responsive, and conversion-focused websites that reflect your brand's personality and help your business grow in a measurable way.",
-    ctaTitle: "Let's Build a Website That Works for You",
-    ctaDescription:
-      "Your website needs to do more than just be present online, it needs to work. Let's talk and make your vision a reality in the digital world.",
+      "Your website is the first thing people see and at DigiNext, we make it unforgettable. As a leading web design company in Dubai, we make websites that are powerful, responsive, and conversion-focused websites that reflect your brand's personality and help your business grow in a measurable way.\n\nWe go beyond just making things look good by using a customer-focused approach and a creative design mindset to make digital experiences which attract, engage and convert. Our website design agency in the UAE offers solutions that not only look great, but also work perfectly on all devices and platforms, even if you are a new business or an established one.",
+    ctaSection: {
+      title: "Let's Build a Website That Works for You",
+      description:
+        "Your website needs to do more than just be present online, it needs to work. Let's talk and make your vision a reality in the digital world.",
+    },
+    imageUrl:
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
     servicesOffered: {
       title: "Website Design Services We Offer",
       description:
@@ -191,9 +202,9 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
       title: "Our Web Design Process",
       steps: [
         {
-          title: "Discovery & Research",
+          title: "Research and Investigation",
           description:
-            "Understanding your business, goals, and target audience.",
+            "Recognizing your business, your goals, and the people you aim to reach.",
         },
         {
           title: "Wireframe Planning",
@@ -227,7 +238,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
     faqs: {
       description:
-        "We go beyond just making things look good by using a customer-focused approach and a creative design mindset to make digital experiences which attract, engage and convert. Our website design agency in the UAE offers solutions that not only look great, but also work perfectly on all devices and platforms.",
+        "At DigiNext, every project uses a strategic, research-based design technique to make sure it works, is creative, and has an outcome.",
       items: [
         {
           question: "What is the price of your website design services?",
@@ -248,6 +259,311 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
           question: "Why should I choose you for website design?",
           answer:
             "We are one of the best web design companies in Dubai because we use creativity, technology, and strategy to make websites that help businesses grow. Our designs are fast, focus on the user, and are made to help your brand stand out online.",
+        },
+      ],
+    },
+  },
+  "ecommerce-development": {
+    slug: "ecommerce-development",
+    title: "E-Commerce Web Development Company in Dubai",
+    subtitle: "Turning Online Stores into Powerful Growth Engines",
+    heroDescription:
+      "We make online stores into powerful growth engines at DigiNext. We are one of the best ecommerce web design companies in Dubai. We make ecommerce websites that are smooth, safe and able to grow with your business. Our user-friendly designs keep your customers interested and your sales growing by making it easy for them to use and checkout.\n\nAs an expert ecommerce website development agency in Dubai, we understand that every click matters. We combine creativity and functionality to make ecommerce platforms that not only look great but work perfectly on all devices, browsers, and customer journeys.",
+    ctaSection: {
+      title: "Let's work together to build your online store",
+      description:
+        "Your eCommerce site should do more than just display products, it should also sell them. Let's talk and make a digital store that boosts sales, loyalty, and growth.",
+    },
+    imageUrl:
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
+    servicesOffered: {
+      title: "Our E-Commerce Website Design & Development Services",
+      description:
+        "DigiNext is one of the best eCommerce website design companies in the UAE. We offer a full range of eCommerce website design services that are customized for your business needs.",
+      services: [
+        {
+          title: "Custom Ecommerce Website Design",
+          description:
+            "We build custom online stores that show off your brand identity and make shopping fun and easy.",
+        },
+        {
+          title: "Ecommerce Web Development",
+          description:
+            "As a trusted ecommerce web development company, we create websites that are responsive, safe, fast, and high-performance websites optimized for growth and sales.",
+        },
+        {
+          title: "Platform Integration & Optimization",
+          description:
+            "Our experts make sure that everything works together smoothly and at its best, whether you are using Shopify, WooCommerce, Magento, or a custom CMS.",
+        },
+        {
+          title: "Ecommerce Website Management Services",
+          description:
+            "We offer ongoing management, maintenance, and updates in order to keep your ecommerce platform functioning smoothly. This makes sure that it always works well and is secured.",
+        },
+        {
+          title: "UI/UX for Ecommerce",
+          description:
+            "We make user interfaces and shopping flows that are easy to use and increase engagement, which lowers cart abandonment and raises conversion rates.",
+        },
+        {
+          title: "Payment Gateway and Security",
+          description:
+            "Our ecommerce development agency makes sure that payment options are safe, fast, and easy to use, with the highest levels of security and compliance.",
+        },
+      ],
+    },
+    process: {
+      title: "Our E-Commerce Development Process",
+      steps: [
+        {
+          title: "Research & Development",
+          description:
+            "Understanding your business, the goals you want to achieve, and the audience you want to reach.",
+        },
+        {
+          title: "Design & Wireframes",
+          description:
+            "Crafting the structure and visuals of your online store.",
+        },
+        {
+          title: "Development",
+          description:
+            "Building a secure, scalable, and fast Ecommerce platform.",
+        },
+        {
+          title: "Integration & Testing",
+          description:
+            "Connecting APIs, payment gateways, and running quality tests.",
+        },
+        {
+          title: "Launch & Optimization",
+          description: "Going live and continuously improving performance.",
+        },
+      ],
+    },
+    faqs: {
+      description:
+        "As one of the best Ecommerce website design companies in Dubai, we help brands sell smarter and grow faster. We know a lot about Ecommerce web development, so we can make sure your customers have a smooth shopping experience from the first click to the last.",
+      items: [
+        {
+          question:
+            "How much does it cost to develop an Ecommerce website in Dubai?",
+          answer:
+            "The size, features, and platform requirements of your project will determine how much it will cost to build an Ecommerce website. After we learn about your specific needs and goals, we provide you personalized quotes.",
+        },
+        {
+          question: "How long does it take to build an Ecommerce website?",
+          answer:
+            "A fully functional Ecommerce website usually takes 4 to 8 weeks to build, depending on how complicated it is, what design you want, and what integrations you need. Our team makes sure a smooth process with on time delivery.",
+        },
+        {
+          question: "Will my Ecommerce website be mobile-friendly?",
+          answer:
+            "Of course. Every website we make is 100% responsive, so your customers will have a smooth shopping experience on all of their devices, including desktops, tablets and phones.",
+        },
+        {
+          question: "Can DigiNext handle website maintenance and updates?",
+          answer:
+            "Yes, we manage your entire Ecommerce website, including updates, security checks, content uploads, and performance monitoring, to make sure your store runs perfectly.",
+        },
+      ],
+    },
+  },
+  "app-development": {
+    slug: "app-development",
+    title: "Native & Hybrid App Development Company in Dubai",
+    subtitle: "Building Mobile Experiences That Drive Engagement & Growth",
+    heroDescription:
+      "In a world where mobile devices are the most important, your app can be the first thing customers see. We help you make mobile apps that are powerful, engaging, and function effectively for your business. As a leading hybrid app development company in Dubai, we deliver smooth digital experiences across all platforms that boost user engagement and growth.\n\nOur expert developers make sure your brand stays connected with users anytime, anywhere, no matter whether it is native app development for performance-driven apps or hybrid app development for cost-effective, cross-platform solutions.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=800&q=80",
+    servicesOffered: {
+      title: "Our Native & Hybrid App Development Services",
+      description:
+        "We use strategy, creativity, and technology to make apps that get people engaged and help your business do better.",
+      services: [
+        {
+          title: "Native App Development",
+          description:
+            "Make apps that are fast, useful, and easy to use, and that work well on both iOS and Android devices.",
+        },
+        {
+          title: "Hybrid App Development",
+          description:
+            "We develop apps that work perfectly on many platforms by using advanced frameworks. This saves time and money on development without compromising quality.",
+        },
+        {
+          title: "UI/UX Design for Mobile Apps",
+          description:
+            "We create user-friendly interfaces that make it easy to navigate and keep users engaged with your app for longer.",
+        },
+        {
+          title: "App Testing & Quality Assurance",
+          description:
+            "We put every app through a lot of testing to make sure it works well, is safe and is functional on all devices.",
+        },
+        {
+          title: "App Maintenance & Support",
+          description:
+            "We do not stop helping after deployment. We continue to provide updates, monitoring and optimizing to make sure your long-term success.",
+        },
+      ],
+    },
+    process: {
+      title: "Our Development Process",
+      steps: [
+        {
+          title: "Research & Strategy",
+          description:
+            "Understanding your business objectives, audience, and market needs.",
+        },
+        {
+          title: "Design & Prototyping",
+          description:
+            "Crafting user-friendly interfaces and validating user flows.",
+        },
+        {
+          title: "Development",
+          description:
+            "Building robust native and hybrid mobile applications using the latest technologies.",
+        },
+        {
+          title: "Testing & QA",
+          description:
+            "Ensuring error-free performance and smooth user experience.",
+        },
+        {
+          title: "Deployment & Support",
+          description:
+            "Launching your app successfully and providing continuous maintenance.",
+        },
+      ],
+    },
+    faqs: {
+      description:
+        "Work with a team that combines creativity, strategy, and technical skill to make hybrid mobile apps that work perfectly and have a lasting effect.",
+      items: [
+        {
+          question:
+            "What is the difference between native and hybrid app development?",
+          answer:
+            "Native apps are made for only one platform, like iOS or Android. Hybrid apps, on the other hand, work on many platforms with one codebase, which saves time and money.",
+        },
+        {
+          question: "How long does it take to develop a hybrid mobile app?",
+          answer:
+            "The time it takes to make an app depends on how complicated it is and what features it has. Generally, a hybrid app can be made faster than a native app because it uses shared code and has a faster development process.",
+        },
+        {
+          question: "Will my hybrid app perform as smoothly as a native app?",
+          answer:
+            "Yes, with the right technology stack and optimization, hybrid apps can work almost as well as native apps and give users a smooth experience on all devices.",
+        },
+        {
+          question: "Why should I partner with DigiNext?",
+          answer:
+            "At DigiNext, we use our technical expertise, design skills and creativity to make scalable hybrid apps that fit your business goals perfectly.",
+        },
+      ],
+    },
+  },
+  "android-development": {
+    slug: "android-development",
+    title: "Top Android App Development Company in Dubai",
+    subtitle: "Custom, High-Performance Android Apps for Your Business",
+    heroDescription:
+      "We take ideas and turn them into powerful Android apps that help businesses get real results. We are one of the best Android app development companies in Dubai. We make custom, high-performing, and adaptable mobile apps that fit your business requirements. Our expert developers use both creativity and technology to make apps that are easy to use, safe, and designed to make users satisfied.\n\nFrom idea to launch, our team makes sure that every app we build not only works perfectly but also boosts your brand presence. We offer advanced Android app development in Dubai to help you stay ahead in a modern mobile world, no matter if you are a new business or an established one.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?auto=format&fit=crop&w=800&q=80",
+    servicesOffered: {
+      title: "Android App Development Services We Offer",
+      description:
+        "We bring new ideas, useful features, and excellent design to every project. As one of the most trusted Android development companies in Dubai, we offer a full range of services to help your business grow in the mobile world.",
+      services: [
+        {
+          title: "Custom Android App Development",
+          description:
+            "We make custom Android apps which align with your business goals and work great on all devices.",
+        },
+        {
+          title: "Enterprise Android Solutions",
+          description:
+            "Our Android apps for businesses make things run more smoothly, boost productivity, and improve communication within the organization.",
+        },
+        {
+          title: "E-commerce Android App Development",
+          description:
+            "Mobile shopping experiences that are safe, easy to use and optimized for performance can help your online store reach more people and make more sales.",
+        },
+        {
+          title: "App UI/UX Design",
+          description:
+            "Our design experts make interfaces that are organized, easy to use, and look attractive. This makes it easy to navigate and engage with the site.",
+        },
+        {
+          title: "App Maintenance & Support",
+          description:
+            "We monitor, test and optimize your app all the time to make sure it stays up-to-date, safe, and fast.",
+        },
+      ],
+    },
+    process: {
+      title: "Our Development Process",
+      steps: [
+        {
+          title: "Requirement Analysis",
+          description: "Understanding your vision, goals, and audience.",
+        },
+        {
+          title: "UI/UX Design",
+          description: "Creating intuitive and engaging user experiences.",
+        },
+        {
+          title: "App Development",
+          description:
+            "Building feature-rich, strong, and adaptable Android apps.",
+        },
+        {
+          title: "Testing & QA",
+          description:
+            "Ensuring flawless performance and functionality across devices.",
+        },
+        {
+          title: "Deployment",
+          description:
+            "Publishing your app on the Play Store with complete optimization.",
+        },
+        {
+          title: "Post-Launch Support",
+          description:
+            "Monitoring, updating, and improving based on real-time feedback.",
+        },
+      ],
+    },
+    faqs: {
+      description:
+        "DigiNext is more than just an Android application development company in Dubai, we are your technology partner in digital transformation. We develop Android apps that help your business grow, work well, and be trustworthy. Our goal is to be the best at what we do and to be innovative.",
+      items: [
+        {
+          question: "How much does Android app development cost in Dubai?",
+          answer:
+            "The price of making an Android app in Dubai depends on how complicated it is, what features it needs, and design requirements. At DigiNext, we provide you a custom price after we understand your project's goals and scope.",
+        },
+        {
+          question: "Do you develop apps for all Android devices?",
+          answer:
+            "Yes, our team makes sure your app works smoothly across all Android devices, including smartphones, tablets, and wearables, delivering consistent performance and a smooth user experience.",
+        },
+        {
+          question: "How long does it take to build an Android app?",
+          answer:
+            "The period of time for development depends on how complicated and feature-rich the app is. A normal Android app goes from concept to launch in 6 to 12 weeks, with the updates as needed.",
+        },
+        {
+          question: "Why choose DigiNext for Android app development?",
+          answer:
+            "We make Android apps that get people engaged and help businesses grow by combining great design, advanced technology, and a deep understanding of the market. As a trusted Android app development company in Dubai, we make sure quality, reliability, and results.",
         },
       ],
     },

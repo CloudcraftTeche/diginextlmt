@@ -5,7 +5,7 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { generateHomePageMetadata } from "@/lib/metadata";
 import Footer from "@/components/layout/Footer";
 import HeroBanner from "@/components/ui/HeroBanner";
-import ShowcaseSection from "@/components/sections/ShowcaseSection";
+import ShowcaseSection from "@/components/sections/service/ShowcaseSection";
 import { ImageConstants } from "@/constants/ImageConstants";
 
 // SEO Metadata Export

@@ -1,13 +1,13 @@
 "use client";
-import React, { useState, useEffect } from "react";
 import {
-  Users,
-  Palette,
+  Box,
+  FileSearch,
   Monitor,
   MousePointer,
-  FileSearch,
-  Box,
+  Palette,
+  Users,
 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface Service {
   title: string;
@@ -50,6 +50,11 @@ const ServicesOfferedSection: React.FC<ServicesOfferedSectionProps> = ({
     return () => observer.disconnect();
   }, []);
 
+  // Split description into paragraphs
+  const descriptionParagraphs = description
+    .split("\n\n")
+    .filter((p) => p.trim());
+
   return (
     <section
       id="services-offered-section"
@@ -59,7 +64,7 @@ const ServicesOfferedSection: React.FC<ServicesOfferedSectionProps> = ({
         {/* Header */}
         <div className="mb-12 lg:mb-16">
           <h2
-            className={`text-2xl lg:text-3xl font-normal text-gray-900 mb-4 transition-all duration-700 ${
+            className={`text-3xl lg:text-4xl font-bold text-gray-900 mb-6 transition-all duration-700 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
@@ -67,50 +72,60 @@ const ServicesOfferedSection: React.FC<ServicesOfferedSectionProps> = ({
           >
             {title}
           </h2>
-          <p
-            className={`text-sm lg:text-base text-gray-600 max-w-3xl leading-relaxed transition-all duration-700 delay-100 ${
+          <div
+            className={`text-base lg:text-lg text-gray-600 max-w-4xl leading-relaxed space-y-3 transition-all duration-700 delay-100 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
             }`}
           >
-            {description}
-          </p>
+            {descriptionParagraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
         </div>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12 lg:gap-y-16">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className={`relative pb-8 transition-all duration-700 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 100 + 200}ms` }}
-            >
-              {/* Icon */}
-              <div className="mb-6">
-                <div className="w-12 h-12 flex items-center justify-center text-gray-900">
-                  {iconMap[index % 6]}
+          {services.map((service, index) => {
+            const serviceParagraphs = service.description
+              .split("\n\n")
+              .filter((p) => p.trim());
+
+            return (
+              <div
+                key={index}
+                className={`relative pb-8 transition-all duration-700 ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: `${index * 100 + 200}ms` }}
+              >
+                {/* Icon */}
+                <div className="mb-6">
+                  <div className="w-12 h-12 flex items-center justify-center text-orange-600">
+                    {iconMap[index % 6]}
+                  </div>
                 </div>
+
+                {/* Title */}
+                <h3 className="text-xl lg:text-2xl font-semibold text-gray-900 mb-4">
+                  {service.title}
+                </h3>
+
+                {/* Description with Paragraphs */}
+                <div className="text-gray-600 leading-relaxed text-base mb-6 space-y-2">
+                  {serviceParagraphs.map((paragraph, pIndex) => (
+                    <p key={pIndex}>{paragraph}</p>
+                  ))}
+                </div>
+
+                {/* Underline */}
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-300"></div>
               </div>
-
-              {/* Title */}
-              <h3 className="text-lg lg:text-xl font-medium text-gray-900 mb-3">
-                {service.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-gray-600 leading-relaxed text-sm lg:text-base mb-6">
-                {service.description}
-              </p>
-
-              {/* Underline */}
-              <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-300"></div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
