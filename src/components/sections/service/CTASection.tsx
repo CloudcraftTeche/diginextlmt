@@ -1,13 +1,19 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
 
 interface CTASectionProps {
   title: string;
   description: string;
+  buttonText?: string;
+  buttonLink?: string;
 }
 
-const CTASection: React.FC<CTASectionProps> = ({ title, description }) => {
+const CTASection: React.FC<CTASectionProps> = ({
+  title,
+  description,
+  buttonText = "Our Works",
+  buttonLink = "#works",
+}) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -25,48 +31,58 @@ const CTASection: React.FC<CTASectionProps> = ({ title, description }) => {
   }, []);
 
   return (
-    <section id="cta-section" className="bg-black py-16 lg:py-20">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          {/* Title */}
-          <h2
-            className={`text-3xl lg:text-4xl font-bold text-white mb-6 transition-all duration-700 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            {title}
-          </h2>
-
-          {/* Description */}
-          <p
-            className={`text-lg text-white mb-8 leading-relaxed transition-all duration-700 delay-100 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            {description}
-          </p>
-
-          {/* CTA Button */}
+    <section id="cta-section" className="py-16 lg:py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+          {/* Left Side - Title */}
           <div
-            className={`transition-all duration-700 delay-200 ${
+            className={`flex-shrink-0 transition-all duration-700 ${
               isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 -translate-x-8"
             }`}
           >
-            <a
-              href="#contact"
-              className="inline-flex items-center px-8 py-4 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl group text-lg"
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 max-w-2xl">
+              {title}
+            </h2>
+          </div>
+
+          {/* Vertical Divider - Hidden on mobile */}
+          <div className="hidden lg:block w-px h-32 bg-gray-300"></div>
+
+          {/* Right Side - Description and Button */}
+          <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
+            {/* Description */}
+            <p
+              className={`text-sm sm:text-base text-gray-600 leading-relaxed max-w-md text-center lg:text-left transition-all duration-700 delay-100 ${
+                isVisible
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 translate-x-8"
+              }`}
             >
-              Let&apos;s talk
-              <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+              {description}
+            </p>
+
+            {/* Button */}
+            <a
+              href={buttonLink}
+              className={`flex-shrink-0 px-10 py-4 bg-orange-600 text-white font-semibold rounded-full hover:bg-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap ${
+                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
+              }`}
+              style={{ transitionDelay: "200ms" }}
+            >
+              {buttonText}
             </a>
           </div>
         </div>
+
+        {/* Bottom Border Line */}
+        <div
+          className={`mt-12 lg:mt-16 h-px bg-gray-300 transition-all duration-1000 ${
+            isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+          }`}
+          style={{ transitionDelay: "300ms" }}
+        ></div>
       </div>
     </section>
   );

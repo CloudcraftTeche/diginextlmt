@@ -1,6 +1,6 @@
 "use client";
-import { Minus, Plus } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Send, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ProcessStep {
   title: string;
@@ -10,16 +10,20 @@ interface ProcessStep {
 interface ProcessAccordionSectionProps {
   title: string;
   steps: ProcessStep[];
-  sideImage?: string;
+  description?: string;
 }
 
 const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
   title,
   steps,
-  sideImage = "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=800&fit=crop",
+  description,
 }) => {
-  const [openIndex, setOpenIndex] = useState<number>(0);
   const [isVisible, setIsVisible] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -35,107 +39,212 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  const toggleAccordion = (index: number) => {
-    setOpenIndex(openIndex === index ? -1 : index);
+  const checkScrollButtons = () => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } =
+        scrollContainerRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  useEffect(() => {
+    checkScrollButtons();
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", checkScrollButtons);
+      window.addEventListener("resize", checkScrollButtons);
+      return () => {
+        container.removeEventListener("scroll", checkScrollButtons);
+        window.removeEventListener("resize", checkScrollButtons);
+      };
+    }
+  }, []);
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (isAutoScrolling && scrollContainerRef.current) {
+      autoScrollIntervalRef.current = setInterval(() => {
+        if (scrollContainerRef.current) {
+          const { scrollLeft, scrollWidth, clientWidth } =
+            scrollContainerRef.current;
+
+          if (scrollLeft >= scrollWidth - clientWidth - 10) {
+            // Reset to start
+            scrollContainerRef.current.scrollTo({
+              left: 0,
+              behavior: "smooth",
+            });
+          } else {
+            // Scroll by one card width
+            scrollContainerRef.current.scrollTo({
+              left: scrollLeft + 340,
+              behavior: "smooth",
+            });
+          }
+        }
+      }, 3000); // Auto-scroll every 3 seconds
+    }
+
+    return () => {
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current);
+      }
+    };
+  }, [isAutoScrolling]);
+
+  const handleUserInteraction = () => {
+    setIsAutoScrolling(false);
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+    }
+  };
+
+  const scroll = (direction: "left" | "right") => {
+    handleUserInteraction();
+    if (scrollContainerRef.current) {
+      const scrollAmount = 340;
+      const newScrollLeft =
+        direction === "left"
+          ? scrollContainerRef.current.scrollLeft - scrollAmount
+          : scrollContainerRef.current.scrollLeft + scrollAmount;
+
+      scrollContainerRef.current.scrollTo({
+        left: newScrollLeft,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
-    <section id="process-section" className="py-16 lg:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Left Side - Image */}
-          <div
-            className={`relative order-2 lg:order-1 transition-all duration-1000 ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-8"
-            }`}
-          >
-            <div className="sticky top-24">
-              <div className="relative h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl">
-                <img
-                  src={sideImage}
-                  alt="Process visualization"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side - Accordion */}
-          <div
-            className={`order-1 lg:order-2 transition-all duration-1000 ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-8"
-            }`}
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8 lg:mb-12">
+    <section
+      id="process-section"
+      className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 bg-white"
+    >
+      <div className="max-w-7xl mx-auto">
+        {/* Header with Navigation Buttons */}
+        <div className="mb-8 sm:mb-12">
+          <div className="flex items-center justify-between">
+            <h2
+              className={`text-2xl sm:text-3xl md:text-4xl text-black font-semibold transition-all duration-1000 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
               {title}
             </h2>
 
-            <div className="space-y-4">
-              {steps.map((step, index) => {
-                const stepParagraphs = step.description
-                  .split("\n\n")
-                  .filter((p) => p.trim());
-
-                return (
-                  <div
-                    key={index}
-                    className={`border-b border-gray-200 transition-all duration-500 ${
-                      isVisible ? "opacity-100" : "opacity-0"
-                    }`}
-                    style={{ transitionDelay: `${index * 100}ms` }}
-                  >
-                    <button
-                      onClick={() => toggleAccordion(index)}
-                      className="w-full flex items-center justify-between py-6 text-left group"
-                    >
-                      <span
-                        className={`text-lg lg:text-xl font-semibold transition-colors ${
-                          openIndex === index
-                            ? "text-orange-600"
-                            : "text-gray-900 group-hover:text-orange-600"
-                        }`}
-                      >
-                        {step.title}
-                      </span>
-                      <div
-                        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                          openIndex === index
-                            ? "bg-orange-600 text-white"
-                            : "bg-gray-100 text-gray-600 group-hover:bg-orange-100"
-                        }`}
-                      >
-                        {openIndex === index ? (
-                          <Minus className="w-5 h-5" />
-                        ) : (
-                          <Plus className="w-5 h-5" />
-                        )}
-                      </div>
-                    </button>
-
-                    <div
-                      className={`overflow-hidden transition-all duration-500 ${
-                        openIndex === index
-                          ? "max-h-96 opacity-100 pb-6"
-                          : "max-h-0 opacity-0"
-                      }`}
-                    >
-                      <div className="text-gray-600 leading-relaxed text-base space-y-2">
-                        {stepParagraphs.map((paragraph, pIndex) => (
-                          <p key={pIndex}>{paragraph}</p>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+            {/* Navigation Buttons - Right side */}
+            <div className="hidden md:flex gap-2">
+              <button
+                onClick={() => scroll("left")}
+                disabled={!canScrollLeft}
+                className={`p-2 rounded-full border-2 transition-all duration-200 ${
+                  canScrollLeft
+                    ? "border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+                    : "border-gray-300 text-gray-300 cursor-not-allowed"
+                }`}
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                disabled={!canScrollRight}
+                className={`p-2 rounded-full border-2 transition-all duration-200 ${
+                  canScrollRight
+                    ? "border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+                    : "border-gray-300 text-gray-300 cursor-not-allowed"
+                }`}
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
             </div>
           </div>
+
+          {/* Description under title */}
+          {description && (
+            <p
+              className={`text-sm sm:text-base text-gray-500 mt-2 max-w-4xl transition-all duration-700 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}
+            >
+              {description}
+            </p>
+          )}
         </div>
+
+        {/* Horizontal Scrolling Container */}
+        <div className="relative">
+          {/* Scroll Container */}
+          <div
+            ref={scrollContainerRef}
+            className="flex gap-5 lg:gap-6 overflow-x-auto pb-4 scrollbar-hide"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                className={`flex-shrink-0 w-[280px] sm:w-[320px] flex flex-col p-7 lg:p-8 bg-white border border-gray-300 rounded-2xl shadow-none 
+                  hover:bg-black hover:border-black hover:text-white hover:shadow-lg
+                  transition-[background,border,color,box-shadow] duration-500 ease-out group
+                  focus:outline-none focus:ring-2 ${
+                    isVisible
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-8"
+                  }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+                tabIndex={0}
+              >
+                {/* Step Number */}
+                <div className="text-orange-600 text-sm font-bold mb-3 group-hover:text-orange-400 transition-colors duration-500">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+
+                <h3 className="text-md sm:text-md font-semibold mb-3 text-black group-hover:text-white transition-colors duration-500">
+                  {step.title}
+                </h3>
+                <p className="text-gray-600 text-xs sm:text-xs md:text-sm lg:text-sm group-hover:text-gray-200 transition-colors duration-500 mb-4 leading-relaxed flex-grow">
+                  {step.description}
+                </p>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center font-semibold text-sm text-black group-hover:text-orange-400 transition-colors duration-300 group/link"
+                >
+                  <span>Connect to Us</span>
+                  <Send className="w-4 h-4 ml-2 group-hover/link:translate-x-1 group-hover:rotate-45 transition-all duration-300" />
+                </a>
+              </div>
+            ))}
+          </div>
+
+          {/* Gradient Overlays for scroll indication */}
+          {canScrollLeft && (
+            <div className="hidden md:block absolute left-0 top-0 bottom-4 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+          )}
+          {canScrollRight && (
+            <div className="hidden md:block absolute right-0 top-0 bottom-4 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+          )}
+        </div>
+
+        {/* Mobile Navigation Hint */}
+        <p className="text-center text-sm text-gray-500 mt-4 md:hidden">
+          Swipe to see more
+        </p>
       </div>
+
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 };

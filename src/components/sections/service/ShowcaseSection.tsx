@@ -27,43 +27,53 @@ interface ServiceItem {
 const SERVICES_DATA: ServiceItem[] = [
   {
     title: "Design",
-    description: "",
+    description: "Comprehensive visual design services for branding and UX",
     slug: "design",
     image:
       "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop",
     imageAlt: "Design Services",
     services: [
-      { name: "Branding and Graphics Design", slug: "branding-graphics" },
-      { name: "Product & Packaging Design", slug: "product-packaging" },
+      {
+        name: "Branding and Graphics Design",
+        slug: "branding-graphics-design",
+      },
+      { name: "Product & Packaging Design", slug: "product-packaging-design" },
       { name: "UI/UX Design", slug: "ui-ux-design" },
     ],
   },
   {
     title: "Development",
-    description: "",
+    description: "Custom software and mobile app development solutions",
     slug: "development",
     image:
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop",
     imageAlt: "Development Services",
     services: [
-      { name: "Web Design", slug: "web-design" },
+      { name: "Web Design", slug: "website-design" },
       { name: "E-Commerce Web Development", slug: "ecommerce-development" },
       {
         name: "Mobile App Development",
-        slug: "mobile-app-development",
+        slug: "app-development",
         subItems: [
-          { name: "Native Hybrid Development", slug: "native-hybrid" },
-          { name: "React Native Development", slug: "react-native" },
+          {
+            name: "Native Hybrid Development",
+            slug: "native-hybrid-development",
+          },
+          {
+            name: "React Native Development",
+            slug: "react-native-development",
+          },
           { name: "Android App Development", slug: "android-development" },
           { name: "iOS App Development", slug: "ios-development" },
         ],
       },
-      { name: "Custom Web Application", slug: "custom-web-app" },
+      { name: "Custom Web Application", slug: "custom-web-application" },
     ],
   },
   {
     title: "Digital Marketing",
-    description: "",
+    description:
+      "Marketing services to boost your online presence and engagement",
     slug: "digital-marketing",
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
@@ -83,14 +93,17 @@ const SERVICES_DATA: ServiceItem[] = [
           },
         ],
       },
-      { name: "Search Engine Optimization", slug: "seo" },
+      {
+        name: "Search Engine Optimization",
+        slug: "search-engine-optimization",
+      },
       { name: "Email Marketing", slug: "email-marketing" },
       { name: "PPC Advertising", slug: "ppc-advertising" },
     ],
   },
   {
     title: "Web Hosting",
-    description: "",
+    description: "Reliable and scalable web hosting solutions",
     slug: "web-hosting",
     image:
       "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=600&fit=crop",
@@ -105,14 +118,14 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     title: "Production",
-    description: "",
+    description: "Creative production services for photography and videography",
     slug: "production",
     image:
       "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&h=600&fit=crop",
     imageAlt: "Production Services",
     services: [
-      { name: "Photography", slug: "photography" },
-      { name: "Videography", slug: "videography" },
+      { name: "Photography", slug: "photography-videography" },
+      { name: "Videography", slug: "photography-videography" },
     ],
   },
 ];
