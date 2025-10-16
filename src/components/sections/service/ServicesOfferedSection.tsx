@@ -1,12 +1,4 @@
 "use client";
-import {
-  Box,
-  FileSearch,
-  Monitor,
-  MousePointer,
-  Palette,
-  Users,
-} from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface Service {
@@ -20,18 +12,8 @@ interface ServicesOfferedSectionProps {
   services: Service[];
 }
 
-const iconMap: Record<number, React.ReactNode> = {
-  0: <Users className="w-8 h-8" />,
-  1: <Palette className="w-8 h-8" />,
-  2: <Monitor className="w-8 h-8" />,
-  3: <MousePointer className="w-8 h-8" />,
-  4: <FileSearch className="w-8 h-8" />,
-  5: <Box className="w-8 h-8" />,
-};
-
 const ServicesOfferedSection: React.FC<ServicesOfferedSectionProps> = ({
-  title,
-  description,
+  description,title,
   services,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -50,82 +32,59 @@ const ServicesOfferedSection: React.FC<ServicesOfferedSectionProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // Split description into paragraphs
-  const descriptionParagraphs = description
-    .split("\n\n")
-    .filter((p) => p.trim());
-
   return (
     <section
       id="services-offered-section"
-      className="py-16 lg:py-24 bg-gray-50"
+      className="px-3 xs:px-4 sm:px-6 lg:px-8 py-4 xs:py-6 sm:py-8 lg:py-10 bg-white"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-12 lg:mb-16">
-          <h2
-            className={`text-3xl lg:text-4xl font-bold text-gray-900 mb-6 transition-all duration-700 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            {title}
-          </h2>
-          <div
-            className={`text-base lg:text-lg text-gray-600 max-w-4xl leading-relaxed space-y-3 transition-all duration-700 delay-100 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            {descriptionParagraphs.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
+      {/* Full-width black background with rounded corners and padding */}
+      <div className="w-full bg-black rounded-xl xs:rounded-2xl p-6 sm:p-8 lg:p-12 xl:p-16">
+        {/* Constrained content wrapper */}
+        <div className="max-w-7xl mx-auto">
+          {/* Header Text */}
+          <div className="text-center mb-12">
+            <h2
+              className={`text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-4 transition-all duration-700 ${
+                isVisible 
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
+              {title}
+            </h2>
+            <p
+              className={`text-sm leading-relaxed max-w-4xl mx-auto mb-8 text-white transition-all duration-700 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
+              {description}
+            </p>
+
           </div>
-        </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12 lg:gap-y-16">
-          {services.map((service, index) => {
-            const serviceParagraphs = service.description
-              .split("\n\n")
-              .filter((p) => p.trim());
-
-            return (
+          {/* Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+            {services.map((service, index) => (
               <div
                 key={index}
-                className={`relative pb-8 transition-all duration-700 ${
+                className={`transition-all duration-700 ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
                 }`}
                 style={{ transitionDelay: `${index * 100 + 200}ms` }}
               >
-                {/* Icon */}
-                <div className="mb-6">
-                  <div className="w-12 h-12 flex items-center justify-center text-orange-600">
-                    {iconMap[index % 6]}
-                  </div>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl lg:text-2xl font-semibold text-gray-900 mb-4">
+                <h3 className="text-base font-semibold mb-3 border-b border-white pb-3 text-white">
                   {service.title}
                 </h3>
-
-                {/* Description with Paragraphs */}
-                <div className="text-gray-600 leading-relaxed text-base mb-6 space-y-2">
-                  {serviceParagraphs.map((paragraph, pIndex) => (
-                    <p key={pIndex}>{paragraph}</p>
-                  ))}
-                </div>
-
-                {/* Underline */}
-                <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-300"></div>
+                <p className="text-sm leading-relaxed text-gray-300">
+                  {service.description}
+                </p>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -73,9 +73,8 @@ export default async function ServiceDetailPage({
         {/* Service Hero Section with Breadcrumbs */}
         <ServiceHeroSection
           title={serviceData.title}
-          subtitle={serviceData.subtitle}
           description={serviceData.heroDescription}
-          imageUrl={serviceData.imageUrl}
+          // imageUrl={serviceData.imageUrl}
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Services", href: "/services" },
@@ -102,13 +101,14 @@ export default async function ServiceDetailPage({
         <ProcessAccordionSection
           title={serviceData.process.title}
           steps={serviceData.process.steps}
-          sideImage={serviceData.imageUrl}
+          description={serviceData.process.description}
+          // sideImage={serviceData.imageUrl}
         />
 
         {/* FAQ Section */}
         <FAQSection
-          description={serviceData.faqs.description}
           faqs={serviceData.faqs.items}
+          description=""
         />
 
         <Footer />
