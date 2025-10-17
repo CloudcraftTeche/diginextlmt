@@ -40,7 +40,7 @@ const ServicesOfferedSection: React.FC<ServicesOfferedSectionProps> = ({
       {/* Full-width black background with rounded corners and padding */}
       <div className="w-full bg-black rounded-xl xs:rounded-2xl p-6 sm:p-8 lg:p-12 xl:p-16">
         {/* Constrained content wrapper */}
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mx-auto">
           {/* Header Text */}
           <div className="text-center mb-12">
             <h2

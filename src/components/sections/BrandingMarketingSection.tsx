@@ -47,7 +47,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
       id="branding-marketing-section"
       className="py-4 xs:py-6 sm:py-8 lg:py-10 bg-white overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
         {/* Main Content Grid - Unchanged for web */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 xs:gap-8 sm:gap-12 lg:gap-16 items-start mb-8 xs:mb-10 sm:mb-12 lg:mb-16">
           {/* Left Side - Creative Image Section - Takes 2 columns on lg */}

@@ -246,7 +246,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       {/* Full-width black background */}
       <div className="w-full bg-black rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-8 lg:p-12 relative overflow-hidden">
         {/* Constrained content wrapper */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
             {/* Left Side - Text Content */}
             <div className="text-left order-2 lg:order-1">

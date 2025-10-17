@@ -13,7 +13,7 @@ export function CTASection() {
         animate={{ y: [0, 30, 0] }}
         transition={{ duration: 14, repeat: Number.POSITIVE_INFINITY }}
       />
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-16">
+      <div className="relative z-10 mx-auto max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 px-6 lg:px-16">
         <motion.div
           className="max-w-4xl"
           initial={{ y: 20, opacity: 0 }}

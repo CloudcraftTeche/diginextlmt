@@ -51,7 +51,7 @@ const HeroBanner = ({
       )}
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 w-full">
+      <div className="relative z-10 max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 pb-8 w-full">
         <div className="max-w-3xl">
           <h1 className="text-xl md:text-2xl lg:text-3xl font-normal text-white ">
             {title}
