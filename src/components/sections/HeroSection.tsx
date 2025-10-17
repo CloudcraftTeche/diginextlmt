@@ -131,7 +131,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="p-3 xs:p-4 sm:p-6 lg:p-10 relative max-w-[200px] xs:max-w-[250px] sm:max-w-[300px] lg:max-w-[400px] mx-auto">
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-400/10 to-orange-600/10 rounded-full blur-xl animate-pulse" />
                 <Image
-                  src={ImageConstants.LOGO_SHAPE}
+                  src={ImageConstants.HOME_CONNECT_1} 
                   alt="DigiNext Logo Shape"
                   width={400}
                   height={400}

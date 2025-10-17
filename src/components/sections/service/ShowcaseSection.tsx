@@ -169,7 +169,7 @@ const ServiceCard: React.FC<{
   return (
     <div
       id={`service-card-${index}`}
-      className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 lg:mb-24"
+      className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-12 lg:mb-16"
     >
       {/* Content Section */}
       <div
@@ -182,14 +182,19 @@ const ServiceCard: React.FC<{
         }`}
         style={{ transitionDelay: `${index * 200}ms` }}
       >
-        <div className={`max-w-lg ${isReversed ? "lg:ml-auto" : ""}`}>
+        <div className="w-full">
           {/* Title */}
-          <h3 className="text-2xl lg:text-3xl font-semibold text-gray-900 mb-6">
+          <h3 className="text-2xl lg:text-3xl font-semibold text-gray-900 mb-4">
             {service.title}
           </h3>
 
+          {/* Description */}
+          <p className="text-base text-gray-600 mb-6 leading-relaxed">
+            {service.description}
+          </p>
+
           {/* Service List */}
-          <ul className="space-y-3 mb-6">
+          <ul className="space-y-3">
             {service.services.map((item, idx) => (
               <li key={idx}>
                 <div>
@@ -278,7 +283,7 @@ const ServiceCard: React.FC<{
       >
         <a href={`/services/${service.slug}`}>
           <div className="relative group cursor-pointer">
-            <div className="relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 h-[300px] lg:h-[400px]">
+            <div className="relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 h-[350px] lg:h-[450px]">
               <Image
                 src={service.image}
                 alt={service.imageAlt}
@@ -287,7 +292,17 @@ const ServiceCard: React.FC<{
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+
+              {/* Content Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <h4 className="text-2xl lg:text-3xl font-bold text-white mb-2">
+                  {service.title}
+                </h4>
+                <p className="text-sm lg:text-base text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  Explore our {service.title.toLowerCase()} services
+                </p>
+              </div>
             </div>
           </div>
         </a>
@@ -316,15 +331,15 @@ const ShowcaseSection: React.FC<ServicesShowcaseSectionProps> = ({
   return (
     <section
       id="services-showcase-section"
-      className="py-16 lg:py-24 bg-white overflow-hidden"
+      className="py-12 lg:py-16 bg-white overflow-hidden"
     >
       <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         {/* Optional Header */}
-        <div className="text-center mb-12 lg:mb-20">
+        <div className="text-left mb-12 lg:mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
             Our Services
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-3xl">
             Comprehensive design and development solutions tailored to your
             business needs
           </p>
