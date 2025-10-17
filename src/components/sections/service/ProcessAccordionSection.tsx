@@ -121,7 +121,7 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
       id="process-section"
       className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 bg-white"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mx-auto">
         {/* Header with Navigation Buttons */}
         <div className="mb-8 sm:mb-12">
           <div className="flex items-center justify-between">

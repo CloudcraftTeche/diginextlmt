@@ -112,7 +112,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Full-width black background */}
       <div className="w-full bg-black via-black to-gray-800 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 lg:p-10 relative overflow-hidden">
         {/* Constrained content wrapper */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-8 sm:gap-12 lg:gap-20 xl:gap-24 items-center min-h-[250px] xs:min-h-[300px] sm:min-h-[350px] lg:min-h-[420px] relative z-10 mb-6 xs:mb-8 sm:mb-8">
             {/* Left Side - Circular Logo */}
             <div

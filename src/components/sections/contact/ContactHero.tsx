@@ -33,7 +33,7 @@ const ContactHero = () => {
 
       <motion.div
         style={{ y, opacity }}
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32"
+        className="relative z-10 max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 py-24 lg:py-32"
       >
         <motion.div
           initial={{ opacity: 0, y: 30 }}

@@ -83,7 +83,7 @@ const Header = ({
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-transparent pointer-events-none" />
       )}
 
-      <nav className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="relative max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="flex justify-between items-center h-20">
           <div className="flex-shrink-0 z-10">
             <Link href="/" className="flex items-center group">

@@ -46,7 +46,7 @@ export default function ContactPage() {
       <ContactHero />
 
       <section className="py-20 lg:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             {contactInfo.map((info, idx) => (
               <ContactInfoCard key={idx} {...info} />

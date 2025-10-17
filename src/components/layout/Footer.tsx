@@ -218,7 +218,7 @@ const Footer: React.FC<FooterProps> = ({
     >
       <div className="px-3 xs:px-4 sm:px-6 lg:px-8">
         <div className="bg-black rounded-xl p-4 xs:p-5 sm:p-8 lg:p-12">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mx-auto">
             {/* Newsletter Section */}
             <div
               className={`transition-all duration-700 ease-out ${

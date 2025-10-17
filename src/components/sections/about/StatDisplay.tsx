@@ -92,7 +92,7 @@
           </div>
 
           {/* ✅ Added max-width responsive container */}
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center h-screen">
               {/* Left column - Hero Content */}
               <div className="space-y-6 lg:space-y-8 order-1 lg:order-1">

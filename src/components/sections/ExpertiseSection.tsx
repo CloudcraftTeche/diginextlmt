@@ -78,7 +78,7 @@ const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
         <div
           className={`${backgroundColor} rounded-xl p-4 xs:p-5 sm:p-8 lg:p-12`}
         >
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mx-auto">
             {/* Header Text */}
             <div
               className={`text-center mb-8 xs:mb-10 sm:mb-12 lg:mb-16 transition-all duration-1000 ease-out ${

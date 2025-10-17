@@ -23,7 +23,7 @@ const ServiceHeroSection: React.FC<ServiceHeroSectionProps> = ({
 
   return (
     <section className="bg-white py-12 lg:py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         {/* Breadcrumbs */}
         <nav
           className={`flex items-center space-x-2 text-sm mb-6 transition-all duration-700 ${

@@ -140,7 +140,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
       id="trust-section"
       className="py-16 sm:py-20 lg:py-24 bg-white overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         {/* Header Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16">
           {/* Left Side - Title and Description */}
