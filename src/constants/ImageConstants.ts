@@ -38,4 +38,7 @@ export class ImageConstants {
   static INSIDE_BANNER_5 = "/assets/banner/inside-banner-05.png";
   static INSIDE_BANNER_6 = "/assets/banner/inside-banner-06.png";
   static INSIDE_BANNER_7 = "/assets/banner/inside-banner-07.png";
+  static HOME_CONNECT_1="/assets/elements/Connect 1.png"
+  static HOME_DISCOVERT_1="/assets/elements/Discover 1.png"
+  static HOME_GROWTH_1="/assets/elements/Growth 1.png"
 }

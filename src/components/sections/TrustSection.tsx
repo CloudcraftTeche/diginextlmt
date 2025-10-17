@@ -211,64 +211,65 @@ const TrustSection: React.FC<TrustSectionProps> = ({
         </div>
 
         {/* Client Logos Section - Auto Scrolling */}
-        <div
-          className={`transform transition-all duration-1000 ease-out ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-          style={{ transitionDelay: "800ms" }}
-        >
-          <div className="border-t border-gray-200 pt-16">
-            <div className="relative overflow-hidden">
-              <style jsx>{`
-                @keyframes scroll {
-                  0% {
-                    transform: translateX(0);
-                  }
-                  100% {
-                    transform: translateX(-50%);
-                  }
-                }
-                .animate-scroll {
-                  animation: scroll 10s linear infinite;
-                }
-                .animate-scroll:hover {
-                  animation-play-state: paused;
-                }
-              `}</style>
+      </div>
 
-              <div className="flex animate-scroll">
-                {/* First set of logos */}
-                {clientLogos.map((client, index) => (
-                  <div
-                    key={`${client.name}-${index}`}
-                    className="flex-shrink-0 mx-8 lg:mx-12"
-                  >
-                    <Image
-                      src={client.logo}
-                      alt={`${client.name} logo`}
-                      width={160}
-                      height={60}
-                      className="h-16 w-auto object-contain opacity-100 "
-                      priority={index < 4}
-                    />
-                  </div>
-                ))}
-                {/* Duplicate set for seamless loop */}
-                {clientLogos.map((client, index) => (
-                  <div
-                    key={`${client.name}-duplicate-${index}`}
-                    className="flex-shrink-0 mx-8 lg:mx-12"
-                  >
-                    <Image
-                      src={client.logo}
-                      alt={`${client.name} logo`}
-                      width={160}
-                      height={60}
-                      className="h-16 w-auto object-contain opacity-100  duration-300"
-                    />
-                  </div>
-                ))}
-              </div>
+      <div
+        className={`transform transition-all duration-1000 ease-out ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+        style={{ transitionDelay: "800ms" }}
+      >
+        <div className="border-t border-gray-200 pt-16">
+          <div className="relative overflow-hidden">
+            <style jsx>{`
+              @keyframes scroll {
+                0% {
+                  transform: translateX(0);
+                }
+                100% {
+                  transform: translateX(-50%);
+                }
+              }
+              .animate-scroll {
+                animation: scroll 10s linear infinite;
+              }
+              .animate-scroll:hover {
+                animation-play-state: paused;
+              }
+            `}</style>
+
+            <div className="flex animate-scroll">
+              {/* First set of logos */}
+              {clientLogos.map((client, index) => (
+                <div
+                  key={`${client.name}-${index}`}
+                  className="flex-shrink-0 mx-8 lg:mx-12"
+                >
+                  <Image
+                    src={client.logo}
+                    alt={`${client.name} logo`}
+                    width={160}
+                    height={60}
+                    className="h-16 w-auto object-contain opacity-100 "
+                    priority={index < 4}
+                  />
+                </div>
+              ))}
+              {/* Duplicate set for seamless loop */}
+              {clientLogos.map((client, index) => (
+                <div
+                  key={`${client.name}-duplicate-${index}`}
+                  className="flex-shrink-0 mx-8 lg:mx-12"
+                >
+                  <Image
+                    src={client.logo}
+                    alt={`${client.name} logo`}
+                    width={160}
+                    height={60}
+                    className="h-16 w-auto object-contain opacity-100  duration-300"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
