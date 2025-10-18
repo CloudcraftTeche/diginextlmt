@@ -104,7 +104,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
     {
       image: ImageConstants.CASE_STUDY_1,
       title: "Organic Growth",
-      percentage: "100X",
+      // percentage: "100X",
       description:
         "By providing professional IT solutions consulting, we helped businesses to achieve excellent organic growth, giving them an advantage over their competitors and a chance to reach a larger audience.",
     },

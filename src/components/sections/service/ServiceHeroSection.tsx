@@ -105,7 +105,7 @@ const ServiceHeroSection: React.FC<ServiceHeroSectionProps> = ({
                 : "opacity-0 translate-x-8"
             }`}
           >
-            <div className="relative w-full h-[400px] lg:h-[500px] xl:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative w-full h-[300px] lg:h-[500px] xl:h-[450px] rounded-2xl overflow-hidden shadow-2xl">
               <Image
                 src={imageSrc}
                 alt={imageAlt}

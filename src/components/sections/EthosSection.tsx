@@ -62,135 +62,138 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     if (!containerRef.current || !threeLoaded || !window.THREE) return;
 
     const THREE = window.THREE;
-    const container = containerRef.current;
+    const el = containerRef.current;
 
-    // Scene setup
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(
-      50,
-      container.clientWidth / container.clientHeight,
+      45,
+      el.clientWidth / el.clientHeight,
       0.1,
       1000
     );
-    camera.position.z = isMobile ? 6 : 5;
+    camera.position.z = 10;
+    camera.position.y = 0.5;
 
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-    });
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(el.clientWidth, el.clientHeight);
     renderer.setClearColor(0x000000, 0);
-    container.appendChild(renderer.domElement);
+    el.appendChild(renderer.domElement);
 
-    // Create sphere geometry - smaller on mobile
-    const sphereSize = isMobile ? 1.2 : 1.5;
-    const geometry = new THREE.SphereGeometry(sphereSize, 64, 64);
+    // Create glass sphere with flowing ribbons
+    const group = new THREE.Group();
+    scene.add(group);
 
-    const material = new THREE.MeshPhysicalMaterial({
+    // Central glass sphere
+    const sphereGeo = new THREE.SphereGeometry(1.2, 64, 64);
+    const sphereMat = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
-      metalness: 0.9,
-      roughness: 0.1,
+      metalness: 0.1,
+      roughness: 0.05,
       transparent: true,
-      opacity: 0.6,
-      envMapIntensity: 1,
+      opacity: 0.15,
       clearcoat: 1,
       clearcoatRoughness: 0.1,
+      reflectivity: 0.9,
+      transmission: 0.95,
+      side: THREE.DoubleSide,
     });
+    const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+    group.add(sphere);
 
-    const sphere = new THREE.Mesh(geometry, material);
-    scene.add(sphere);
+    // Create multiple glass ribbon rings around sphere
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ribbons: any[] = [];
+    const ribbonCount = 5;
 
-    // Create rings/torus shapes
-    interface Ring {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      mesh: any;
-      rotationSpeed: { x: number; y: number; z: number };
-    }
-    const rings: Ring[] = [];
-    const ringCount = isMobile ? 4 : 6;
-
-    for (let i = 0; i < ringCount; i++) {
-      const torusGeometry = new THREE.TorusGeometry(
-        sphereSize + i * 0.05,
-        0.008,
-        16,
-        100
+    for (let i = 0; i < ribbonCount; i++) {
+      const angle = (i / ribbonCount) * Math.PI;
+      const curve = new THREE.EllipseCurve(
+        0,
+        0,
+        2.5,
+        2.5,
+        0,
+        2 * Math.PI,
+        false,
+        0
       );
 
-      const ringMaterial = new THREE.MeshPhysicalMaterial({
-        color: 0xcccccc,
-        metalness: 0.95,
-        roughness: 0.2,
+      const points = curve.getPoints(100);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const points3d = points.map((p: any) => new THREE.Vector3(p.x, p.y, 0));
+      const curvePath = new THREE.CatmullRomCurve3(points3d, true);
+
+      const tubeGeo = new THREE.TubeGeometry(curvePath, 100, 0.08, 8, true);
+      const tubeMat = new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color().setHSL(0.5 + i * 0.1, 0.8, 0.6),
+        metalness: 0.8,
+        roughness: 0.1,
         transparent: true,
-        opacity: 0.3 + i * 0.1,
-        emissive: 0x444444,
-        emissiveIntensity: 0.2,
+        opacity: 0.7,
+        clearcoat: 1,
+        clearcoatRoughness: 0.05,
+        side: THREE.DoubleSide,
       });
 
-      const ring = new THREE.Mesh(torusGeometry, ringMaterial);
-
-      ring.rotation.x = Math.random() * Math.PI;
-      ring.rotation.y = Math.random() * Math.PI;
-      ring.rotation.z = Math.random() * Math.PI;
-
-      rings.push({
-        mesh: ring,
-        rotationSpeed: {
-          x: (Math.random() - 0.5) * 0.005,
-          y: (Math.random() - 0.5) * 0.005,
-          z: (Math.random() - 0.5) * 0.005,
-        },
-      });
-
-      scene.add(ring);
+      const ribbon = new THREE.Mesh(tubeGeo, tubeMat);
+      ribbon.rotation.x = angle;
+      ribbon.rotation.z = i * 0.3;
+      group.add(ribbon);
+      ribbons.push(ribbon);
     }
 
+    // Subtle wireframe on sphere
+    const wireGeo = new THREE.EdgesGeometry(sphereGeo);
+    const wireMat = new THREE.LineBasicMaterial({
+      color: 0x4dd0e1,
+      transparent: true,
+      opacity: 0.15,
+    });
+    const wireframe = new THREE.LineSegments(wireGeo, wireMat);
+    group.add(wireframe);
+
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-    scene.add(ambientLight);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
-    const pointLight1 = new THREE.PointLight(0x00d4ff, 1.2, 100);
-    pointLight1.position.set(5, 5, 5);
-    scene.add(pointLight1);
+    const light1 = new THREE.PointLight(0x00d4ff, 1.5, 100);
+    light1.position.set(5, 3, 6);
+    scene.add(light1);
 
-    const pointLight2 = new THREE.PointLight(0xff00aa, 1.2, 100);
-    pointLight2.position.set(-5, -5, 5);
-    scene.add(pointLight2);
+    const light2 = new THREE.PointLight(0x8b5cf6, 1.2, 100);
+    light2.position.set(-5, -3, 5);
+    scene.add(light2);
 
-    const pointLight3 = new THREE.PointLight(0xffdd00, 1, 100);
-    pointLight3.position.set(0, 5, -5);
-    scene.add(pointLight3);
+    const light3 = new THREE.PointLight(0xff4acc, 0.8, 100);
+    light3.position.set(0, 5, -4);
+    scene.add(light3);
 
-    const pointLight4 = new THREE.PointLight(0x00ff88, 0.8, 100);
-    pointLight4.position.set(-5, 0, -3);
-    scene.add(pointLight4);
-
-    // Animation
-    let animationFrameId: number;
+    let raf = 0;
     let rotationAngle = 0;
 
     const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
+      raf = requestAnimationFrame(animate);
 
-      sphere.rotation.y += 0.0015;
-      sphere.rotation.x += 0.0008;
+      // Gentle continuous rotation
+      group.rotation.y += 0.002;
+      group.rotation.x = Math.sin(Date.now() * 0.0005) * 0.1;
 
-      rings.forEach(({ mesh, rotationSpeed }) => {
-        mesh.rotation.x += rotationSpeed.x;
-        mesh.rotation.y += rotationSpeed.y;
-        mesh.rotation.z += rotationSpeed.z;
+      const t = performance.now() * 0.0003;
+
+      // Gentle ribbon rotation
+      ribbons.forEach((ribbon, i) => {
+        ribbon.rotation.z += 0.001 * (i % 2 === 0 ? 1 : -1);
       });
 
-      const time = Date.now() * 0.001;
-      pointLight1.position.x = Math.sin(time * 0.5) * 5;
-      pointLight1.position.z = Math.cos(time * 0.5) * 5;
+      // Animate lights
+      light1.position.x = Math.sin(t * 2) * 5;
+      light1.position.z = Math.cos(t * 2) * 6;
+      light2.position.x = Math.cos(t * 1.5) * 5;
+      light2.position.z = Math.sin(t * 1.5) * 5;
+      light3.position.y = Math.sin(t * 2.5) * 3 + 5;
 
-      pointLight2.position.x = Math.cos(time * 0.3) * 5;
-      pointLight2.position.z = Math.sin(time * 0.3) * 5;
-
-      pointLight3.position.y = Math.sin(time * 0.4) * 3 + 5;
-
+      // Update rotation for stats
       rotationAngle += 0.003;
       setRotation(rotationAngle);
 
@@ -198,14 +201,12 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     };
     animate();
 
-    // Handle resize
     const handleResize = () => {
-      if (!container) return;
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-      camera.aspect = width / height;
+      const w = el.clientWidth;
+      const h = el.clientHeight;
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
+      renderer.setSize(w, h);
     };
     window.addEventListener("resize", handleResize);
 
@@ -214,21 +215,20 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.2 }
     );
-    observer.observe(container);
+    if (el) observer.observe(el);
 
-    // Cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(raf);
       observer.disconnect();
-      if (container && renderer.domElement) {
-        container.removeChild(renderer.domElement);
-      }
-      geometry.dispose();
-      material.dispose();
-      rings.forEach(({ mesh }) => {
-        mesh.geometry.dispose();
-        mesh.material.dispose();
+      if (el && renderer.domElement) el.removeChild(renderer.domElement);
+      sphereGeo.dispose();
+      sphereMat.dispose();
+      wireGeo.dispose();
+      wireMat.dispose();
+      ribbons.forEach((r) => {
+        r.geometry.dispose();
+        r.material.dispose();
       });
       renderer.dispose();
     };
@@ -245,28 +245,32 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     <section className="px-3 xs:px-4 sm:px-6 lg:px-8 py-4 xs:py-6 sm:py-8 lg:py-10 bg-white">
       {/* Full-width black background */}
       <div className="w-full bg-black rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-8 lg:p-12 relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
+        </div>
+
         {/* Constrained content wrapper */}
         <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
             {/* Left Side - Text Content */}
-            <div className="text-left order-2 lg:order-1">
+            <div
+              className={`text-left order-2 lg:order-1 transition-all duration-1000 ease-out ${
+                isVisible
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 -translate-x-8"
+              }`}
+            >
               <h2
-                className={`text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-normal mb-6 sm:mb-8 text-white leading-tight transition-all duration-1000 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-normal mb-6 sm:mb-8 text-white leading-tight"
                 style={{ transitionDelay: "200ms" }}
               >
                 {title}
               </h2>
 
               <div
-                className={`text-gray-300 font-light text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8 transition-all duration-1000 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
+                className="text-gray-300 font-light text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8"
                 style={{ transitionDelay: "400ms" }}
               >
                 <p className="mb-4 sm:mb-6">
@@ -278,21 +282,19 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
               </div>
 
               <p
-                className={`text-gray-300 text-sm sm:text-base md:text-lg font-light leading-relaxed transition-all duration-1000 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
+                className="text-gray-300 text-sm sm:text-base md:text-lg font-light leading-relaxed"
                 style={{ transitionDelay: "600ms" }}
               >
                 {subtitle}
               </p>
             </div>
 
-            {/* Right Side - 3D Sphere with Rotating Stats */}
+            {/* Right Side - Glass Sphere 3D Visual */}
             <div
               className={`relative order-1 lg:order-2 transition-all duration-1000 ease-out ${
-                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                isVisible
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 translate-x-8"
               }`}
               style={{ transitionDelay: "300ms" }}
             >
@@ -302,15 +304,6 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
                   ref={containerRef}
                   className="absolute inset-0 w-full h-full"
                 />
-
-                {/* Loading State */}
-                {!threeLoaded && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-white text-sm sm:text-lg">
-                      Loading...
-                    </div>
-                  </div>
-                )}
 
                 {/* Rotating Stats */}
                 {threeLoaded &&
@@ -348,19 +341,22 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
                     );
                   })}
 
-                {/* Background glow */}
-                <div className="absolute inset-0 bg-gradient-radial from-blue-500/10 via-purple-500/5 to-transparent blur-3xl pointer-events-none" />
+                {/* Radial gradient overlay */}
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.12),rgba(139,92,246,0.08),transparent_65%)]" />
+
+                {/* Loading State */}
+                {!threeLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-white text-sm sm:text-lg animate-pulse">
+                      Loading 3D Visual...
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .bg-gradient-radial {
-          background: radial-gradient(circle, var(--tw-gradient-stops));
-        }
-      `}</style>
     </section>
   );
 };

@@ -7,6 +7,7 @@ import Image from "next/image";
 interface Slide {
   title: string;
   content: string;
+  image: string;
 }
 
 interface HeroSectionProps {
@@ -16,7 +17,6 @@ interface HeroSectionProps {
   primaryButtonLink?: string;
   secondaryButtonLink?: string;
   autoPlayInterval?: number;
-  storyText?: string;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
@@ -25,16 +25,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       title: "Discover",
       content:
         "Discover the true potential of your business by transforming complicated IT into a simple, clear strategy for business optimization.",
+      image: ImageConstants.HOME_DISCOVERT_1,
     },
     {
       title: "Connect",
       content:
         "Connect with trusted, proactive, 24/7 IT support that ensures company continuity and manages your systems with ease.",
+      image: ImageConstants.HOME_CONNECT_1,
     },
     {
       title: "Grow",
       content:
         "Grow your business confidently on a secure infrastructure that is optimized while we take care of all technical management and strategic growth.",
+      image: ImageConstants.HOME_GROWTH_1,
     },
   ],
   primaryButtonText = "Get Your Quote",
@@ -111,39 +114,65 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     >
       {/* Full-width black background */}
       <div className="w-full bg-black via-black to-gray-800 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 lg:p-10 relative overflow-hidden">
-        {/* Constrained content wrapper */}
+        {/* Constrained content wrapper - matching TrustSection structure */}
         <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-8 sm:gap-12 lg:gap-20 xl:gap-24 items-center min-h-[250px] xs:min-h-[300px] sm:min-h-[350px] lg:min-h-[420px] relative z-10 mb-6 xs:mb-8 sm:mb-8">
-            {/* Left Side - Circular Logo */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[250px] xs:min-h-[300px] sm:min-h-[350px] lg:min-h-[420px]">
+            {/* Left Side - Dynamic Image */}
             <div
-              className={`flex justify-center lg:justify-end order-1 lg:order-1 transition-all duration-1000 ease-out ${
+              className={`flex justify-center lg:justify-start items-center transition-all duration-1000 ease-out ${
                 isVisible
-                  ? "opacity-100 translate-y-0 scale-100"
-                  : "opacity-0 translate-y-8 scale-95"
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 -translate-x-8"
               }`}
               style={{
                 transitionDelay: "200ms",
-                transform: `translate(${mousePosition.x * 0.5}px, ${
-                  mousePosition.y * 0.5
-                }px) scale(${isVisible ? 1 : 0.95})`,
               }}
             >
-              <div className="p-3 xs:p-4 sm:p-6 lg:p-10 relative max-w-[200px] xs:max-w-[250px] sm:max-w-[300px] lg:max-w-[400px] mx-auto">
+              <div className="relative w-full max-w-[300px] lg:max-w-[400px] aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-400/10 to-orange-600/10 rounded-full blur-xl animate-pulse" />
-                <Image
-                  src={ImageConstants.HOME_CONNECT_1} 
-                  alt="DigiNext Logo Shape"
-                  width={400}
-                  height={400}
-                  className="w-auto h-auto max-w-full relative z-10 hover:scale-110 transition-transform duration-500 ease-out animate-slow-bounce"
-                />
+                <div
+                  className="relative w-full h-full"
+                  style={{
+                    transform: `translate(${mousePosition.x * 0.5}px, ${
+                      mousePosition.y * 0.5
+                    }px)`,
+                  }}
+                >
+                  {slides.map((slide, index) => (
+                    <div
+                      key={index}
+                      className={`absolute inset-0 transition-all duration-500 ease-out ${
+                        currentSlide === index
+                          ? "opacity-100 scale-100 z-10"
+                          : "opacity-0 scale-90 z-0"
+                      }`}
+                    >
+                      <Image
+                        src={slide.image}
+                        alt={`${slide.title} illustration`}
+                        fill
+                        className={`object-contain ${
+                          currentSlide === index ? "animate-slow-bounce" : ""
+                        }`}
+                        priority={index === 0}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
             {/* Right Side - Content */}
-            <div className="text-center lg:text-left order-2 lg:order-2 px-2 xs:px-3 sm:px-0">
+            <div
+              className={`transition-all duration-1000 ease-out ${
+                isVisible
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 translate-x-8"
+              }`}
+              style={{ transitionDelay: "400ms" }}
+            >
               {/* Title Navigation */}
-              <div className="flex flex-wrap justify-center lg:justify-start gap-2 xs:gap-3 sm:gap-4 mb-4 xs:mb-5 sm:mb-6">
+              <div className="flex flex-wrap gap-2 xs:gap-3 sm:gap-4 mb-4 xs:mb-5 sm:mb-6">
                 {slides.map((slide, index) => (
                   <button
                     key={index}
@@ -163,9 +192,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               </div>
 
               {/* Animated Content */}
-              <div className="relative min-h-[100px] xs:min-h-[100px] sm:min-h-[100px]">
+              <div className="relative min-h-[100px] xs:min-h-[100px] sm:min-h-[100px] mb-4 xs:mb-5 sm:mb-6">
                 <p
-                  className={`text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-base mb-4 xs:mb-5 sm:mb-6 md:mb-8 leading-relaxed font-normal max-w-full xs:max-w-md sm:max-w-lg mx-auto lg:mx-0 transition-all duration-300 ease-out ${
+                  className={`text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-base leading-relaxed font-normal transition-all duration-300 ease-out ${
                     isAnimating
                       ? "opacity-0 translate-y-4"
                       : "opacity-100 translate-y-0"
@@ -192,14 +221,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               </div>
 
               {/* Animated Buttons */}
-              <div
-                className={`flex flex-row gap-2 xs:gap-3 sm:gap-4 justify-center lg:justify-start max-w-md mx-auto lg:max-w-none lg:mx-0 transition-all duration-700 ease-out ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
-                style={{ transitionDelay: "1200ms" }}
-              >
+              <div className="flex flex-row gap-2 xs:gap-3 sm:gap-4 justify-center lg:justify-start">
                 <Link
                   href={primaryButtonLink}
                   className="group inline-flex items-center justify-center px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-normal rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-xs xs:text-sm sm:text-base overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25"

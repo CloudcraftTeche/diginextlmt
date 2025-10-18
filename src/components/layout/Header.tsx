@@ -158,7 +158,7 @@ const Header = ({
             <button
               className={`hidden md:block px-6 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-xl ${
                 shouldBeSolid
-                  ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
+                  ? "bg-orange-500 text-white hover:from-orange-600 hover:to-orange-700"
                   : "bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white hover:text-gray-900"
               }`}
             >
