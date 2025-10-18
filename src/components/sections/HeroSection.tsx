@@ -115,7 +115,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Full-width black background */}
       <div className="w-full bg-black via-black to-gray-800 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 lg:p-10 relative overflow-hidden">
         {/* Constrained content wrapper - matching TrustSection structure */}
-        <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
+        <div className="max-w-[1750px] mx-auto px-6 py-4 sm:py-0 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[250px] xs:min-h-[300px] sm:min-h-[350px] lg:min-h-[420px]">
             {/* Left Side - Dynamic Image */}
             <div

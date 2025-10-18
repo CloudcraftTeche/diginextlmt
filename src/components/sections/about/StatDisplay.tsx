@@ -107,11 +107,11 @@ export function StatsScrolly() {
         </div>
 
         {/* Content wrapper */}
-        <div className="relative z-10 max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
+        <div className="relative z-10 max-w-[1750px] mx-auto px-6 py-4 sm:py-0 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center h-screen">
             {/* Left column - Hero Content */}
             <div
-              className={`space-y-6 lg:space-y-8 order-1 lg:order-1 transition-all duration-1000 ease-out ${
+              className={`space-y-6 lg:space-y-8 order-1 mt-10  lg:order-1 transition-all duration-1000 ease-out ${
                 isVisible
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 -translate-x-8"
