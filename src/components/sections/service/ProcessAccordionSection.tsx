@@ -117,12 +117,9 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
   };
 
   return (
-    <section
-      id="process-section"
-      className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 bg-white"
-    >
-      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mx-auto">
-        {/* Header with Navigation Buttons */}
+    <section id="process-section" className="py-6 sm:py-8 lg:py-10 bg-white">
+      {/* Header with Navigation Buttons - Contained */}
+      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="mb-8 sm:mb-12">
           <div className="flex items-center justify-between">
             <h2
@@ -177,62 +174,63 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
             </p>
           )}
         </div>
+      </div>
 
-        {/* Horizontal Scrolling Container */}
-        <div className="relative">
-          {/* Scroll Container */}
-          <div
-            ref={scrollContainerRef}
-            className="flex gap-5 lg:gap-6 overflow-x-auto pb-4 scrollbar-hide"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-          >
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className={`flex-shrink-0 w-[280px] sm:w-[320px] flex flex-col p-7 lg:p-8 bg-white border border-gray-300 rounded-2xl shadow-none 
-                  hover:bg-black hover:border-black hover:text-white hover:shadow-lg
-                  transition-[background,border,color,box-shadow] duration-500 ease-out group
-                  focus:outline-none focus:ring-2 ${
-                    isVisible
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-8"
-                  }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-                tabIndex={0}
-              >
-                {/* Step Number */}
-                <div className="text-orange-600 text-sm font-bold mb-3 group-hover:text-orange-400 transition-colors duration-500">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
-
-                <h3 className="text-md sm:text-md font-semibold mb-3 text-black group-hover:text-white transition-colors duration-500">
-                  {step.title}
-                </h3>
-                <p className="text-gray-600 text-xs sm:text-xs md:text-sm lg:text-sm group-hover:text-gray-200 transition-colors duration-500 mb-4 leading-relaxed flex-grow">
-                  {step.description}
-                </p>
-                <a
-                  href="#contact"
-                  className="inline-flex items-center font-semibold text-sm text-black group-hover:text-orange-400 transition-colors duration-300 group/link"
-                >
-                  <span>Connect to Us</span>
-                  <Send className="w-4 h-4 ml-2 group-hover/link:translate-x-1 group-hover:rotate-45 transition-all duration-300" />
-                </a>
+      {/* Horizontal Scrolling Container - Full Width */}
+      <div className="relative">
+        {/* Scroll Container */}
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-5 lg:gap-6 overflow-x-auto pb-4 scrollbar-hide px-4 sm:px-6 lg:px-8"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            scrollSnapType: "x mandatory",
+          }}
+        >
+          {steps.map((step, index) => (
+            <div
+              key={index}
+              className={`flex-shrink-0 w-[280px] sm:w-[320px] flex flex-col p-7 lg:p-8 bg-white border border-gray-300 rounded-2xl shadow-none 
+                hover:bg-black hover:border-black hover:text-white hover:shadow-lg
+                transition-[background,border,color,box-shadow] duration-500 ease-out group
+                focus:outline-none focus:ring-2 ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
+              tabIndex={0}
+            >
+              {/* Step Number */}
+              <div className="text-orange-600 text-sm font-bold mb-3 group-hover:text-orange-400 transition-colors duration-500">
+                {String(index + 1).padStart(2, "0")}
               </div>
-            ))}
-          </div>
 
-          {/* Gradient Overlays for scroll indication */}
-          {canScrollLeft && (
-            <div className="hidden md:block absolute left-0 top-0 bottom-4 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
-          )}
-          {canScrollRight && (
-            <div className="hidden md:block absolute right-0 top-0 bottom-4 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
-          )}
+              <h3 className="text-md sm:text-md font-semibold mb-3 text-black group-hover:text-white transition-colors duration-500">
+                {step.title}
+              </h3>
+              <p className="text-gray-600 text-xs sm:text-xs md:text-sm lg:text-sm group-hover:text-gray-200 transition-colors duration-500 mb-4 leading-relaxed flex-grow">
+                {step.description}
+              </p>
+              <a
+                href="#contact"
+                className="inline-flex items-center font-semibold text-sm text-black group-hover:text-orange-400 transition-colors duration-300 group/link"
+              >
+                <span>Connect to Us</span>
+                <Send className="w-4 h-4 ml-2 group-hover/link:translate-x-1 group-hover:rotate-45 transition-all duration-300" />
+              </a>
+            </div>
+          ))}
         </div>
+
+        {/* Gradient Overlays for scroll indication */}
+        {canScrollLeft && (
+          <div className="hidden md:block absolute left-0 top-0 bottom-4 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+        )}
+        {canScrollRight && (
+          <div className="hidden md:block absolute right-0 top-0 bottom-4 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+        )}
 
         {/* Mobile Navigation Hint */}
         <p className="text-center text-sm text-gray-500 mt-4 md:hidden">

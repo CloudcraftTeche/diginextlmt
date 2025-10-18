@@ -14,6 +14,7 @@ import ServicesOfferedSection from "@/components/sections/service/ServicesOffere
 import ProcessAccordionSection from "@/components/sections/service/ProcessAccordionSection";
 import CTASection from "@/components/sections/service/CTASection";
 import Link from "next/link";
+import PartnerSection from "@/components/sections/service/PartnerSection";
 
 export const metadata: Metadata = {
   title: "Service Details - DigiNext",
@@ -80,6 +81,7 @@ export default async function ServiceDetailPage({
             { label: "Services", href: "/services" },
             { label: serviceData.title, href: `/services/${slug}` },
           ]}
+          imageSrc={serviceData.imageUrl}
         />
 
         {/* CTA Section */}
@@ -104,12 +106,13 @@ export default async function ServiceDetailPage({
           description={serviceData.process.description}
           // sideImage={serviceData.imageUrl}
         />
-
-        {/* FAQ Section */}
-        <FAQSection
-          faqs={serviceData.faqs.items}
-          description=""
-        />
+        {serviceData.partnerSection && (
+          <PartnerSection
+            title={serviceData.partnerSection.title}
+            description={serviceData.partnerSection.description}
+          />
+        )}
+        <FAQSection faqs={serviceData.faqs.items} description="" />
 
         <Footer />
       </div>

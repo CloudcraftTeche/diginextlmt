@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { ImageConstants } from "@/constants/ImageConstants";
 
 // Type Definitions
 interface ServiceSubItem {
@@ -29,8 +30,7 @@ const SERVICES_DATA: ServiceItem[] = [
     title: "Design",
     description: "Comprehensive visual design services for branding and UX",
     slug: "design",
-    image:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop",
+    image: ImageConstants.SERVICE_DESIGN,
     imageAlt: "Design Services",
     services: [
       {
@@ -45,8 +45,7 @@ const SERVICES_DATA: ServiceItem[] = [
     title: "Development",
     description: "Custom software and mobile app development solutions",
     slug: "development",
-    image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop",
+    image: ImageConstants.SERVICE_DEVELOPMENT,
     imageAlt: "Development Services",
     services: [
       { name: "Web Design", slug: "website-design" },
@@ -75,8 +74,7 @@ const SERVICES_DATA: ServiceItem[] = [
     description:
       "Marketing services to boost your online presence and engagement",
     slug: "digital-marketing",
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+    image: ImageConstants.SERVICE_DM,
     imageAlt: "Digital Marketing Services",
     services: [
       {
@@ -105,8 +103,7 @@ const SERVICES_DATA: ServiceItem[] = [
     title: "Web Hosting",
     description: "Reliable and scalable web hosting solutions",
     slug: "web-hosting",
-    image:
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=600&fit=crop",
+    image: ImageConstants.SERVICE_WEB_HOSTING,
     imageAlt: "Web Hosting Services",
     services: [
       { name: "Shared Web Hosting", slug: "shared-hosting" },
@@ -120,12 +117,26 @@ const SERVICES_DATA: ServiceItem[] = [
     title: "Production",
     description: "Creative production services for photography and videography",
     slug: "production",
-    image:
-      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&h=600&fit=crop",
+    image: ImageConstants.SERVICE_PRODUCTION,
     imageAlt: "Production Services",
     services: [
-      { name: "Photography", slug: "photography-videography" },
-      { name: "Videography", slug: "photography-videography" },
+      { name: "Photography", slug: "photography" },
+      { name: "Videography", slug: "videography" },
+    ],
+  },
+  {
+    title: "Entertainment & Events",
+    description:
+      "We bring your events to life with creative planning, execution, and media coverage from corporate events to concerts and celebrations.",
+    slug: "entertainment-events",
+    image:
+      "https://images.unsplash.com/photo-1561489396-888724a1543d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170?w=800&h=600&fit=crop",
+    imageAlt: "Entertainment and Events Services",
+    services: [
+      { name: "Event Management", slug: "event-management" },
+      { name: "Concerts & Shows", slug: "concerts-and-shows" },
+      { name: "Corporate Events", slug: "corporate-events" },
+      { name: "Media Coverage", slug: "media-coverage" },
     ],
   },
 ];

@@ -38,7 +38,48 @@ export class ImageConstants {
   static INSIDE_BANNER_5 = "/assets/banner/inside-banner-05.png";
   static INSIDE_BANNER_6 = "/assets/banner/inside-banner-06.png";
   static INSIDE_BANNER_7 = "/assets/banner/inside-banner-07.png";
-  static HOME_CONNECT_1="/assets/elements/Connect 1.png"
-  static HOME_DISCOVERT_1="/assets/elements/Discover 1.png"
-  static HOME_GROWTH_1="/assets/elements/Growth 1.png"
+  static HOME_CONNECT_1 = "/assets/elements/Connect 1.png";
+  static HOME_DISCOVERT_1 = "/assets/elements/Discover 1.png";
+  static HOME_GROWTH_1 = "/assets/elements/Growth 1.png";
+  static SERVICE_DESIGN = "/assets/images/service/Design.jpg";
+  static SERVICE_DEVELOPMENT = "/assets/images/service/Development .jpg";
+  static SERVICE_DM = "/assets/images/service/DM.jpg";
+  static SERVICE_PRODUCTION = "/assets/images/service/Production.jpg";
+  static SERVICE_WEB_HOSTING = "/assets/images/service/Web Hosting.jpg";
+  static SERVICE_GRAPHIC_BRANDING =
+    "/assets/images/service/Design/Graphic Design Branding.jpg";
+  static SERVICE_PACKAGING =
+    "/assets/images/service/Design/Packaging Design.jpg";
+  static SERVICE_UI_UX = "/assets/images/service/Design/UI UX 2.jpg";
+  static SERVICE_CUSTOM_WEB_APP =
+    "/assets/images/service/development/Custom Web Application.jpg";
+  static SERVICE_ECOMMERCE_WD =
+    "/assets/images/service/development/E Commerce WD 1.jpg";
+  static SERVICE_MOBILE_APP_DEV =
+    "/assets/images/service/development/Mobile App Development.jpg";
+  static SERVICE_WEB_DESIGN =
+    "/assets/images/service/development/Web Design 1.jpg";
+
+  static SERVICE_EMAIL_MARKETING =
+    "/assets/images/service/digitalMarketing/E Mail Marketing.jpg";
+  static SERVICE_PPC = "/assets/images/service/digitalMarketing/PPC.jpg";
+  static SERVICE_SEO =
+    "/assets/images/service/digitalMarketing/Search Engine Optimization.jpg";
+  static SERVICE_SM_MARKETING =
+    "/assets/images/service/digitalMarketing/SM Marketing 2.jpg";
+  // Service Production subcategories
+  static SERVICE_PHOTOGRAPHY =
+    "/assets/images/service/production/Photography.jpg";
+  static SERVICE_VIDEOGRAPHY =
+    "/assets/images/service/production/Videography.jpg";
+  // Service Web Hosting subcategories
+  static SERVICE_CLOUD_COMPUTING =
+    "/assets/images/service/webHosting/Cloud Computing.jpg";
+  static SERVICE_DEDICATED_HOSTING =
+    "/assets/images/service/webHosting/Dedicated Hosting.jpg";
+  static SERVICE_EMAIL_HOSTING =
+    "/assets/images/service/webHosting/E mail hosting.jpg";
+  static SERVICE_G_SUITE = "/assets/images/service/webHosting/G Suite.jpg";
+  static SERVICE_SHARED_WEB_HOSTING =
+    "/assets/images/service/webHosting/Shared Web Hosting.jpg";
 }
