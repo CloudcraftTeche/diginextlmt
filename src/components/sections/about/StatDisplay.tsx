@@ -37,12 +37,12 @@ function StatDisplay({
       style={{ opacity, y, scale }}
     >
       <div className="text-center px-4">
-        <div className="text-[clamp(4rem,12vw,12rem)] font-light leading-none mb-3 md:mb-4">
+        <div className="text-[clamp(3rem,10vw,12rem)] font-light leading-none mb-2 md:mb-4">
           {item.end}
-          <span className="text-[clamp(2.5rem,8vw,8rem)]">{item.suffix}</span>
+          <span className="text-[clamp(2rem,6vw,8rem)]">{item.suffix}</span>
         </div>
-        <div className="h-[2px] w-24 md:w-32 mx-auto bg-white/20 mb-4 md:mb-6" />
-        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 font-light max-w-sm md:max-w-lg mx-auto px-4">
+        <div className="h-[2px] w-20 md:w-32 mx-auto bg-white/20 mb-3 md:mb-6" />
+        <p className="text-sm sm:text-base md:text-xl lg:text-2xl text-gray-300 font-light max-w-[280px] sm:max-w-sm md:max-w-lg mx-auto px-2 leading-relaxed">
           {item.label}
         </p>
       </div>
@@ -107,11 +107,11 @@ export function StatsScrolly() {
         </div>
 
         {/* Content wrapper */}
-        <div className="relative z-10 max-w-[1750px] mx-auto px-6 py-4 sm:py-0 sm:px-8 lg:px-12 xl:px-16">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center h-screen">
+        <div className="relative z-10 max-w-[1750px] mx-auto px-6 py-0 sm:px-8 lg:px-12 xl:px-16">
+          <div className="grid lg:grid-cols-2 gap-4 lg:gap-16 items-center h-screen">
             {/* Left column - Hero Content */}
             <div
-              className={`space-y-6 lg:space-y-8 order-1 mt-10  lg:order-1 transition-all duration-1000 ease-out ${
+              className={`space-y-4 lg:space-y-8 order-1 mt-25 lg:mt-0 lg:order-1 transition-all duration-1000 ease-out ${
                 isVisible
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 -translate-x-8"
@@ -119,12 +119,12 @@ export function StatsScrolly() {
               style={{ transitionDelay: "200ms" }}
             >
               <div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light leading-tight mb-4 lg:mb-6">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light leading-tight mb-3 lg:mb-6">
                   Big Dreams,
                   <br />
                   Bigger Numbers
                 </h1>
-                <p className="text-base sm:text-lg md:text-xl text-gray-400 font-light max-w-xl leading-relaxed">
+                <p className="text-sm sm:text-base md:text-xl text-gray-400 font-light max-w-xl leading-relaxed">
                   We are moving ahead with relentless energy to achieve amazing
                   results that speak volumes. We don&apos;t intend to slow down
                   either!
@@ -134,7 +134,7 @@ export function StatsScrolly() {
 
             {/* Right column - Stats with 3D visual */}
             <div
-              className={`relative h-[50vh] sm:h-[60vh] lg:h-[80vh] flex items-center justify-center order-2 lg:order-2 transition-all duration-1000 ease-out ${
+              className={`relative h-[60vh] sm:h-[65vh] lg:h-[80vh] flex items-center justify-center order-2 lg:order-2 transition-all duration-1000 ease-out ${
                 isVisible
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 translate-x-8"
