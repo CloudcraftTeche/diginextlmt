@@ -25,118 +25,76 @@ interface ServiceItem {
 }
 
 // Services Data
-const SERVICES_DATA: ServiceItem[] = [
+const SOLUTIONS_DATA: ServiceItem[] = [
   {
-    title: "Design",
-    description: "Comprehensive visual design services for branding and UX",
-    slug: "design",
-    image: ImageConstants.SERVICE_DESIGN,
-    imageAlt: "Design Services",
-    services: [
-      {
-        name: "Branding and Graphics Design",
-        slug: "branding-graphics-design",
-      },
-      { name: "Product & Packaging Design", slug: "product-packaging-design" },
-      { name: "UI/UX Design", slug: "ui-ux-design" },
-    ],
-  },
-  {
-    title: "Development",
-    description: "Custom software and mobile app development solutions",
-    slug: "development",
-    image: ImageConstants.SERVICE_DEVELOPMENT,
-    imageAlt: "Development Services",
-    services: [
-      { name: "Web Design", slug: "website-design" },
-      { name: "E-Commerce Web Development", slug: "ecommerce-development" },
-      {
-        name: "Mobile App Development",
-        slug: "app-development",
-        subItems: [
-          {
-            name: "Native Hybrid Development",
-            slug: "native-hybrid-development",
-          },
-          {
-            name: "React Native Development",
-            slug: "react-native-development",
-          },
-          { name: "Android App Development", slug: "android-development" },
-          { name: "iOS App Development", slug: "ios-development" },
-        ],
-      },
-      { name: "Custom Web Application", slug: "custom-web-application" },
-    ],
-  },
-  {
-    title: "Digital Marketing",
+    title: "Print & Signages",
     description:
-      "Marketing services to boost your online presence and engagement",
-    slug: "digital-marketing",
-    image: ImageConstants.SERVICE_DM,
-    imageAlt: "Digital Marketing Services",
-    services: [
-      {
-        name: "Social Media Marketing",
-        slug: "social-media-marketing",
-        subItems: [
-          { name: "LinkedIn Marketing", slug: "linkedin-marketing" },
-          { name: "Instagram Marketing", slug: "instagram-marketing" },
-          { name: "Facebook Marketing", slug: "facebook-marketing" },
-          { name: "Twitter Marketing", slug: "twitter-marketing" },
-          {
-            name: "Social Media Optimization",
-            slug: "social-media-optimization",
-          },
-        ],
-      },
-      {
-        name: "Search Engine Optimization",
-        slug: "search-engine-optimization",
-      },
-      { name: "Email Marketing", slug: "email-marketing" },
-      { name: "PPC Advertising", slug: "ppc-advertising" },
-    ],
-  },
-  {
-    title: "Web Hosting",
-    description: "Reliable and scalable web hosting solutions",
-    slug: "web-hosting",
-    image: ImageConstants.SERVICE_WEB_HOSTING,
-    imageAlt: "Web Hosting Services",
-    services: [
-      { name: "Shared Web Hosting", slug: "shared-hosting" },
-      { name: "Dedicated Hosting", slug: "dedicated-hosting" },
-      { name: "Cloud Hosting", slug: "cloud-hosting" },
-      { name: "Email Hosting", slug: "email-hosting" },
-      { name: "G Suite", slug: "g-suite" },
-    ],
-  },
-  {
-    title: "Production",
-    description: "Creative production services for photography and videography",
-    slug: "production",
-    image: ImageConstants.SERVICE_PRODUCTION,
-    imageAlt: "Production Services",
-    services: [
-      { name: "Photography", slug: "photography" },
-      { name: "Videography", slug: "videography" },
-    ],
-  },
-  {
-    title: "Entertainment & Events",
-    description:
-      "We bring your events to life with creative planning, execution, and media coverage from corporate events to concerts and celebrations.",
-    slug: "entertainment-events",
+      "Professional printing and signage solutions for your business branding needs",
+    slug: "print-signages",
     image:
-      "https://images.unsplash.com/photo-1561489396-888724a1543d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170?w=800&h=600&fit=crop",
-    imageAlt: "Entertainment and Events Services",
+      "https://images.unsplash.com/photo-1611095790444-1dfa35e37b52?w=800&h=600&fit=crop",
+    imageAlt: "Print and Signages Services",
     services: [
-      { name: "Event Management", slug: "event-management" },
-      { name: "Concerts & Shows", slug: "concerts-and-shows" },
-      { name: "Corporate Events", slug: "corporate-events" },
-      { name: "Media Coverage", slug: "media-coverage" },
+      { name: "Digital Printing", slug: "digital-printing" },
+      { name: "Signages", slug: "signages" },
+      { name: "Exhibition Stand Builders", slug: "exhibition-stand-builders" },
+      { name: "Corporate Gift", slug: "corporate-gift" },
+    ],
+  },
+  {
+    title: "Marketing",
+    description:
+      "Strategic marketing solutions to accelerate your business growth and enhance brand visibility",
+    slug: "marketing",
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+    imageAlt: "Marketing Services",
+    services: [
+      { name: "Performance Marketing", slug: "performance-marketing" },
+      { name: "Marketing Consultant", slug: "marketing-consultant" },
+      { name: "Growth Marketing", slug: "growth-marketing" },
+      { name: "Content Marketing", slug: "content-marketing" },
+      { name: "Influencer Marketing", slug: "influencer-marketing" },
+    ],
+  },
+  {
+    title: "IT Infrastructure",
+    description:
+      "Comprehensive IT infrastructure services ensuring robust and secure technology operations",
+    slug: "it-infrastructure",
+    image:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop",
+    imageAlt: "IT Infrastructure Services",
+    services: [
+      { name: "IT Services", slug: "it-services" },
+      { name: "Enterprise Solutions", slug: "enterprise-solutions" },
+      { name: "GIS Planning", slug: "gis-planning" },
+      { name: "On Site Support", slug: "on-site-support" },
+      { name: "Cyber Security", slug: "cyber-security" },
+    ],
+  },
+  {
+    title: "Custom Softwares",
+    description:
+      "Tailored software development solutions designed to meet your unique business requirements",
+    slug: "custom-softwares",
+    image:
+      "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop",
+    imageAlt: "Custom Software Services",
+    services: [
+      { name: "HR Software Development", slug: "hr-software-development" },
+      { name: "Enterprise CRM Software", slug: "enterprise-crm-software" },
+      {
+        name: "ERP Development Consultation",
+        slug: "erp-development-consultation",
+      },
+      { name: "Custom Dashboard Design", slug: "custom-dashboard-design" },
+      { name: "ERP Data Migration", slug: "erp-data-migration" },
+      { name: "ERP App Development", slug: "erp-app-development" },
+      {
+        name: "Learning Management System",
+        slug: "learning-management-system",
+      },
     ],
   },
 ];
@@ -211,7 +169,7 @@ const ServiceCard: React.FC<{
                 <div>
                   <div className="flex items-center gap-2">
                     <a
-                      href={`/services/${item.slug}`}
+                      href={`/solutions/${item.slug}`}
                       className="text-base lg:text-lg text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all duration-200 relative group flex-1"
                     >
                       <span className="relative">
@@ -323,7 +281,7 @@ const ServiceCard: React.FC<{
 };
 
 const ShowcaseSection: React.FC<ServicesShowcaseSectionProps> = ({
-  services = SERVICES_DATA,
+  services = SOLUTIONS_DATA,
 }) => {
   useEffect(() => {
     const observer = new IntersectionObserver(
