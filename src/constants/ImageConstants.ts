@@ -82,4 +82,7 @@ export class ImageConstants {
   static SERVICE_G_SUITE = "/assets/images/service/webHosting/G Suite.jpg";
   static SERVICE_SHARED_WEB_HOSTING =
     "/assets/images/service/webHosting/Shared Web Hosting.jpg";
+
+  static SOLUTION_IMAGE =
+    "/assets/images/service/webHosting/Shared Web Hosting.jpg";
 }
