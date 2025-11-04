@@ -109,7 +109,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       id="hero-section"
       className="px-3 xs:px-4 sm:px-6 lg:px-8 py-4 xs:py-6 sm:py-8 lg:py-10 bg-white overflow-hidden"
       aria-labelledby="hero-heading"
-      onMouseMove={handleMouseMove}
+      // onMouseMove={handleMouseMove}
       style={{ transform: `translateY(${scrollY * 0.1}px)` }}
     >
       {/* Full-width black background */}
@@ -129,7 +129,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               }}
             >
               <div className="relative w-full max-w-[300px] lg:max-w-[400px] aspect-square">
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-400/10 to-orange-600/10 rounded-full blur-xl animate-pulse" />
+                {/* <div className="absolute inset-0 bg-gradient-to-r from-orange-400/10 to-orange-600/10 rounded-full blur-xl animate-pulse" /> */}
                 <div
                   className="relative w-full h-full"
                   style={{

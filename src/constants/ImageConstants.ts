@@ -85,4 +85,5 @@ export class ImageConstants {
 
   static SOLUTION_IMAGE =
     "/assets/images/service/webHosting/Shared Web Hosting.jpg";
+  static WORK_BANNER = "/assets/images/image.png";
 }
