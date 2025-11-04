@@ -1672,6 +1672,174 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     },
     faqs: { items: [] }, // No FAQ
   },
+  "erp-app-development": {
+    slug: "erp-app-development",
+    title: "Smart ERP App Development Solutions",
+    heroDescription:
+      "With customized ERP app development solutions, we help businesses function more smoothly and make better decisions. As a leading ERP app development services company, we design and develop ERP apps that are powerful, scalable, and easy to use. They connect your departments, make workflows easier, and help your business run more smoothly overall.\n\nOur ERP solutions are made to adapt your business—we provide solutions that bring everything together in one smooth system, whether you want to improve your finance, HR, supply chain, or operations.",
+    ctaSection: {
+      title: "Let’s Create the System That Operates Your Business",
+      description:
+        "We create ERP apps that work smarter, faster, and better from start to finish, just like your business requirements. Let us connect.",
+    },
+    imageUrl: ImageConstants.SOLUTION_IMAGE,
+    servicesOffered: {
+      title: "Our ERP App Development Services",
+      description:
+        "We offer complete ERP development services in Dubai that are customized to meet the requirements of your business. This is what we have to offer:",
+      services: [
+        {
+          title: "Custom ERP App Development",
+          description:
+            "We build ERP apps from scratch, structured to your business's requirements, workflows, and data processes.",
+        },
+        {
+          title: "Cloud-Based ERP Solutions",
+          description:
+            "You can safely access your business data from anywhere and at any time. Our cloud-based ERP systems make sure that they remain flexible, adapt, and give you real-time information.",
+        },
+        {
+          title: "ERP Integration Services",
+          description:
+            "We connect your ERP system to other business tools, like CRMs, payment gateways, or third-party apps, so that data flows easily.",
+        },
+        {
+          title: "ERP Modernization & Migration",
+          description:
+            "Upgrade your old systems to modern ERP solutions that have better performance, faster speed, and advanced features.",
+        },
+        {
+          title: "ERP Maintenance & Support",
+          description:
+            "After deployment, our work is not done. We keep your ERP system running smoothly by giving you regular updates, monitoring, and technical support.",
+        },
+      ],
+    },
+    process: {
+      title: "Our Process",
+      description:
+        "We use a structured, research-based method to give you ERP systems that work well and help you reach your business goals.",
+      steps: [
+        {
+          title: "Requirement Analysis",
+          description: "Understanding your processes and pain points.",
+        },
+        {
+          title: "System Planning",
+          description: "Defining modules, workflows, and features.",
+        },
+        {
+          title: "Design & Prototyping",
+          description: "Crafting user-friendly interfaces and architecture.",
+        },
+        {
+          title: "Development & Integration",
+          description: "Building and connecting your ERP with other tools.",
+        },
+        {
+          title: "Testing & QA",
+          description: "Ensuring performance, security, and reliability.",
+        },
+        {
+          title: "Deployment & Support",
+          description: "Launching smoothly and providing ongoing assistance.",
+        },
+      ],
+    },
+    partnerSection: {
+      title: "Partner with DigiNext",
+      description:
+        "DigiNext is one of the most trusted names for ERP development services in Dubai. We help businesses achieve complete digital transformation. We do not just make software—we make smart systems that boost productivity, growth, and success over time.",
+    },
+    faqs: { items: [] }, // No FAQ
+  },
+  "learning-management-system": {
+    slug: "learning-management-system",
+    title: "Learning Management System in Dubai",
+    heroDescription:
+      "We create intelligent and interactive learning management systems (LMS) that make it easy for businesses to offer, keep track of, and run training or education programs. As a leading provider of the learning management system in Dubai, we focus on giving businesses, educational institutions, and other organizations technology-based learning solutions that are easy to use and make managing them easier.\n\nOur learning management system is a flexible and scalable platform that can be customized according to your requirements, no matter if you are training employees, onboarding new hires, or running online courses.",
+    ctaSection: {
+      title: "Let's Make Your Learning Environment",
+      description:
+        "Let us change how you educate and train with a smart, adaptable, and fully integrated learning management system that is designed to make learning easier, faster, and more effective.",
+    },
+    imageUrl: ImageConstants.SOLUTION_IMAGE,
+    servicesOffered: {
+      title: "Learning Management System Services We Offer",
+      description:
+        "Adopt a smart, flexible, and fully integrated learning management system to change the way you educate and train. It will make learning a lot easier, faster and effective.",
+      services: [
+        {
+          title: "Custom LMS Development",
+          description:
+            "We develop custom LMS platforms that fit your business or academic goals and make sure they are flexible, scalable, and efficient.",
+        },
+        {
+          title: "Corporate Training Solutions",
+          description:
+            "Make training easier for your employees by using a central system that keeps track of their progress, performance, and learning outcomes.",
+        },
+        {
+          title: "E-Learning Platform Design",
+          description:
+            "We develop platforms that are easy to use, visually engaging, and simple to use, which makes learning more enjoyable and keeps users motivated.",
+        },
+        {
+          title: "LMS Integration & Migration",
+          description:
+            "Our team makes sure that your LMS works well with your current infrastructure, even if you are switching systems or adding new tools.",
+        },
+        {
+          title: "LMS Maintenance & Support",
+          description:
+            "We do not stop working after deployment, we keep giving support, upgrades, and optimization to make sure the system operates well for a long time.",
+        },
+      ],
+    },
+    process: {
+      title: "Our LMS Development Process",
+      description:
+        "As one of the top providers of learning management system in Dubai, we use a structured and research-based method to make sure everything functions perfectly and that users are satisfied:",
+      steps: [
+        {
+          title: "Requirement Analysis",
+          description:
+            "Understanding your organization’s goals, audience, and training needs.",
+        },
+        {
+          title: "System Design",
+          description:
+            "Designing the LMS architecture and user experience for maximum engagement.",
+        },
+        {
+          title: "Development",
+          description:
+            "Building scalable and secure LMS platforms structured to your specifications.",
+        },
+        {
+          title: "Integration",
+          description:
+            "Connecting the LMS with existing systems and tools for smooth data flow.",
+        },
+        {
+          title: "Testing & Deployment",
+          description:
+            "Ensuring functionality, performance, and a flawless launch.",
+        },
+        {
+          title: "Support & Optimization",
+          description:
+            "Providing regular updates, analytics, and enhancements.",
+        },
+      ],
+    },
+    partnerSection: {
+      title: "Partner with DigiNext",
+      description:
+        "We believe learning should be continuous, collaborative, and convenient. You may provide learners more power, get them engaged, and make training a strategic advantage for your business with our learning management system.",
+    },
+    faqs: { items: [] }, // No FAQ
+  },
 };
 // Helper function to get service detail by slug
 export const getSolutionDetailBySlug = (
