@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { ImageConstants } from "@/constants/ImageConstants";
+import Link from "next/link";
 
 interface CaseStudyProps {
   image: string;
@@ -10,6 +11,8 @@ interface CaseStudyProps {
   percentage?: string;
   description: string;
   delay: number;
+  slag?: string;
+  navigationText?: string;
 }
 
 interface CaseStudiesSectionProps {
@@ -21,6 +24,8 @@ interface CaseStudiesSectionProps {
     title: string;
     percentage?: string;
     description: string;
+    slag?: string;
+    navigationText?: string;
   }>;
 }
 
@@ -30,6 +35,8 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
   percentage,
   description,
   delay,
+  slag,
+  navigationText = "Read Case Study",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -86,11 +93,14 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
         <p className="text-gray-600 text-xs xs:text-sm sm:text-base leading-relaxed mb-3 xs:mb-4 sm:mb-5 md:mb-6 line-clamp-3">
           {description}
         </p>
-
-        <button className="group/btn flex items-center gap-1 xs:gap-2 text-gray-700 hover:text-orange-500 font-medium transition-colors duration-300">
-          <span className="text-xs xs:text-sm sm:text-base">Connect to Us</span>
-          <ArrowUpRight className="w-3 xs:w-4 sm:w-5 h-3 xs:h-4 sm:h-5 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
-        </button>
+        <Link href={`/work/${slag}`}>
+          <button className="group/btn flex items-center gap-1 xs:gap-2 text-gray-700 hover:text-orange-500 font-medium transition-colors duration-300">
+            <span className="text-xs xs:text-sm sm:text-base">
+              {navigationText}
+            </span>
+            <ArrowUpRight className="w-3 xs:w-4 sm:w-5 h-3 xs:h-4 sm:h-5 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+          </button>
+        </Link>
       </div>
     </div>
   );
@@ -254,6 +264,8 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
               percentage={study.percentage}
               description={study.description}
               delay={400 + index * 150}
+              slag={study.slag}
+              navigationText={study.navigationText}
             />
           ))}
         </div>
