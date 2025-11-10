@@ -21,6 +21,7 @@ interface FooterProps {
   };
   services?: string[];
   solutions?: string[];
+  blog?: string[];
   usefulLinks?: string[];
   footerLinks?: string[];
   socialLinks?: {
@@ -66,6 +67,13 @@ const Footer: React.FC<FooterProps> = ({
     "Custom Softwares",
     "CRM Systems",
   ],
+  blog = [
+    "Latest Posts",
+    "Tech Insights",
+    "Digital Marketing",
+    "Development Tips",
+    "Industry News",
+  ],
   usefulLinks = [
     "Impact",
     "Testimonials",
@@ -91,6 +99,7 @@ const Footer: React.FC<FooterProps> = ({
     address: false,
     services: false,
     solutions: false,
+    blog: false,
     usefulLinks: false,
   });
 
@@ -297,7 +306,7 @@ const Footer: React.FC<FooterProps> = ({
               }`}
               style={{ transitionDelay: "400ms" }}
             >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 xs:gap-6 sm:gap-8 lg:gap-12">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4 xs:gap-6 sm:gap-8 lg:gap-12">
                 {/* Company Info */}
                 <div className="sm:col-span-2 lg:col-span-2">
                   <Image
@@ -461,6 +470,47 @@ const Footer: React.FC<FooterProps> = ({
                           className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm hover:text-orange-400 transition-colors duration-300"
                         >
                           {solution}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Blog - Collapsible on Mobile/Tablet */}
+                <div>
+                  <button
+                    onClick={() => toggleSection("blog")}
+                    className="text-white text-base xs:text-lg sm:text-lg lg:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:cursor-default"
+                  >
+                    Blog
+                    <svg
+                      className={`w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5 lg:hidden transform transition-transform duration-300 ${
+                        openSections.blog ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <ul
+                    className={`space-y-2 xs:space-y-3 lg:block ${
+                      openSections.blog ? "block" : "hidden lg:block"
+                    }`}
+                  >
+                    {blog.map((item, index) => (
+                      <li key={index}>
+                        <a
+                          href="/blog"
+                          className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm hover:text-orange-400 transition-colors duration-300"
+                        >
+                          {item}
                         </a>
                       </li>
                     ))}
