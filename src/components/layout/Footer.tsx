@@ -1,6 +1,7 @@
 "use client";
 import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 interface FooterProps {
@@ -506,12 +507,12 @@ const Footer: React.FC<FooterProps> = ({
                   >
                     {blog.map((item, index) => (
                       <li key={index}>
-                        <a
+                        <Link
                           href="/blog"
                           className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm hover:text-orange-400 transition-colors duration-300"
                         >
                           {item}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>

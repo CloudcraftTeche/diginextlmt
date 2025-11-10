@@ -1,5 +1,6 @@
 "use client";
 import { ImageConstants } from "@/constants/ImageConstants";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 interface BrandingImage {
@@ -101,13 +102,17 @@ const BrandingShowcase: React.FC<BrandingShowcaseProps> = ({
               onMouseEnter={() => setHoveredImage(image.id)}
               onMouseLeave={() => setHoveredImage(null)}
             >
-              <img
-                src={image.img}
-                alt={image.alt}
-                className={`w-full h-80 object-cover rounded-lg shadow-lg transition-transform duration-500 ${
-                  hoveredImage === image.id ? "scale-105" : "scale-100"
-                }`}
-              />
+              <div className="relative w-full h-80 rounded-lg overflow-hidden shadow-lg">
+                <Image
+                  src={image.img}
+                  alt={image.alt}
+                  fill
+                  className={`object-cover transition-transform duration-500 ${
+                    hoveredImage === image.id ? "scale-105" : "scale-100"
+                  }`}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                />
+              </div>
             </div>
           ))}
         </div>

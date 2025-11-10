@@ -96,13 +96,13 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 </h2>
                 <nav className="space-y-2">
                   {post.tableOfContents.map((item) => (
-                    <a
+                    <Link
                       key={item.id}
                       href={`#${item.id}`}
                       className="block text-sm py-2 px-3 rounded-lg text-gray-600 hover:text-orange-600 hover:bg-gray-50 transition-colors"
                     >
                       {item.title}
-                    </a>
+                    </Link>
                   ))}
                 </nav>
               </div>

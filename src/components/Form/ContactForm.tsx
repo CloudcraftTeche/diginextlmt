@@ -49,14 +49,14 @@ const ContactForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const services = [
-    "Web Design & Development",
-    "Brand Identity & Design",
-    "Digital Marketing & SEO",
-    "Business Automation",
-    "E-commerce Solutions",
-    "Custom Software Development",
-  ];
+  // const services = [
+  //   "Web Design & Development",
+  //   "Brand Identity & Design",
+  //   "Digital Marketing & SEO",
+  //   "Business Automation",
+  //   "E-commerce Solutions",
+  //   "Custom Software Development",
+  // ];
 
   return (
     <motion.div
