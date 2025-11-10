@@ -5,5 +5,6 @@ export const APP_ROUTES = {
   SOLUTIONS: "/solutions",
   WORK: "/work",
   INSIGHTS: "/insights",
+  BLOG: "/blog",
   CONTACT: "/contact",
 };
