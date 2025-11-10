@@ -49,7 +49,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition] = useState({ x: 0, y: 0 });
   const [isAnimating, setIsAnimating] = useState(false);
 
   // Intersection Observer for fade-in animation
@@ -87,14 +87,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Mouse movement tracking for parallax
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: (e.clientX - rect.left - rect.width / 2) / 20,
-      y: (e.clientY - rect.top - rect.height / 2) / 20,
-    });
-  };
+  // Mouse movement tracking for parallax (currently disabled)
+  // const handleMouseMove = (e: React.MouseEvent) => {
+  //   const rect = e.currentTarget.getBoundingClientRect();
+  //   setMousePosition({
+  //     x: (e.clientX - rect.left - rect.width / 2) / 20,
+  //     y: (e.clientY - rect.top - rect.height / 2) / 20,
+  //   });
+  // };
 
   const handleDotClick = (index: number) => {
     setIsAnimating(true);

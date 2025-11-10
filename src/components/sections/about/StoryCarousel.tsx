@@ -128,7 +128,7 @@ export function JourneyValuesSection() {
             onTouchEnd={() => setIsPaused(false)}
           >
             {/* First set of items */}
-            {journeyItems.map((item, index) => (
+            {journeyItems.map((item) => (
               <div
                 key={`${item.id}-1`}
                 className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 flex-shrink-0 w-[320px] sm:w-[380px] lg:w-[420px]"
@@ -158,7 +158,7 @@ export function JourneyValuesSection() {
               </div>
             ))}
             {/* Duplicate set for seamless loop */}
-            {journeyItems.map((item, index) => (
+            {journeyItems.map((item) => (
               <div
                 key={`${item.id}-2`}
                 className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 flex-shrink-0 w-[320px] sm:w-[380px] lg:w-[420px]"

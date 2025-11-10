@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import HeroBanner from "@/components/ui/HeroBanner";
 import { ImageConstants } from "@/constants/ImageConstants";
 
-import FAQSection from "@/components/sections/FAQSection";
+// import FAQSection from "@/components/sections/FAQSection";
 // import {
 //   getAllServiceSlugs,
 //   getServiceDetailBySlug,
