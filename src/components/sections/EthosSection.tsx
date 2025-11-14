@@ -273,16 +273,16 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
                 className="text-gray-300 font-light text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8"
                 style={{ transitionDelay: "400ms" }}
               >
-                <p className="mb-4 sm:mb-6">
+                <p className="mb-4 sm:mb-6 text-justify">
                   {description.split(".")[0]}.{" "}
                   <span className="font-light text-white">We</span>{" "}
                   {description.split(".").slice(1, 3).join(". ")}.
                 </p>
-                <p>{description.split(".").slice(3).join(". ")}</p>
+                <p className="text-justify"> {description.split(".").slice(3).join(". ")}</p>
               </div>
 
               <p
-                className="text-gray-300 text-sm sm:text-base md:text-lg font-light leading-relaxed"
+                className="text-gray-300 text-sm sm:text-base text-justify md:text-lg font-light leading-relaxed"
                 style={{ transitionDelay: "600ms" }}
               >
                 {subtitle}

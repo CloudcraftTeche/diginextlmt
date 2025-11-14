@@ -210,7 +210,7 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
               <h3 className="text-md sm:text-md font-semibold mb-3 text-black group-hover:text-white transition-colors duration-500">
                 {step.title}
               </h3>
-              <p className="text-gray-600 text-xs sm:text-xs md:text-sm lg:text-sm group-hover:text-gray-200 transition-colors duration-500 mb-4 leading-relaxed flex-grow">
+              <p className="text-gray-600 text-justify text-xs sm:text-xs md:text-sm lg:text-sm group-hover:text-gray-200 transition-colors duration-500 mb-4 leading-relaxed flex-grow">
                 {step.description}
               </p>
               <a
@@ -233,9 +233,9 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
         )}
 
         {/* Mobile Navigation Hint */}
-        <p className="text-center text-sm text-gray-500 mt-4 md:hidden">
+        {/* <p className="text-center text-sm text-gray-500 mt-4 md:hidden">
           Swipe to see more
-        </p>
+        </p> */}
       </div>
 
       <style jsx>{`

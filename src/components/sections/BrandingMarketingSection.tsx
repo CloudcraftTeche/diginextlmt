@@ -87,7 +87,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
               <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl font-semibold text-black mb-3 xs:mb-4 sm:mb-6 leading-tight">
                 {title}
               </h2>
-              <p className="text-gray-700 text-xs xs:text-sm sm:text-base lg:text-lg leading-relaxed mb-4 xs:mb-6 sm:mb-8">
+              <p className="text-gray-700 text-xs text-justify xs:text-sm sm:text-base lg:text-lg leading-relaxed mb-4 xs:mb-6 sm:mb-8">
                 {description}
               </p>
             </div>
@@ -99,7 +99,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
                 <h3 className="text-base xs:text-lg font-semibold text-black">
                   {seoTitle}
                 </h3>
-                <p className="text-gray-700 text-xs xs:text-sm sm:text-base leading-relaxed">
+                <p className="text-gray-700 text-justify text-xs xs:text-sm sm:text-base leading-relaxed">
                   {seoDescription}
                 </p>
               </div>
@@ -109,7 +109,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
                 <h3 className="text-base xs:text-lg font-semibold text-black">
                   {socialMediaTitle}
                 </h3>
-                <p className="text-gray-700 text-xs xs:text-sm sm:text-base leading-relaxed">
+                <p className="text-gray-700 text-justify  text-xs xs:text-sm sm:text-base leading-relaxed">
                   {socialMediaDescription}
                 </p>
               </div>
@@ -131,7 +131,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
             <h3 className="text-base xs:text-lg font-semibold text-black mb-2 xs:mb-3 sm:mb-4">
               {paidCampaignsTitle}
             </h3>
-            <p className="text-gray-700 text-xs xs:text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-700 text-xs text-justify xs:text-sm sm:text-base leading-relaxed">
               {paidCampaignsDescription}
             </p>
           </div>
@@ -168,7 +168,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
 
               {/* Text Content */}
               <div className="relative z-10 ml-20 xs:ml-24 sm:ml-32 flex-1">
-                <p className="text-white text-xs xs:text-sm sm:text-base leading-relaxed">
+                <p className="text-white text-justify text-xs xs:text-sm sm:text-base leading-relaxed">
                   {bottomSectionText}
                 </p>
               </div>
@@ -190,7 +190,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
             <h3 className="text-base xs:text-lg font-semibold text-black mb-2 xs:mb-3 sm:mb-4">
               IT Consultancy in Dubai
             </h3>
-            <p className="text-gray-700 text-xs xs:text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-700 text-xs text-justify  xs:text-sm sm:text-base leading-relaxed">
               As a leading IT solution company, we don&apos;t just offer
               services, we work with you to come up with plans that bring
               technology and business closer together. DigiNext makes sure that
@@ -212,7 +212,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
             <h3 className="text-base xs:text-lg font-semibold text-black mb-2 xs:mb-3 sm:mb-4">
               Partner with DigiNext
             </h3>
-            <p className="text-gray-700 text-xs xs:text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-700 text-xs text-justify xs:text-sm sm:text-base leading-relaxed">
               DigiNext is a trustworthy IT solution company in Dubai with an
               excellent reputation. We promise to provide solutions that are
               both innovative and efficient. Our broad range of IT solutions

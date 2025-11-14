@@ -90,7 +90,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
           </h3>
         </div>
 
-        <p className="text-gray-600 text-xs xs:text-sm sm:text-base leading-relaxed mb-3 xs:mb-4 sm:mb-5 md:mb-6 line-clamp-3">
+        <p className="text-gray-600 text-xs xs:text-sm sm:text-base  text-justify leading-relaxed mb-3 xs:mb-4 sm:mb-5 md:mb-6 line-clamp-3">
           {description}
         </p>
         <Link href={`/work/${slag}`}>
@@ -175,7 +175,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
               }`}
               style={{ transitionDelay: "100ms" }}
             >
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+              <p className="text-gray-600 text-sm text-justify sm:text-base leading-relaxed">
                 {subtitle}
               </p>
             </div>
