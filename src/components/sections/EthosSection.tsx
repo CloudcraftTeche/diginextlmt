@@ -256,11 +256,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
             {/* Left Side - Text Content */}
             <div
-              className={`text-left order-2 lg:order-1 transition-all duration-1000 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 -translate-x-8"
-              }`}
+              className={`text-left order-2 lg:order-1 transition-all duration-1000 ease-out opacity-100 translate-x-0`}
             >
               <h2
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-normal mb-6 sm:mb-8 text-white leading-tight"

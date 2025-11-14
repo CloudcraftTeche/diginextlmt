@@ -34,9 +34,8 @@ const StatItem: React.FC<StatItemProps> = ({
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Animate the number
           const targetNumber = parseInt(number);
-          const duration = 1000; // 2 seconds
+          const duration = 1000;
           const steps = 50;
           const increment = targetNumber / steps;
           let current = 0;
@@ -115,7 +114,6 @@ const TrustSection: React.FC<TrustSectionProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // Client logos using actual images
   const clientLogos = [
     { name: "Tata Power", logo: ImageConstants.COMPANY_LOGO_1 },
     { name: "Gulf Logistics", logo: ImageConstants.COMPANY_LOGO_2 },
@@ -136,10 +134,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
   ];
 
   return (
-    <section
-      id="trust-section"
-      className="py-8 bg-white overflow-hidden"
-    >
+    <section id="trust-section" className="py-8 bg-white overflow-hidden">
       <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         {/* Header Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16">
@@ -163,7 +158,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
               </p>
 
               <p className="text-sm sm:text-base lg:text-md font-light text-justify text-gray-600 leading-relaxed">
-              Our dedicated team does not just do marketing duties, we also
+                Our dedicated team does not just do marketing duties, we also
                 learn all about the specific needs of your business. We help you
                 research, plan and come up with new ideas for your approach in a
                 completely transparent way, making sure that every solution we
@@ -191,9 +186,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
             style={{ transitionDelay: "200ms" }}
           >
             <div className="grid grid-cols-2 gap-0 relative">
-              {/* Vertical line */}
               <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gray-300 transform -translate-x-1/2"></div>
-              {/* Horizontal line */}
               <div className="absolute top-1/2 left-0 right-0 h-px bg-gray-300 transform -translate-y-1/2"></div>
 
               {stats.map((stat, index) => (
@@ -209,10 +202,9 @@ const TrustSection: React.FC<TrustSectionProps> = ({
             </div>
           </div>
         </div>
-
-        {/* Client Logos Section - Auto Scrolling */}
       </div>
 
+      {/* Client Logos Section - Improved Auto Scrolling */}
       <div
         className={`transform transition-all duration-1000 ease-out ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -230,11 +222,26 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                   transform: translateX(-50%);
                 }
               }
+              
               .animate-scroll {
-                animation: scroll 10s linear infinite;
+                animation: scroll 40s linear infinite;
+                will-change: transform;
               }
+              
+              @media (max-width: 768px) {
+                .animate-scroll {
+                  animation: scroll 30s linear infinite;
+                }
+              }
+              
               .animate-scroll:hover {
                 animation-play-state: paused;
+              }
+              
+              @media (prefers-reduced-motion: reduce) {
+                .animate-scroll {
+                  animation: none;
+                }
               }
             `}</style>
 
@@ -243,14 +250,14 @@ const TrustSection: React.FC<TrustSectionProps> = ({
               {clientLogos.map((client, index) => (
                 <div
                   key={`${client.name}-${index}`}
-                  className="flex-shrink-0 mx-8 lg:mx-12"
+                  className="flex-shrink-0 mx-6 sm:mx-8 lg:mx-12"
                 >
                   <Image
                     src={client.logo}
                     alt={`${client.name} logo`}
                     width={160}
                     height={60}
-                    className="h-16 w-auto object-contain opacity-100 "
+                    className="h-12 sm:h-14 lg:h-16 w-auto object-contain opacity-100"
                     priority={index < 4}
                   />
                 </div>
@@ -259,14 +266,14 @@ const TrustSection: React.FC<TrustSectionProps> = ({
               {clientLogos.map((client, index) => (
                 <div
                   key={`${client.name}-duplicate-${index}`}
-                  className="flex-shrink-0 mx-8 lg:mx-12"
+                  className="flex-shrink-0 mx-6 sm:mx-8 lg:mx-12"
                 >
                   <Image
                     src={client.logo}
                     alt={`${client.name} logo`}
                     width={160}
                     height={60}
-                    className="h-16 w-auto object-contain opacity-100  duration-300"
+                    className="h-12 sm:h-14 lg:h-16 w-auto object-contain opacity-100"
                   />
                 </div>
               ))}

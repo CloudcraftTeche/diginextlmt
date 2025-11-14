@@ -81,7 +81,7 @@ export default async function ServiceDetailPage({
         {/* Hero Banner */}
         <HeroBanner
           backgorundImage={ImageConstants.INSIDE_BANNER_5}
-          title={serviceData.title}
+          title={"Service Details"}
         />
 
         {/* Service Hero Section with Breadcrumbs */}
@@ -91,7 +91,7 @@ export default async function ServiceDetailPage({
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Services", href: "/services" },
-            { label: serviceData.title, href: `/services/${slug}` },
+            // { label: serviceData.title, href: `/services/?${slug}` },
           ]}
           imageSrc={serviceData.imageUrl}
         />
