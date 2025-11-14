@@ -1,3 +1,4 @@
+// app/about/page.tsx
 "use client";
 
 import Header from "@/components/layout/Header";
@@ -14,7 +15,6 @@ export default function AboutPage() {
       <SmoothScroller />
       <StatsScrolly />
       <JourneyValuesSection />
-      {/* <StatsScrolly /> */}
       <CTASection />
       <Footer />
     </main>

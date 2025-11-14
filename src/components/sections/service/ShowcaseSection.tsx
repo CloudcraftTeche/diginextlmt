@@ -209,10 +209,10 @@ const ServiceCard: React.FC<{
             {service.services.map((item, idx) => (
               <li key={idx}>
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 relative group flex-1">
                     <a
                       href={`/services/${item.slug}`}
-                      className="text-base lg:text-lg text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all duration-200 relative group flex-1"
+                      className="text-base lg:text-lg text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all duration-200 "
                     >
                       <span className="relative">
                         {item.name}
@@ -222,13 +222,13 @@ const ServiceCard: React.FC<{
                     {item.subItems && item.subItems.length > 0 && (
                       <button
                         onClick={() => toggleSubItems(idx)}
-                        className="text-gray-500 hover:text-orange-600 transition-colors p-1"
+                        className="text-gray-500 hover:text-orange-600 transition-colors ml-4"
                         aria-label={
                           expandedItems.has(idx) ? "Collapse" : "Expand"
                         }
                       >
                         <svg
-                          className={`w-4 h-4 transform transition-transform duration-200 ${
+                          className={`w-5 h-5 transform transition-transform duration-200 ${
                             expandedItems.has(idx) ? "rotate-180" : ""
                           }`}
                           fill="none"

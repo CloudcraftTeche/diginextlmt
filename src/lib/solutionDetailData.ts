@@ -1840,6 +1840,119 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     },
     faqs: { items: [] }, // No FAQ
   },
+  "devops-and-cloud-solutions": {
+    slug: "devops-and-cloud-solutions",
+    title: "Powerful DevOps & Cloud Hosting Solutions",
+    heroDescription:
+      "More power. More speed. More reliability. At ByteQuad, our DevOps and Cloud Hosting solutions help businesses innovate faster and operate smarter. We streamline workflows, automate deployments, and build secure, scalable cloud infrastructures on platforms like AWS. Whether you need automation, cloud migration, or high-performance hosting, our team ensures your systems run faster, smoother, and more cost-efficiently.\n\nWith years of experience in AWS, CI/CD automation, and cloud-native architectures, we help you build, launch, and manage applications with minimal downtime and maximum performance. ByteQuad isn’t just a service provider—we’re your partner in scaling digital success.",
+
+    ctaSection: {
+      title: "Let’s Build Smarter, Deploy Faster",
+      description:
+        "Upgrade your digital infrastructure with modern DevOps practices designed for speed, flexibility, and reliability. Let’s talk about optimizing your cloud systems for the future.",
+    },
+
+    imageUrl: ImageConstants.SOLUTION_IMAGE,
+
+    servicesOffered: {
+      title: "Our DevOps & Cloud Hosting Services",
+      description:
+        "As a leading DevOps and cloud solutions provider, ByteQuad delivers a wide range of services designed to improve performance, security, and scalability.",
+      services: [
+        {
+          title: "Cloud Hosting Solutions",
+          description:
+            "Secure, scalable cloud hosting environments designed for seamless performance no matter how complex your operations are.",
+        },
+        {
+          title: "AWS Services",
+          description:
+            "From deployment to monitoring, our AWS experts build highly available, cost-effective cloud infrastructures tailored to your business needs.",
+        },
+        {
+          title: "Web Hosting Services",
+          description:
+            "Fast, reliable, high-performance web hosting that ensures your site stays online, secure, and optimized at all times.",
+        },
+        {
+          title: "Dedicated Server Services",
+          description:
+            "High-speed, fully controlled dedicated servers for businesses needing maximum performance, security, and customization.",
+        },
+        {
+          title: "DevOps Consulting & Automation",
+          description:
+            "End-to-end DevOps automation—from CI/CD pipelines to workflow optimization—to accelerate deployments and streamline team collaboration.",
+        },
+      ],
+    },
+
+    process: {
+      title: "Our Process",
+      description:
+        "We follow a structured yet flexible DevOps workflow to ensure reliable integration, deployment, and cloud performance.",
+      steps: [
+        {
+          title: "Assessment & Strategy",
+          description:
+            "Understanding your current infrastructure, identifying gaps, and defining clear DevOps goals.",
+        },
+        {
+          title: "Automation Setup",
+          description:
+            "Building CI/CD pipelines for fast, consistent, and error-free deployments.",
+        },
+        {
+          title: "Cloud Integration",
+          description:
+            "Migrating applications to secure cloud platforms and managing your cloud environments.",
+        },
+        {
+          title: "Monitoring & Optimization",
+          description:
+            "Continuous monitoring to ensure performance, scalability, and security.",
+        },
+        {
+          title: "Support & Maintenance",
+          description:
+            "24/7 technical support to keep your DevOps ecosystem running smoothly.",
+        },
+      ],
+    },
+
+    partnerSection: {
+      title: "Partner with ByteQuad",
+      description:
+        "ByteQuad blends innovation, automation, and cloud expertise to deliver end-to-end DevOps and hosting solutions. From AWS migration to CI/CD automation, we help businesses deploy faster, scale smarter, and perform better in today’s digital landscape.",
+    },
+
+    faqs: {
+      items: [
+        {
+          question:
+            "What exactly is DevOps and how can it benefit my business?",
+          answer:
+            "DevOps aligns development and operations to streamline workflows, reduce errors, and speed up deployment cycles—helping your business deliver faster and more reliably.",
+        },
+        {
+          question: "Do you offer cloud hosting and AWS integration services?",
+          answer:
+            "Yes. We specialize in AWS migration, setup, optimization, and full cloud hosting solutions for secure and seamless operations.",
+        },
+        {
+          question:
+            "What makes ByteQuad a reliable hosting and DevOps provider?",
+          answer:
+            "We deliver high-performance hosting, dedicated servers, and DevOps automation tailored for maximum uptime, speed, and security.",
+        },
+        {
+          question: "Can you help automate my current development process?",
+          answer:
+            "Absolutely. We analyze your existing workflow and implement CI/CD automation to boost productivity and accelerate releases.",
+        },
+      ],
+    },
+  },
 };
 // Helper function to get service detail by slug
 export const getSolutionDetailBySlug = (

@@ -11,7 +11,7 @@ interface CaseStudyProps {
   percentage?: string;
   description: string;
   delay: number;
-  slag?: string;
+  slug?: string;
   navigationText?: string;
 }
 
@@ -24,7 +24,7 @@ interface CaseStudiesSectionProps {
     title: string;
     percentage?: string;
     description: string;
-    slag?: string;
+    slug?: string;
     navigationText?: string;
   }>;
 }
@@ -35,7 +35,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
   percentage,
   description,
   delay,
-  slag,
+  slug,
   navigationText = "Read Case Study",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -93,7 +93,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
         <p className="text-gray-600 text-xs xs:text-sm sm:text-base  text-justify leading-relaxed mb-3 xs:mb-4 sm:mb-5 md:mb-6 line-clamp-3">
           {description}
         </p>
-        <Link href={`/work/${slag}`}>
+        <Link href={`/insights/${slug}`}>
           <button className="group/btn flex items-center gap-1 xs:gap-2 text-gray-700 hover:text-orange-500 font-medium transition-colors duration-300">
             <span className="text-xs xs:text-sm sm:text-base">
               {navigationText}
@@ -264,7 +264,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
               percentage={study.percentage}
               description={study.description}
               delay={400 + index * 150}
-              slag={study.slag}
+              slug={study.slug}
               navigationText={study.navigationText}
             />
           ))}

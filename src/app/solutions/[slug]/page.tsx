@@ -1,14 +1,9 @@
+// app/solutions/[slug]/page.tsx
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Metadata } from "next";
 import HeroBanner from "@/components/ui/HeroBanner";
 import { ImageConstants } from "@/constants/ImageConstants";
-
-// import FAQSection from "@/components/sections/FAQSection";
-// import {
-//   getAllServiceSlugs,
-//   getServiceDetailBySlug,
-// } from "@/lib/serviceDetailData";
 import SolutionHeroSection from "@/components/sections/solutions/HeroSection";
 import SolutionsOfferedSection from "@/components/sections/solutions/OfferedSection";
 import ProcessAccordionSection from "@/components/sections/solutions/ProcessAccordionSection";
@@ -19,43 +14,57 @@ import {
   getAllSolutionSlugs,
   getSolutionDetailBySlug,
 } from "@/lib/solutionDetailData";
+import { generatePageMetadata } from "@/lib/metadata";
+import { SOLUTIONS_SEO } from "@/lib/seo-data";
 
-export const metadata: Metadata = {
-  title: "Service Details - DigiNext",
-  description: "Learn more about our professional services",
-};
-
-interface ServiceDetailPageProps {
+interface SolutionDetailPageProps {
   params: Promise<{
     slug: string;
   }>;
 }
 
-export default async function ServiceDetailPage({
-  params,
-}: ServiceDetailPageProps) {
+// Dynamic metadata generation
+export async function generateMetadata({ 
+  params 
+}: SolutionDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const serviceData = getSolutionDetailBySlug(slug);
+  const solutionData = SOLUTIONS_SEO[slug];
 
-  // If service not found, show 404
-  if (!serviceData) {
+  if (!solutionData) {
+    return {
+      title: "Solution Not Found | DigiNext",
+      description: "The solution you're looking for doesn't exist.",
+    };
+  }
+
+  return generatePageMetadata(solutionData, `/solutions/${slug}`);
+}
+
+export default async function SolutionDetailPage({
+  params,
+}: SolutionDetailPageProps) {
+  const { slug } = await params;
+  const solutionData = getSolutionDetailBySlug(slug);
+
+  // If solution not found, show 404
+  if (!solutionData) {
     return (
       <>
         <Header />
         <div className="min-h-screen flex items-center justify-center pt-16">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Service Not Found
+              Solution Not Found
             </h1>
             <p className="text-gray-600 mb-8">
-              The service you&apos;re looking for doesn&apos;t exist.
+              The solution you&apos;re looking for doesn&apos;t exist.
             </p>
 
             <Link
-              href="/services"
+              href="/solutions"
               className="inline-block px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
             >
-              Back to Services
+              Back to Solutions
             </Link>
           </div>
         </div>
@@ -72,51 +81,49 @@ export default async function ServiceDetailPage({
         {/* Hero Banner */}
         <HeroBanner
           backgorundImage={ImageConstants.INSIDE_BANNER_5}
-          title={serviceData.title}
+          title={solutionData.title}
         />
 
-        {/* Service Hero Section with Breadcrumbs */}
+        {/* Solution Hero Section with Breadcrumbs */}
         <SolutionHeroSection
-          title={serviceData.title}
-          description={serviceData.heroDescription}
-          // imageUrl={serviceData.imageUrl}
+          title={solutionData.title}
+          description={solutionData.heroDescription}
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Solutions", href: "/solutions" },
-            { label: serviceData.title, href: `/solutions/${slug}` },
+            { label: solutionData.title, href: `/solutions/${slug}` },
           ]}
-          imageSrc={serviceData.imageUrl}
+          imageSrc={solutionData.imageUrl}
         />
 
         {/* CTA Section */}
-        {serviceData.ctaSection && (
+        {solutionData.ctaSection && (
           <CTASection
-            title={serviceData.ctaSection.title}
-            description={serviceData.ctaSection.description}
+            title={solutionData.ctaSection.title}
+            description={solutionData.ctaSection.description}
           />
         )}
 
-        {/* Services Offered Section */}
+        {/* Solutions Offered Section */}
         <SolutionsOfferedSection
-          title={serviceData.servicesOffered.title}
-          description={serviceData.servicesOffered.description}
-          services={serviceData.servicesOffered.services}
+          title={solutionData.servicesOffered.title}
+          description={solutionData.servicesOffered.description}
+          services={solutionData.servicesOffered.services}
         />
 
         {/* Process Accordion Section */}
         <ProcessAccordionSection
-          title={serviceData.process.title}
-          steps={serviceData.process.steps}
-          description={serviceData.process.description}
-          // sideImage={serviceData.imageUrl}
+          title={solutionData.process.title}
+          steps={solutionData.process.steps}
+          description={solutionData.process.description}
         />
-        {serviceData.partnerSection && (
+
+        {solutionData.partnerSection && (
           <PartnerSection
-            title={serviceData.partnerSection.title}
-            description={serviceData.partnerSection.description}
+            title={solutionData.partnerSection.title}
+            description={solutionData.partnerSection.description}
           />
         )}
-        {/* <FAQSection faqs={serviceData.faqs.items} description="" /> */}
 
         <Footer />
       </div>
