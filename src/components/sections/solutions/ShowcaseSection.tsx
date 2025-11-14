@@ -94,6 +94,10 @@ const SOLUTIONS_DATA: ServiceItem[] = [
         name: "Learning Management System",
         slug: "learning-management-system",
       },
+      {
+        name: "DevOps",
+        slug: "devops-and-cloud-solutions",
+      },
     ],
   },
 ];

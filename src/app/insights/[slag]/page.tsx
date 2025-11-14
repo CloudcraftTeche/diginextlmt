@@ -1,18 +1,18 @@
-// FILE 1: app/work/[slag]/page.tsx
+// FILE 1: app/work/[slug]/page.tsx
 // Remove "use client" directive and make it a server component
 
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
-import BrandingShowcase from "@/components/sections/ourWorks/BrandingShowcase";
-import InviteHero from "@/components/sections/ourWorks/InviteHero";
-import ServicesProvided from "@/components/sections/ourWorks/ServicesProvided";
+import BrandingShowcase from "@/components/sections/insights/BrandingShowcase";
+import InviteHero from "@/components/sections/insights/InviteHero";
+import ServicesProvided from "@/components/sections/insights/ServicesProvided";
 import { ImageConstants } from "@/constants/ImageConstants";
 import React from "react";
 import { notFound } from "next/navigation";
 
 // Define case study data structure
 interface CaseStudyData {
-  slag: string;
+  slug: string;
   inviteHero: {
     title: {
       part1: string;
@@ -48,7 +48,7 @@ interface CaseStudyData {
 // Case study database
 const caseStudiesData: Record<string, CaseStudyData> = {
   "caribou-coffee-case-study": {
-    slag: "caribou-coffee-case-study",
+    slug: "caribou-coffee-case-study",
     inviteHero: {
       title: {
         part1: "Digital",
@@ -113,7 +113,7 @@ const caseStudiesData: Record<string, CaseStudyData> = {
     },
   },
   "ikea-foods-case-study": {
-    slag: "ikea-foods-case-study",
+    slug: "ikea-foods-case-study",
     inviteHero: {
       title: {
         part1: "E-commerce",
@@ -178,7 +178,7 @@ const caseStudiesData: Record<string, CaseStudyData> = {
     },
   },
   "turtlewax-case-study": {
-    slag: "turtlewax-case-study",
+    slug: "turtlewax-case-study",
     inviteHero: {
       title: {
         part1: "Website",
@@ -246,16 +246,16 @@ const caseStudiesData: Record<string, CaseStudyData> = {
 
 interface PageProps {
   params: Promise<{
-    slag: string;
+    slug: string;
   }>;
 }
 
 export default async function CaseStudyDetailPage({ params }: PageProps) {
   // Await params in Next.js 15+
-  const { slag } = await params;
+  const { slug } = await params;
 
   // Get case study data
-  const caseStudy = caseStudiesData[slag];
+  const caseStudy = caseStudiesData[slug];
 
   // If case study not found, show 404
   if (!caseStudy) {
