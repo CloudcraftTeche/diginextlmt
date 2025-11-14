@@ -34,10 +34,10 @@ const SERVICES_DATA: ServiceItem[] = [
     imageAlt: "Design Services",
     services: [
       {
-        name: "Branding and Graphics Design",
+        name: "Branding",
         slug: "branding-graphics-design",
       },
-      { name: "Product & Packaging Design", slug: "product-packaging-design" },
+      { name: "Product Design", slug: "product-packaging-design" },
       { name: "UI/UX Design", slug: "ui-ux-design" },
     ],
   },

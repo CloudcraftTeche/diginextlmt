@@ -50,7 +50,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-gray-900 mb-6 leading-tight">
                   {title}
                 </h2>
-                <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+                <p className="text-gray-700 text-justify text-sm sm:text-base leading-relaxed">
                   {description}
                 </p>
               </div>
@@ -105,7 +105,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                     {openIndex === index && (
                       <div className="px-4 sm:px-6 pb-4 sm:pb-5">
                         <div className="pt-2 border-t border-gray-100">
-                          <p className="text-sm sm:text-base text-gray-700 leading-relaxed mt-3">
+                          <p className="text-sm text-justify  sm:text-base text-gray-700 leading-relaxed mt-3">
                             {faq.answer}
                           </p>
                         </div>

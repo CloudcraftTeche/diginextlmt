@@ -138,7 +138,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
   return (
     <section
       id="trust-section"
-      className="py-16 sm:py-20 lg:py-24 bg-white overflow-hidden"
+      className="py-8 bg-white overflow-hidden"
     >
       <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         {/* Header Section */}
@@ -155,15 +155,15 @@ const TrustSection: React.FC<TrustSectionProps> = ({
               {title}
             </h2>
             <div className="space-y-6" itemProp="description">
-              <p className="text-sm sm:text-base lg:text-md font-light text-gray-600 leading-relaxed">
+              <p className="text-sm sm:text-base lg:text-md font-light text-justify text-gray-600 leading-relaxed">
                 We at <span itemProp="legalName">DigiNext</span> are proud to
                 play a significant role in our client&apos;s success stories. We
                 think that building trust is the most important and basic part
                 of any great partnership we begin.
               </p>
 
-              <p className="text-sm sm:text-base lg:text-md font-light text-gray-600 leading-relaxed">
-                Our dedicated team does not just do marketing duties, we also
+              <p className="text-sm sm:text-base lg:text-md font-light text-justify text-gray-600 leading-relaxed">
+              Our dedicated team does not just do marketing duties, we also
                 learn all about the specific needs of your business. We help you
                 research, plan and come up with new ideas for your approach in a
                 completely transparent way, making sure that every solution we
@@ -173,7 +173,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                 successes.
               </p>
 
-              <p className="text-sm sm:text-base lg:text-md font-light text-gray-600 leading-relaxed">
+              <p className="text-sm sm:text-base lg:text-md font-light text-justify text-gray-600 leading-relaxed">
                 We have built a strong reputation in the market by working
                 closely with our partners for their success. We look forward to
                 building one with you.
@@ -219,7 +219,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
         }`}
         style={{ transitionDelay: "800ms" }}
       >
-        <div className="border-t border-gray-200 pt-16">
+        <div className="border-t border-gray-200 pt-8">
           <div className="relative overflow-hidden">
             <style jsx>{`
               @keyframes scroll {

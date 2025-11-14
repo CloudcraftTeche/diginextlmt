@@ -152,7 +152,7 @@ export function JourneyValuesSection() {
                 <div className="relative z-10 h-[2px] w-16 bg-white/20 group-hover:bg-orange-500 group-hover:w-24 transition-all duration-300 mb-4" />
 
                 {/* Description */}
-                <p className="relative z-10 text-sm lg:text-base text-gray-400 font-light leading-relaxed">
+                <p className="relative z-10 text-justify text-sm lg:text-base text-gray-400 font-light leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -182,7 +182,7 @@ export function JourneyValuesSection() {
                 <div className="relative z-10 h-[2px] w-16 bg-white/20 group-hover:bg-orange-500 group-hover:w-24 transition-all duration-300 mb-4" />
 
                 {/* Description */}
-                <p className="relative z-10 text-sm lg:text-base text-gray-400 font-light leading-relaxed">
+                <p className="relative z-10 text-sm  text-justify lg:text-base text-gray-400 font-light leading-relaxed">
                   {item.description}
                 </p>
               </div>

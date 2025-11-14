@@ -124,7 +124,7 @@ export function StatsScrolly() {
                   <br />
                   Bigger Numbers
                 </h1>
-                <p className="text-sm sm:text-base md:text-xl text-gray-400 font-light max-w-xl leading-relaxed">
+                <p className="text-sm sm:text-base text-justify md:text-xl text-gray-400 font-light max-w-xl leading-relaxed">
                   We are moving ahead with relentless energy to achieve amazing
                   results that speak volumes. We don&apos;t intend to slow down
                   either!

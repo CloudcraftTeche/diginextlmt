@@ -105,7 +105,7 @@ const ITSolutionsHero: React.FC<ITSolutionsHeroProps> = ({
 
               {/* Animated Description */}
               <p
-                className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-base mb-4 xs:mb-5 sm:mb-6 md:mb-8 leading-relaxed font-normal transition-all duration-700 ease-out opacity-100 translate-y-0 text-left w-full"
+                className="text-gray-300 text-xs xs:text-sm text-justify sm:text-sm lg:text-base mb-4 xs:mb-5 sm:mb-6 md:mb-8 leading-relaxed font-normal transition-all duration-700 ease-out opacity-100 translate-y-0 w-full"
                 style={{ transitionDelay: "1000ms" }}
               >
                 {description}

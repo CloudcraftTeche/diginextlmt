@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Mail, User, MessageSquare, Send } from "lucide-react";
+import { Mail, User, MessageSquare, Send, CheckCircle } from "lucide-react";
+import emailjs from '@emailjs/browser';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -15,8 +16,17 @@ const ContactForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
+
+  // EmailJS Configuration
+  const EMAILJS_SERVICE_ID = "service_ohstdsh";
+  const EMAILJS_TEMPLATE_ID = "template_5drjxw8"; // Replace with your template ID
+  const EMAILJS_PUBLIC_KEY = "pmOV6EXydv2-6-vPh"; // Replace with your public key
 
   useEffect(() => {
+    // Initialize EmailJS
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.1 }
@@ -27,18 +37,62 @@ const ContactForm = () => {
   }, []);
 
   const handleSubmit = async () => {
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.message) {
+      setSubmitStatus({
+        type: "error",
+        message: "Please fill in all required fields.",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log("Form submitted:", formData);
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      service: "",
-      message: "",
-    });
-    setIsSubmitting(false);
+    setSubmitStatus({ type: "", message: "" });
+
+    try {
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: formData.name,
+          email: formData.email,
+          time: new Date().toLocaleString(),
+          message: formData.message,
+        }
+      );
+
+      console.log("Email sent successfully:", response);
+      
+      setSubmitStatus({
+        type: "success",
+        message: "Message sent successfully! We'll get back to you soon.",
+      });
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        service: "",
+        message: "",
+      });
+
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus({ type: "", message: "" });
+      }, 5000);
+
+    } catch (error) {
+      console.error("Email sending failed:", error);
+      setSubmitStatus({
+        type: "error",
+        message: "Failed to send message. Please try again or contact us directly.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -49,22 +103,13 @@ const ContactForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // const services = [
-  //   "Web Design & Development",
-  //   "Brand Identity & Design",
-  //   "Digital Marketing & SEO",
-  //   "Business Automation",
-  //   "E-commerce Solutions",
-  //   "Custom Software Development",
-  // ];
-
   return (
     <motion.div
       id="contact-form"
       initial={{ opacity: 0, y: 20 }}
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.6 }}
-      className="bg-white rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-100"
+      className="bg-white rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-100 max-w-4xl mx-auto"
     >
       <div className="mb-8">
         <h3 className="text-3xl font-bold text-gray-900 mb-3">Get In Touch</h3>
@@ -72,6 +117,24 @@ const ContactForm = () => {
           Fill out the form below and we&apos;ll get back to you within 24 hours.
         </p>
       </div>
+
+      {/* Status Messages */}
+      {submitStatus.message && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`mb-6 p-4 rounded-xl flex items-center gap-3 ${
+            submitStatus.type === "success"
+              ? "bg-green-50 text-green-800 border border-green-200"
+              : "bg-red-50 text-red-800 border border-red-200"
+          }`}
+        >
+          {submitStatus.type === "success" && (
+            <CheckCircle className="w-5 h-5 flex-shrink-0" />
+          )}
+          <span className="font-medium">{submitStatus.message}</span>
+        </motion.div>
+      )}
 
       <div className="space-y-6">
         {/* Name & Email Row */}
@@ -92,7 +155,7 @@ const ContactForm = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white"
+                className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white"
                 placeholder="John Doe"
               />
             </div>
@@ -114,7 +177,7 @@ const ContactForm = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white"
+                className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 text-gray-900 rounded-xl focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white"
                 placeholder="john@example.com"
               />
             </div>
@@ -138,7 +201,7 @@ const ContactForm = () => {
               onChange={handleChange}
               required
               rows={5}
-              className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all resize-none bg-gray-50 focus:bg-white"
+              className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all resize-none bg-gray-50 focus:bg-white"
               placeholder="Tell us about your project requirements..."
             />
           </div>
@@ -159,6 +222,14 @@ const ContactForm = () => {
                 fill="none"
                 viewBox="0 0 24 24"
               >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
                 <path
                   className="opacity-75"
                   fill="currentColor"

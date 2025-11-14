@@ -20,7 +20,7 @@ export default function ContactPage() {
     {
       icon: Phone,
       title: "Phone",
-      details: ["+971 XXX XXX XXX", "Available during office hours"],
+      details: ["+971 50 320 5007", "Available during office hours"],
       delay: 100,
     },
     {

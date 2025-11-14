@@ -16,7 +16,7 @@ const ContactHero = () => {
   return (
     <div
       ref={containerRef}
-      className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden"
+      className="relative bg-gradient-to-br from-gray-900 via-black min-h-screen to-gray-900 text-white overflow-hidden"
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

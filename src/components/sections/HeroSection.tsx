@@ -194,7 +194,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               {/* Animated Content */}
               <div className="relative min-h-[100px] xs:min-h-[100px] sm:min-h-[100px] mb-4 xs:mb-5 sm:mb-6">
                 <p
-                  className={`text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-base leading-relaxed font-normal transition-all duration-300 ease-out ${
+                  className={`text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-base leading-relaxed text-justify font-normal transition-all duration-300 ease-out ${
                     isAnimating
                       ? "opacity-0 translate-y-4"
                       : "opacity-100 translate-y-0"

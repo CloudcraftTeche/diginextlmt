@@ -79,7 +79,7 @@ const SolutionsOfferedSection: React.FC<ServicesOfferedSectionProps> = ({
                 <h3 className="text-base font-semibold mb-3 border-b border-white pb-3 text-white">
                   {service.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-gray-300">
+                <p className="text-sm text-justify leading-relaxed text-gray-300">
                   {service.description}
                 </p>
               </div>

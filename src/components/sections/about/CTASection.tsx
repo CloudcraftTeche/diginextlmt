@@ -18,7 +18,7 @@ export function CTASection() {
           <h2 className="text-4xl md:text-6xl font-light text-white">
             Why Working With Our Team Will Be Fun for You
           </h2>
-          <p className="mt-6 max-w-3xl text-xl text-gray-400 font-light leading-relaxed">
+          <p className="mt-6 max-w-3xl text-justify  text-xl text-gray-400 font-light leading-relaxed">
             We are more than an IT solution company, we are a place to grow,
             innovate and expand. Together, we will create a path that is just as
             satisfying as the results that we deliver.

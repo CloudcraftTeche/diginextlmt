@@ -102,11 +102,11 @@ const ServicesSection: React.FC<ServicesProps> = ({
             >
               <h3
                 id={`service-title-${index}`}
-                className="text-md sm:text-md font-semibold mb-3 text-black group-hover:text-white transition-colors duration-500"
+                className="text-md sm:text-md text-justify font-semibold mb-3 text-black group-hover:text-white transition-colors duration-500"
               >
                 {service.title}
               </h3>
-              <p className="text-gray-600 text-xs sm:text-xs md:text-sm lg:text-sm  group-hover:text-gray-200 transition-colors duration-500 mb-2 leading-relaxed">
+              <p className="text-gray-600 text-justify  text-xs sm:text-xs md:text-sm lg:text-sm  group-hover:text-gray-200 transition-colors duration-500 mb-2 leading-relaxed">
                 {" "}
                 {service.description}
               </p>

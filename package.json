@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@react-three/fiber": "9.3.0",
     "antd": "^5.27.3",
     "framer-motion": "^12.23.24",
     "gsap": "^3.13.0",
@@ -17,7 +19,6 @@
     "next": "15.5.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@react-three/fiber": "9.3.0",
     "three": "0.180.0"
   },
   "devDependencies": {
