@@ -81,7 +81,7 @@ export default async function SolutionDetailPage({
         {/* Hero Banner */}
         <HeroBanner
           backgorundImage={ImageConstants.INSIDE_BANNER_5}
-          title={solutionData.title}
+          title={"Solution Details"}
         />
 
         {/* Solution Hero Section with Breadcrumbs */}
@@ -91,7 +91,7 @@ export default async function SolutionDetailPage({
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Solutions", href: "/solutions" },
-            { label: solutionData.title, href: `/solutions/${slug}` },
+            // { label: solutionData.title, href: `/solutions/${slug}` },
           ]}
           imageSrc={solutionData.imageUrl}
         />
