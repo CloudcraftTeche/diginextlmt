@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { ImageConstants } from "@/constants/ImageConstants";
+import Link from "next/link";
 interface SubItem {
   name: string;
   slug: string;
@@ -283,22 +284,22 @@ const Header = ({
                     <div className="space-y-2">
                       {category.services.map((service) => (
                         <div key={service.slug}>
-                          <a
+                          <Link
                             href={`/${item.dropdownType}/${service.slug}`}
                             className="block px-2 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-all duration-200 font-medium"
                           >
                             {service.name}
-                          </a>
+                          </Link>
                           {service.subItems && service.subItems.length > 0 && (
                             <div className="ml-4 mt-1 space-y-1">
                               {service.subItems.map((subItem) => (
-                                <a
+                                <Link
                                   key={subItem.slug}
                                   href={`/${item.dropdownType}/${service.slug}/${subItem.slug}`}
                                   className="block px-4 py-2 text-xs text-gray-600 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-all duration-200"
                                 >
                                   • {subItem.name}
-                                </a>
+                                </Link>
                               ))}
                             </div>
                           )}
@@ -332,9 +333,9 @@ const Header = ({
         <div className="flex justify-between items-center h-20 border-b ">
           {/* Logo */}
           <div className="flex-shrink-0 z-10 ">
-            <a href="/" className="flex items-center group">
+            <Link href="/" className="flex items-center group">
               <div className="relative">
-                <img
+                <Image
                   src={ImageConstants.BLACK_LOGO}
                   alt="Diginext Logo"
                   className={`h-10 w-auto transition-all duration-500 transform group-hover:scale-110 ${
@@ -342,7 +343,7 @@ const Header = ({
                   }`}
                 />
               </div>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -356,7 +357,7 @@ const Header = ({
                 return (
                   <div key={item.name} className="relative">
                     {hasDropdown ? (
-                      <a
+                      <Link
                         href={item.href}
                         onMouseEnter={() => setOpenDropdown(item.name)}
                         className="group relative px-4 py-2 overflow-hidden rounded-full transition-all duration-300 flex items-center gap-1"
@@ -389,9 +390,9 @@ const Header = ({
                             d="M19 9l-7 7-7-7"
                           />
                         </svg>
-                      </a>
+                      </Link>
                     ) : (
-                      <a
+                      <Link
                         href={item.href}
 
                         className="group relative px-4 py-2 overflow-hidden rounded-full transition-all duration-300 block"
@@ -409,7 +410,7 @@ const Header = ({
                         >
                           {item.name}
                         </span>
-                      </a>
+                      </Link>
                     )}
 
                     {hasDropdown &&
@@ -616,7 +617,7 @@ const Header = ({
                                               <div className="ml-4 mt-1 space-y-1">
                                                 {service.subItems.map(
                                                   (subItem) => (
-                                                    <a
+                                                    <Link
                                                       key={subItem.slug}
                                                       href={`/${item.dropdownType}/${category.slug}/${service.slug}/${subItem.slug}`}
                                                       className="block px-3 py-1.5 text-xs text-gray-600 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200"
@@ -625,20 +626,20 @@ const Header = ({
                                                       }
                                                     >
                                                       • {subItem.name}
-                                                    </a>
+                                                    </Link>
                                                   )
                                                 )}
                                               </div>
                                             )}
                                           </>
                                         ) : (
-                                          <a
+                                          <Link
                                             href={`/${item.dropdownType}/${category.slug}/${service.slug}`}
                                             className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200"
                                             onClick={() => setIsMenuOpen(false)}
                                           >
                                             {service.name}
-                                          </a>
+                                          </Link>
                                         )}
                                       </div>
                                     ))}
@@ -651,7 +652,7 @@ const Header = ({
                       )}
                     </>
                   ) : (
-                    <a
+                    <Link
                       href={item.href}
                       className={`block mx-4 px-4 py-3 text-base font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 ${
                         isActive
@@ -661,7 +662,7 @@ const Header = ({
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   )}
                 </div>
               );
