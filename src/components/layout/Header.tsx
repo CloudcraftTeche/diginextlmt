@@ -338,6 +338,8 @@ const Header = ({
                 <Image
                   src={ImageConstants.BLACK_LOGO}
                   alt="Diginext Logo"
+                  width={120} 
+                  height={40}
                   className={`h-10 w-auto transition-all duration-500 transform group-hover:scale-110 ${
                     shouldBeSolid ? "brightness-100" : "brightness-0 invert"
                   }`}
@@ -394,7 +396,6 @@ const Header = ({
                     ) : (
                       <Link
                         href={item.href}
-
                         className="group relative px-4 py-2 overflow-hidden rounded-full transition-all duration-300 block"
                       >
                         <span
@@ -619,7 +620,7 @@ const Header = ({
                                                   (subItem) => (
                                                     <Link
                                                       key={subItem.slug}
-                                                      href={`/${item.dropdownType}/${category.slug}/${service.slug}/${subItem.slug}`}
+                                                      href={`/${item.dropdownType}/${service.slug}`}
                                                       className="block px-3 py-1.5 text-xs text-gray-600 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200"
                                                       onClick={() =>
                                                         setIsMenuOpen(false)
@@ -634,7 +635,7 @@ const Header = ({
                                           </>
                                         ) : (
                                           <Link
-                                            href={`/${item.dropdownType}/${category.slug}/${service.slug}`}
+                                            href={`/${item.dropdownType}/${service.slug}`}
                                             className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200"
                                             onClick={() => setIsMenuOpen(false)}
                                           >
