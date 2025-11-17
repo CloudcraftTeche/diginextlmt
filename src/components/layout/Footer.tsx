@@ -84,12 +84,12 @@ const Footer: React.FC<FooterProps> = ({
   ],
   footerLinks = ["Careers", "Download Brochure", "Locations", "Support"],
   socialLinks = {
-    linkedin: "https://linkedin.com/company/diginext",
-    behance: "https://behance.net/diginext",
-    youtube: "https://youtube.com/@diginext",
-    instagram: "https://instagram.com/diginext",
-    facebook: "https://facebook.com/diginext",
-    twitter: "https://twitter.com/diginext",
+    linkedin: "#",
+    behance: "#",
+    youtube: "#",
+    instagram: "#",
+    facebook: "#",
+    twitter: "#",
   },
   onNewsletterSubmit,
 }) => {
@@ -351,9 +351,17 @@ const Footer: React.FC<FooterProps> = ({
                       openSections.address ? "block" : "hidden lg:block"
                     }`}
                   >
-                    <div className="flex items-start space-x-2 xs:space-x-3">
+                    {/* Location Link - Opens Google Maps */}
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                        contact.address || ""
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-start space-x-2 xs:space-x-3 group cursor-pointer"
+                    >
                       <svg
-                        className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5 flex-shrink-0"
+                        className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-orange-400 mt-0.5 flex-shrink-0 transition-colors duration-300"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -363,35 +371,45 @@ const Footer: React.FC<FooterProps> = ({
                           clipRule="evenodd"
                         />
                       </svg>
-                      <p className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm">
+                      <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm sm:text-sm lg:text-sm transition-colors duration-300">
                         {contact.address}
                       </p>
-                    </div>
-                    <div className="flex items-center space-x-2 xs:space-x-3">
+                    </a>
+
+                    {/* Phone Link - Opens Phone Dialer */}
+                    <a
+                      href={`tel:${(contact.phone || "").replace(/\s/g, "")}`}
+                      className="flex items-center space-x-2 xs:space-x-3 group cursor-pointer"
+                    >
                       <svg
-                        className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0"
+                        className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-orange-400 flex-shrink-0 transition-colors duration-300"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
                         <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                       </svg>
-                      <p className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm">
+                      <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm sm:text-sm lg:text-sm transition-colors duration-300">
                         {contact.phone}
                       </p>
-                    </div>
-                    <div className="flex items-center space-x-2 xs:space-x-3">
+                    </a>
+
+                    {/* Email Link - Opens Mail Client */}
+                    <a
+                      href={`mailto:${contact.email || ""}`}
+                      className="flex items-center space-x-2 xs:space-x-3 group cursor-pointer"
+                    >
                       <svg
-                        className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0"
+                        className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-orange-400 flex-shrink-0 transition-colors duration-300"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
                         <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                       </svg>
-                      <p className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm">
+                      <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm sm:text-sm lg:text-sm transition-colors duration-300">
                         {contact.email}
                       </p>
-                    </div>
+                    </a>
                   </div>
                 </div>
 
@@ -425,12 +443,12 @@ const Footer: React.FC<FooterProps> = ({
                   >
                     {services.map((service, index) => (
                       <li key={index}>
-                        <a
-                          href="#"
+                        <Link
+                          href="/service"
                           className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm hover:text-orange-400 transition-colors duration-300"
                         >
                           {service}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -466,12 +484,12 @@ const Footer: React.FC<FooterProps> = ({
                   >
                     {solutions.map((solution, index) => (
                       <li key={index}>
-                        <a
-                          href="#"
+                        <Link
+                          href="/solutions"
                           className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm hover:text-orange-400 transition-colors duration-300"
                         >
                           {solution}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -562,7 +580,7 @@ const Footer: React.FC<FooterProps> = ({
             </div>
 
             {/* Bottom Section */}
-            {/* <div
+            <div
               className={`mt-6 xs:mt-8 sm:mt-12 lg:mt-16 transition-all duration-700 ease-out ${
                 isVisible
                   ? "opacity-100 translate-y-0"
@@ -570,7 +588,6 @@ const Footer: React.FC<FooterProps> = ({
               }`}
               style={{ transitionDelay: "600ms" }}
             >
-             
               <div className="flex flex-wrap justify-center sm:justify-start gap-3 xs:gap-4 sm:gap-6 mb-4 xs:mb-6 sm:mb-8">
                 {footerLinks.map((link, index) => (
                   <a
@@ -583,7 +600,6 @@ const Footer: React.FC<FooterProps> = ({
                 ))}
               </div>
               <div className="flex items-center justify-center mb-4 xs:mb-6 sm:mb-8">
-              
                 <div className="flex-1 h-px bg-gray-700 mr-3 xs:mr-4 sm:mr-8"></div>
 
                 <div className="flex space-x-2 xs:space-x-3 sm:space-x-4">
@@ -609,19 +625,19 @@ const Footer: React.FC<FooterProps> = ({
                   <span className="text-gray-400 hidden xs:inline">|</span>
                   <div className="flex flex-wrap justify-center gap-2 xs:gap-3 sm:gap-4">
                     <a
-                      href="/terms"
+                      href="#"
                       className="text-gray-400 text-xs xs:text-sm sm:text-sm hover:text-orange-400 transition-colors"
                     >
                       Terms & Conditions
                     </a>
                     <a
-                      href="/privacy"
+                      href="#"
                       className="text-gray-400 text-xs xs:text-sm sm:text-sm hover:text-orange-400 transition-colors"
                     >
                       Privacy Policy
                     </a>
                     <a
-                      href="/payment"
+                      href="#"
                       className="text-gray-400 text-xs xs:text-sm sm:text-sm hover:text-orange-400 transition-colors"
                     >
                       Payment Policy
@@ -629,7 +645,7 @@ const Footer: React.FC<FooterProps> = ({
                   </div>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
