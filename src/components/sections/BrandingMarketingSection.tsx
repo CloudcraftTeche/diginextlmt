@@ -49,7 +49,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
     >
       <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
         {/* Main Content Grid - Unchanged for web */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 xs:gap-8 sm:gap-12 lg:gap-16 items-start mb-8 xs:mb-10 sm:mb-12 lg:mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 xs:gap-8 sm:gap-12 lg:gap-16 items-start ">
           {/* Left Side - Creative Image Section - Takes 2 columns on lg */}
           <div
             className={`lg:col-span-2 relative transform transition-all duration-1000 ease-out ${
@@ -60,13 +60,13 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
           >
             <div className="relative w-full max-w-[300px] xs:max-w-[360px] sm:max-w-[400px] lg:max-w-lg mx-auto lg:mx-0">
               {/* Main Plant Image */}
-              <div className="relative z-10">
+              <div className="relative z-10 ml-16">
                 <Image
                   src={ImageConstants.PLANT}
                   alt="Creative plant illustration"
-                  width={600}
-                  height={600}
-                  className="w-full h-auto"
+                  width={350}
+                  height={350}
+                  className=" h-auto"
                   priority
                 />
               </div>

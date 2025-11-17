@@ -21,8 +21,11 @@ interface JourneyItem {
 }
 
 export function JourneyValuesSection() {
-  const [isPaused, setIsPaused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
   const journeyItems: JourneyItem[] = [
     {
       id: "01",
@@ -90,8 +93,35 @@ export function JourneyValuesSection() {
     },
   ];
 
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  // Touch handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!scrollRef.current) return;
+    setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
   return (
-    <section className="relative bg-black text-white py-16 sm:py-20 lg:py-24 overflow-hidden">
+    <section className="relative bg-black text-white py-16 sm:py-20 lg:py-24">
       {/* Background decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
@@ -115,22 +145,72 @@ export function JourneyValuesSection() {
           </p>
         </div>
 
-        {/* Horizontal Scrolling Container - Full Width */}
-        <div className="relative overflow-hidden">
+        {/* Horizontal Scrolling Container - Full Width Scroll */}
+        <div className="relative w-full">
+          <style jsx>{`
+            .scroll-container {
+              cursor: grab;
+              user-select: none;
+              overflow-x: auto;
+              overflow-y: visible;
+              scroll-behavior: smooth;
+              -webkit-overflow-scrolling: touch;
+              scrollbar-width: none;
+              padding-left: 24px;
+              padding-right: 24px;
+              padding-bottom: 20px;
+              padding-top: 10px;
+            }
+
+            @media (min-width: 640px) {
+              .scroll-container {
+                padding-left: 32px;
+                padding-right: 32px;
+              }
+            }
+
+            @media (min-width: 1024px) {
+              .scroll-container {
+                padding-left: 48px;
+                padding-right: 48px;
+              }
+            }
+
+            @media (min-width: 1280px) {
+              .scroll-container {
+                padding-left: 64px;
+                padding-right: 64px;
+              }
+            }
+
+            .scroll-container::-webkit-scrollbar {
+              display: none;
+            }
+
+            .scroll-container:active {
+              cursor: grabbing;
+            }
+
+            .scroll-container.dragging {
+              scroll-behavior: auto;
+            }
+          `}</style>
+
           <div
             ref={scrollRef}
-            className={`flex gap-6 lg:gap-8 ${
-              !isPaused ? "animate-scroll-journey" : ""
+            className={`scroll-container flex gap-6 lg:gap-8 ${
+              isDragging ? "dragging" : ""
             }`}
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            onTouchStart={() => setIsPaused(true)}
-            onTouchEnd={() => setIsPaused(false)}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
           >
-            {/* First set of items */}
+            {/* Cards */}
             {journeyItems.map((item) => (
               <div
-                key={`${item.id}-1`}
+                key={item.id}
                 className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 flex-shrink-0 w-[320px] sm:w-[380px] lg:w-[420px]"
               >
                 {/* Number Badge */}
@@ -157,56 +237,9 @@ export function JourneyValuesSection() {
                 </p>
               </div>
             ))}
-            {/* Duplicate set for seamless loop */}
-            {journeyItems.map((item) => (
-              <div
-                key={`${item.id}-2`}
-                className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 flex-shrink-0 w-[320px] sm:w-[380px] lg:w-[420px]"
-              >
-                {/* Number Badge */}
-                <div className="absolute top-4 right-4 text-6xl font-light text-white/5 group-hover:text-white/10 transition-colors">
-                  {item.number}
-                </div>
-
-                {/* Icon */}
-                <div className="relative z-10 mb-4 text-orange-500 group-hover:text-orange-400 transition-colors">
-                  {item.icon}
-                </div>
-
-                {/* Title */}
-                <h3 className="relative z-10 text-xl lg:text-2xl font-light mb-3 text-white group-hover:text-orange-400 transition-colors">
-                  {item.title}
-                </h3>
-
-                {/* Divider */}
-                <div className="relative z-10 h-[2px] w-16 bg-white/20 group-hover:bg-orange-500 group-hover:w-24 transition-all duration-300 mb-4" />
-
-                {/* Description */}
-                <p className="relative z-10 text-sm  text-justify lg:text-base text-gray-400 font-light leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes scroll-journey {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        .animate-scroll-journey {
-          animation: scroll-journey 12s linear infinite;
-        }
-      `}</style>
-
-      {/* Bottom gradient fade */}
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
     </section>
   );
 }

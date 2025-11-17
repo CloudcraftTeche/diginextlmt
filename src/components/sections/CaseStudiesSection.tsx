@@ -187,12 +187,15 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
               }`}
               style={{ transitionDelay: "200ms" }}
             >
-              <button className="group inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-sm sm:text-base overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25 hover:scale-105">
+              <Link
+                href="/work"
+                className="group inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-sm sm:text-base overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25 hover:scale-105"
+              >
                 <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
                   {buttonText}
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </button>
+              </Link>
             </div>
             <div
               className={`w-full h-px bg-gray-200 transform transition-all duration-1000 ease-out ${
@@ -237,12 +240,13 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                 }`}
                 style={{ transitionDelay: "200ms" }}
               >
-                <button className="group inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-base overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25 hover:scale-105 whitespace-nowrap">
+                <Link
+                href="/work"className="group inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-base overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25 hover:scale-105 whitespace-nowrap">
                   <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
                     {buttonText}
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </button>
+                </Link>
               </div>
             </div>
             <div

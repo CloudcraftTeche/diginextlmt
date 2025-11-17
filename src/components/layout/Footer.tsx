@@ -562,7 +562,7 @@ const Footer: React.FC<FooterProps> = ({
             </div>
 
             {/* Bottom Section */}
-            <div
+            {/* <div
               className={`mt-6 xs:mt-8 sm:mt-12 lg:mt-16 transition-all duration-700 ease-out ${
                 isVisible
                   ? "opacity-100 translate-y-0"
@@ -570,7 +570,7 @@ const Footer: React.FC<FooterProps> = ({
               }`}
               style={{ transitionDelay: "600ms" }}
             >
-              {/* Footer Links */}
+             
               <div className="flex flex-wrap justify-center sm:justify-start gap-3 xs:gap-4 sm:gap-6 mb-4 xs:mb-6 sm:mb-8">
                 {footerLinks.map((link, index) => (
                   <a
@@ -582,13 +582,10 @@ const Footer: React.FC<FooterProps> = ({
                   </a>
                 ))}
               </div>
-
-              {/* Social Media Icons with Lines - Centered Layout */}
               <div className="flex items-center justify-center mb-4 xs:mb-6 sm:mb-8">
-                {/* Left Line */}
+              
                 <div className="flex-1 h-px bg-gray-700 mr-3 xs:mr-4 sm:mr-8"></div>
 
-                {/* Social Icons */}
                 <div className="flex space-x-2 xs:space-x-3 sm:space-x-4">
                   <SocialIcon type="linkedin" href={socialLinks.linkedin} />
                   <SocialIcon type="behance" href={socialLinks.behance} />
@@ -598,11 +595,9 @@ const Footer: React.FC<FooterProps> = ({
                   <SocialIcon type="twitter" href={socialLinks.twitter} />
                 </div>
 
-                {/* Right Line */}
                 <div className="flex-1 h-px bg-gray-700 ml-3 xs:ml-4 sm:ml-8"></div>
               </div>
 
-              {/* Copyright and Legal Links */}
               <div className="flex flex-col lg:flex-row justify-between items-center space-y-3 xs:space-y-4 sm:space-y-0 text-center lg:text-left">
                 <p className="text-gray-400 text-xs xs:text-sm sm:text-sm">
                   © 2025 DigiNext - Branding Agency Dubai. All Rights Reserved
@@ -634,7 +629,7 @@ const Footer: React.FC<FooterProps> = ({
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ export class ImageConstants {
   static ROUND_LINE_3 = "/assets/elements/Asset 6.svg";
   static COMPANY_LOGO_1 = "/assets/images/Client-Logo-01.svg";
   static COMPANY_LOGO_2 = "/assets/images/Client-Logo-02.svg";
-  static COMPANY_LOGO_3 = "/assets/images/Client-Logo-03.svg";
+  static COMPANY_LOGO_3 = "/assets/images/Client-Logo-03.png";
   static COMPANY_LOGO_4 = "/assets/images/Client-Logo-04.svg";
   static COMPANY_LOGO_5 = "/assets/images/Client-Logo-05.svg";
   static COMPANY_LOGO_6 = "/assets/images/Client-Logo-06.svg";

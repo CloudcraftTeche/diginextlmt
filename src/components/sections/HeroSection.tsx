@@ -42,7 +42,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   ],
   primaryButtonText = "Get Your Quote",
   secondaryButtonText = "Why Digi Next?",
-  primaryButtonLink = "/quote",
+  primaryButtonLink = "/contact",
   secondaryButtonLink = "/about",
   autoPlayInterval = 5000,
 }) => {
