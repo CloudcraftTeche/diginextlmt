@@ -1,7 +1,7 @@
 "use client";
 import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface StatItemProps {
   number: string;
@@ -99,6 +99,11 @@ const TrustSection: React.FC<TrustSectionProps> = ({
   ],
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -132,6 +137,40 @@ const TrustSection: React.FC<TrustSectionProps> = ({
     { name: "Company 15", logo: ImageConstants.COMPANY_LOGO_15 },
     { name: "Company 16", logo: ImageConstants.COMPANY_LOGO_16 },
   ];
+
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setIsPaused(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setTimeout(() => setIsPaused(false), 1000);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  // Touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsPaused(true);
+    setStartX(e.touches[0].pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleTouchEnd = () => {
+    setTimeout(() => setIsPaused(false), 1000);
+  };
 
   return (
     <section id="trust-section" className="py-8 bg-white overflow-hidden">
@@ -204,7 +243,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
         </div>
       </div>
 
-      {/* Client Logos Section - Improved Auto Scrolling */}
+      {/* Client Logos Section - Manual Scrolling with Faster Auto Scroll */}
       <div
         className={`transform transition-all duration-1000 ease-out ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -222,61 +261,109 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                   transform: translateX(-50%);
                 }
               }
-              
+
               .animate-scroll {
-                animation: scroll 40s linear infinite;
+                animation: scroll 8s linear infinite;
                 will-change: transform;
               }
-              
-              @media (max-width: 768px) {
-                .animate-scroll {
-                  animation: scroll 30s linear infinite;
-                }
-              }
-              
-              .animate-scroll:hover {
+
+              .animate-scroll.paused {
                 animation-play-state: paused;
               }
-              
+
+              @media (max-width: 768px) {
+                .animate-scroll {
+                  animation: scroll 6s linear infinite;
+                }
+              }
+
               @media (prefers-reduced-motion: reduce) {
                 .animate-scroll {
                   animation: none;
                 }
               }
+
+              .logo-scroll-wrapper {
+                cursor: grab;
+                user-select: none;
+                overflow-x: auto;
+                overflow-y: hidden;
+              }
+
+              .logo-scroll-wrapper:active {
+                cursor: grabbing;
+              }
+
+              .logo-scroll-wrapper::-webkit-scrollbar {
+                display: none;
+              }
+
+              .logo-scroll-wrapper {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+              }
+
+              /* Ensure animation works on mobile */
+              @media (max-width: 640px) {
+                .logo-track {
+                  min-width: 200%;
+                }
+              }
             `}</style>
 
-            <div className="flex animate-scroll">
-              {/* First set of logos */}
-              {clientLogos.map((client, index) => (
-                <div
-                  key={`${client.name}-${index}`}
-                  className="flex-shrink-0 mx-6 sm:mx-8 lg:mx-12"
-                >
-                  <Image
-                    src={client.logo}
-                    alt={`${client.name} logo`}
-                    width={160}
-                    height={60}
-                    className="h-12 sm:h-14 lg:h-16 w-auto object-contain opacity-100"
-                    priority={index < 4}
-                  />
-                </div>
-              ))}
-              {/* Duplicate set for seamless loop */}
-              {clientLogos.map((client, index) => (
-                <div
-                  key={`${client.name}-duplicate-${index}`}
-                  className="flex-shrink-0 mx-6 sm:mx-8 lg:mx-12"
-                >
-                  <Image
-                    src={client.logo}
-                    alt={`${client.name} logo`}
-                    width={160}
-                    height={60}
-                    className="h-12 sm:h-14 lg:h-16 w-auto object-contain opacity-100"
-                  />
-                </div>
-              ))}
+            <div
+              ref={scrollContainerRef}
+              className="logo-scroll-wrapper"
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseMove={handleMouseMove}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => {
+                handleMouseUp();
+                if (!isDragging) setIsPaused(false);
+              }}
+            >
+              <div
+                className={`flex logo-track ${
+                  isPaused ? "animate-scroll paused" : "animate-scroll"
+                }`}
+              >
+                {/* First set of logos */}
+                {clientLogos.map((client, index) => (
+                  <div
+                    key={`${client.name}-${index}`}
+                    className="flex-shrink-0 px-3 sm:px-4 md:px-6 lg:px-8"
+                  >
+                    <Image
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      width={120}
+                      height={48}
+                      className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain opacity-100"
+                      priority={index < 4}
+                      draggable={false}
+                    />
+                  </div>
+                ))}
+                {/* Duplicate set for seamless loop */}
+                {clientLogos.map((client, index) => (
+                  <div
+                    key={`${client.name}-duplicate-${index}`}
+                    className="flex-shrink-0 px-3 sm:px-4 md:px-6 lg:px-8"
+                  >
+                    <Image
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      width={120}
+                      height={48}
+                      className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain opacity-100"
+                      draggable={false}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

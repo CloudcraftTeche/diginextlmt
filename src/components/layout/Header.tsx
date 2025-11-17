@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { ImageConstants } from "@/constants/ImageConstants";
 import Link from "next/link";
+
 interface SubItem {
   name: string;
   slug: string;
@@ -47,7 +48,7 @@ const Header = ({
     string | null
   >(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const pathname = "/"; // Replace with usePathname() in Next.js
+  const pathname = "/";
 
   const SERVICES_DATA: ServiceItem[] = [
     {
@@ -247,7 +248,7 @@ const Header = ({
           setOpenDropdown(null);
           setHoveredCategory(null);
         }}
-        className="absolute left-0 top-full mt-2 bg-red-50 rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+        className="absolute left-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
       >
         <div className="flex">
           {/* Categories List */}
@@ -256,16 +257,17 @@ const Header = ({
               hoveredCategory ? "w-64 border-r border-gray-100" : "w-full"
             } bg-gray-50`}
           >
-            {data.map((category) => (
+            {data.map((category, index) => (
               <button
                 key={category.slug}
                 onMouseEnter={() => setHoveredCategory(category.slug)}
                 onClick={() => setHoveredCategory(category.slug)}
-                className={`w-full text-left px-6 py-4 text-sm font-semibold transition-all duration-200 border-l-4 ${
+                className={`w-full text-left px-6 py-3 text-sm font-semibold transition-all duration-200 border-l-4 whitespace-nowrap overflow-hidden text-ellipsis ${
                   hoveredCategory === category.slug
                     ? "bg-white border-orange-500 text-orange-500"
                     : "border-transparent text-gray-700 hover:bg-white hover:text-orange-500"
-                }`}
+                } ${index !== data.length - 1 ? "" : ""}`}
+                style={{ margin: 0, lineHeight: "1.4" }}
               >
                 {category.title}
               </button>
@@ -274,38 +276,43 @@ const Header = ({
 
           {/* Services for Hovered Category */}
           {hoveredCategory && (
-            <div className="w-80 p-6">
+            <div className="w-80 p-4">
               {(() => {
                 const category = data.find((c) => c.slug === hoveredCategory);
                 if (!category) return null;
 
                 return (
-                  <div>
-                    <div className="space-y-2">
-                      {category.services.map((service) => (
-                        <div key={service.slug}>
-                          <Link
-                            href={`/${item.dropdownType}/${service.slug}`}
-                            className="block px-2 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-all duration-200 font-medium"
-                          >
-                            {service.name}
-                          </Link>
-                          {service.subItems && service.subItems.length > 0 && (
-                            <div className="ml-4 mt-1 space-y-1">
-                              {service.subItems.map((subItem) => (
-                                <Link
-                                  key={subItem.slug}
-                                  href={`/${item.dropdownType}/${service.slug}/${subItem.slug}`}
-                                  className="block px-4 py-2 text-xs text-gray-600 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-all duration-200"
-                                >
-                                  • {subItem.name}
-                                </Link>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                  <div className="space-y-0">
+                    {category.services.map((service, index) => (
+                      <div
+                        key={service.slug}
+                        className={
+                          index !== category.services.length - 1 ? "" : ""
+                        }
+                      >
+                        <Link
+                          href={`/${item.dropdownType}/${service.slug}`}
+                          className="block px-3 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-all duration-200 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                          style={{ margin: 0, lineHeight: "1.4" }}
+                        >
+                          {service.name}
+                        </Link>
+                        {service.subItems && service.subItems.length > 0 && (
+                          <div className="ml-4 space-y-0">
+                            {service.subItems.map((subItem) => (
+                              <Link
+                                key={subItem.slug}
+                                href={`/${item.dropdownType}/${service.slug}/${subItem.slug}`}
+                                className="block px-4 py-1.5 text-xs text-gray-600 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis"
+                                style={{ margin: 0, lineHeight: "1.4" }}
+                              >
+                                • {subItem.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 );
               })()}
@@ -338,7 +345,7 @@ const Header = ({
                 <Image
                   src={ImageConstants.BLACK_LOGO}
                   alt="Diginext Logo"
-                  width={120} 
+                  width={120}
                   height={40}
                   className={`h-10 w-auto transition-all duration-500 transform group-hover:scale-110 ${
                     shouldBeSolid ? "brightness-100" : "brightness-0 invert"
@@ -362,7 +369,7 @@ const Header = ({
                       <Link
                         href={item.href}
                         onMouseEnter={() => setOpenDropdown(item.name)}
-                        className="group relative px-4 py-2 overflow-hidden rounded-full transition-all duration-300 flex items-center gap-1"
+                        className="group relative px-4 overflow-hidden rounded-full transition-all duration-300 flex items-center gap-1"
                       >
                         <span
                           className={`relative z-10 text-sm font-semibold tracking-wide transition-all duration-300 ${
@@ -377,21 +384,6 @@ const Header = ({
                         >
                           {item.name}
                         </span>
-                        <svg
-                          className={`w-4 h-4 transition-transform duration-300 ${
-                            isDropdownOpen ? "rotate-180" : ""
-                          } ${shouldBeSolid ? "text-gray-700" : "text-white"}`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
                       </Link>
                     ) : (
                       <Link
@@ -431,23 +423,10 @@ const Header = ({
                   ? "text-gray-600 hover:text-orange-500 hover:bg-orange-50"
                   : "text-white hover:text-orange-300 hover:bg-white/10"
               }`}
-            >
-              <svg
-                className="h-5 w-5 transition-transform duration-300 group-hover:rotate-12"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </button>
+            ></button>
 
-            <button
+            <Link
+              href={"contact"}
               className={`hidden md:block px-6 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-xl ${
                 shouldBeSolid
                   ? "bg-orange-500 text-white hover:bg-orange-600"
@@ -455,7 +434,7 @@ const Header = ({
               }`}
             >
               Get Started
-            </button>
+            </Link>
 
             <button
               onClick={(e) => {
@@ -519,25 +498,10 @@ const Header = ({
                         }`}
                       >
                         <span>{item.name}</span>
-                        <svg
-                          className={`w-5 h-5 transition-transform duration-300 ${
-                            isDropdownOpen ? "rotate-180" : ""
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
                       </button>
 
                       {isDropdownOpen && item.dropdownType && (
-                        <div className="mx-4 mt-2 mb-2 space-y-2">
+                        <div className="mx-4 mt-2 mb-2 space-y-0">
                           {getDropdownData(item.dropdownType).map(
                             (category) => (
                               <div
@@ -552,13 +516,14 @@ const Header = ({
                                         : category.slug
                                     )
                                   }
-                                  className="w-full flex items-center justify-between px-4 py-2 border-b "
+                                  className="w-full flex items-center justify-between px-4 py-2.5 border-b whitespace-nowrap overflow-hidden text-ellipsis"
+                                  style={{ margin: 0, lineHeight: "1.4" }}
                                 >
-                                  <div className="font-normal text-sm text-gray-900">
+                                  <div className="font-medium text-sm text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis">
                                     {category.title}
                                   </div>
                                   <svg
-                                    className={`w-4 h-4 transition-transform duration-300 ${
+                                    className={`w-4 h-4 flex-shrink-0 ml-2 transition-transform duration-300 ${
                                       mobileOpenCategory === category.slug
                                         ? "rotate-180"
                                         : ""
@@ -576,9 +541,9 @@ const Header = ({
                                   </svg>
                                 </button>
                                 {mobileOpenCategory === category.slug && (
-                                  <div className="p-2">
+                                  <div className="p-2 space-y-0">
                                     {category.services.map((service) => (
-                                      <div key={service.slug} className="mb-1">
+                                      <div key={service.slug}>
                                         {service.subItems &&
                                         service.subItems.length > 0 ? (
                                           <>
@@ -591,11 +556,17 @@ const Header = ({
                                                     : service.slug
                                                 )
                                               }
-                                              className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200"
+                                              className="flex items-center justify-between w-full px-3 py-2 text-sm font-normal text-gray-700 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis"
+                                              style={{
+                                                margin: 0,
+                                                lineHeight: "1.4",
+                                              }}
                                             >
-                                              <span>{service.name}</span>
+                                              <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                                                {service.name}
+                                              </span>
                                               <svg
-                                                className={`w-4 h-4 transition-transform duration-300 ${
+                                                className={`w-4 h-4 flex-shrink-0 ml-2 transition-transform duration-300 ${
                                                   mobileOpenSubDropdown ===
                                                   service.slug
                                                     ? "rotate-180"
@@ -615,16 +586,20 @@ const Header = ({
                                             </button>
                                             {mobileOpenSubDropdown ===
                                               service.slug && (
-                                              <div className="ml-4 mt-1 space-y-1">
+                                              <div className="ml-4 space-y-0">
                                                 {service.subItems.map(
                                                   (subItem) => (
                                                     <Link
                                                       key={subItem.slug}
                                                       href={`/${item.dropdownType}/${service.slug}`}
-                                                      className="block px-3 py-1.5 text-xs text-gray-600 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200"
+                                                      className="block px-3 py-1.5 text-xs text-gray-600 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis"
                                                       onClick={() =>
                                                         setIsMenuOpen(false)
                                                       }
+                                                      style={{
+                                                        margin: 0,
+                                                        lineHeight: "1.4",
+                                                      }}
                                                     >
                                                       • {subItem.name}
                                                     </Link>
@@ -636,8 +611,12 @@ const Header = ({
                                         ) : (
                                           <Link
                                             href={`/${item.dropdownType}/${service.slug}`}
-                                            className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200"
+                                            className="block px-3 py-2 text-sm font-normal text-gray-700 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis"
                                             onClick={() => setIsMenuOpen(false)}
+                                            style={{
+                                              margin: 0,
+                                              lineHeight: "1.4",
+                                            }}
                                           >
                                             {service.name}
                                           </Link>

@@ -26,6 +26,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
   const [threeLoaded, setThreeLoaded] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const animationFrameRef = useRef<number>(0);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -75,8 +76,14 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     camera.position.z = 10;
     camera.position.y = 0.5;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const renderer = new THREE.WebGLRenderer({
+      antialias: !isMobile, // Disable antialiasing on mobile for better performance
+      alpha: true,
+      powerPreference: "high-performance", // Request high-performance GPU
+    });
+    renderer.setPixelRatio(
+      Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2)
+    );
     renderer.setSize(el.clientWidth, el.clientHeight);
     renderer.setClearColor(0x000000, 0);
     el.appendChild(renderer.domElement);
@@ -86,7 +93,11 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     scene.add(group);
 
     // Central glass sphere
-    const sphereGeo = new THREE.SphereGeometry(1.2, 64, 64);
+    const sphereGeo = new THREE.SphereGeometry(
+      1.2,
+      isMobile ? 32 : 64,
+      isMobile ? 32 : 64
+    );
     const sphereMat = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
       metalness: 0.1,
@@ -105,7 +116,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     // Create multiple glass ribbon rings around sphere
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const ribbons: any[] = [];
-    const ribbonCount = 5;
+    const ribbonCount = isMobile ? 3 : 5; // Reduce ribbons on mobile
 
     for (let i = 0; i < ribbonCount; i++) {
       const angle = (i / ribbonCount) * Math.PI;
@@ -120,12 +131,18 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
         0
       );
 
-      const points = curve.getPoints(100);
+      const points = curve.getPoints(isMobile ? 50 : 100);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const points3d = points.map((p: any) => new THREE.Vector3(p.x, p.y, 0));
       const curvePath = new THREE.CatmullRomCurve3(points3d, true);
 
-      const tubeGeo = new THREE.TubeGeometry(curvePath, 100, 0.08, 8, true);
+      const tubeGeo = new THREE.TubeGeometry(
+        curvePath,
+        isMobile ? 50 : 100,
+        0.08,
+        8,
+        true
+      );
       const tubeMat = new THREE.MeshPhysicalMaterial({
         color: new THREE.Color().setHSL(0.5 + i * 0.1, 0.8, 0.6),
         metalness: 0.8,
@@ -169,11 +186,20 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     light3.position.set(0, 5, -4);
     scene.add(light3);
 
-    let raf = 0;
-    let rotationAngle = 0;
+    let lastTime = performance.now();
+    const targetFPS = isMobile ? 30 : 60; // Lower FPS on mobile
+    const frameTime = 1000 / targetFPS;
 
     const animate = () => {
-      raf = requestAnimationFrame(animate);
+      animationFrameRef.current = requestAnimationFrame(animate);
+
+      const currentTime = performance.now();
+      const deltaTime = currentTime - lastTime;
+
+      // Frame rate limiter for mobile
+      if (deltaTime < frameTime) return;
+
+      lastTime = currentTime - (deltaTime % frameTime);
 
       // Gentle continuous rotation
       group.rotation.y += 0.002;
@@ -193,9 +219,8 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       light2.position.z = Math.sin(t * 1.5) * 5;
       light3.position.y = Math.sin(t * 2.5) * 3 + 5;
 
-      // Update rotation for stats
-      rotationAngle += 0.003;
-      setRotation(rotationAngle);
+      // Smooth rotation update for stats
+      setRotation((prev) => prev + 0.003);
 
       renderer.render(scene, camera);
     };
@@ -219,7 +244,9 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(raf);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
       observer.disconnect();
       if (el && renderer.domElement) el.removeChild(renderer.domElement);
       sphereGeo.dispose();
@@ -274,7 +301,10 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
                   <span className="font-light text-white">We</span>{" "}
                   {description.split(".").slice(1, 3).join(". ")}.
                 </p>
-                <p className="text-justify"> {description.split(".").slice(3).join(". ")}</p>
+                <p className="text-justify">
+                  {" "}
+                  {description.split(".").slice(3).join(". ")}
+                </p>
               </div>
 
               <p
@@ -301,7 +331,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
                   className="absolute inset-0 w-full h-full"
                 />
 
-                {/* Rotating Stats */}
+                {/* Rotating Stats - Optimized for Mobile */}
                 {threeLoaded &&
                   stats.map((stat, index) => {
                     const angle = stat.angle + rotation;
@@ -318,14 +348,17 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
                         key={index}
                         className="absolute top-1/2 left-1/2 pointer-events-none"
                         style={{
-                          transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale})`,
+                          transform: `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), 0) scale(${scale})`,
                           opacity: opacity,
                           filter: `blur(${blur}px)`,
-                          transition: "all 0.1s linear",
+                          willChange: "transform, opacity",
+                          backfaceVisibility: "hidden",
+                          perspective: 1000,
+                          WebkitFontSmoothing: "antialiased",
                           zIndex: Math.round(z + 50),
                         }}
                       >
-                        <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg px-3 py-2 sm:px-5 sm:py-3 border border-gray-600/40 shadow-2xl min-w-[110px] sm:min-w-[140px] text-center">
+                        <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg px-3 py-2 sm:px-5 sm:py-3 border border-gray-600/40 shadow-2xl min-w-[110px] sm:min-w-[140px] text-center transform translate-z-0">
                           <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-0.5 sm:mb-1">
                             {stat.number}
                           </div>
