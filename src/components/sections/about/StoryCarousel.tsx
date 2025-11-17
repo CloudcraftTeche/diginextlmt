@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Rocket,
   Camera,
@@ -10,6 +10,8 @@ import {
   Heart,
   Award,
   TrendingUp,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 interface JourneyItem {
@@ -22,9 +24,14 @@ interface JourneyItem {
 
 export function JourneyValuesSection() {
   const [isDragging, setIsDragging] = useState(false);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
+  const [isInView, setIsInView] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const animationFrameRef = useRef<number | null>(null);
+  const autoScrollSpeed = 0.5;
 
   const journeyItems: JourneyItem[] = [
     {
@@ -93,16 +100,105 @@ export function JourneyValuesSection() {
     },
   ];
 
+  // Intersection Observer to detect when section is in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+            setIsAutoScrolling(true);
+          } else {
+            setIsInView(false);
+            setIsAutoScrolling(false);
+          }
+        });
+      },
+      {
+        threshold: 0.3, // Trigger when 30% of the section is visible
+        rootMargin: "0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    const autoScroll = () => {
+      if (!scrollRef.current || !isAutoScrolling || !isInView) return;
+
+      const container = scrollRef.current;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+
+      if (container.scrollLeft >= maxScroll) {
+        container.scrollLeft = 0;
+      } else {
+        container.scrollLeft += autoScrollSpeed;
+      }
+
+      animationFrameRef.current = requestAnimationFrame(autoScroll);
+    };
+
+    if (isAutoScrolling && isInView) {
+      animationFrameRef.current = requestAnimationFrame(autoScroll);
+    }
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [isAutoScrolling, isInView]);
+
+  // Manual scroll function
+  const handleManualScroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    
+    setIsAutoScrolling(false);
+
+    const scrollAmount = 400;
+    const targetScroll =
+      direction === "left"
+        ? scrollRef.current.scrollLeft - scrollAmount
+        : scrollRef.current.scrollLeft + scrollAmount;
+
+    scrollRef.current.scrollTo({
+      left: targetScroll,
+      behavior: "smooth",
+    });
+
+    setTimeout(() => {
+      if (isInView) {
+        setIsAutoScrolling(true);
+      }
+    }, 3000);
+  };
+
   // Mouse drag handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
     setIsDragging(true);
+    setIsAutoScrolling(false);
     setStartX(e.pageX - scrollRef.current.offsetLeft);
     setScrollLeft(scrollRef.current.scrollLeft);
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    setTimeout(() => {
+      if (isInView) {
+        setIsAutoScrolling(true);
+      }
+    }, 3000);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -116,12 +212,24 @@ export function JourneyValuesSection() {
   // Touch handlers for mobile
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!scrollRef.current) return;
+    setIsAutoScrolling(false);
     setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
     setScrollLeft(scrollRef.current.scrollLeft);
   };
 
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      if (isInView) {
+        setIsAutoScrolling(true);
+      }
+    }, 3000);
+  };
+
   return (
-    <section className="relative bg-black text-white py-16 sm:py-20 lg:py-24">
+    <section 
+      ref={sectionRef}
+      className="relative bg-black text-white py-16 sm:py-20 lg:py-24"
+    >
       {/* Background decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
@@ -129,7 +237,7 @@ export function JourneyValuesSection() {
       </div>
 
       <div className="relative z-10">
-        {/* Header Section - Left Aligned with max-width container */}
+        {/* Header Section */}
         <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mb-12 lg:mb-16">
           <div className="flex items-start">
             <div className="inline-flex items-center gap-2 mb-6">
@@ -139,13 +247,35 @@ export function JourneyValuesSection() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-4 lg:mb-6">
             Our Journey & Values
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-400 font-light max-w-3xl">
-            Discover the story behind DigiNext and what drives us to deliver
-            exceptional IT solutions and creative services.
-          </p>
+          
+          {/* Description with Navigation Buttons */}
+          <div className="flex items-start justify-between gap-8">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 font-light max-w-3xl">
+              Discover the story behind DigiNext and what drives us to deliver
+              exceptional IT solutions and creative services.
+            </p>
+
+            {/* Navigation Buttons aligned with description */}
+            <div className="flex gap-3 flex-shrink-0">
+              <button
+                onClick={() => handleManualScroll("left")}
+                className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-orange-500 rounded-full p-3 transition-all duration-300"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors" />
+              </button>
+              <button
+                onClick={() => handleManualScroll("right")}
+                className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-orange-500 rounded-full p-3 transition-all duration-300"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors" />
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Horizontal Scrolling Container - Full Width Scroll */}
+        {/* Horizontal Scrolling Container */}
         <div className="relative w-full">
           <style jsx>{`
             .scroll-container {
@@ -153,7 +283,7 @@ export function JourneyValuesSection() {
               user-select: none;
               overflow-x: auto;
               overflow-y: visible;
-              scroll-behavior: smooth;
+              scroll-behavior: auto;
               -webkit-overflow-scrolling: touch;
               scrollbar-width: none;
               padding-left: 24px;
@@ -206,6 +336,7 @@ export function JourneyValuesSection() {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseUp}
             onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
             {/* Cards */}
             {journeyItems.map((item) => (

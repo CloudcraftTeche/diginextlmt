@@ -444,7 +444,7 @@ const Footer: React.FC<FooterProps> = ({
                     {services.map((service, index) => (
                       <li key={index}>
                         <Link
-                          href="/service"
+                          href="/services"
                           className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm hover:text-orange-400 transition-colors duration-300"
                         >
                           {service}

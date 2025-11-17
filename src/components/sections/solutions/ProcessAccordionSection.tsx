@@ -61,7 +61,6 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
     }
   }, []);
 
-  // Auto-scroll functionality
   useEffect(() => {
     if (isAutoScrolling && scrollContainerRef.current) {
       autoScrollIntervalRef.current = setInterval(() => {
@@ -70,20 +69,18 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
             scrollContainerRef.current;
 
           if (scrollLeft >= scrollWidth - clientWidth - 10) {
-            // Reset to start
             scrollContainerRef.current.scrollTo({
               left: 0,
               behavior: "smooth",
             });
           } else {
-            // Scroll by one card width
             scrollContainerRef.current.scrollTo({
               left: scrollLeft + 340,
               behavior: "smooth",
             });
           }
         }
-      }, 3000); // Auto-scroll every 3 seconds
+      }, 3000);
     }
 
     return () => {
@@ -118,75 +115,77 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
 
   return (
     <section id="process-section" className="py-6 sm:py-8 lg:py-10 bg-white">
-      {/* Header with Navigation Buttons - Contained */}
-      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
-        <div className="mb-8 sm:mb-12">
-          <div className="flex items-center justify-between">
-            <h2
-              className={`text-2xl sm:text-3xl md:text-4xl text-black font-semibold transition-all duration-1000 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-            >
-              {title}
-            </h2>
+      {/* Header - Contained with max-width */}
+      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mb-8 sm:mb-12">
+        <div className="flex items-center justify-between">
+          <h2
+            className={`text-2xl sm:text-3xl md:text-4xl text-black font-semibold transition-all duration-1000 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            {title}
+          </h2>
 
-            {/* Navigation Buttons - Right side */}
-            <div className="hidden md:flex gap-2">
-              <button
-                onClick={() => scroll("left")}
-                disabled={!canScrollLeft}
-                className={`p-2 rounded-full border-2 transition-all duration-200 ${
-                  canScrollLeft
-                    ? "border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
-                    : "border-gray-300 text-gray-300 cursor-not-allowed"
-                }`}
-                aria-label="Scroll left"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => scroll("right")}
-                disabled={!canScrollRight}
-                className={`p-2 rounded-full border-2 transition-all duration-200 ${
-                  canScrollRight
-                    ? "border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
-                    : "border-gray-300 text-gray-300 cursor-not-allowed"
-                }`}
-                aria-label="Scroll right"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+          {/* Navigation Buttons */}
+          <div className="hidden md:flex gap-2">
+            <button
+              onClick={() => scroll("left")}
+              disabled={!canScrollLeft}
+              className={`p-2 rounded-full border-2 transition-all duration-200 ${
+                canScrollLeft
+                  ? "border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+                  : "border-gray-300 text-gray-300 cursor-not-allowed"
+              }`}
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              disabled={!canScrollRight}
+              className={`p-2 rounded-full border-2 transition-all duration-200 ${
+                canScrollRight
+                  ? "border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+                  : "border-gray-300 text-gray-300 cursor-not-allowed"
+              }`}
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
           </div>
-
-          {/* Description under title */}
-          {description && (
-            <p
-              className={`text-sm sm:text-base text-gray-500 mt-2 max-w-4xl transition-all duration-700 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-            >
-              {description}
-            </p>
-          )}
         </div>
+
+        {/* Description under title */}
+        {description && (
+          <p
+            className={`text-sm sm:text-base text-gray-500 mt-2 max-w-4xl transition-all duration-700 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
+            {description}
+          </p>
+        )}
       </div>
 
       {/* Horizontal Scrolling Container - Full Width */}
-      <div className="relative">
-        {/* Scroll Container */}
+      <div className="relative w-full">
+        {/* Scroll Container - Starts aligned with header, scrolls full width */}
         <div
           ref={scrollContainerRef}
-          className="flex gap-5 lg:gap-6 overflow-x-auto pb-4 scrollbar-hide px-4 sm:px-6 lg:px-8"
+          className="flex gap-5 lg:gap-6 overflow-x-auto pb-4 scrollbar-hide"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
             scrollSnapType: "x mandatory",
+            paddingLeft: "max(1.5rem, calc((100vw - 1750px) / 2 + 1.5rem))",
+            paddingRight: "1.5rem",
           }}
+          onMouseDown={handleUserInteraction}
+          onTouchStart={handleUserInteraction}
         >
           {steps.map((step, index) => (
             <div
@@ -224,18 +223,13 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
           ))}
         </div>
 
-        {/* Gradient Overlays for scroll indication */}
+        {/* Gradient Overlays */}
         {canScrollLeft && (
           <div className="hidden md:block absolute left-0 top-0 bottom-4 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
         )}
         {canScrollRight && (
-          <div className="hidden md:block absolute right-0 top-0 bottom-4 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+          <div className="hidden md:block absolute right-0 top-0 bottom-4 w-20 bg-gradient-to-r from-transparent to-white pointer-events-none"></div>
         )}
-
-        {/* Mobile Navigation Hint */}
-        {/* <p className="text-center text-sm text-gray-500 mt-4 md:hidden">
-          Swipe to see more
-        </p> */}
       </div>
 
       <style jsx>{`
