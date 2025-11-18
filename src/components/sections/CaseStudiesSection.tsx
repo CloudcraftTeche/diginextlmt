@@ -93,7 +93,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
         <p className="text-gray-600 text-xs xs:text-sm sm:text-base  text-justify leading-relaxed mb-3 xs:mb-4 sm:mb-5 md:mb-6 line-clamp-3">
           {description}
         </p>
-        <Link href={`/insights/${slug}`}>
+        <Link href={`/insights`}>
           <button className="group/btn flex items-center gap-1 xs:gap-2 text-gray-700 hover:text-orange-500 font-medium transition-colors duration-300">
             <span className="text-xs xs:text-sm sm:text-base">
               {navigationText}

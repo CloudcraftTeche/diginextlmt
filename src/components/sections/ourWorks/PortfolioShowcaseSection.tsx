@@ -16,9 +16,7 @@ const PortfolioShowcaseSection: React.FC = () => {
   // Group items by category/slug
   const photographyItems = allItems.find((item) => item.slug === "photography");
   const retouchItems = allItems.find((item) => item.slug === "retouch");
-  const websiteItems = allItems.find(
-    (item) => item.slug === "social-media"
-  );
+  const websiteItems = allItems.find((item) => item.slug === "social-media");
 
   // Helper to duplicate gallery images for seamless infinite scroll
   const duplicateImages = (
@@ -32,7 +30,6 @@ const PortfolioShowcaseSection: React.FC = () => {
     <section className="py-12 bg-white lg:py-20 overflow-hidden">
       <div className="w-full">
         {/* Section Header */}
-        
 
         {/* Scrolling Rows Container */}
         <div className="space-y-4 lg:space-y-6">
@@ -52,9 +49,15 @@ const PortfolioShowcaseSection: React.FC = () => {
                         alt={image.alt || "Photography work"}
                         fill
                         style={{ objectFit: "cover" }}
-                        className="transition-transform duration-700 scale-110"
+                        className="transition-transform duration-700 group-hover:scale-110"
                         sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 450px"
                       />
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <h3 className="text-white text-xl lg:text-2xl font-light tracking-wider uppercase">
+                          {photographyItems.title || "Photography"}
+                        </h3>
+                      </div>
                     </Link>
                   )
                 )}
@@ -71,21 +74,27 @@ const PortfolioShowcaseSection: React.FC = () => {
                     <Link
                       key={idx}
                       href={`/work/${retouchItems.slug}`}
-                      className="flex-shrink-0 w-[200px] h-[150px] sm:w-[250px] sm:h-[200px] lg:w-[370px] lg:h-[320px] rounded-2xl  overflow-hidden group cursor-pointer relative block"
+                      className="flex-shrink-0 w-[200px] h-[150px] sm:w-[250px] sm:h-[200px] lg:w-[370px] lg:h-[320px] rounded-2xl overflow-hidden group cursor-pointer relative block"
                     >
                       <Image
                         src={image.url}
                         alt={image.alt || "Retouch work"}
                         fill
                         style={{ objectFit: "cover" }}
-                        className="transition-transform duration-700 scale-110"
+                        className="transition-transform duration-700 group-hover:scale-110"
                         sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 450px"
                       />
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <h3 className="text-white text-xl lg:text-2xl font-light tracking-wider uppercase">
+                          {retouchItems.title || "Retouch"}
+                        </h3>
+                      </div>
                     </Link>
                   )
                 )}
               </div>
-           </div>
+            </div>
           )}
 
           {/* Website/Social Media Row - Left Scroll (Faster) */}
@@ -94,8 +103,9 @@ const PortfolioShowcaseSection: React.FC = () => {
               <div className="flex gap-3 lg:gap-4 animate-scroll-left-fast hover:pause-animation">
                 {duplicateImages(websiteItems.galleryImages, 6).map(
                   (image, idx) => (
-                    <div
+                    <Link
                       key={idx}
+                      href={`/work/${websiteItems.slug}`}
                       className="flex-shrink-0 w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] lg:w-[320px] lg:h-[320px] rounded-2xl overflow-hidden group cursor-pointer relative block"
                     >
                       <Image
@@ -103,14 +113,20 @@ const PortfolioShowcaseSection: React.FC = () => {
                         alt={image.alt || "Website work"}
                         fill
                         style={{ objectFit: "cover" }}
-                        className="transition-transform duration-700 scale-110"
+                        className="transition-transform duration-700 group-hover:scale-110"
                         sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 450px"
                       />
-                    </div>
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <h3 className="text-white text-xl lg:text-2xl font-light tracking-wider uppercase">
+                          {websiteItems.title || "Social Media"}
+                        </h3>
+                      </div>
+                    </Link>
                   )
                 )}
               </div>
-             </div>
+            </div>
           )}
         </div>
       </div>

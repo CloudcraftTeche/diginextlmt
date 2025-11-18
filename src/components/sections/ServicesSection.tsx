@@ -111,7 +111,7 @@ const ServicesSection: React.FC<ServicesProps> = ({
                 {service.description}
               </p>
               <a
-                href={service.link}
+                href={"/contact"}
                 className="mt-auto inline-flex items-center font-semibold text-base text-black group-hover:text-orange-400 transition-colors duration-300 group/link"
                 aria-label={`Connect to us for ${service.title}`}
               >

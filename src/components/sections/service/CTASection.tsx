@@ -12,7 +12,7 @@ const CTASection: React.FC<CTASectionProps> = ({
   title,
   description,
   buttonText = "Our Works",
-  buttonLink = "#works",
+  buttonLink = "/work",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
