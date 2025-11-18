@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
+import Script from "next/script";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -55,32 +56,25 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const GTM_ID = "GTM-WTTZD4MF"; // Defined the GTM ID
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Google Tag Manager */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-WTTZD4MF');
-            `,
-          }}
-        />
-        {/* End Google Tag Manager */}
+        {/*
+          IMPORTANT: The standard GTM script is now replaced by the next/script component
+          placed just before the closing </body> tag.
+        */}
       </head>
 
       <body
         className={`${poppins.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        {/* Google Tag Manager (noscript) */}
+        {/* Google Tag Manager (noscript) - Must be immediately after opening <body> tag */}
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-WTTZD4MF"
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
@@ -89,6 +83,23 @@ export default function RootLayout({
         {/* End Google Tag Manager (noscript) */}
 
         {children}
+
+        {/* Google Tag Manager - Main Script */}
+        {/* Use next/script with afterInteractive strategy for reliable client-side execution */}
+        <Script
+          id="google-tag-manager-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','${GTM_ID}');
+            `,
+          }}
+        />
+        {/* End Google Tag Manager - Main Script */}
       </body>
     </html>
   );
