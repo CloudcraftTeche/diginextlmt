@@ -19,12 +19,15 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
   description,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isInViewport, setIsInViewport] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Intersection Observer for visibility animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -33,10 +36,38 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
       { threshold: 0.1 }
     );
 
-    const element = document.querySelector("#process-section");
-    if (element) observer.observe(element);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     return () => observer.disconnect();
+  }, []);
+
+  // Intersection Observer for auto-scroll trigger
+  useEffect(() => {
+    const autoScrollObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInViewport(true);
+          setIsAutoScrolling(true);
+        } else {
+          setIsInViewport(false);
+          setIsAutoScrolling(false);
+        }
+      },
+      {
+        threshold: 0.5, // Section must be 50% visible
+        rootMargin: "0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      autoScrollObserver.observe(sectionRef.current);
+    }
+
+    return () => {
+      autoScrollObserver.disconnect();
+    };
   }, []);
 
   const checkScrollButtons = () => {
@@ -61,8 +92,9 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
     }
   }, []);
 
+  // Auto-scroll effect
   useEffect(() => {
-    if (isAutoScrolling && scrollContainerRef.current) {
+    if (isAutoScrolling && isInViewport && scrollContainerRef.current) {
       autoScrollIntervalRef.current = setInterval(() => {
         if (scrollContainerRef.current) {
           const { scrollLeft, scrollWidth, clientWidth } =
@@ -88,13 +120,20 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
         clearInterval(autoScrollIntervalRef.current);
       }
     };
-  }, [isAutoScrolling]);
+  }, [isAutoScrolling, isInViewport]);
 
   const handleUserInteraction = () => {
     setIsAutoScrolling(false);
     if (autoScrollIntervalRef.current) {
       clearInterval(autoScrollIntervalRef.current);
     }
+
+    // Resume auto-scroll after 5 seconds of inactivity
+    setTimeout(() => {
+      if (isInViewport) {
+        setIsAutoScrolling(true);
+      }
+    }, 5000);
   };
 
   const scroll = (direction: "left" | "right") => {
@@ -114,7 +153,11 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
   };
 
   return (
-    <section id="process-section" className="py-6 sm:py-8 lg:py-10 bg-white">
+    <section
+      id="process-section"
+      ref={sectionRef}
+      className="py-6 sm:py-8 lg:py-10 bg-white"
+    >
       {/* Header - Contained with max-width */}
       <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mb-8 sm:mb-12">
         <div className="flex items-center justify-between">
