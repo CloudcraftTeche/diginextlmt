@@ -213,7 +213,7 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
                 {step.description}
               </p>
               <a
-                href="#contact"
+                href="/contact"
                 className="inline-flex items-center font-semibold text-sm text-black group-hover:text-orange-400 transition-colors duration-300 group/link"
               >
                 <span>Connect to Us</span>

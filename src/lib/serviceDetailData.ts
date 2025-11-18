@@ -40,7 +40,7 @@ export interface ServiceDetailContent {
   imageUrl: string;
   servicesOffered: ServiceSection;
   process: ServiceProcess;
-  partnerSection? : PartnerSection; // optional inclusion of partner section
+  partnerSection?: PartnerSection; // optional inclusion of partner section
   faqs: {
     items: ServiceFAQ[];
   };
@@ -2726,6 +2726,425 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
           question: "Will my app be mobile-friendly and responsive?",
           answer:
             "Yes, we make sure that every app we develop works perfectly on all screen sizes, so that it works well and is fun to use on smartphones, tablets, and other devices.",
+        },
+      ],
+    },
+  },
+  "event-management": {
+    slug: "event-management",
+    title: "Entertainment & Events Solutions",
+    heroDescription:
+      "We turn regular events into amazing ones. As one of the best event management companies, we plan and carry out event planning that gets your audience engaged, entertained, and inspired. Our solutions make sure that every detail of your corporate events and entertainment shows reflects your brand and vision.",
+    ctaSection: {
+      title: "Let’s Make Your Event Unforgettable",
+      description:
+        "You have to plan and carry out your next event very carefully. Let us talk and make memories that your guests will remember for a long time.",
+    },
+    imageUrl: ImageConstants.SERVICE_EVENTS,
+    servicesOffered: {
+      title: "Event Services We Offer",
+      description:
+        "We offer full event management services that take care of every part of the occasion so that it goes off without any problems and is a great time for everyone.",
+      services: [
+        {
+          title: "Corporate Event Planning",
+          description:
+            "From conferences and seminars to product launches, we design corporate events that communicate your brand message and engage attendees.",
+        },
+        {
+          title: "Entertainment Shows & Experiences",
+          description:
+            "We plan and run entertainment events that keep people interested, from live shows to interactive activities.",
+        },
+        {
+          title: "Event Logistics & Coordination",
+          description:
+            "Our team ensures smooth coordination of venues, vendors, schedules, and technical requirements, leaving you free to focus on your guests.",
+        },
+        {
+          title: "Custom Event Design",
+          description:
+            "Every event is unique. We make custom themes, decorations, and experiences that fit with your brand and what your audience wants.",
+        },
+        {
+          title: "Event Consulting & Strategy",
+          description:
+            "As a trusted event management company, we help you plan events by giving you advice on how to make the most of them and get the most return on your investment.",
+        },
+      ],
+    },
+    process: {
+      title: "Our Event Planning Process",
+      description:
+        "Our systematic strategy makes sure that every event runs without any issues, which shows that we are one of the top event management companies:",
+      steps: [
+        {
+          title: "Discovery & Planning",
+          description: "Understanding your objectives, audience, and vision.",
+        },
+        {
+          title: "Concept & Theme Development",
+          description: "Designing a unique concept structured to your goals.",
+        },
+        {
+          title: "Vendor & Venue Coordination",
+          description: "Managing logistics for a smooth event flow.",
+        },
+        {
+          title: "Execution & Management",
+          description: "Ensuring smooth operations on the day of the event.",
+        },
+        {
+          title: "Feedback & Analysis",
+          description:
+            "Collecting insights to improve future events and measure success.",
+        },
+      ],
+    },
+    partnerSection: {
+      title: "Partner with DigiNext",
+      description:
+        "As a leading event management company, we bring together events that leave a lasting impression by combining creativity, planning, and perfect execution. Let us make your next event something special.",
+    },
+    faqs: {
+      items: [
+        {
+          question: "What types of events do you manage?",
+          answer:
+            "We manage a wide range of events, including corporate conferences, product launches, entertainment shows, and private celebrations. We make sure that every event fits your brand and audience.",
+        },
+        {
+          question: "Can you handle both planning and execution?",
+          answer:
+            "Yes, as a full-service event management company, we manage everything from the first steps of planning to the actual work on site, making sure everything goes smoothly.",
+        },
+        {
+          question:
+            "How far in advance should I book your event management services?",
+          answer:
+            "We suggest booking at least 6 to 8 weeks in advance, especially for bigger events or entertainment productions, to make sure everything goes effortlessly.",
+        },
+        {
+          question: "Do you provide custom themes and event design?",
+          answer:
+            "Yes, we create custom ideas, decorations, and experiences that fit your brand and create an unforgettable impression on your audience.",
+        },
+      ],
+    },
+  },
+  "concerts-and-shows": {
+    slug: "concerts-and-shows",
+    title: "Concerts & Shows in Dubai",
+    heroDescription:
+      "We believe a concert is an experience that connects energy, emotions, and fun. As one of the leading concert management companies, we are experts at planning and putting on unforgettable concerts and live shows that keep audiences interested and ensuring perfect performances from start to finish.",
+    ctaSection: {
+      title: "Let’s Make Your Next Show Unforgettable",
+      description:
+        "We make your vision a reality by taking care of every note, light, and moment. Let us discuss and make your next event a huge success.",
+    },
+    imageUrl: ImageConstants.SERVICE_EVENTS,
+    servicesOffered: {
+      title: "Concert & Show Management Services We Offer",
+      description:
+        "We provide complete concert event management services that combine creativity, planning, and perfect execution to make powerful experiences.",
+      services: [
+        {
+          title: "Concert Planning & Strategy",
+          description:
+            "We make detailed plans for every step of the process, from concept to the curtain call, ensuring smooth flow and strong audience engagement.",
+        },
+        {
+          title: "Artist & Talent Coordination",
+          description:
+            "We collaborate with performers, musicians, and talent agencies to put together the best lineup for your event.",
+        },
+        {
+          title: "Stage Design & Production",
+          description:
+            "As a top concert event company, we design attractive stages with professional lighting, sound, and visuals that enhance every performance.",
+        },
+        {
+          title: "Event Logistics & On-Site Management",
+          description:
+            "Our experienced concert event planners handle permits, equipment, staffing, and vendor coordination to keep your event running smoothly.",
+        },
+        {
+          title: "Marketing & Audience Engagement",
+          description:
+            "We use creative strategies to build excitement, attract audiences, and boost engagement for your concerts and shows.",
+        },
+      ],
+    },
+    process: {
+      title: "Our Process",
+      description:
+        "We plan concerts with great care and creativity so that they impress your audience and go above and beyond what you expected.",
+      steps: [
+        {
+          title: "Concept & Planning",
+          description: "Understanding your event goals and vision.",
+        },
+        {
+          title: "Talent & Venue Coordination",
+          description:
+            "Securing the right performers and the perfect location.",
+        },
+        {
+          title: "Design & Production Setup",
+          description: "Building a mesmerizing concert atmosphere.",
+        },
+        {
+          title: "Execution & Management",
+          description: "Ensuring flawless showtime performance.",
+        },
+        {
+          title: "Post-Event Review",
+          description:
+            "Measuring success and gathering valuable insights for future events.",
+        },
+      ],
+    },
+    partnerSection: {
+      title: "Partner with DigiNext",
+      description:
+        "As one of the most trusted concert event management companies, we transform ordinary events into amazing experiences. Our professional concert event planners make sure that every detail is perfect for your music concert, cultural show, or live festival.",
+    },
+    faqs: {
+      items: [
+        {
+          question: "What does a concert event management company do?",
+          answer:
+            "A concert event management company like us handles everything from collaborating with artists and setting up the stage to managing logistics and audience engagement, ensuring a smooth and successful event.",
+        },
+        {
+          question: "When should I start planning a concert or show?",
+          answer:
+            "We recommend starting planning a few months in advance to secure artists, venues, and required permits. Regardless of the timeline, we assist you throughout the entire process.",
+        },
+        {
+          question: "Do you handle both small and large-scale events?",
+          answer:
+            "Yes, we manage concerts of all sizes, from intimate shows to large public festivals, customizing our approach based on your event needs.",
+        },
+        {
+          question:
+            "Can you help with concert promotions and audience engagement?",
+          answer:
+            "Yes, we also offer promotional strategies to build buzz, attract audiences, and improve engagement, ensuring your concert gets the attention it deserves.",
+        },
+      ],
+    },
+  },
+  "corporate-events": {
+    slug: "corporate-events",
+    title: "Corporate Event Management Company in Dubai",
+    heroDescription:
+      "As one of the leading corporate event management companies in Dubai, we are experts at planning and carrying out events that are in line with your brand's vision and make a lasting impression. From small corporate meetings to huge conferences, our team handles every detail with precision and creativity. Whether it's a product launch, business summit, or milestone celebration, we combine strategy, creativity, and perfect execution to bring your ideas to life.",
+    ctaSection: {
+      title: "Let’s Make Your Next Event Amazing",
+      description:
+        "Want to plan an event that connects people and brings results? Let us talk and create a memorable experience.",
+    },
+    imageUrl: ImageConstants.SERVICE_EVENTS,
+    servicesOffered: {
+      title: "Our Corporate Event Management Services",
+      description:
+        "As one of the trusted corporate event planning companies in the UAE, we offer complete event management solutions that are customized to your business needs.",
+      services: [
+        {
+          title: "Corporate Conferences & Seminars",
+          description:
+            "We design and manage professional conferences that match your brand's tone and goals, ensuring everything runs smoothly from start to finish.",
+        },
+        {
+          title: "Product Launches",
+          description:
+            "We handle everything from ideation to audience engagement, ensuring maximum visibility and impact for your product.",
+        },
+        {
+          title: "Team-Building Events",
+          description:
+            "Strengthen workplace culture with creative, fun, and meaningful team-building activities that encourage collaboration and motivation.",
+        },
+        {
+          title: "Award Ceremonies & Gala Nights",
+          description:
+            "We combine glamour and precision to celebrate achievements and milestones with unforgettable, well-organized gala events.",
+        },
+        {
+          title: "Exhibitions & Trade Shows",
+          description:
+            "From booth design to full logistics management, we help your brand stand out and attract the right audience.",
+        },
+        {
+          title: "Virtual & Hybrid Events",
+          description:
+            "Stay connected from anywhere with seamless, engaging, and technologically advanced virtual or hybrid corporate events.",
+        },
+      ],
+    },
+    process: {
+      title: "Our Process",
+      description:
+        "We plan every event using a clear, strategic, step-by-step approach to ensure perfect execution and outstanding results.",
+      steps: [
+        {
+          title: "Understanding Your Goals",
+          description:
+            "We begin by understanding your brand, event objectives, and target audience.",
+        },
+        {
+          title: "Concept & Planning",
+          description:
+            "Crafting a creative and strategic event plan tailored to your goals and vision.",
+        },
+        {
+          title: "Design & Execution",
+          description:
+            "Managing everything from event setup to atmosphere creation with attention to every detail.",
+        },
+        {
+          title: "On-Site Management",
+          description:
+            "Ensuring seamless coordination and flawless execution on the event day.",
+        },
+        {
+          title: "Post-Event Analysis",
+          description:
+            "Evaluating results and performance to help improve future events.",
+        },
+      ],
+    },
+    partnerSection: {
+      title: "Partner with DigiNext",
+      description:
+        "With years of expertise in events management in Dubai, we turn ordinary gatherings into extraordinary experiences. From corporate galas to business summits, we bring unmatched creativity, strategy, and professionalism.",
+    },
+    faqs: {
+      items: [
+        {
+          question: "What types of corporate events do you manage?",
+          answer:
+            "We manage conferences, product launches, gala dinners, seminars, exhibitions, and team-building activities. As one of the top corporate event management companies in Dubai, we customize every event to fit your brand goals.",
+        },
+        {
+          question: "When should I start making plans for my business event?",
+          answer:
+            "We recommend planning at least four to six weeks in advance to ensure proper setup, coordination, and flawless execution.",
+        },
+        {
+          question: "Do you manage both large and small corporate events?",
+          answer:
+            "Yes! We handle events of all sizes with the same level of creativity, professionalism, and accuracy — from small meetings to large-scale conferences.",
+        },
+        {
+          question: "Can you help organize events outside Dubai as well?",
+          answer:
+            "Yes, although we are based in Dubai, we plan and manage corporate events across the UAE and beyond with the same high-quality standards.",
+        },
+      ],
+    },
+  },
+  "media-coverage": {
+    slug: "media-coverage",
+    title: "Media Coverage Services in Dubai",
+    heroDescription:
+      "We understand that visibility builds trust. Our media coverage services are designed to put your brand in the limelight across both digital and traditional platforms. Our team ensures that your story captures the attention it deserves by turning announcements into headlines and features into opportunities through the perfect blend of creativity and communication.",
+    ctaSection: {
+      title: "Let’s Get You in the Spotlight",
+      description:
+        "People should talk about your brand, and for all the right reasons. Let us get in touch and take your story where it belongs — in the news.",
+    },
+    imageUrl: ImageConstants.SERVICE_EVENTS,
+    servicesOffered: {
+      title: "Our Media Coverage Services",
+      description:
+        "We help brands shape public perception through strategic storytelling and visibility that creates impact.",
+      services: [
+        {
+          title: "Press Releases & News Features",
+          description:
+            "Get your stories published in top publications through professionally written press releases and strategic news coverage.",
+        },
+        {
+          title: "Event Media Management",
+          description:
+            "We handle on-ground and digital media coverage for product launches, corporate events, and more to maximize visibility.",
+        },
+        {
+          title: "Influencer & Partnership Outreach",
+          description:
+            "Collaborate with influencers and industry leaders to expand reach and build stronger trust for your brand.",
+        },
+        {
+          title: "Crisis Communication",
+          description:
+            "We manage sensitive communication carefully to protect your brand reputation during challenging situations.",
+        },
+        {
+          title: "Media Monitoring & Reporting",
+          description:
+            "Track mentions, monitor performance, and analyze the impact of your media coverage with real-time insights.",
+        },
+      ],
+    },
+    process: {
+      title: "Our Process",
+      description:
+        "We use a strategic, focused approach to ensure every story gets the right attention and strengthens your brand impact.",
+      steps: [
+        {
+          title: "Understanding Your Story",
+          description: "Identifying what makes your brand newsworthy.",
+        },
+        {
+          title: "Strategy Development",
+          description:
+            "Planning the right approach and selecting the most relevant media outlets.",
+        },
+        {
+          title: "Content Creation",
+          description:
+            "Crafting powerful press materials, stories, and communication assets.",
+        },
+        {
+          title: "Distribution & Coverage",
+          description:
+            "Connecting with journalists and securing coverage across trusted platforms.",
+        },
+        {
+          title: "Monitoring & Optimization",
+          description:
+            "Tracking media performance and refining the strategy for even better results.",
+        },
+      ],
+    },
+    partnerSection: {
+      title: "Partner with DigiNext",
+      description:
+        "We don’t just deliver media coverage — we build influence. With our strategic media solutions, your brand gains recognition, builds trust, and stays ahead in the competitive market.",
+    },
+    faqs: {
+      items: [
+        {
+          question: "What does media coverage include?",
+          answer:
+            "Media coverage includes press releases, news features, event highlights, and digital stories that increase your brand’s visibility across trusted platforms.",
+        },
+        {
+          question: "How can media coverage help my business?",
+          answer:
+            "Effective media coverage boosts credibility, builds trust, increases awareness, positions your brand as an industry leader, and opens new business opportunities.",
+        },
+        {
+          question: "Do you handle both online and offline media coverage?",
+          answer:
+            "Yes, we provide media coverage for online platforms, blogs, digital publications, newspapers, and event-based coverage.",
+        },
+        {
+          question: "How long does it take to get results from media coverage?",
+          answer:
+            "Results depend on the campaign goals, but you can typically see published stories or mentions within a few weeks of launching a campaign.",
         },
       ],
     },
