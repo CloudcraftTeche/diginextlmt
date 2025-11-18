@@ -26,6 +26,57 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const isInitializedRef = useRef(false);
+
+  // Duplicate steps for infinite scroll (3 copies)
+  const infiniteSteps = [...steps, ...steps, ...steps];
+
+  // Calculate proper scroll offset based on actual padding
+  const getInitialScrollOffset = () => {
+    if (!scrollContainerRef.current) return 0;
+
+    // Get the computed padding-left value
+    const computedStyle = window.getComputedStyle(scrollContainerRef.current);
+    const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0;
+
+    // Calculate card width + gap
+    const cardWidth = window.innerWidth <= 640 ? 280 : 320; // Match your responsive card width
+    const gap = window.innerWidth >= 1024 ? 24 : 20; // Match your gap
+    const cardWithGap = cardWidth + gap;
+
+    // Calculate offset: (steps.length * cardWithGap) - paddingLeft
+    // This ensures the first card of the middle set aligns with the container's padding
+    return steps.length * cardWithGap;
+  };
+
+  // Initialize scroll position immediately on mount with proper offset
+  useEffect(() => {
+    const initializeScroll = () => {
+      if (scrollContainerRef.current && !isInitializedRef.current) {
+        // Small delay to ensure layout is rendered
+        setTimeout(() => {
+          if (scrollContainerRef.current) {
+            const offset = getInitialScrollOffset();
+            scrollContainerRef.current.scrollLeft = offset;
+            isInitializedRef.current = true;
+          }
+        }, 50);
+      }
+    };
+
+    initializeScroll();
+
+    // Re-initialize on window resize to handle orientation changes
+    const handleResize = () => {
+      if (scrollContainerRef.current && isInitializedRef.current) {
+        const offset = getInitialScrollOffset();
+        scrollContainerRef.current.scrollLeft = offset;
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [steps.length]);
 
   // Intersection Observer for visibility animations
   useEffect(() => {
@@ -49,14 +100,19 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsInViewport(true);
-          setIsAutoScrolling(true);
+          // Wait 1 second before starting auto-scroll
+          setTimeout(() => {
+            if (entry.isIntersecting) {
+              setIsAutoScrolling(true);
+            }
+          }, 1000);
         } else {
           setIsInViewport(false);
           setIsAutoScrolling(false);
         }
       },
       {
-        threshold: 0.5, // Section must be 50% visible
+        threshold: 0.6,
         rootMargin: "0px",
       }
     );
@@ -69,6 +125,26 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
       autoScrollObserver.disconnect();
     };
   }, []);
+
+  // Check and reset scroll position for infinite effect
+  const checkInfiniteScroll = () => {
+    if (!scrollContainerRef.current) return;
+
+    const container = scrollContainerRef.current;
+    const cardWidth = window.innerWidth <= 640 ? 280 : 320;
+    const gap = window.innerWidth >= 1024 ? 24 : 20;
+    const singleSetWidth = steps.length * (cardWidth + gap);
+    const scrollLeft = container.scrollLeft;
+
+    // If scrolled past the end of second set, jump back to start of second set
+    if (scrollLeft >= singleSetWidth * 2 - 100) {
+      container.scrollLeft = singleSetWidth;
+    }
+    // If scrolled before the start of second set, jump to end of second set
+    else if (scrollLeft <= 100) {
+      container.scrollLeft = singleSetWidth;
+    }
+  };
 
   const checkScrollButtons = () => {
     if (scrollContainerRef.current) {
@@ -92,27 +168,15 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
     }
   }, []);
 
-  // Auto-scroll effect
+  // Auto-scroll effect with infinite loop
   useEffect(() => {
     if (isAutoScrolling && isInViewport && scrollContainerRef.current) {
       autoScrollIntervalRef.current = setInterval(() => {
         if (scrollContainerRef.current) {
-          const { scrollLeft, scrollWidth, clientWidth } =
-            scrollContainerRef.current;
-
-          if (scrollLeft >= scrollWidth - clientWidth - 10) {
-            scrollContainerRef.current.scrollTo({
-              left: 0,
-              behavior: "smooth",
-            });
-          } else {
-            scrollContainerRef.current.scrollTo({
-              left: scrollLeft + 340,
-              behavior: "smooth",
-            });
-          }
+          scrollContainerRef.current.scrollLeft += 1;
+          checkInfiniteScroll();
         }
-      }, 3000);
+      }, 20);
     }
 
     return () => {
@@ -139,7 +203,7 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
   const scroll = (direction: "left" | "right") => {
     handleUserInteraction();
     if (scrollContainerRef.current) {
-      const scrollAmount = 340;
+      const scrollAmount = window.innerWidth <= 640 ? 280 : 340;
       const newScrollLeft =
         direction === "left"
           ? scrollContainerRef.current.scrollLeft - scrollAmount
@@ -149,7 +213,17 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
         left: newScrollLeft,
         behavior: "smooth",
       });
+
+      // Check infinite scroll after animation
+      setTimeout(() => {
+        checkInfiniteScroll();
+      }, 500);
     }
+  };
+
+  // Monitor scroll for infinite loop
+  const handleScroll = () => {
+    checkInfiniteScroll();
   };
 
   return (
@@ -175,24 +249,14 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
           <div className="hidden md:flex gap-2">
             <button
               onClick={() => scroll("left")}
-              disabled={!canScrollLeft}
-              className={`p-2 rounded-full border-2 transition-all duration-200 ${
-                canScrollLeft
-                  ? "border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
-                  : "border-gray-300 text-gray-300 cursor-not-allowed"
-              }`}
+              className="p-2 rounded-full border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-200"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => scroll("right")}
-              disabled={!canScrollRight}
-              className={`p-2 rounded-full border-2 transition-all duration-200 ${
-                canScrollRight
-                  ? "border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
-                  : "border-gray-300 text-gray-300 cursor-not-allowed"
-              }`}
+              className="p-2 rounded-full border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-200"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-5 h-5" />
@@ -229,10 +293,11 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
           }}
           onMouseDown={handleUserInteraction}
           onTouchStart={handleUserInteraction}
+          onScroll={handleScroll}
         >
-          {steps.map((step, index) => (
+          {infiniteSteps.map((step, index) => (
             <div
-              key={index}
+              key={`step-${index}`}
               className={`flex-shrink-0 w-[280px] sm:w-[320px] flex flex-col p-7 lg:p-8 bg-white border border-gray-300 rounded-2xl shadow-none 
                 hover:bg-black hover:border-black hover:text-white hover:shadow-lg
                 transition-[background,border,color,box-shadow] duration-500 ease-out group
@@ -241,12 +306,14 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
                 }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              style={{
+                transitionDelay: `${(index % steps.length) * 100}ms`,
+              }}
               tabIndex={0}
             >
               {/* Step Number */}
               <div className="text-orange-600 text-sm font-bold mb-3 group-hover:text-orange-400 transition-colors duration-500">
-                {String(index + 1).padStart(2, "0")}
+                {String((index % steps.length) + 1).padStart(2, "0")}
               </div>
 
               <h3 className="text-md sm:text-md font-semibold mb-3 text-black group-hover:text-white transition-colors duration-500">

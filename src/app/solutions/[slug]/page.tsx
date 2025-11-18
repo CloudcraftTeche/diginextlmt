@@ -6,7 +6,7 @@ import HeroBanner from "@/components/ui/HeroBanner";
 import { ImageConstants } from "@/constants/ImageConstants";
 import SolutionHeroSection from "@/components/sections/solutions/HeroSection";
 import SolutionsOfferedSection from "@/components/sections/solutions/OfferedSection";
-import ProcessAccordionSection from "@/components/sections/solutions/ProcessAccordionSection";
+import ProcessAccordionSection from "@/components/sections/ProcessAccordionSection";
 import CTASection from "@/components/sections/solutions/CTASection";
 import Link from "next/link";
 import PartnerSection from "@/components/sections/solutions/PartnerSection";

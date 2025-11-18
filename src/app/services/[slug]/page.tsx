@@ -10,12 +10,12 @@ import {
 } from "@/lib/serviceDetailData";
 import ServiceHeroSection from "@/components/sections/service/ServiceHeroSection";
 import ServicesOfferedSection from "@/components/sections/service/ServicesOfferedSection";
-import ProcessAccordionSection from "@/components/sections/service/ProcessAccordionSection";
 import CTASection from "@/components/sections/service/CTASection";
 import Link from "next/link";
 import PartnerSection from "@/components/sections/service/PartnerSection";
 import { generatePageMetadata } from "@/lib/metadata";
 import { SERVICES_SEO } from "@/lib/seo-data";
+import ProcessAccordionSection from "@/components/sections/ProcessAccordionSection";
 
 // Define the props type for both generateMetadata and the component
 interface ServiceDetailPageProps {
