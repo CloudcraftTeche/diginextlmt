@@ -3,7 +3,10 @@ import type { Metadata } from "next";
 import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
-import Script from "next/script";
+import Script from "next/script"; // <-- REQUIRED IMPORT
+
+// Define GTM ID once
+const GTM_ID = "GTM-WTTZD4MF"; 
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -56,38 +59,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const GTM_ID = "GTM-WTTZD4MF"; // Defined the GTM ID
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/*
-          IMPORTANT: The standard GTM script is now replaced by the next/script component
-          placed just before the closing </body> tag.
-        */}
-      </head>
-
-      <body
-        className={`${poppins.variable} ${geistMono.variable} antialiased`}
-        suppressHydrationWarning
-      >
-        {/* Google Tag Manager (noscript) - Must be immediately after opening <body> tag */}
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript>
-        {/* End Google Tag Manager (noscript) */}
-
-        {children}
-
-        {/* Google Tag Manager - Main Script */}
-       <Script
+        {/* Google Tag Manager - Main Script (MUST be in <head> for verification) */}
+        <Script
           id="google-tag-manager-script"
-          strategy="afterInteractive"
+          // 'beforeInteractive' ensures the script is included in the initial HTML
+          strategy="beforeInteractive" 
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -99,6 +78,24 @@ export default function RootLayout({
           }}
         />
         {/* End Google Tag Manager - Main Script */}
+      </head>
+
+      <body
+        className={`${poppins.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
+      >
+        {/* Google Tag Manager (noscript) - MUST be immediately after opening <body> tag */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
+
+        {children}
       </body>
     </html>
   );
