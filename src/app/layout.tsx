@@ -1,4 +1,5 @@
 // app/layout.tsx
+import { GoogleTagManager } from '@next/third-parties/google';
 import type { Metadata } from "next";
 import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -65,6 +66,7 @@ export default function RootLayout({
         {children}
         <ContactModal />
       </body>
+      <GoogleTagManager gtmId="GTM-5F46C6W5" />
     </html>
   );
 }

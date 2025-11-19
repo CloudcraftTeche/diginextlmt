@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@next/third-parties": "^16.0.3",
     "@react-three/fiber": "9.3.0",
     "antd": "^5.27.3",
     "framer-motion": "^12.23.24",
