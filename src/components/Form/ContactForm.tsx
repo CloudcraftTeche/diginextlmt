@@ -59,7 +59,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
 
       setSubmitStatus({
         type: 'success',
-        message: 'Message sent successfully! We\'ll get back to you soon.',
+        message: "Message sent successfully! We'll get back to you soon.",
       });
 
       localStorage.setItem('hasSubmittedContactForm', 'true');
@@ -108,7 +108,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
       <div className="mb-8">
         <h3 className="text-3xl font-bold text-gray-900 mb-3">Get In Touch</h3>
         <p className="text-gray-600 text-lg">
-          Fill out the form below and we'll get back to you within 24 hours.
+          Fill out the form below and we&apos;ll get back to you within 24 hours.
         </p>
       </div>
 
