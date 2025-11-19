@@ -1,57 +1,51 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Mail, User, MessageSquare, Send, CheckCircle } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Mail, User, MessageSquare, Send, CheckCircle, Briefcase } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { SERVICES } from '@/constants/services';
 
-const ContactForm = () => {
+interface ContactFormProps {
+  onSuccess?: () => void;
+}
+
+const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    service: "",
-    message: "",
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    service: '',
+    message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
 
-  // EmailJS Configuration
-  const EMAILJS_SERVICE_ID = "service_ohstdsh";
-  const EMAILJS_TEMPLATE_ID = "template_5drjxw8"; // Replace with your template ID
-  const EMAILJS_PUBLIC_KEY = "pmOV6EXydv2-6-vPh"; // Replace with your public key
+  const EMAILJS_SERVICE_ID = 'service_ohstdsh';
+  const EMAILJS_TEMPLATE_ID = 'template_5drjxw8';
+  const EMAILJS_PUBLIC_KEY = 'pmOV6EXydv2-6-vPh';
 
   useEffect(() => {
-    // Initialize EmailJS
     emailjs.init(EMAILJS_PUBLIC_KEY);
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.1 }
-    );
-    const element = document.querySelector("#contact-form");
-    if (element) observer.observe(element);
-    return () => observer.disconnect();
+    setIsVisible(true);
   }, []);
 
   const handleSubmit = async () => {
-    // Basic validation
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name || !formData.email || !formData.message || !formData.service) {
       setSubmitStatus({
-        type: "error",
-        message: "Please fill in all required fields.",
+        type: 'error',
+        message: 'Please fill in all required fields.',
       });
       return;
     }
 
     setIsSubmitting(true);
-    setSubmitStatus({ type: "", message: "" });
+    setSubmitStatus({ type: '', message: '' });
 
     try {
-      // Send email using EmailJS
-      const response = await emailjs.send(
+      await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
@@ -59,36 +53,38 @@ const ContactForm = () => {
           email: formData.email,
           time: new Date().toLocaleString(),
           message: formData.message,
+          service: formData.service,
         }
       );
 
-      console.log("Email sent successfully:", response);
-      
       setSubmitStatus({
-        type: "success",
-        message: "Message sent successfully! We'll get back to you soon.",
+        type: 'success',
+        message: 'Message sent successfully! We\'ll get back to you soon.',
       });
 
-      // Reset form
+      localStorage.setItem('hasSubmittedContactForm', 'true');
+
       setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        service: "",
-        message: "",
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        service: '',
+        message: '',
       });
 
-      // Clear success message after 5 seconds
       setTimeout(() => {
-        setSubmitStatus({ type: "", message: "" });
-      }, 5000);
+        setSubmitStatus({ type: '', message: '' });
+        if (onSuccess) {
+          onSuccess();
+        }
+      }, 2000);
 
     } catch (error) {
-      console.error("Email sending failed:", error);
+      console.error('Email sending failed:', error);
       setSubmitStatus({
-        type: "error",
-        message: "Failed to send message. Please try again or contact us directly.",
+        type: 'error',
+        message: 'Failed to send message. Please try again or contact us directly.',
       });
     } finally {
       setIsSubmitting(false);
@@ -96,9 +92,7 @@ const ContactForm = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -114,22 +108,21 @@ const ContactForm = () => {
       <div className="mb-8">
         <h3 className="text-3xl font-bold text-gray-900 mb-3">Get In Touch</h3>
         <p className="text-gray-600 text-lg">
-          Fill out the form below and we&apos;ll get back to you within 24 hours.
+          Fill out the form below and we'll get back to you within 24 hours.
         </p>
       </div>
 
-      {/* Status Messages */}
       {submitStatus.message && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className={`mb-6 p-4 rounded-xl flex items-center gap-3 ${
-            submitStatus.type === "success"
-              ? "bg-green-50 text-green-800 border border-green-200"
-              : "bg-red-50 text-red-800 border border-red-200"
+            submitStatus.type === 'success'
+              ? 'bg-green-50 text-green-800 border border-green-200'
+              : 'bg-red-50 text-red-800 border border-red-200'
           }`}
         >
-          {submitStatus.type === "success" && (
+          {submitStatus.type === 'success' && (
             <CheckCircle className="w-5 h-5 flex-shrink-0" />
           )}
           <span className="font-medium">{submitStatus.message}</span>
@@ -137,7 +130,6 @@ const ContactForm = () => {
       )}
 
       <div className="space-y-6">
-        {/* Name & Email Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="group">
             <label
@@ -184,7 +176,31 @@ const ContactForm = () => {
           </div>
         </div>
 
-        {/* Message */}
+        <div className="group">
+          <label
+            htmlFor="service"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
+            Service <span className="text-orange-500">*</span>
+          </label>
+          <div className="relative">
+            <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors" />
+            <select
+              id="service"
+              name="service"
+              value={formData.service}
+              onChange={handleChange}
+              required
+              className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white appearance-none"
+            >
+              <option value="" disabled>Select a service</option>
+              {SERVICES.map(service => (
+                <option key={service} value={service}>{service}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         <div className="group">
           <label
             htmlFor="message"
@@ -207,7 +223,6 @@ const ContactForm = () => {
           </div>
         </div>
 
-        {/* Submit Button */}
         <button
           type="button"
           onClick={handleSubmit}

@@ -91,7 +91,7 @@ const ServiceHeroSection: React.FC<ServiceHeroSectionProps> = ({
                   : "opacity-0 translate-y-4"
               }`}
             >
-              <Link href="/contact"className="inline-flex items-center px-6 py-2.5 border-2 border-gray-900 text-gray-900 font-medium rounded hover:bg-gray-900 hover:text-white transition-all duration-200 text-sm">
+              <Link href="/contact#contact-form"className="inline-flex items-center px-6 py-2.5 border-2 border-gray-900 text-gray-900 font-medium rounded hover:bg-gray-900 hover:text-white transition-all duration-200 text-sm">
                 Lets Talk
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
