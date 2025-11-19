@@ -1,8 +1,9 @@
-"use client";
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import { ImageConstants } from "@/constants/ImageConstants";
-import Link from "next/link";
+'use client';
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { ImageConstants } from '@/constants/ImageConstants';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface SubItem {
   name: string;
@@ -20,7 +21,7 @@ interface NavItem {
   name: string;
   href: string;
   hasDropdown?: boolean;
-  dropdownType?: "services" | "solutions";
+  dropdownType?: 'services' | 'solutions';
 }
 
 interface HeaderProps {
@@ -48,159 +49,159 @@ const Header = ({
     string | null
   >(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const pathname = "/";
+  const pathname = usePathname();
 
   const SERVICES_DATA: ServiceItem[] = [
     {
-      title: "Design",
-      slug: "design",
+      title: 'Design',
+      slug: 'design',
       services: [
-        { name: "Branding", slug: "branding-graphics-design" },
-        { name: "Product Design", slug: "product-packaging-design" },
-        { name: "UI/UX Design", slug: "ui-ux-design" },
+        { name: 'Branding', slug: 'branding-graphics-design' },
+        { name: 'Product Design', slug: 'product-packaging-design' },
+        { name: 'UI/UX Design', slug: 'ui-ux-design' },
       ],
     },
     {
-      title: "Development",
-      slug: "development",
+      title: 'Development',
+      slug: 'development',
       services: [
-        { name: "Web Design", slug: "website-design" },
-        { name: "E-Commerce Web Development", slug: "ecommerce-development" },
+        { name: 'Web Design', slug: 'website-design' },
+        { name: 'E-Commerce Web Development', slug: 'ecommerce-development' },
         {
-          name: "Mobile App Development",
-          slug: "app-development",
+          name: 'Mobile App Development',
+          slug: 'app-development',
         },
-        { name: "Custom Web Application", slug: "custom-web-application" },
+        { name: 'Custom Web Application', slug: 'custom-web-application' },
       ],
     },
     {
-      title: "Digital Marketing",
-      slug: "digital-marketing",
+      title: 'Digital Marketing',
+      slug: 'digital-marketing',
       services: [
         {
-          name: "Social Media Marketing",
-          slug: "social-media-marketing",
+          name: 'Social Media Marketing',
+          slug: 'social-media-marketing',
         },
         {
-          name: "Search Engine Optimization",
-          slug: "search-engine-optimization",
+          name: 'Search Engine Optimization',
+          slug: 'search-engine-optimization',
         },
-        { name: "Email Marketing", slug: "email-marketing" },
-        { name: "PPC Advertising", slug: "ppc-advertising" },
+        { name: 'Email Marketing', slug: 'email-marketing' },
+        { name: 'PPC Advertising', slug: 'ppc-advertising' },
       ],
     },
     {
-      title: "Web Hosting",
-      slug: "web-hosting",
+      title: 'Web Hosting',
+      slug: 'web-hosting',
       services: [
-        { name: "Shared Web Hosting", slug: "shared-hosting" },
-        { name: "Dedicated Hosting", slug: "dedicated-hosting" },
-        { name: "Cloud Hosting", slug: "cloud-hosting" },
-        { name: "Email Hosting", slug: "email-hosting" },
-        { name: "G Suite", slug: "g-suite" },
+        { name: 'Shared Web Hosting', slug: 'shared-hosting' },
+        { name: 'Dedicated Hosting', slug: 'dedicated-hosting' },
+        { name: 'Cloud Hosting', slug: 'cloud-hosting' },
+        { name: 'Email Hosting', slug: 'email-hosting' },
+        { name: 'G Suite', slug: 'g-suite' },
       ],
     },
     {
-      title: "Production",
-      slug: "production",
+      title: 'Production',
+      slug: 'production',
       services: [
-        { name: "Photography", slug: "photography" },
-        { name: "Videography", slug: "videography" },
+        { name: 'Photography', slug: 'photography' },
+        { name: 'Videography', slug: 'videography' },
       ],
     },
     {
-      title: "Entertainment & Events",
-      slug: "entertainment-events",
+      title: 'Entertainment & Events',
+      slug: 'entertainment-events',
       services: [
-        { name: "Event Management", slug: "event-management" },
-        { name: "Concerts & Shows", slug: "concerts-and-shows" },
-        { name: "Corporate Events", slug: "corporate-events" },
-        { name: "Media Coverage", slug: "media-coverage" },
+        { name: 'Event Management', slug: 'event-management' },
+        { name: 'Concerts & Shows', slug: 'concerts-and-shows' },
+        { name: 'Corporate Events', slug: 'corporate-events' },
+        { name: 'Media Coverage', slug: 'media-coverage' },
       ],
     },
   ];
 
   const SOLUTIONS_DATA: ServiceItem[] = [
     {
-      title: "Print & Signages",
-      slug: "print-signages",
+      title: 'Print & Signages',
+      slug: 'print-signages',
       services: [
-        { name: "Digital Printing", slug: "digital-printing" },
-        { name: "Signages", slug: "signages" },
+        { name: 'Digital Printing', slug: 'digital-printing' },
+        { name: 'Signages', slug: 'signages' },
         {
-          name: "Exhibition Stand Builders",
-          slug: "exhibition-stand-builders",
+          name: 'Exhibition Stand Builders',
+          slug: 'exhibition-stand-builders',
         },
-        { name: "Corporate Gift", slug: "corporate-gift" },
+        { name: 'Corporate Gift', slug: 'corporate-gift' },
       ],
     },
     {
-      title: "Marketing",
-      slug: "marketing",
+      title: 'Marketing',
+      slug: 'marketing',
       services: [
-        { name: "Performance Marketing", slug: "performance-marketing" },
-        { name: "Marketing Consultant", slug: "marketing-consultant" },
-        { name: "Growth Marketing", slug: "growth-marketing" },
-        { name: "Content Marketing", slug: "content-marketing" },
-        { name: "Influencer Marketing", slug: "influencer-marketing" },
+        { name: 'Performance Marketing', slug: 'performance-marketing' },
+        { name: 'Marketing Consultant', slug: 'marketing-consultant' },
+        { name: 'Growth Marketing', slug: 'growth-marketing' },
+        { name: 'Content Marketing', slug: 'content-marketing' },
+        { name: 'Influencer Marketing', slug: 'influencer-marketing' },
       ],
     },
     {
-      title: "IT Infrastructure",
-      slug: "it-infrastructure",
+      title: 'IT Infrastructure',
+      slug: 'it-infrastructure',
       services: [
-        { name: "IT Services", slug: "it-services" },
-        { name: "Enterprise Solutions", slug: "enterprise-solutions" },
-        { name: "GIS Planning", slug: "gis-planning" },
-        { name: "On Site Support", slug: "on-site-support" },
-        { name: "Cyber Security", slug: "cyber-security" },
+        { name: 'IT Services', slug: 'it-services' },
+        { name: 'Enterprise Solutions', slug: 'enterprise-solutions' },
+        { name: 'GIS Planning', slug: 'gis-planning' },
+        { name: 'On Site Support', slug: 'on-site-support' },
+        { name: 'Cyber Security', slug: 'cyber-security' },
       ],
     },
     {
-      title: "Custom Softwares",
-      slug: "custom-softwares",
+      title: 'Custom Softwares',
+      slug: 'custom-softwares',
       services: [
-        { name: "HR Software Development", slug: "hr-software-development" },
-        { name: "Enterprise CRM Software", slug: "enterprise-crm-software" },
+        { name: 'HR Software Development', slug: 'hr-software-development' },
+        { name: 'Enterprise CRM Software', slug: 'enterprise-crm-software' },
         {
-          name: "ERP Development Consultation",
-          slug: "erp-development-consultation",
+          name: 'ERP Development Consultation',
+          slug: 'erp-development-consultation',
         },
-        { name: "Custom Dashboard Design", slug: "custom-dashboard-design" },
-        { name: "ERP Data Migration", slug: "erp-data-migration" },
-        { name: "ERP App Development", slug: "erp-app-development" },
+        { name: 'Custom Dashboard Design', slug: 'custom-dashboard-design' },
+        { name: 'ERP Data Migration', slug: 'erp-data-migration' },
+        { name: 'ERP App Development', slug: 'erp-app-development' },
         {
-          name: "Learning Management System",
-          slug: "learning-management-system",
+          name: 'Learning Management System',
+          slug: 'learning-management-system',
         },
-        { name: "DevOps", slug: "devops-and-cloud-solutions" },
+        { name: 'DevOps', slug: 'devops-and-cloud-solutions' },
       ],
     },
   ];
 
   const navItems: NavItem[] = [
-    { name: "Home", href: "/" },
-    { name: "About Us", href: "/about" },
+    { name: 'Home', href: '/' },
+    { name: 'About Us', href: '/about' },
     {
-      name: "Services",
-      href: "/services",
+      name: 'Services',
+      href: '/services',
       hasDropdown: true,
-      dropdownType: "services",
+      dropdownType: 'services',
     },
     {
-      name: "Solutions",
-      href: "/solutions",
+      name: 'Solutions',
+      href: '/solutions',
       hasDropdown: true,
-      dropdownType: "solutions",
+      dropdownType: 'solutions',
     },
-    { name: "Our Work", href: "/work" },
-    { name: "Insights", href: "/insights" },
-    { name: "Contact Us", href: "/contact" },
+    { name: 'Our Work', href: '/work' },
+    { name: 'Insights', href: '/insights' },
+    { name: 'Contact Us', href: '/contact' },
   ];
 
   const isActiveRoute = (href: string) => {
-    if (href === "/") return pathname === href;
-    return pathname === href || pathname.startsWith(href);
+    if (href === '/') return pathname === href;
+    return pathname.startsWith(href);
   };
 
   useEffect(() => {
@@ -209,8 +210,8 @@ const Header = ({
     };
 
     if (isTransparent && !forceTransparent && !forceSolid) {
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      return () => window.removeEventListener("scroll", handleScroll);
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => window.removeEventListener('scroll', handleScroll);
     }
   }, [isTransparent, forceTransparent, forceSolid]);
 
@@ -225,8 +226,8 @@ const Header = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const shouldBeTransparent =
@@ -234,8 +235,8 @@ const Header = ({
   const shouldBeSolid =
     !isTransparent || forceSolid || (!forceTransparent && isScrolled);
 
-  const getDropdownData = (type: "services" | "solutions") => {
-    return type === "services" ? SERVICES_DATA : SOLUTIONS_DATA;
+  const getDropdownData = (type: 'services' | 'solutions') => {
+    return type === 'services' ? SERVICES_DATA : SOLUTIONS_DATA;
   };
 
   const renderDesktopMegaMenu = (item: NavItem) => {
@@ -254,7 +255,7 @@ const Header = ({
           {/* Categories List */}
           <div
             className={`${
-              hoveredCategory ? "w-64 border-r border-gray-100" : "w-full"
+              hoveredCategory ? 'w-64 border-r border-gray-100' : 'w-full'
             } bg-gray-50`}
           >
             {data.map((category, index) => (
@@ -264,10 +265,10 @@ const Header = ({
                 onClick={() => setHoveredCategory(category.slug)}
                 className={`w-full text-left px-6 py-3 text-sm font-semibold transition-all duration-200 border-l-4 whitespace-nowrap overflow-hidden text-ellipsis ${
                   hoveredCategory === category.slug
-                    ? "bg-white border-orange-500 text-orange-500"
-                    : "border-transparent text-gray-700 hover:bg-white hover:text-orange-500"
-                } ${index !== data.length - 1 ? "" : ""}`}
-                style={{ margin: 0, lineHeight: "1.4" }}
+                    ? 'bg-white border-orange-500 text-orange-500'
+                    : 'border-transparent text-gray-700 hover:bg-white hover:text-orange-500'
+                } ${index !== data.length - 1 ? '' : ''}`}
+                style={{ margin: 0, lineHeight: '1.4' }}
               >
                 {category.title}
               </button>
@@ -287,13 +288,13 @@ const Header = ({
                       <div
                         key={service.slug}
                         className={
-                          index !== category.services.length - 1 ? "" : ""
+                          index !== category.services.length - 1 ? '' : ''
                         }
                       >
                         <Link
                           href={`/${item.dropdownType}/${service.slug}`}
                           className="block px-3 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-all duration-200 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                          style={{ margin: 0, lineHeight: "1.4" }}
+                          style={{ margin: 0, lineHeight: '1.4' }}
                         >
                           {service.name}
                         </Link>
@@ -304,7 +305,7 @@ const Header = ({
                                 key={subItem.slug}
                                 href={`/${item.dropdownType}/${service.slug}/${subItem.slug}`}
                                 className="block px-4 py-1.5 text-xs text-gray-600 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis"
-                                style={{ margin: 0, lineHeight: "1.4" }}
+                                style={{ margin: 0, lineHeight: '1.4' }}
                               >
                                 • {subItem.name}
                               </Link>
@@ -326,7 +327,7 @@ const Header = ({
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ease-in-out ${
-        shouldBeSolid ? "bg-white backdrop-blur-xl " : "bg-transparent"
+        shouldBeSolid ? 'bg-white backdrop-blur-xl ' : 'bg-transparent'
       }`}
     >
       {shouldBeTransparent && (
@@ -348,7 +349,7 @@ const Header = ({
                   width={120}
                   height={40}
                   className={`h-10 w-auto transition-all duration-500 transform group-hover:scale-110 ${
-                    shouldBeSolid ? "brightness-100" : "brightness-0 invert"
+                    shouldBeSolid ? 'brightness-100' : 'brightness-0 invert'
                   }`}
                 />
               </div>
@@ -375,11 +376,11 @@ const Header = ({
                           className={`relative z-10 text-sm font-semibold tracking-wide transition-all duration-300 ${
                             shouldBeSolid
                               ? isActive
-                                ? "text-orange-500"
-                                : "text-gray-700 hover:text-orange-500"
+                                ? 'text-orange-500'
+                                : 'text-gray-700 hover:text-orange-500'
                               : isActive
-                              ? "text-orange-400 drop-shadow-lg"
-                              : "text-white drop-shadow-lg hover:text-orange-300"
+                              ? 'text-orange-400 drop-shadow-lg'
+                              : 'text-white drop-shadow-lg hover:text-orange-300'
                           }`}
                         >
                           {item.name}
@@ -394,11 +395,11 @@ const Header = ({
                           className={`relative z-10 text-sm font-semibold tracking-wide transition-all duration-300 ${
                             shouldBeSolid
                               ? isActive
-                                ? "text-orange-500"
-                                : "text-gray-700 hover:text-orange-500"
+                                ? 'text-orange-500'
+                                : 'text-gray-700 hover:text-orange-500'
                               : isActive
-                              ? "text-orange-400 drop-shadow-lg"
-                              : "text-white drop-shadow-lg hover:text-orange-300"
+                              ? 'text-orange-400 drop-shadow-lg'
+                              : 'text-white drop-shadow-lg hover:text-orange-300'
                           }`}
                         >
                           {item.name}
@@ -420,17 +421,17 @@ const Header = ({
             <button
               className={`relative p-3 rounded-full transition-all duration-300 transform hover:scale-110 group ${
                 shouldBeSolid
-                  ? "text-gray-600 hover:text-orange-500 hover:bg-orange-50"
-                  : "text-white hover:text-orange-300 hover:bg-white/10"
+                  ? 'text-gray-600 hover:text-orange-500 hover:bg-orange-50'
+                  : 'text-white hover:text-orange-300 hover:bg-white/10'
               }`}
             ></button>
 
             <Link
-              href={"contact"}
+              href={'contact'}
               className={`hidden md:block px-6 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-xl ${
                 shouldBeSolid
-                  ? "bg-orange-500 text-white hover:bg-orange-600"
-                  : "bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white hover:text-gray-900"
+                  ? 'bg-orange-500 text-white hover:bg-orange-600'
+                  : 'bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white hover:text-gray-900'
               }`}
             >
               Get Started
@@ -443,24 +444,24 @@ const Header = ({
               }}
               className={`lg:hidden relative p-3 rounded-full transition-all duration-300 transform hover:scale-110 group ${
                 shouldBeSolid
-                  ? "text-gray-600 hover:text-orange-500 hover:bg-orange-50"
-                  : "text-white hover:text-orange-300 hover:bg-white/10"
+                  ? 'text-gray-600 hover:text-orange-500 hover:bg-orange-50'
+                  : 'text-white hover:text-orange-300 hover:bg-white/10'
               }`}
             >
               <div className="relative w-6 h-6">
                 <span
                   className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
-                    isMenuOpen ? "rotate-45 top-3" : "top-1"
+                    isMenuOpen ? 'rotate-45 top-3' : 'top-1'
                   }`}
                 />
                 <span
                   className={`absolute h-0.5 w-6 bg-current top-3 transition-all duration-300 ${
-                    isMenuOpen ? "opacity-0" : "opacity-100"
+                    isMenuOpen ? 'opacity-0' : 'opacity-100'
                   }`}
                 />
                 <span
                   className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
-                    isMenuOpen ? "-rotate-45 top-3" : "top-5"
+                    isMenuOpen ? '-rotate-45 top-3' : 'top-5'
                   }`}
                 />
               </div>
@@ -471,7 +472,7 @@ const Header = ({
         {/* Mobile Menu */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${
-            isMenuOpen ? "h-screen opacity-100" : "max-h-0 opacity-0"
+            isMenuOpen ? 'h-screen opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
           <div className="py-4 space-y-2 rounded-2xl ">
@@ -493,8 +494,8 @@ const Header = ({
                         }}
                         className={`flex items-center justify-between w-full mx-4 px-4 py-3 text-base font-semibold rounded-xl transition-all duration-300 ${
                           isActive
-                            ? "text-orange-500"
-                            : "text-gray-700 hover:text-orange-500"
+                            ? 'text-orange-500'
+                            : 'text-gray-700 hover:text-orange-500'
                         }`}
                       >
                         <span>{item.name}</span>
@@ -517,7 +518,7 @@ const Header = ({
                                     )
                                   }
                                   className="w-full flex items-center justify-between px-4 py-2.5 border-b whitespace-nowrap overflow-hidden text-ellipsis"
-                                  style={{ margin: 0, lineHeight: "1.4" }}
+                                  style={{ margin: 0, lineHeight: '1.4' }}
                                 >
                                   <div className="font-medium text-sm text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis">
                                     {category.title}
@@ -525,8 +526,8 @@ const Header = ({
                                   <svg
                                     className={`w-4 h-4 flex-shrink-0 ml-2 transition-transform duration-300 ${
                                       mobileOpenCategory === category.slug
-                                        ? "rotate-180"
-                                        : ""
+                                        ? 'rotate-180'
+                                        : ''
                                     }`}
                                     fill="none"
                                     stroke="currentColor"
@@ -559,7 +560,7 @@ const Header = ({
                                               className="flex items-center justify-between w-full px-3 py-2 text-sm font-normal text-gray-700 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis"
                                               style={{
                                                 margin: 0,
-                                                lineHeight: "1.4",
+                                                lineHeight: '1.4',
                                               }}
                                             >
                                               <span className="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -569,8 +570,8 @@ const Header = ({
                                                 className={`w-4 h-4 flex-shrink-0 ml-2 transition-transform duration-300 ${
                                                   mobileOpenSubDropdown ===
                                                   service.slug
-                                                    ? "rotate-180"
-                                                    : ""
+                                                    ? 'rotate-180'
+                                                    : ''
                                                 }`}
                                                 fill="none"
                                                 stroke="currentColor"
@@ -598,7 +599,7 @@ const Header = ({
                                                       }
                                                       style={{
                                                         margin: 0,
-                                                        lineHeight: "1.4",
+                                                        lineHeight: '1.4',
                                                       }}
                                                     >
                                                       • {subItem.name}
@@ -615,7 +616,7 @@ const Header = ({
                                             onClick={() => setIsMenuOpen(false)}
                                             style={{
                                               margin: 0,
-                                              lineHeight: "1.4",
+                                              lineHeight: '1.4',
                                             }}
                                           >
                                             {service.name}
@@ -636,8 +637,8 @@ const Header = ({
                       href={item.href}
                       className={`block mx-4 px-4 py-3 text-base font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 ${
                         isActive
-                          ? "text-orange-500"
-                          : "text-gray-700 hover:text-orange-500"
+                          ? 'text-orange-500'
+                          : 'text-gray-700 hover:text-orange-500'
                       }`}
                       onClick={() => setIsMenuOpen(false)}
                     >
