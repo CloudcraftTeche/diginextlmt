@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Mail, User, MessageSquare, Send, CheckCircle, Briefcase } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { SERVICES } from '@/constants/services';
+import { SOLUTIONS } from '@/constants/solutions';
 
 interface ContactFormProps {
   onSuccess?: () => void;
@@ -96,6 +97,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  
+  const combinedOptions = [...SERVICES, ...SOLUTIONS];
+
 
   return (
     <motion.div
@@ -181,7 +185,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
             htmlFor="service"
             className="block text-sm font-semibold text-gray-700 mb-2"
           >
-            Service <span className="text-orange-500">*</span>
+            Service/Solution <span className="text-orange-500">*</span>
           </label>
           <div className="relative">
             <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors" />
@@ -193,10 +197,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               required
               className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white appearance-none"
             >
-              <option value="" disabled>Select a service</option>
-              {SERVICES.map(service => (
-                <option key={service} value={service}>{service}</option>
-              ))}
+              <option value="" disabled>Select a service/solution</option>
+              {[...new Set(combinedOptions)].map(option => (
+    <option key={option} value={option}>{option}</option>
+  ))}
             </select>
           </div>
         </div>
