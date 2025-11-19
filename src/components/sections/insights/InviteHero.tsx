@@ -23,7 +23,7 @@ const InviteHero: React.FC<InviteHeroProps> = ({
   },
   description = "To create build and deploy innovative engaging and integrated and to end marketing strategies that will reflect and propel the business.",
   buttonText = "Lets Talk",
-  buttonLink = "/contact",
+  buttonLink = "/contact#contact-form",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition] = useState({ x: 0, y: 0 });

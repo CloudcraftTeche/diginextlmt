@@ -4,6 +4,7 @@ import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
 import Script from "next/script"; // <-- REQUIRED IMPORT
+import ContactModal from "@/components/Modal/ContactModal";
 
 // Define GTM ID once
 const GTM_ID = "GTM-WTTZD4MF"; 
@@ -96,6 +97,7 @@ export default function RootLayout({
         {/* End Google Tag Manager (noscript) */}
 
         {children}
+        <ContactModal />
       </body>
     </html>
   );
