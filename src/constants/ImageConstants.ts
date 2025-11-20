@@ -1,6 +1,6 @@
 export class ImageConstants {
-  static BLACK_LOGO = "/assets/logos/LOGO_DIGINxt-Black 1.svg";
-  static WHITE_LOGO = "/assets/logos/LOGO_DIGINxt-White.svg";
+  static BLACK_LOGO = "/assets/logos/Black Logo.png";
+  static WHITE_LOGO = "/assets/logos/White Logo.png";
   static LOGO_SHAPE = "/assets/logos/Group.svg";
   static PLANT = "/assets/images/Asset 2.png";
   static DONET = "/assets/images/donut.png";
