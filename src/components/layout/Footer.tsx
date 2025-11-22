@@ -24,7 +24,11 @@ interface FooterProps {
   solutions?: string[];
   blog?: string[];
   usefulLinks?: string[];
-  footerLinks?: string[];
+  footerText?: Array<{
+    text: string;
+    link: string;
+  }>;
+  footerLink?: string[];
   socialLinks?: {
     linkedin?: string;
     behance?: string;
@@ -82,7 +86,14 @@ const Footer: React.FC<FooterProps> = ({
     "Partnership",
     "Industries",
   ],
-  footerLinks = ["Careers", "Download Brochure", "Locations", "Support"],
+  footerText = [
+    { text: "Careers", link: "#" },
+    { text: "Blog", link: "/blog" },
+    { text: "Download Brochure", link: "#" },
+    { text: "Locations", link: "#" },
+    { text: "Support", link: "#" },
+  ],
+
   socialLinks = {
     linkedin: "#",
     behance: "#",
@@ -307,7 +318,7 @@ const Footer: React.FC<FooterProps> = ({
               }`}
               style={{ transitionDelay: "400ms" }}
             >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4 xs:gap-6 sm:gap-8 lg:gap-12">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 xs:gap-6 sm:gap-8 lg:gap-12">
                 {/* Company Info */}
                 <div className="sm:col-span-2 lg:col-span-2">
                   <Image
@@ -496,7 +507,7 @@ const Footer: React.FC<FooterProps> = ({
                 </div>
 
                 {/* Blog - Collapsible on Mobile/Tablet */}
-                <div>
+                {/* <div>
                   <button
                     onClick={() => toggleSection("blog")}
                     className="text-white text-base xs:text-lg sm:text-lg lg:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:cursor-default"
@@ -534,7 +545,7 @@ const Footer: React.FC<FooterProps> = ({
                       </li>
                     ))}
                   </ul>
-                </div>
+                </div> */}
 
                 {/* Useful Links - Collapsible on Mobile/Tablet */}
                 <div>
@@ -589,14 +600,14 @@ const Footer: React.FC<FooterProps> = ({
               style={{ transitionDelay: "600ms" }}
             >
               <div className="flex flex-wrap justify-center sm:justify-start gap-3 xs:gap-4 sm:gap-6 mb-4 xs:mb-6 sm:mb-8">
-                {footerLinks.map((link, index) => (
-                  <a
+                {footerText.map((item, index) => (
+                  <Link
                     key={index}
-                    href="#"
-                    className="text-white text-xs xs:text-sm sm:text-sm hover:text-orange-400 transition-colors duration-300"
+                    href={item.link}
+                    className="text-gray-300 hover:text-orange-400 transition"
                   >
-                    {link}
-                  </a>
+                    {item.text}
+                  </Link>
                 ))}
               </div>
               <div className="flex items-center justify-center mb-4 xs:mb-6 sm:mb-8">
