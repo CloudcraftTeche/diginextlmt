@@ -48,7 +48,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const [mousePosition] = useState({ x: 0, y: 0 });
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -80,22 +79,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     return () => clearInterval(interval);
   }, [slides.length, autoPlayInterval]);
 
-  // Parallax scroll effect
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Mouse movement tracking for parallax (currently disabled)
-  // const handleMouseMove = (e: React.MouseEvent) => {
-  //   const rect = e.currentTarget.getBoundingClientRect();
-  //   setMousePosition({
-  //     x: (e.clientX - rect.left - rect.width / 2) / 20,
-  //     y: (e.clientY - rect.top - rect.height / 2) / 20,
-  //   });
-  // };
-
   const handleDotClick = (index: number) => {
     setIsAnimating(true);
     setTimeout(() => {
@@ -109,8 +92,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       id="hero-section"
       className="px-3 xs:px-4 sm:px-6 lg:px-8 py-4 xs:py-6 sm:py-8 lg:py-10 bg-white overflow-hidden"
       aria-labelledby="hero-heading"
-      // onMouseMove={handleMouseMove}
-      style={{ transform: `translateY(${scrollY * 0.1}px)` }}
     >
       {/* Full-width black background */}
       <div className="w-full bg-black via-black to-gray-800 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 lg:p-10 relative overflow-hidden">
@@ -129,7 +110,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               }}
             >
               <div className="relative w-full max-w-[300px] lg:max-w-[400px] aspect-square">
-                {/* <div className="absolute inset-0 bg-gradient-to-r from-orange-400/10 to-orange-600/10 rounded-full blur-xl animate-pulse" /> */}
                 <div
                   className="relative w-full h-full"
                   style={{

@@ -20,63 +20,17 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isInViewport, setIsInViewport] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
-  const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const isInitializedRef = useRef(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const animationFrameRef = useRef<number | null>(null);
+  const autoScrollSpeed = 0.5;
 
-  // Duplicate steps for infinite scroll (3 copies)
-  const infiniteSteps = [...steps, ...steps, ...steps];
-
-  // Calculate proper scroll offset based on actual padding
-  const getInitialScrollOffset = () => {
-    if (!scrollContainerRef.current) return 0;
-
-    // Get the computed padding-left value
-    const computedStyle = window.getComputedStyle(scrollContainerRef.current);
-    const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0;
-
-    // Calculate card width + gap
-    const cardWidth = window.innerWidth <= 640 ? 280 : 320; // Match your responsive card width
-    const gap = window.innerWidth >= 1024 ? 24 : 20; // Match your gap
-    const cardWithGap = cardWidth + gap;
-
-    // Calculate offset: (steps.length * cardWithGap) - paddingLeft
-    // This ensures the first card of the middle set aligns with the container's padding
-    return steps.length * cardWithGap;
-  };
-
-  // Initialize scroll position immediately on mount with proper offset
-  useEffect(() => {
-    const initializeScroll = () => {
-      if (scrollContainerRef.current && !isInitializedRef.current) {
-        // Small delay to ensure layout is rendered
-        setTimeout(() => {
-          if (scrollContainerRef.current) {
-            const offset = getInitialScrollOffset();
-            scrollContainerRef.current.scrollLeft = offset;
-            isInitializedRef.current = true;
-          }
-        }, 50);
-      }
-    };
-
-    initializeScroll();
-
-    // Re-initialize on window resize to handle orientation changes
-    const handleResize = () => {
-      if (scrollContainerRef.current && isInitializedRef.current) {
-        const offset = getInitialScrollOffset();
-        scrollContainerRef.current.scrollLeft = offset;
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [steps.length]);
+  // Duplicate steps for seamless infinite scroll
+  const duplicatedSteps = [...steps, ...steps, ...steps];
 
   // Intersection Observer for visibility animations
   useEffect(() => {
@@ -94,136 +48,132 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // Intersection Observer for auto-scroll trigger
+  // Intersection Observer to detect when section is in view for auto-scroll
   useEffect(() => {
-    const autoScrollObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInViewport(true);
-          // Wait 1 second before starting auto-scroll
-          setTimeout(() => {
-            if (entry.isIntersecting) {
-              setIsAutoScrolling(true);
-            }
-          }, 1000);
-        } else {
-          setIsInViewport(false);
-          setIsAutoScrolling(false);
-        }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsInViewport(entry.isIntersecting);
+        });
       },
       {
-        threshold: 0.6,
+        threshold: 0.3,
         rootMargin: "0px",
       }
     );
 
     if (sectionRef.current) {
-      autoScrollObserver.observe(sectionRef.current);
+      observer.observe(sectionRef.current);
     }
 
     return () => {
-      autoScrollObserver.disconnect();
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
     };
   }, []);
 
-  // Check and reset scroll position for infinite effect
-  const checkInfiniteScroll = () => {
+  // Auto-scroll functionality with seamless loop
+  useEffect(() => {
+    const autoScroll = () => {
+      if (!scrollContainerRef.current || isPaused || !isInViewport) return;
+
+      const container = scrollContainerRef.current;
+      const cardWidth = window.innerWidth <= 640 ? 280 : 320;
+      const gap = window.innerWidth >= 1024 ? 24 : 20;
+      const singleSetWidth = steps.length * (cardWidth + gap);
+
+      // Reset to middle set when reaching boundaries
+      if (container.scrollLeft >= singleSetWidth * 2) {
+        container.scrollLeft = singleSetWidth;
+      } else if (container.scrollLeft <= 0) {
+        container.scrollLeft = singleSetWidth;
+      } else {
+        container.scrollLeft += autoScrollSpeed;
+      }
+
+      animationFrameRef.current = requestAnimationFrame(autoScroll);
+    };
+
+    if (!isPaused && isInViewport) {
+      animationFrameRef.current = requestAnimationFrame(autoScroll);
+    }
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [isPaused, isInViewport, steps.length]);
+
+  // Initialize scroll position to middle set
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      const cardWidth = window.innerWidth <= 640 ? 280 : 320;
+      const gap = window.innerWidth >= 1024 ? 24 : 20;
+      const singleSetWidth = steps.length * (cardWidth + gap);
+      scrollContainerRef.current.scrollLeft = singleSetWidth;
+    }
+  }, [steps.length]);
+
+  // Manual scroll function
+  const handleManualScroll = (direction: "left" | "right") => {
     if (!scrollContainerRef.current) return;
 
-    const container = scrollContainerRef.current;
-    const cardWidth = window.innerWidth <= 640 ? 280 : 320;
-    const gap = window.innerWidth >= 1024 ? 24 : 20;
-    const singleSetWidth = steps.length * (cardWidth + gap);
-    const scrollLeft = container.scrollLeft;
+    setIsPaused(true);
 
-    // If scrolled past the end of second set, jump back to start of second set
-    if (scrollLeft >= singleSetWidth * 2 - 100) {
-      container.scrollLeft = singleSetWidth;
-    }
-    // If scrolled before the start of second set, jump to end of second set
-    else if (scrollLeft <= 100) {
-      container.scrollLeft = singleSetWidth;
-    }
-  };
+    const scrollAmount = 340;
+    const targetScroll =
+      direction === "left"
+        ? scrollContainerRef.current.scrollLeft - scrollAmount
+        : scrollContainerRef.current.scrollLeft + scrollAmount;
 
-  const checkScrollButtons = () => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } =
-        scrollContainerRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-    }
-  };
+    scrollContainerRef.current.scrollTo({
+      left: targetScroll,
+      behavior: "smooth",
+    });
 
-  useEffect(() => {
-    checkScrollButtons();
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener("scroll", checkScrollButtons);
-      window.addEventListener("resize", checkScrollButtons);
-      return () => {
-        container.removeEventListener("scroll", checkScrollButtons);
-        window.removeEventListener("resize", checkScrollButtons);
-      };
-    }
-  }, []);
-
-  // Auto-scroll effect with infinite loop
-  useEffect(() => {
-    if (isAutoScrolling && isInViewport && scrollContainerRef.current) {
-      autoScrollIntervalRef.current = setInterval(() => {
-        if (scrollContainerRef.current) {
-          scrollContainerRef.current.scrollLeft += 1;
-          checkInfiniteScroll();
-        }
-      }, 20);
-    }
-
-    return () => {
-      if (autoScrollIntervalRef.current) {
-        clearInterval(autoScrollIntervalRef.current);
-      }
-    };
-  }, [isAutoScrolling, isInViewport]);
-
-  const handleUserInteraction = () => {
-    setIsAutoScrolling(false);
-    if (autoScrollIntervalRef.current) {
-      clearInterval(autoScrollIntervalRef.current);
-    }
-
-    // Resume auto-scroll after 5 seconds of inactivity
     setTimeout(() => {
-      if (isInViewport) {
-        setIsAutoScrolling(true);
-      }
-    }, 5000);
+      setIsPaused(false);
+    }, 3000);
   };
 
-  const scroll = (direction: "left" | "right") => {
-    handleUserInteraction();
-    if (scrollContainerRef.current) {
-      const scrollAmount = window.innerWidth <= 640 ? 280 : 340;
-      const newScrollLeft =
-        direction === "left"
-          ? scrollContainerRef.current.scrollLeft - scrollAmount
-          : scrollContainerRef.current.scrollLeft + scrollAmount;
-
-      scrollContainerRef.current.scrollTo({
-        left: newScrollLeft,
-        behavior: "smooth",
-      });
-
-      // Check infinite scroll after animation
-      setTimeout(() => {
-        checkInfiniteScroll();
-      }, 500);
-    }
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setIsPaused(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
   };
 
-  // Monitor scroll for infinite loop
-  const handleScroll = () => {
-    checkInfiniteScroll();
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setTimeout(() => {
+      setIsPaused(false);
+    }, 2000);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  // Touch handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsPaused(true);
+    setStartX(e.touches[0].pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      setIsPaused(false);
+    }, 2000);
   };
 
   return (
@@ -248,14 +198,14 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
           {/* Navigation Buttons */}
           <div className="hidden md:flex gap-2">
             <button
-              onClick={() => scroll("left")}
+              onClick={() => handleManualScroll("left")}
               className="p-2 rounded-full border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-200"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
-              onClick={() => scroll("right")}
+              onClick={() => handleManualScroll("right")}
               className="p-2 rounded-full border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-200"
               aria-label="Scroll right"
             >
@@ -280,22 +230,70 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
 
       {/* Horizontal Scrolling Container - Full Width */}
       <div className="relative w-full">
-        {/* Scroll Container - Starts aligned with header, scrolls full width */}
+        <style jsx>{`
+          .scroll-container {
+            cursor: grab;
+            user-select: none;
+            overflow-x: auto;
+            overflow-y: visible;
+            scroll-behavior: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-left: 24px;
+            padding-right: 24px;
+            padding-bottom: 20px;
+            padding-top: 10px;
+          }
+
+          @media (min-width: 640px) {
+            .scroll-container {
+              padding-left: 32px;
+              padding-right: 32px;
+            }
+          }
+
+          @media (min-width: 1024px) {
+            .scroll-container {
+              padding-left: 48px;
+              padding-right: 48px;
+            }
+          }
+
+          @media (min-width: 1280px) {
+            .scroll-container {
+              padding-left: 64px;
+              padding-right: 64px;
+            }
+          }
+
+          .scroll-container::-webkit-scrollbar {
+            display: none;
+          }
+
+          .scroll-container:active {
+            cursor: grabbing;
+          }
+
+          .scroll-container.dragging {
+            scroll-behavior: auto;
+          }
+        `}</style>
+
         <div
           ref={scrollContainerRef}
-          className="flex gap-5 lg:gap-6 overflow-x-auto pb-4 scrollbar-hide"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-            scrollSnapType: "x mandatory",
-            paddingLeft: "max(1.5rem, calc((100vw - 1750px) / 2 + 1.5rem))",
-            paddingRight: "1.5rem",
-          }}
-          onMouseDown={handleUserInteraction}
-          onTouchStart={handleUserInteraction}
-          onScroll={handleScroll}
+          className={`scroll-container flex gap-5 lg:gap-6 ${
+            isDragging ? "dragging" : ""
+          }`}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseUp}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseOut={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
-          {infiniteSteps.map((step, index) => (
+          {duplicatedSteps.map((step, index) => (
             <div
               key={`step-${index}`}
               className={`flex-shrink-0 w-[280px] sm:w-[320px] flex flex-col p-7 lg:p-8 bg-white border border-gray-300 rounded-2xl shadow-none 
@@ -332,21 +330,7 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
             </div>
           ))}
         </div>
-
-        {/* Gradient Overlays */}
-        {canScrollLeft && (
-          <div className="hidden md:block absolute left-0 top-0 bottom-4 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
-        )}
-        {canScrollRight && (
-          <div className="hidden md:block absolute right-0 top-0 bottom-4 w-20 bg-gradient-to-r from-transparent to-white pointer-events-none"></div>
-        )}
       </div>
-
-      <style jsx>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 };
