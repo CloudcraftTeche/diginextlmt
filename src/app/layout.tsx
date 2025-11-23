@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
+import ContactModal from "@/components/Modal/ContactModal";
+import WhatsAppWidget from "@/components/WhatsAppWidget";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -92,6 +94,8 @@ export default function RootLayout({
         {/* End Google Tag Manager (noscript) */}
 
         {children}
+        <ContactModal />
+        <WhatsAppWidget />
       </body>
     </html>
   );

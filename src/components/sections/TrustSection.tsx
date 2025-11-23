@@ -2,7 +2,6 @@
 import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 interface StatItemProps {
   number: string;
@@ -100,6 +99,11 @@ const TrustSection: React.FC<TrustSectionProps> = ({
   ],
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -134,19 +138,38 @@ const TrustSection: React.FC<TrustSectionProps> = ({
     { name: "Company 16", logo: ImageConstants.COMPANY_LOGO_16 },
   ];
 
-  // Infinite scroll state - keeps adding logos continuously
-  const [logoItems, setLogoItems] = useState([...clientLogos, ...clientLogos, ...clientLogos]);
-  const [hasMore, setHasMore] = useState(true);
-
-  const fetchMoreLogos = () => {
-    // Add more logos when scrolling reaches the end
-    setTimeout(() => {
-      setLogoItems((prev) => [...prev, ...clientLogos]);
-    }, 300);
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setIsPaused(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
   };
 
-  const handleRefresh = () => {
-    setLogoItems([...clientLogos, ...clientLogos, ...clientLogos]);
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setTimeout(() => setIsPaused(false), 1000);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  // Touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsPaused(true);
+    setStartX(e.touches[0].pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleTouchEnd = () => {
+    setTimeout(() => setIsPaused(false), 1000);
   };
 
   return (
@@ -220,7 +243,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
         </div>
       </div>
 
-      {/* Client Logos Section - Infinite Scroll with Continuous Loop */}
+      {/* Client Logos Section - Manual Scrolling with Faster Auto Scroll */}
       <div
         className={`transform transition-all duration-1000 ease-out ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -228,50 +251,120 @@ const TrustSection: React.FC<TrustSectionProps> = ({
         style={{ transitionDelay: "800ms" }}
       >
         <div className="border-t border-gray-200 pt-8">
-          <div id="scrollableDiv" className="overflow-x-auto h-32" style={{ scrollBehavior: 'smooth' }}>
-            <InfiniteScroll
-              dataLength={logoItems.length}
-              next={fetchMoreLogos}
-              hasMore={hasMore}
-              loader={
-                <div className="flex items-center justify-center py-4">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
-                </div>
+          <div className="relative overflow-hidden">
+            <style jsx>{`
+              @keyframes scroll {
+                0% {
+                  transform: translateX(0);
+                }
+                100% {
+                  transform: translateX(-50%);
+                }
               }
-              scrollableTarget="scrollableDiv"
-              refreshFunction={handleRefresh}
-              pullDownToRefresh
-              pullDownToRefreshThreshold={50}
-              pullDownToRefreshContent={
-                <h3 className="text-center text-gray-600 py-2 text-sm">
-                  &#8595; Pull down to refresh
-                </h3>
+
+              .animate-scroll {
+                animation: scroll 8s linear infinite;
+                will-change: transform;
               }
-              releaseToRefreshContent={
-                <h3 className="text-center text-gray-600 py-2 text-sm">
-                  &#8593; Release to refresh
-                </h3>
+
+              .animate-scroll.paused {
+                animation-play-state: paused;
               }
-              className="flex flex-nowrap gap-4 items-center pb-4"
-              style={{ minWidth: 'max-content' }}
+
+              @media (max-width: 768px) {
+                .animate-scroll {
+                  animation: scroll 6s linear infinite;
+                }
+              }
+
+              @media (prefers-reduced-motion: reduce) {
+                .animate-scroll {
+                  animation: none;
+                }
+              }
+
+              .logo-scroll-wrapper {
+                cursor: grab;
+                user-select: none;
+                overflow-x: auto;
+                overflow-y: hidden;
+              }
+
+              .logo-scroll-wrapper:active {
+                cursor: grabbing;
+              }
+
+              .logo-scroll-wrapper::-webkit-scrollbar {
+                display: none;
+              }
+
+              .logo-scroll-wrapper {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+              }
+
+              /* Ensure animation works on mobile */
+              @media (max-width: 640px) {
+                .logo-track {
+                  min-width: 200%;
+                }
+              }
+            `}</style>
+
+            <div
+              ref={scrollContainerRef}
+              className="logo-scroll-wrapper"
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseMove={handleMouseMove}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => {
+                handleMouseUp();
+                if (!isDragging) setIsPaused(false);
+              }}
             >
-              {logoItems.map((client, index) => (
-                <div
-                  key={`${client.name}-${index}`}
-                  className="flex-shrink-0 px-3 sm:px-4 md:px-5 lg:px-6"
-                >
-                  <Image
-                    src={client.logo}
-                    alt={`${client.name} logo`}
-                    width={120}
-                    height={48}
-                    className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain opacity-100 hover:opacity-70 transition-opacity duration-300"
-                    priority={index < 4}
-                    draggable={false}
-                  />
-                </div>
-              ))}
-            </InfiniteScroll>
+              <div
+                className={`flex logo-track ${
+                  isPaused ? "animate-scroll paused" : "animate-scroll"
+                }`}
+              >
+                {/* First set of logos */}
+                {clientLogos.map((client, index) => (
+                  <div
+                    key={`${client.name}-${index}`}
+                    className="flex-shrink-0 px-2 sm:px-2 md:px-4 lg:px-5"
+                  >
+                    <Image
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      width={120}
+                      height={48}
+                      className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain opacity-100"
+                      priority={index < 4}
+                      draggable={false}
+                    />
+                  </div>
+                ))}
+                {/* Duplicate set for seamless loop */}
+                {clientLogos.map((client, index) => (
+                  <div
+                    key={`${client.name}-duplicate-${index}`}
+                    className="flex-shrink-0 px-3 sm:px-4 md:px-6 lg:px-8"
+                  >
+                    <Image
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      width={120}
+                      height={48}
+                      className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain opacity-100"
+                      draggable={false}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -7,26 +7,32 @@ import ContactForm from '../Form/ContactForm';
 
 const ContactModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasBeenClosed, setHasBeenClosed] = useState(false);
 
   useEffect(() => {
+    // Check if user has submitted the form (persistent across visits)
     const hasSubmitted = localStorage.getItem('hasSubmittedContactForm') === 'true';
     if (hasSubmitted) {
       return;
     }
 
+    // Check if modal was already closed in this session (only for current visit)
+    const hasClosedThisSession = sessionStorage.getItem('hasClosedContactModal') === 'true';
+    if (hasClosedThisSession) {
+      return;
+    }
+
+    // Show modal after 30 seconds
     const timer = setTimeout(() => {
-      if (!hasBeenClosed) {
-        setIsOpen(true);
-      }
+      setIsOpen(true);
     }, 30000);
 
     return () => clearTimeout(timer);
-  }, [hasBeenClosed]);
+  }, []);
 
   const closeModal = () => {
     setIsOpen(false);
-    setHasBeenClosed(true);
+    // Mark modal as closed for this session only
+    sessionStorage.setItem('hasClosedContactModal', 'true');
   };
 
   return (
@@ -44,7 +50,7 @@ const ContactModal = () => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             className="relative bg-transparent rounded-3xl w-full max-w-4xl mx-auto"
-            onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
+            onClick={(e) => e.stopPropagation()}
           >
             <ContactForm onSuccess={closeModal} />
             <button
