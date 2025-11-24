@@ -172,7 +172,7 @@ const ServiceCard: React.FC<{
                 <div>
                   <div className="flex items-center gap-2">
                     <a
-                      href={`/solutions/${item.slug}`}
+                      href={`/solutions/${item.slug}?title=${item.name}`}
                       className="text-base lg:text-lg text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all duration-200 relative group flex-1"
                     >
                       <span className="relative">

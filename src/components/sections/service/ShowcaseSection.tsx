@@ -211,7 +211,7 @@ const ServiceCard: React.FC<{
                 <div>
                   <div className="flex items-center gap-2 relative group flex-1">
                     <a
-                      href={`/services/${item.slug}`}
+                      href={`/services/${item.slug}?title=${item.name}`}
                       className="text-base lg:text-lg text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all duration-200 "
                     >
                       <span className="relative">
@@ -259,7 +259,7 @@ const ServiceCard: React.FC<{
                         {item.subItems.map((subItem, subIdx) => (
                           <li key={subIdx}>
                             <a
-                              href={`/services/${subItem.slug}`}
+                              href={`/services/${subItem.slug}?title=${subItem.name}`}
                               className="text-sm lg:text-base text-gray-600 hover:text-orange-600 transition-colors duration-200 block group/sub"
                             >
                               <span className="relative">
@@ -292,7 +292,7 @@ const ServiceCard: React.FC<{
         }`}
         style={{ transitionDelay: `${index * 200 + 200}ms` }}
       >
-        <a href={`/services/${service.slug}`}>
+        <a href={`/services/${service.slug}?title=${service.title}`}>
           <div className="relative group cursor-pointer">
             <div className="relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 h-[350px] lg:h-[450px]">
               <Image
