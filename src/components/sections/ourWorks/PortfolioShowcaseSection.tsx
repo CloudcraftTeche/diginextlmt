@@ -49,7 +49,7 @@ const PortfolioShowcaseSection: React.FC = () => {
                         alt={image.alt || "Photography work"}
                         fill
                         style={{ objectFit: "cover" }}
-                        className="transition-transform duration-700 group-hover:scale-110"
+                        className="transition-transform duration-700 scale-110"
                         sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 450px"
                       />
                       {/* Hover Overlay */}
@@ -81,7 +81,7 @@ const PortfolioShowcaseSection: React.FC = () => {
                         alt={image.alt || "Retouch work"}
                         fill
                         style={{ objectFit: "cover" }}
-                        className="transition-transform duration-700 group-hover:scale-110"
+                        className="transition-transform duration-700 scale-110"
                         sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 450px"
                       />
                       {/* Hover Overlay */}
@@ -113,7 +113,7 @@ const PortfolioShowcaseSection: React.FC = () => {
                         alt={image.alt || "Website work"}
                         fill
                         style={{ objectFit: "cover" }}
-                        className="transition-transform duration-700 group-hover:scale-110"
+                        className="transition-transform duration-700 scale-110"
                         sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 450px"
                       />
                       {/* Hover Overlay */}

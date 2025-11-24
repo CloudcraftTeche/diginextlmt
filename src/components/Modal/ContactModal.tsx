@@ -42,14 +42,14 @@ const ContactModal = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-white/30 backdrop-blur-md z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-white/30 backdrop-blur-md z-[999] flex items-center justify-center p-4"
           onClick={closeModal}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="relative bg-transparent rounded-3xl w-full max-w-4xl mx-auto"
+            className="relative bg-transparent rounded-3xl w-full mt-16 max-w-4xl mx-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <ContactForm onSuccess={closeModal} />

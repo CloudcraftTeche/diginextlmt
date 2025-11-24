@@ -293,7 +293,7 @@ const Header = ({
                         }
                       >
                         <Link
-                          href={`/${item.dropdownType}/${service.slug}`}
+                          href={`/${item.dropdownType}/${service.slug}?title=${service.name}`}
                           className="block px-3 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-all duration-200 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                           style={{ margin: 0, lineHeight: '1.4' }}
                         >
@@ -304,7 +304,7 @@ const Header = ({
                             {service.subItems.map((subItem) => (
                               <Link
                                 key={subItem.slug}
-                                href={`/${item.dropdownType}/${service.slug}/${subItem.slug}`}
+                                href={`/${item.dropdownType}/${service.slug}/${subItem.slug}?title=${subItem.name}`}
                                 className="block px-4 py-1.5 text-xs text-gray-600 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis"
                                 style={{ margin: 0, lineHeight: '1.4' }}
                               >
@@ -593,7 +593,7 @@ const Header = ({
                                                   (subItem) => (
                                                     <Link
                                                       key={subItem.slug}
-                                                      href={`/${item.dropdownType}/${service.slug}`}
+                                                      href={`/${item.dropdownType}/${service.slug}?title=${service.name}`}
                                                       className="block px-3 py-1.5 text-xs text-gray-600 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis"
                                                       onClick={() =>
                                                         setIsMenuOpen(false)
@@ -612,7 +612,7 @@ const Header = ({
                                           </>
                                         ) : (
                                           <Link
-                                            href={`/${item.dropdownType}/${service.slug}`}
+                                            href={`/${item.dropdownType}/${service.slug}?title=${service.name}`}
                                             className="block px-3 py-2 text-sm font-normal text-gray-700 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis"
                                             onClick={() => setIsMenuOpen(false)}
                                             style={{

@@ -21,6 +21,9 @@ interface SolutionDetailPageProps {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{
+    title?: string;
+  }>;
 }
 
 // Dynamic metadata generation
@@ -42,8 +45,10 @@ export async function generateMetadata({
 
 export default async function SolutionDetailPage({
   params,
+  searchParams,
 }: SolutionDetailPageProps) {
   const { slug } = await params;
+  const { title } = await searchParams;
   const solutionData = getSolutionDetailBySlug(slug);
 
   // If solution not found, show 404
@@ -78,10 +83,10 @@ export default async function SolutionDetailPage({
       <Header forceTransparent={true} />
 
       <div className="pt-16">
-        {/* Hero Banner */}
+        {/* Hero Banner - Use title from query params or fall back to default */}
         <HeroBanner
           backgorundImage={ImageConstants.INSIDE_BANNER_5}
-          title={"Solution Details"}
+          title={title || "Solution Details"}
         />
 
         {/* Solution Hero Section with Breadcrumbs */}

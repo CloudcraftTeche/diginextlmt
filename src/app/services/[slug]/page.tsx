@@ -22,6 +22,9 @@ interface ServiceDetailPageProps {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{
+    title?: string;
+  }>;
 }
 
 // Use the same interface for generateMetadata
@@ -42,8 +45,10 @@ export async function generateMetadata({
 
 export default async function ServiceDetailPage({
   params,
+  searchParams,
 }: ServiceDetailPageProps) {
   const { slug } = await params;
+  const { title } = await searchParams;
   const serviceData = getServiceDetailBySlug(slug);
 
   // If service not found, show 404
@@ -78,10 +83,10 @@ export default async function ServiceDetailPage({
       <Header forceTransparent={true} />
 
       <div className="pt-16">
-        {/* Hero Banner */}
+        {/* Hero Banner - Use title from query params or fall back to serviceData.title */}
         <HeroBanner
           backgorundImage={ImageConstants.INSIDE_BANNER_5}
-          title={"Service Details"}
+          title={title || serviceData.title}
         />
 
         {/* Service Hero Section with Breadcrumbs */}
