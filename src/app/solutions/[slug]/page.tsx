@@ -4,18 +4,18 @@ import Footer from "@/components/layout/Footer";
 import { Metadata } from "next";
 import HeroBanner from "@/components/ui/HeroBanner";
 import { ImageConstants } from "@/constants/ImageConstants";
-import SolutionHeroSection from "@/components/sections/solutions/HeroSection";
-import SolutionsOfferedSection from "@/components/sections/solutions/OfferedSection";
-import ProcessAccordionSection from "@/components/sections/ProcessAccordionSection";
-import CTASection from "@/components/sections/solutions/CTASection";
+import SolutionsOfferedSection from "@/components/sections/service-solutions/OfferedSection";
+import ProcessAccordionSection from "@/components/sections/service-solutions/ProcessAccordionSection";
+import CTASection from "@/components/sections/service-solutions/CTASection";
 import Link from "next/link";
-import PartnerSection from "@/components/sections/solutions/PartnerSection";
+import PartnerSection from "@/components/sections/service-solutions/PartnerSection";
 import {
   getAllSolutionSlugs,
   getSolutionDetailBySlug,
 } from "@/lib/solutionDetailData";
 import { generatePageMetadata } from "@/lib/metadata";
 import { SOLUTIONS_SEO } from "@/lib/seo-data";
+import ServiceHeroSection from "@/components/sections/service-solutions/ServiceHeroSection";
 
 interface SolutionDetailPageProps {
   params: Promise<{
@@ -90,7 +90,7 @@ export default async function SolutionDetailPage({
         />
 
         {/* Solution Hero Section with Breadcrumbs */}
-        <SolutionHeroSection
+        <ServiceHeroSection
           title={solutionData.title}
           description={solutionData.heroDescription}
           breadcrumbs={[

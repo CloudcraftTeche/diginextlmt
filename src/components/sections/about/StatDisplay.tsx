@@ -62,19 +62,19 @@ export function StatsScrolly() {
   const stats: StatItem[] = useMemo(
     () => [
       {
-        end: 700,
+        end: 300,
         suffix: "+",
-        label: "Successfully launched projects in various kinds of industries",
+        label: "Happy Clients",
       },
       {
-        end: 10,
-        suffix: "M+",
-        label: "Daily customer interactions inspired by our solutions",
+        end: 1000,
+        suffix: "+",
+        label: "Projects Delivered",
       },
       {
-        end: 100,
+        end: 65,
         suffix: "+",
-        label: "Digital transformation experiences with our company",
+        label: "Talented Professionals",
       },
     ],
     []

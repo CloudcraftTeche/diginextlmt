@@ -1,5 +1,5 @@
 export class ImageConstants {
-  static BLACK_LOGO = "/assets/logos/Black Logo.png";
+  static BLACK_LOGO = "/assets/logos/DigiNext Logo.svg";
   static WHITE_LOGO = "/assets/logos/White Logo.png";
   static LOGO_SHAPE = "/assets/logos/Group.svg";
   static PLANT = "/assets/images/Asset 2.png";

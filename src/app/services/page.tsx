@@ -5,7 +5,7 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { generateHomePageMetadata } from "@/lib/metadata";
 import Footer from "@/components/layout/Footer";
 import HeroBanner from "@/components/ui/HeroBanner";
-import ShowcaseSection from "@/components/sections/service/ShowcaseSection";
+import ShowcaseSection from "@/components/sections/service-solutions/ShowcaseSection";
 import { ImageConstants } from "@/constants/ImageConstants";
 
 // SEO Metadata Export
@@ -36,7 +36,8 @@ export default function HomePage() {
       <div className="pt-16">
         {/* <HeroSection /> */}
         <HeroBanner backgorundImage={ImageConstants.INSIDE_BANNER_1} />
-        <ShowcaseSection />
+        {/* FIX: Set basePath for default services */}
+        <ShowcaseSection basePath="/services" />
 
         <Footer />
       </div>
