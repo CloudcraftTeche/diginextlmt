@@ -95,12 +95,12 @@ const Footer: React.FC<FooterProps> = ({
   ],
 
   socialLinks = {
-    linkedin: "#",
+    linkedin: "http://linkedin.com/company/diginext-ae/",
     behance: "#",
     youtube: "#",
-    instagram: "#",
-    facebook: "#",
-    twitter: "#",
+    instagram: "https://www.instagram.com/diginext.ae/",
+    facebook: "https://www.facebook.com/profile.php?id=61583870428448",
+    twitter: "https://x.com/Diginext_global",
   },
   onNewsletterSubmit,
 }) => {
