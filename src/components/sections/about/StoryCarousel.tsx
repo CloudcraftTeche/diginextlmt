@@ -13,6 +13,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 
 interface JourneyItem {
   id: string;
@@ -23,15 +24,23 @@ interface JourneyItem {
 }
 
 export function JourneyValuesSection() {
-  const [isDragging, setIsDragging] = useState(false);
-  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const [isInView, setIsInView] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const animationFrameRef = useRef<number | null>(null);
-  const autoScrollSpeed = 0.5;
+
+  const {
+    scrollContainerRef,
+    canScrollLeft,
+    canScrollRight,
+    scrollToNext,
+    scrollToPrev,
+    handleMouseDown,
+    handleMouseUp,
+    handleMouseMove,
+    handleTouchStart,
+    handleTouchEnd,
+    updateScrollState,
+  } = useHorizontalScroll(420, 32);
 
   const journeyItems: JourneyItem[] = [
     {
@@ -100,130 +109,42 @@ export function JourneyValuesSection() {
     },
   ];
 
-  // Intersection Observer to detect when section is in view
+  // Intersection Observer to detect when section is in view (only once)
   useEffect(() => {
+    const currentSection = sectionRef.current;
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && !hasAnimated) {
             setIsInView(true);
-            setIsAutoScrolling(true);
-          } else {
-            setIsInView(false);
-            setIsAutoScrolling(false);
+            setHasAnimated(true);
           }
         });
       },
       {
-        threshold: 0.3, // Trigger when 30% of the section is visible
+        threshold: 0.3,
         rootMargin: "0px",
       }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (currentSection) {
+      observer.observe(currentSection);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentSection) {
+        observer.unobserve(currentSection);
       }
     };
-  }, []);
+  }, [hasAnimated]);
 
-  // Auto-scroll functionality
+  // Update scroll state on mount and resize
   useEffect(() => {
-    const autoScroll = () => {
-      if (!scrollRef.current || !isAutoScrolling || !isInView) return;
-
-      const container = scrollRef.current;
-      const maxScroll = container.scrollWidth - container.clientWidth;
-
-      if (container.scrollLeft >= maxScroll) {
-        container.scrollLeft = 0;
-      } else {
-        container.scrollLeft += autoScrollSpeed;
-      }
-
-      animationFrameRef.current = requestAnimationFrame(autoScroll);
-    };
-
-    if (isAutoScrolling && isInView) {
-      animationFrameRef.current = requestAnimationFrame(autoScroll);
-    }
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, [isAutoScrolling, isInView]);
-
-  // Manual scroll function
-  const handleManualScroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-    
-    setIsAutoScrolling(false);
-
-    const scrollAmount = 400;
-    const targetScroll =
-      direction === "left"
-        ? scrollRef.current.scrollLeft - scrollAmount
-        : scrollRef.current.scrollLeft + scrollAmount;
-
-    scrollRef.current.scrollTo({
-      left: targetScroll,
-      behavior: "smooth",
-    });
-
-    setTimeout(() => {
-      if (isInView) {
-        setIsAutoScrolling(true);
-      }
-    }, 3000);
-  };
-
-  // Mouse drag handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!scrollRef.current) return;
-    setIsDragging(true);
-    setIsAutoScrolling(false);
-    setStartX(e.pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    setTimeout(() => {
-      if (isInView) {
-        setIsAutoScrolling(true);
-      }
-    }, 3000);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !scrollRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2;
-    scrollRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  // Touch handlers for mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!scrollRef.current) return;
-    setIsAutoScrolling(false);
-    setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft);
-  };
-
-  const handleTouchEnd = () => {
-    setTimeout(() => {
-      if (isInView) {
-        setIsAutoScrolling(true);
-      }
-    }, 3000);
-  };
+    updateScrollState();
+    window.addEventListener("resize", updateScrollState);
+    return () => window.removeEventListener("resize", updateScrollState);
+  }, [updateScrollState]);
 
   return (
     <section 
@@ -244,32 +165,66 @@ export function JourneyValuesSection() {
               <Rocket className="w-6 h-6 text-orange-500" />
             </div>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-4 lg:mb-6">
+          <h2 
+            className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-4 lg:mb-6 transition-all duration-1000 ${
+              isInView
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             Our Journey & Values
           </h2>
           
           {/* Description with Navigation Buttons */}
           <div className="flex items-start justify-between gap-8">
-            <p className="text-base sm:text-lg md:text-xl text-gray-400 font-light max-w-3xl">
+            <p 
+              className={`text-base sm:text-lg md:text-xl text-gray-400 font-light max-w-3xl transition-all duration-700 ${
+                isInView
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}
+            >
               Discover the story behind DigiNext and what drives us to deliver
               exceptional IT solutions and creative services.
             </p>
 
             {/* Navigation Buttons aligned with description */}
-            <div className="flex gap-3 flex-shrink-0">
+            <div className="hidden lg:flex gap-3 flex-shrink-0">
               <button
-                onClick={() => handleManualScroll("left")}
-                className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-orange-500 rounded-full p-3 transition-all duration-300"
+                onClick={scrollToPrev}
+                disabled={!canScrollLeft}
+                className={`group border rounded-full p-3 transition-all duration-300 ${
+                  canScrollLeft
+                    ? "bg-white/5 hover:bg-white/10 border-white/10 hover:border-orange-500"
+                    : "bg-white/5 border-white/10 opacity-50 cursor-not-allowed"
+                }`}
                 aria-label="Scroll left"
               >
-                <ChevronLeft className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors" />
+                <ChevronLeft 
+                  className={`w-5 h-5 transition-colors ${
+                    canScrollLeft
+                      ? "text-gray-400 group-hover:text-orange-500"
+                      : "text-gray-600"
+                  }`}
+                />
               </button>
               <button
-                onClick={() => handleManualScroll("right")}
-                className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-orange-500 rounded-full p-3 transition-all duration-300"
+                onClick={scrollToNext}
+                disabled={!canScrollRight}
+                className={`group border rounded-full p-3 transition-all duration-300 ${
+                  canScrollRight
+                    ? "bg-white/5 hover:bg-white/10 border-white/10 hover:border-orange-500"
+                    : "bg-white/5 border-white/10 opacity-50 cursor-not-allowed"
+                }`}
                 aria-label="Scroll right"
               >
-                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors" />
+                <ChevronRight 
+                  className={`w-5 h-5 transition-colors ${
+                    canScrollRight
+                      ? "text-gray-400 group-hover:text-orange-500"
+                      : "text-gray-600"
+                  }`}
+                />
               </button>
             </div>
           </div>
@@ -283,13 +238,14 @@ export function JourneyValuesSection() {
               user-select: none;
               overflow-x: auto;
               overflow-y: visible;
-              scroll-behavior: auto;
+              scroll-behavior: smooth;
               -webkit-overflow-scrolling: touch;
               scrollbar-width: none;
               padding-left: 24px;
               padding-right: 24px;
               padding-bottom: 20px;
               padding-top: 10px;
+              touch-action: pan-x;
             }
 
             @media (min-width: 640px) {
@@ -320,29 +276,32 @@ export function JourneyValuesSection() {
             .scroll-container:active {
               cursor: grabbing;
             }
-
-            .scroll-container.dragging {
-              scroll-behavior: auto;
-            }
           `}</style>
 
           <div
-            ref={scrollRef}
-            className={`scroll-container flex gap-6 lg:gap-8 ${
-              isDragging ? "dragging" : ""
-            }`}
+            ref={scrollContainerRef}
+            className="scroll-container flex gap-6 lg:gap-8"
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseUp}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
+            onTouchMove={(e) => e.stopPropagation()}
+            onScroll={updateScrollState}
           >
             {/* Cards */}
-            {journeyItems.map((item) => (
+            {journeyItems.map((item, index) => (
               <div
                 key={item.id}
-                className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 flex-shrink-0 w-[320px] sm:w-[380px] lg:w-[420px]"
+                className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 flex-shrink-0 w-[320px] sm:w-[380px] lg:w-[420px] ${
+                  isInView
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{
+                  transitionDelay: `${index * 100}ms`,
+                }}
               >
                 {/* Number Badge */}
                 <div className="absolute top-4 right-4 text-6xl font-light text-white/5 group-hover:text-white/10 transition-colors">

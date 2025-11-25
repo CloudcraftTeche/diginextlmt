@@ -72,13 +72,7 @@ const Footer: React.FC<FooterProps> = ({
     "Custom Softwares",
     "CRM Systems",
   ],
-  blog = [
-    "Latest Posts",
-    "Tech Insights",
-    "Digital Marketing",
-    "Development Tips",
-    "Industry News",
-  ],
+  
   usefulLinks = [
     "Impact",
     "Testimonials",

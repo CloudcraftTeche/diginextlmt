@@ -8,14 +8,14 @@ import {
   getAllServiceSlugs,
   getServiceDetailBySlug,
 } from "@/lib/serviceDetailData";
-import ServiceHeroSection from "@/components/sections/service/ServiceHeroSection";
-import ServicesOfferedSection from "@/components/sections/service/ServicesOfferedSection";
-import CTASection from "@/components/sections/service/CTASection";
+import ServiceHeroSection from "@/components/sections/service-solutions/ServiceHeroSection";
 import Link from "next/link";
-import PartnerSection from "@/components/sections/service/PartnerSection";
 import { generatePageMetadata } from "@/lib/metadata";
 import { SERVICES_SEO } from "@/lib/seo-data";
-import ProcessAccordionSection from "@/components/sections/ProcessAccordionSection";
+import ProcessAccordionSection from "@/components/sections/service-solutions/ProcessAccordionSection";
+import OfferedSection from "@/components/sections/service-solutions/OfferedSection";
+import PartnerSection from "@/components/sections/service-solutions/PartnerSection";
+import CTASection from "@/components/sections/service-solutions/CTASection";
 
 // Define the props type for both generateMetadata and the component
 interface ServiceDetailPageProps {
@@ -110,7 +110,7 @@ export default async function ServiceDetailPage({
         )}
 
         {/* Services Offered Section */}
-        <ServicesOfferedSection
+        <OfferedSection
           title={serviceData.servicesOffered.title}
           description={serviceData.servicesOffered.description}
           services={serviceData.servicesOffered.services}

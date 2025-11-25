@@ -35,7 +35,6 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
   percentage,
   description,
   delay,
-  slug,
   navigationText = "Read Case Study",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
