@@ -358,7 +358,7 @@ const Header = ({
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:block">
+          <div className="hidden xl:block">
             <div className="flex items-center space-x-1">
               {navItems.map((item) => {
                 const isActive = isActiveRoute(item.href);
@@ -443,7 +443,7 @@ const Header = ({
                 e.stopPropagation();
                 setIsMenuOpen(!isMenuOpen);
               }}
-              className={`lg:hidden relative p-3 rounded-full transition-all duration-300 transform hover:scale-110 group ${
+              className={`xl:hidden relative p-3 rounded-full transition-all duration-300 transform hover:scale-110 group ${
                 shouldBeSolid
                   ? 'text-gray-600 hover:text-orange-500 hover:bg-orange-50'
                   : 'text-white hover:text-orange-300 hover:bg-white/10'
@@ -472,7 +472,7 @@ const Header = ({
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${
+          className={`xl:hidden overflow-hidden transition-all duration-500 ease-in-out ${
             isMenuOpen ? 'h-screen opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
@@ -649,11 +649,7 @@ const Header = ({
                 </div>
               );
             })}
-            <div className="mx-4 pt-4 border-t border-gray-200">
-              <button className="w-full px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-base font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:from-orange-600 hover:to-orange-700">
-                Get Started
-              </button>
-            </div>
+            
           </div>
         </div>
       </nav>
