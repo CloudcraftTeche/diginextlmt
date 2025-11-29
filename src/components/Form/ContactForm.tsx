@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, User, MessageSquare, Send, CheckCircle, Briefcase } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import { Mail, User, MessageSquare, Send, CheckCircle, Briefcase, Phone, Building2 } from 'lucide-react';
+import { apiService } from '@/services/apiService';
 import { SERVICES } from '@/constants/services';
 import { SOLUTIONS } from '@/constants/solutions';
 
@@ -24,16 +24,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
 
-  const EMAILJS_SERVICE_ID = 'service_ohstdsh';
-  const EMAILJS_TEMPLATE_ID = 'template_5drjxw8';
-  const EMAILJS_PUBLIC_KEY = 'pmOV6EXydv2-6-vPh';
-
   useEffect(() => {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
     setIsVisible(true);
   }, []);
 
   const handleSubmit = async () => {
+    // Validation
     if (!formData.name || !formData.email || !formData.message || !formData.service) {
       setSubmitStatus({
         type: 'error',
@@ -42,29 +38,40 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
       return;
     }
 
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please enter a valid email address.',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus({ type: '', message: '' });
 
     try {
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          name: formData.name,
-          email: formData.email,
-          time: new Date().toLocaleString(),
-          message: formData.message,
-          service: formData.service,
-        }
-      );
+      // Prepare data for API
+      const leadData = {
+        fullname: formData.name,
+        email: formData.email,
+        phone: formData.phone || null,
+        company: formData.company || null,
+        service: formData.service,
+        message: formData.message,
+        submitted_at: new Date().toISOString(),
+      };
+
+      // Call API service
+      await apiService.createLead(leadData);
 
       setSubmitStatus({
         type: 'success',
-        message: "Message sent successfully! We'll get back to you soon.",
+        message: "Message sent successfully! We'll get back to you within 24 hours.",
       });
 
-      localStorage.setItem('hasSubmittedContactForm', 'true');
-
+      // Reset form
       setFormData({
         name: '',
         email: '',
@@ -74,18 +81,21 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
         message: '',
       });
 
+      // Call success callback after delay
       setTimeout(() => {
         setSubmitStatus({ type: '', message: '' });
         if (onSuccess) {
           onSuccess();
         }
-      }, 2000);
+      }, 3000);
 
     } catch (error) {
-      console.error('Email sending failed:', error);
+      console.error('Form submission failed:', error);
       setSubmitStatus({
         type: 'error',
-        message: 'Failed to send message. Please try again or contact us directly.',
+        message: error instanceof Error 
+          ? error.message 
+          : 'Failed to send message. Please try again or contact us directly.',
       });
     } finally {
       setIsSubmitting(false);
@@ -99,7 +109,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   };
   
   const combinedOptions = [...SERVICES, ...SOLUTIONS];
-
 
   return (
     <motion.div
@@ -180,6 +189,50 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
           </div>
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="group">
+            <label
+              htmlFor="phone"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
+              Phone Number
+            </label>
+            <div className="relative">
+              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors" />
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white"
+                placeholder="+1 (555) 000-0000"
+              />
+            </div>
+          </div>
+
+          <div className="group">
+            <label
+              htmlFor="company"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
+              Company Name
+            </label>
+            <div className="relative">
+              <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors" />
+              <input
+                type="text"
+                id="company"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white"
+                placeholder="Your Company"
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="group">
           <label
             htmlFor="service"
@@ -199,8 +252,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
             >
               <option value="" disabled>Select a service/solution</option>
               {[...new Set(combinedOptions)].map(option => (
-    <option key={option} value={option}>{option}</option>
-  ))}
+                <option key={option} value={option}>{option}</option>
+              ))}
             </select>
           </div>
         </div>
