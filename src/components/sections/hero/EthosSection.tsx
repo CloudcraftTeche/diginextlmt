@@ -1,6 +1,21 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 
+// Import modular constants
+import { 
+  LIGHT_HERO_DESCRIPTION_SIZE ,
+  FONT_WEIGHT,
+  SECTION_HEADING_SIZE,
+} from "@/constants/typographyConstants"; 
+
+import {
+  SECTION_PX, 
+  SECTION_PY,
+  CONTENT_WRAPPER_CLASSES, // <--- USING STANDARD CONTENT WRAPPER
+  WHITE_TEXT,
+  GRAY_TEXT_LIGHT,
+} from "@/constants/layoutConstants"; 
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ThreeJS = any;
 
@@ -28,7 +43,6 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
   const [isMobile, setIsMobile] = useState(false);
   const animationFrameRef = useRef<number>(0);
 
-  // Detect mobile screen size
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -38,7 +52,6 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Load Three.js from CDN
   useEffect(() => {
     if (window.THREE) {
       setThreeLoaded(true);
@@ -77,9 +90,9 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     camera.position.y = 0.5;
 
     const renderer = new THREE.WebGLRenderer({
-      antialias: !isMobile, // Disable antialiasing on mobile for better performance
+      antialias: !isMobile,
       alpha: true,
-      powerPreference: "high-performance", // Request high-performance GPU
+      powerPreference: "high-performance",
     });
     renderer.setPixelRatio(
       Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2)
@@ -88,11 +101,9 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     renderer.setClearColor(0x000000, 0);
     el.appendChild(renderer.domElement);
 
-    // Create glass sphere with flowing ribbons
     const group = new THREE.Group();
     scene.add(group);
 
-    // Central glass sphere
     const sphereGeo = new THREE.SphereGeometry(
       1.2,
       isMobile ? 32 : 64,
@@ -113,10 +124,9 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     const sphere = new THREE.Mesh(sphereGeo, sphereMat);
     group.add(sphere);
 
-    // Create multiple glass ribbon rings around sphere
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const ribbons: any[] = [];
-    const ribbonCount = isMobile ? 3 : 5; // Reduce ribbons on mobile
+    const ribbonCount = isMobile ? 3 : 5;
 
     for (let i = 0; i < ribbonCount; i++) {
       const angle = (i / ribbonCount) * Math.PI;
@@ -161,7 +171,6 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       ribbons.push(ribbon);
     }
 
-    // Subtle wireframe on sphere
     const wireGeo = new THREE.EdgesGeometry(sphereGeo);
     const wireMat = new THREE.LineBasicMaterial({
       color: 0x4dd0e1,
@@ -171,7 +180,6 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     const wireframe = new THREE.LineSegments(wireGeo, wireMat);
     group.add(wireframe);
 
-    // Lighting
     scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
     const light1 = new THREE.PointLight(0x00d4ff, 1.5, 100);
@@ -187,7 +195,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     scene.add(light3);
 
     let lastTime = performance.now();
-    const targetFPS = isMobile ? 30 : 60; // Lower FPS on mobile
+    const targetFPS = isMobile ? 30 : 60;
     const frameTime = 1000 / targetFPS;
 
     const animate = () => {
@@ -196,30 +204,25 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       const currentTime = performance.now();
       const deltaTime = currentTime - lastTime;
 
-      // Frame rate limiter for mobile
       if (deltaTime < frameTime) return;
 
       lastTime = currentTime - (deltaTime % frameTime);
 
-      // Gentle continuous rotation
       group.rotation.y += 0.002;
       group.rotation.x = Math.sin(Date.now() * 0.0005) * 0.1;
 
       const t = performance.now() * 0.0003;
 
-      // Gentle ribbon rotation
       ribbons.forEach((ribbon, i) => {
         ribbon.rotation.z += 0.001 * (i % 2 === 0 ? 1 : -1);
       });
 
-      // Animate lights
       light1.position.x = Math.sin(t * 2) * 5;
       light1.position.z = Math.cos(t * 2) * 6;
       light2.position.x = Math.cos(t * 1.5) * 5;
       light2.position.z = Math.sin(t * 1.5) * 5;
       light3.position.y = Math.sin(t * 2.5) * 3 + 5;
 
-      // Smooth rotation update for stats
       setRotation((prev) => prev + 0.003);
 
       renderer.render(scene, camera);
@@ -235,7 +238,6 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     };
     window.addEventListener("resize", handleResize);
 
-    // Intersection Observer
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.2 }
@@ -269,36 +271,38 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
   ];
 
   return (
-    <section className="px-3 xs:px-4 sm:px-6 lg:px-8 py-4 xs:py-6 sm:py-8 lg:py-10 bg-white">
-      {/* Full-width black background */}
+    <section className={`${SECTION_PX} ${SECTION_PY} bg-white`}>
+      {/* Black Background Container - No horizontal padding here, uses hardcoded inner padding */}
       <div className="w-full bg-black rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-8 lg:p-12 relative overflow-hidden">
+        
         {/* Background decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
         </div>
 
-        {/* Constrained content wrapper */}
-        <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
+        {/* Content Wrapper using CONTENT_WRAPPER_CLASSES */}
+        <div className={CONTENT_WRAPPER_CLASSES}> 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
+            
             {/* Left Side - Text Content */}
             <div
               className={`text-left order-2 lg:order-1 transition-all duration-1000 ease-out opacity-100 translate-x-0`}
             >
               <h2
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-normal mb-6 sm:mb-8 text-white leading-tight"
+                className={`${SECTION_HEADING_SIZE} ${FONT_WEIGHT.medium} mb-6 sm:mb-8 ${WHITE_TEXT} leading-tight`}
                 style={{ transitionDelay: "200ms" }}
               >
                 {title}
               </h2>
 
               <div
-                className="text-gray-300 font-light text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8"
+                className={`${GRAY_TEXT_LIGHT} ${FONT_WEIGHT.light} ${LIGHT_HERO_DESCRIPTION_SIZE } leading-relaxed mb-6 sm:mb-8`}
                 style={{ transitionDelay: "400ms" }}
               >
                 <p className="mb-4 sm:mb-6 text-justify">
                   {description.split(".")[0]}.{" "}
-                  <span className="font-light text-white">We</span>{" "}
+                  <span className={`${FONT_WEIGHT.light} ${WHITE_TEXT}`}>We</span>{" "}
                   {description.split(".").slice(1, 3).join(". ")}.
                 </p>
                 <p className="text-justify">
@@ -308,7 +312,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
               </div>
 
               <p
-                className="text-gray-300 text-sm sm:text-base text-justify md:text-lg font-light leading-relaxed"
+                className={`${GRAY_TEXT_LIGHT} ${LIGHT_HERO_DESCRIPTION_SIZE } text-justify ${FONT_WEIGHT.light} leading-relaxed`}
                 style={{ transitionDelay: "600ms" }}
               >
                 {subtitle}

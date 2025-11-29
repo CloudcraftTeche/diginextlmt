@@ -2,6 +2,25 @@
 import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
+import { motion, Variants } from "framer-motion";
+
+// Import modular constants
+import { 
+  fadeInUpVariants, 
+  onceInViewPort,
+} from "@/constants/animationVariants"; 
+
+import {
+  HERO_DESCRIPTION_SIZE,
+  FONT_WEIGHT,
+} from "@/constants/typographyConstants"; 
+
+import {
+  SECTION_PX, 
+  SECTION_PY,
+  CONTENT_WRAPPER_CLASSES,
+} from "@/constants/layoutConstants"; 
+
 
 interface StatItemProps {
   number: string;
@@ -20,74 +39,87 @@ interface TrustSectionProps {
   }>;
 }
 
+// --- Framer Motion Variants for Staggering Stats ---
+const statsContainerVariants: Variants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const statItemVariants: Variants = {
+  initial: { opacity: 0, y: 30 },
+  animate: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.7, ease: "easeOut" } 
+  },
+};
+// ---------------------------------------------------
+
+
 const StatItem: React.FC<StatItemProps> = ({
   number,
   suffix,
   label,
-  delay,
+  delay, // Delay is now managed by Framer Motion stagger, but kept for counter logic compatibility
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
+  // Keeping the complex counter logic but removing the Intersection Observer
   const [animatedNumber, setAnimatedNumber] = useState(0);
+  const itemRef = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          const targetNumber = parseInt(number);
-          const duration = 1000;
-          const steps = 50;
-          const increment = targetNumber / steps;
-          let current = 0;
+    // We only run the counter once the component is mounted (which is handled by whileInView in the parent)
+    const targetNumber = parseInt(number);
+    if (isNaN(targetNumber)) return;
+    
+    const duration = 1000;
+    const steps = 50;
+    const increment = targetNumber / steps;
+    let current = 0;
 
-          const timer = setInterval(() => {
-            current += increment;
-            if (current >= targetNumber) {
-              setAnimatedNumber(targetNumber);
-              clearInterval(timer);
-            } else {
-              setAnimatedNumber(Math.floor(current));
-            }
-          }, duration / steps);
-
-          return () => clearInterval(timer);
+    // Use a delay to ensure the counter starts slightly after the element fades in
+    const startTimeout = setTimeout(() => {
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= targetNumber) {
+          setAnimatedNumber(targetNumber);
+          clearInterval(timer);
+        } else {
+          setAnimatedNumber(Math.floor(current));
         }
-      },
-      { threshold: 0.3 }
-    );
+      }, duration / steps);
+      
+      return () => clearInterval(timer);
+    }, delay); // Using the delay prop here to stagger the counters
 
-    const element = document.querySelector(
-      `#stat-${label.replace(/\s+/g, "-").toLowerCase()}`
-    );
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
-  }, [number, label]);
+    return () => clearTimeout(startTimeout);
+  }, [number, delay]);
 
   return (
-    <div
-      id={`stat-${label.replace(/\s+/g, "-").toLowerCase()}`}
-      className={`text-center transform transition-all duration-1000 ease-out ${
-        isVisible
-          ? "opacity-100 translate-y-0 scale-100"
-          : "opacity-0 translate-y-8 scale-95"
-      }`}
-      style={{ transitionDelay: `${delay}ms` }}
+    <motion.div
+      ref={itemRef}
+      variants={statItemVariants} // Apply item variant for staggered entry
+      className="text-center"
     >
       <div className="mb-3">
-        <span className="text-xl sm:text-2xl lg:text-3xl font-semibold text-black">
+        <span className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900">
           {animatedNumber}
         </span>
-        <span className="text-md sm:text-lg lg:text-xl font-semibold text-black">
+        <span className="text-md sm:text-lg lg:text-xl font-semibold text-gray-900">
           {suffix}
         </span>
       </div>
       <p className="text-xs sm:text-xs md:text-sm lg:text-base text-gray-700 font-normal">
         {label}
       </p>
-    </div>
+    </motion.div>
   );
 };
+
 
 const TrustSection: React.FC<TrustSectionProps> = ({
   title = "Companies That Trust Us",
@@ -98,26 +130,14 @@ const TrustSection: React.FC<TrustSectionProps> = ({
     { number: "5", suffix: "+", label: "Countries Served" },
   ],
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
+  // Simplified state: Only need state for hover pause
   const [isPaused, setIsPaused] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
+  const [isDragging, setIsDragging] = useState(false); // Kept for cursor styling
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    const element = document.querySelector("#trust-section");
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
+  // Removed Intersection Observer logic (now using motion.div whileInView)
 
   const clientLogos = [
     { name: "Tata Power", logo: ImageConstants.COMPANY_LOGO_1 },
@@ -138,18 +158,19 @@ const TrustSection: React.FC<TrustSectionProps> = ({
     { name: "Company 16", logo: ImageConstants.COMPANY_LOGO_16 },
   ];
 
-  // Mouse drag handlers
+  // Mouse drag handlers (Simplified, relying on mouse down/up/move/leave for control)
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollContainerRef.current) return;
     setIsDragging(true);
-    setIsPaused(true);
+    setIsPaused(true); // Pause animation on interaction start
     setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
     setScrollLeft(scrollContainerRef.current.scrollLeft);
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
-    setTimeout(() => setIsPaused(false), 1000);
+    // Resume animation 1 second after mouse interaction ends
+    setTimeout(() => setIsPaused(false), 1000); 
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -169,34 +190,39 @@ const TrustSection: React.FC<TrustSectionProps> = ({
   };
 
   const handleTouchEnd = () => {
+    // Resume animation 1 second after touch interaction ends
     setTimeout(() => setIsPaused(false), 1000);
   };
 
   return (
-    <section id="trust-section" className="py-8 bg-white overflow-hidden">
-      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
+    <section 
+      id="trust-section" 
+      className={`${SECTION_PX} ${SECTION_PY} bg-white overflow-hidden`} // Use layout constants
+    >
+      <div className={CONTENT_WRAPPER_CLASSES}> {/* Use layout constant */}
+        
         {/* Header Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16">
+          
           {/* Left Side - Title and Description */}
-          <div
-            className={`transform transition-all duration-1000 ease-out ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-8"
-            }`}
+          <motion.div
+            variants={fadeInUpVariants} // Use entry animation
+            initial="initial"
+            whileInView="animate"
+            viewport={onceInViewPort}
           >
             <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 mb-6 leading-tight">
               {title}
             </h2>
             <div className="space-y-6" itemProp="description">
-              <p className="text-sm sm:text-base lg:text-md font-light text-justify text-gray-600 leading-relaxed">
+              <p className={`${HERO_DESCRIPTION_SIZE} ${FONT_WEIGHT.light} text-justify text-gray-600 leading-relaxed`}>
                 We at <span itemProp="legalName">DigiNext</span> are proud to
                 play a significant role in our client&apos;s success stories. We
                 think that building trust is the most important and basic part
                 of any great partnership we begin.
               </p>
 
-              <p className="text-sm sm:text-base lg:text-md font-light text-justify text-gray-600 leading-relaxed">
+              <p className={`${HERO_DESCRIPTION_SIZE} ${FONT_WEIGHT.light} text-justify text-gray-600 leading-relaxed`}>
                 Our dedicated team does not just do marketing duties, we also
                 learn all about the specific needs of your business. We help you
                 research, plan and come up with new ideas for your approach in a
@@ -207,22 +233,20 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                 successes.
               </p>
 
-              <p className="text-sm sm:text-base lg:text-md font-light text-justify text-gray-600 leading-relaxed">
+              <p className={`${HERO_DESCRIPTION_SIZE} ${FONT_WEIGHT.light} text-justify text-gray-600 leading-relaxed`}>
                 We have built a strong reputation in the market by working
                 closely with our partners for their success. We look forward to
                 building one with you.
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Side - Statistics Grid */}
-          <div
-            className={`transform transition-all duration-1000 ease-out ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-8"
-            }`}
-            style={{ transitionDelay: "200ms" }}
+          <motion.div
+            variants={statsContainerVariants} // Use container variant for staggering
+            initial="initial"
+            whileInView="animate"
+            viewport={onceInViewPort}
           >
             <div className="grid grid-cols-2 gap-0 relative">
               <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gray-300 transform -translate-x-1/2"></div>
@@ -234,25 +258,27 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                     number={stat.number}
                     suffix={stat.suffix}
                     label={stat.label}
-                    delay={400 + index * 100}
+                    delay={index * 150} // Stagger delay for the counter effect
                   />
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Client Logos Section - Manual Scrolling with Faster Auto Scroll */}
-      <div
-        className={`transform transition-all duration-1000 ease-out ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-        style={{ transitionDelay: "800ms" }}
+      <motion.div
+        variants={fadeInUpVariants} // Use entry animation
+        initial="initial"
+        whileInView="animate"
+        viewport={onceInViewPort}
       >
         <div className="border-t border-gray-200 pt-8">
           <div className="relative overflow-hidden">
-            <style jsx>{`
+            
+            {/* Consolidated CSS for Scrolling Logos */}
+            <style jsx global>{`
               @keyframes scroll {
                 0% {
                   transform: translateX(0);
@@ -303,12 +329,10 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                 scrollbar-width: none;
               }
 
-              /* Ensure animation works on mobile */
-              @media (max-width: 640px) {
-                .logo-track {
-                  min-width: 200%;
-                }
+              .logo-track {
+                  min-width: 200%; /* Ensure duplication works */
               }
+              
             `}</style>
 
             <div
@@ -367,7 +391,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

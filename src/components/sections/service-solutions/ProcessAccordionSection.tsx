@@ -1,7 +1,25 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
+
+// Import modular constants
+import { 
+  fadeInUpVariants, 
+  onceInViewPort 
+} from "@/constants/animationVariants"; 
+
+import {
+  FONT_WEIGHT,
+} from "@/constants/typographyConstants"; 
+
+import {
+  SECTION_PY,
+  CONTENT_WRAPPER_CLASSES,
+  PRIMARY_ORANGE_TEXT,
+  WHITE_TEXT,
+} from "@/constants/layoutConstants"; 
 
 interface ProcessStep {
   title: string;
@@ -67,20 +85,19 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
     <section
       id="process-section"
       ref={sectionRef}
-      className="py-6 sm:py-8 lg:py-10 bg-white"
+      className={`${SECTION_PY} bg-white`}
     >
       {/* Header */}
-      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mb-8 sm:mb-12">
+      <div className={`${CONTENT_WRAPPER_CLASSES} mb-8 sm:mb-12`}>
         <div className="flex items-center justify-between">
-          <h2
-            className={`text-2xl sm:text-3xl md:text-4xl text-black font-semibold transition-all duration-1000 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
+          <motion.h2
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            variants={fadeInUpVariants}
+            className={`text-2xl sm:text-3xl md:text-4xl text-black ${FONT_WEIGHT.semibold}`}
           >
             {title}
-          </h2>
+          </motion.h2>
 
           {/* Navigation Buttons */}
           <div className="hidden md:flex gap-2">
@@ -113,20 +130,20 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
 
         {/* Description */}
         {description && (
-          <p
-            className={`text-sm sm:text-base text-gray-500 mt-2 max-w-4xl transition-all duration-700 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4"
-            }`}
+          <motion.p
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            variants={fadeInUpVariants}
+            transition={{ delay: 0.2 }}
+            className="text-sm sm:text-base text-gray-500 mt-2 max-w-4xl"
           >
             {description}
-          </p>
+          </motion.p>
         )}
       </div>
 
       {/* Horizontal Scrolling Container */}
-      <div className="relative w-full">
+      <div className="relative w-full overflow-hidden">
         <style jsx>{`
           .scroll-container {
             cursor: grab;
@@ -136,32 +153,9 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            padding-left: 24px;
-            padding-right: 24px;
             padding-bottom: 20px;
             padding-top: 10px;
             touch-action: pan-x;
-          }
-
-          @media (min-width: 640px) {
-            .scroll-container {
-              padding-left: 32px;
-              padding-right: 32px;
-            }
-          }
-
-          @media (min-width: 1024px) {
-            .scroll-container {
-              padding-left: 48px;
-              padding-right: 48px;
-            }
-          }
-
-          @media (min-width: 1280px) {
-            .scroll-container {
-              padding-left: 64px;
-              padding-right: 64px;
-            }
           }
 
           .scroll-container::-webkit-scrollbar {
@@ -171,11 +165,39 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
           .scroll-container:active {
             cursor: grabbing;
           }
+
+          .scroll-content {
+            max-width: 1750px;
+            margin: 0 auto;
+            padding-left: 24px;
+            padding-right: 24px;
+          }
+
+          @media (min-width: 640px) {
+            .scroll-content {
+              padding-left: 32px;
+              padding-right: 32px;
+            }
+          }
+
+          @media (min-width: 1024px) {
+            .scroll-content {
+              padding-left: 48px;
+              padding-right: 48px;
+            }
+          }
+
+          @media (min-width: 1280px) {
+            .scroll-content {
+              padding-left: 64px;
+              padding-right: 64px;
+            }
+          }
         `}</style>
 
         <div
           ref={scrollContainerRef}
-          className="scroll-container flex gap-5 lg:gap-6"
+          className="scroll-container"
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
@@ -185,42 +207,34 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
           onTouchMove={(e) => e.stopPropagation()}
           onScroll={updateScrollState}
         >
-          {steps.map((step, index) => (
-            <div
-              key={`step-${index}`}
-              className={`flex-shrink-0 w-[280px] sm:w-[320px] flex flex-col p-7 lg:p-8 bg-white border border-gray-300 rounded-2xl shadow-none 
-                hover:bg-black hover:border-black hover:text-white hover:shadow-lg
-                transition-[background,border,color,box-shadow] duration-500 ease-out group
-                focus:outline-none focus:ring-2 ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
-              style={{
-                transitionDelay: `${index * 100}ms`,
-              }}
-              tabIndex={0}
-            >
-              {/* Step Number */}
-              <div className="text-orange-600 text-sm font-bold mb-3 group-hover:text-orange-400 transition-colors duration-500">
-                {String(index + 1).padStart(2, "0")}
-              </div>
-
-              <h3 className="text-md sm:text-md font-semibold mb-3 text-black group-hover:text-white transition-colors duration-500">
-                {step.title}
-              </h3>
-              <p className="text-gray-600 text-justify text-xs sm:text-xs md:text-sm lg:text-sm group-hover:text-gray-200 transition-colors duration-500 mb-4 leading-relaxed flex-grow">
-                {step.description}
-              </p>
-              {/* <a
-                href="/contact"
-                className="inline-flex items-center font-semibold text-sm text-black group-hover:text-orange-400 transition-colors duration-300 group/link"
+          <div className="scroll-content flex gap-5 lg:gap-6">
+            {steps.map((step, index) => (
+              <motion.div
+                key={`step-${index}`}
+                initial="hidden"
+                animate={isVisible ? "visible" : "hidden"}
+                variants={fadeInUpVariants}
+                transition={{ delay: index * 0.1 }}
+                className="flex-shrink-0 w-[280px] sm:w-[320px] flex flex-col p-7 lg:p-8 bg-white border border-gray-300 rounded-2xl shadow-none 
+                  hover:bg-black hover:border-black hover:text-white hover:shadow-lg
+                  transition-[background,border,color,box-shadow] duration-500 ease-out group
+                  focus:outline-none focus:ring-2"
+                tabIndex={0}
               >
-                <span>Connect to Us</span>
-                <Send className="w-4 h-4 ml-2 group-hover/link:translate-x-1 group-hover:rotate-45 transition-all duration-300" />
-              </a> */}
-            </div>
-          ))}
+                {/* Step Number */}
+                <div className={`${PRIMARY_ORANGE_TEXT} text-sm ${FONT_WEIGHT.semibold} mb-3 group-hover:text-orange-400 transition-colors duration-500`}>
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+
+                <h3 className={`text-md sm:text-md ${FONT_WEIGHT.semibold} mb-3 text-black group-hover:${WHITE_TEXT} transition-colors duration-500`}>
+                  {step.title}
+                </h3>
+                <p className="text-gray-600 text-justify text-xs sm:text-xs md:text-sm lg:text-sm group-hover:text-gray-200 transition-colors duration-500 mb-4 leading-relaxed flex-grow">
+                  {step.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
