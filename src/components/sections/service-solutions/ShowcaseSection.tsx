@@ -1,10 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, Variants } from "framer-motion";
-// Assuming the following imports resolve correctly based on your file structure
+
 import { ImageConstants } from "@/constants/ImageConstants";
 import MediaDisplay from "@/components/ui/MediaDisplay";
+
+import {
+  CONTENT_WRAPPER_CLASSES,
+  SECTION_PY,
+} from "@/constants/layoutConstants";
+import {
+  HERO_HEADING_SIZE,
+  DESCRIPTION_SIZE,
+  TITLE_SIZE,
+  FONT_WEIGHT,
+  SECTION_HEADING_SIZE,
+} from "@/constants/typographyConstants";
 
 // --- Type Definitions ---
 interface ServiceSubItem {
@@ -54,8 +66,14 @@ const SERVICES_DATA: ServiceItem[] = [
         name: "Mobile App Development",
         slug: "app-development",
         subItems: [
-          { name: "Native Hybrid Development", slug: "native-hybrid-development" },
-          { name: "React Native Development", slug: "react-native-development" },
+          {
+            name: "Native Hybrid Development",
+            slug: "native-hybrid-development",
+          },
+          {
+            name: "React Native Development",
+            slug: "react-native-development",
+          },
           { name: "Android App Development", slug: "android-development" },
           { name: "iOS App Development", slug: "ios-development" },
         ],
@@ -65,7 +83,8 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     title: "Digital Marketing",
-    description: "Marketing services to boost your online presence and engagement",
+    description:
+      "Marketing services to boost your online presence and engagement",
     slug: "digital-marketing",
     image: ImageConstants.SERVICE_DM,
     imageAlt: "Digital Marketing Services",
@@ -78,10 +97,16 @@ const SERVICES_DATA: ServiceItem[] = [
           { name: "Instagram Marketing", slug: "instagram-marketing" },
           { name: "Facebook Marketing", slug: "facebook-marketing" },
           { name: "Twitter Marketing", slug: "twitter-marketing" },
-          { name: "Social Media Optimization", slug: "social-media-optimization" },
+          {
+            name: "Social Media Optimization",
+            slug: "social-media-optimization",
+          },
         ],
       },
-      { name: "Search Engine Optimization", slug: "search-engine-optimization" },
+      {
+        name: "Search Engine Optimization",
+        slug: "search-engine-optimization",
+      },
       { name: "Email Marketing", slug: "email-marketing" },
       { name: "PPC Advertising", slug: "ppc-advertising" },
     ],
@@ -113,9 +138,11 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     title: "Entertainment & Events",
-    description: "We bring your events to life with creative planning, execution, and media coverage from corporate events to concerts and celebrations.",
+    description:
+      "We bring your events to life with creative planning, execution, and media coverage from corporate events to concerts and celebrations.",
     slug: "entertainment-events",
-    image: "https://images.unsplash.com/photo-1561489396-888724a1543d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170?w=800&h=600&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1561489396-888724a1543d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170?w=800&h=600&fit=crop",
     imageAlt: "Entertainment and Events Services",
     services: [
       { name: "Event Management", slug: "event-management" },
@@ -125,7 +152,6 @@ const SERVICES_DATA: ServiceItem[] = [
     ],
   },
 ];
-
 
 // --- Animation Variants ---
 const cardVariants: Variants = {
@@ -144,10 +170,7 @@ const mediaVariants: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: {
-      duration: 0.7,
-      ease: "easeOut",
-    },
+    transition: { duration: 0.7, ease: "easeOut" },
   },
 };
 
@@ -156,10 +179,7 @@ const mediaVariantsReversed: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: {
-      duration: 0.7,
-      ease: "easeOut",
-    },
+    transition: { duration: 0.7, ease: "easeOut" },
   },
 };
 
@@ -168,11 +188,7 @@ const contentVariants: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: {
-      duration: 0.7,
-      delay: 0.2,
-      ease: "easeOut",
-    },
+    transition: { duration: 0.7, delay: 0.2, ease: "easeOut" },
   },
 };
 
@@ -181,53 +197,38 @@ const contentVariantsReversed: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: {
-      duration: 0.7,
-      delay: 0.2,
-      ease: "easeOut",
-    },
+    transition: { duration: 0.7, delay: 0.2, ease: "easeOut" },
   },
 };
 
 // --- Main Card Component ---
-
 const ServiceCard: React.FC<{
   service: ServiceItem;
   index: number;
   isReversed: boolean;
-  basePath: string; 
-}> = ({ service, index, isReversed, basePath }) => { 
+  basePath: string;
+}> = ({ service, index, isReversed, basePath }) => {
   const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
-  // FIX: State to track if component has mounted on the client
-  const [isMounted, setIsMounted] = useState(false); 
+  const [isMounted, setIsMounted] = useState(false);
 
-  // FIX: Set mounted true after the first client render
-  React.useEffect(() => {
-    setIsMounted(true); 
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
 
   const toggleSubItems = (idx: number) => {
-    const newExpanded = new Set(expandedItems);
-    if (newExpanded.has(idx)) {
-      newExpanded.delete(idx);
-    } else {
-      newExpanded.add(idx);
-    }
-    setExpandedItems(newExpanded);
+    const next = new Set(expandedItems);
+    next.has(idx) ? next.delete(idx) : next.add(idx);
+    setExpandedItems(next);
   };
 
-  // FIX: Conditional props to prevent Framer Motion from rendering initial opacity: 0 on the server
   const animationProps = isMounted
     ? {
-        initial: "hidden", 
+        initial: "hidden",
         whileInView: "visible",
-        viewport: { once: true, amount: 0.1 }, // Adjusted amount for easier trigger
+        viewport: { once: true, amount: 0.1 },
         variants: cardVariants,
       }
-    : {
-        // Fallback for SSR/initial client render: ensure opacity is 1 so content is visible
-        initial: { opacity: 1 }, 
-      };
+    : { initial: { opacity: 1 } };
 
   const innerMotionProps = isMounted
     ? {
@@ -237,24 +238,22 @@ const ServiceCard: React.FC<{
       }
     : {};
 
-
   return (
     <motion.div
       className={`flex flex-col lg:flex-row gap-8 lg:gap-16 xl:gap-20 items-start mb-24 lg:mb-32 ${
         isReversed ? "lg:flex-row-reverse" : ""
       }`}
-      {...animationProps} // Apply conditional props to the main container
+      {...animationProps}
     >
-      {/* Media Section - Increased size */}
+      {/* Media Section */}
       <motion.div
         className="w-full lg:w-[480px] xl:w-[580px] lg:flex-shrink-0"
         variants={isReversed ? mediaVariantsReversed : mediaVariants}
-        {...innerMotionProps} // Apply conditional props to inner elements
+        {...innerMotionProps}
       >
         <div className="sticky top-8">
           <div className="w-full aspect-square rounded-2xl overflow-hidden relative">
-             <MediaDisplay src={service.image} alt={service.imageAlt} />
-           
+            <MediaDisplay src={service.image} alt={service.imageAlt} />
           </div>
         </div>
       </motion.div>
@@ -263,15 +262,17 @@ const ServiceCard: React.FC<{
       <motion.div
         className="w-full flex-1 pt-6"
         variants={isReversed ? contentVariantsReversed : contentVariants}
-        {...innerMotionProps} // Apply conditional props to inner elements
+        {...innerMotionProps}
       >
         {/* Title */}
-        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold  mb-6 text-gray-900">
+        <h3
+          className={`${SECTION_HEADING_SIZE} ${FONT_WEIGHT.semibold} mb-4 sm:mb-5 lg:mb-6`}
+        >
           {service.title}
         </h3>
 
         {/* Description */}
-        <p className="text-base lg:text-lg text-gray-700 mb-10 leading-relaxed max-w-2xl">
+        <p className={`${DESCRIPTION_SIZE} mb-8 lg:mb-10 max-w-2xl`}>
           {service.description}
         </p>
 
@@ -282,15 +283,15 @@ const ServiceCard: React.FC<{
               <div>
                 <div className="flex items-center gap-3 relative group flex-1">
                   <a
-                    // FIX: Use basePath prop for correct linking
                     href={`${basePath}/${item.slug}?title=${item.name}`}
-                    className="text-lg lg:text-2xl text-gray-800 hover:text-orange-600 font-medium transition-colors duration-200"
+                    className={`${TITLE_SIZE} text-gray-800 hover:text-orange-600 transition-colors duration-200`}
                   >
                     <span className="relative">
                       {item.name}
-                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300" />
                     </span>
                   </a>
+
                   {item.subItems && item.subItems.length > 0 && (
                     <button
                       onClick={() => toggleSubItems(idx)}
@@ -331,13 +332,12 @@ const ServiceCard: React.FC<{
                       {item.subItems.map((subItem, subIdx) => (
                         <li key={subIdx}>
                           <a
-                            // FIX: Use basePath prop for correct linking
                             href={`${basePath}/${subItem.slug}?title=${subItem.name}`}
-                            className="text-base lg:text-lg text-gray-600 hover:text-orange-600 transition-colors duration-200 block py-1 group/sub"
+                            className={`${DESCRIPTION_SIZE} block py-1 group/sub`}
                           >
                             <span className="relative">
                               {subItem.name}
-                              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover/sub:w-full transition-all duration-300"></span>
+                              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover/sub:w-full transition-all duration-300" />
                             </span>
                           </a>
                         </li>
@@ -356,16 +356,16 @@ const ServiceCard: React.FC<{
 
 interface ServicesShowcaseSectionProps {
   services?: ServiceItem[];
-  basePath: string; // Ensure this prop is required
+  basePath: string;
 }
 
 const ShowcaseSection: React.FC<ServicesShowcaseSectionProps> = ({
   services = SERVICES_DATA,
-  basePath, 
+  basePath,
 }) => {
   return (
-    <section className="py-16 sm:py-20 lg:py-28 bg-white overflow-hidden">
-      <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
+    <section className={`${SECTION_PY} bg-white overflow-hidden`}>
+      <div className={CONTENT_WRAPPER_CLASSES}>
         <div className="flex flex-col">
           {services.map((service, index) => (
             <ServiceCard
@@ -373,7 +373,7 @@ const ShowcaseSection: React.FC<ServicesShowcaseSectionProps> = ({
               service={service}
               index={index}
               isReversed={index % 2 === 1}
-              basePath={basePath} // Pass the required basePath
+              basePath={basePath}
             />
           ))}
         </div>

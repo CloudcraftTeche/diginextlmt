@@ -6,6 +6,17 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import MediaDisplay from "@/components/ui/MediaDisplay";
 
+import {
+  CONTENT_WRAPPER_CLASSES,
+  SECTION_PY,
+} from "@/constants/layoutConstants";
+import {
+  HERO_HEADING_SIZE,
+  HERO_DESCRIPTION_SIZE,
+  FONT_WEIGHT,
+  SECTION_HEADING_SIZE,
+} from "@/constants/typographyConstants";
+
 interface ServiceHeroSectionProps {
   title: string;
   description: string;
@@ -20,7 +31,6 @@ const ServiceHeroSection: React.FC<ServiceHeroSectionProps> = ({
   imageSrc = "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80",
   imageAlt = "Professional team working on digital solutions",
 }) => {
-  // Split description into paragraphs if it contains line breaks
   const paragraphs = description.split("\n").filter((p) => p.trim());
 
   const mediaVariants: Variants = {
@@ -28,11 +38,7 @@ const ServiceHeroSection: React.FC<ServiceHeroSectionProps> = ({
     visible: {
       opacity: 1,
       x: 0,
-      transition: {
-        duration: 0.7,
-        delay: 0.3,
-        ease: "easeOut",
-      },
+      transition: { duration: 0.7, delay: 0.3, ease: "easeOut" },
     },
   };
 
@@ -41,11 +47,7 @@ const ServiceHeroSection: React.FC<ServiceHeroSectionProps> = ({
     visible: {
       opacity: 1,
       x: 0,
-      transition: {
-        duration: 0.7,
-        delay: 0.5,
-        ease: "easeOut",
-      },
+      transition: { duration: 0.7, delay: 0.5, ease: "easeOut" },
     },
   };
 
@@ -54,35 +56,27 @@ const ServiceHeroSection: React.FC<ServiceHeroSectionProps> = ({
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5,
-        delay: 0.7 + i * 0.1,
-        ease: "easeOut",
-      },
+      transition: { duration: 0.5, delay: 0.7 + i * 0.1, ease: "easeOut" },
     }),
   };
 
   return (
-    <div className=" bg-white">
-      {/* Content Section */}
-      <section className="py-16 sm:py-20 lg:py-24">
-        <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
-          {/* Main Content Grid */}
+    <div className="bg-white">
+      <section className={SECTION_PY}>
+        <div className={CONTENT_WRAPPER_CLASSES}>
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-            {/* Right Side - Content */}
+            {/* Content */}
             <motion.div
               className="w-full flex-1"
               variants={contentVariants}
               initial="hidden"
               animate="visible"
             >
-              {/* Title */}
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-8 text-gray-900">
+              <h1 className={`${SECTION_HEADING_SIZE} ${FONT_WEIGHT.semibold} mb-6`}>
                 {title}
               </h1>
 
-              {/* Content Paragraphs */}
-              <div className="space-y-6 mb-8">
+              <div className="space-y-4 mb-8">
                 {paragraphs.map((paragraph, index) => (
                   <motion.p
                     key={index}
@@ -90,14 +84,13 @@ const ServiceHeroSection: React.FC<ServiceHeroSectionProps> = ({
                     variants={paragraphVariants}
                     initial="hidden"
                     animate="visible"
-                    className="text-base lg:text-lg text-gray-700 leading-relaxed text-justify"
+                    className={HERO_DESCRIPTION_SIZE}
                   >
                     {paragraph}
                   </motion.p>
                 ))}
               </div>
 
-              {/* CTA Button */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -113,7 +106,7 @@ const ServiceHeroSection: React.FC<ServiceHeroSectionProps> = ({
               </motion.div>
             </motion.div>
 
-            {/* Left Side - Media */}
+            {/* Media */}
             <motion.div
               className="w-full lg:w-auto lg:flex-shrink-0"
               variants={mediaVariants}
