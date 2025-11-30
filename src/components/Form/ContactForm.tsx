@@ -1,11 +1,21 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, User, MessageSquare, Send, CheckCircle, Briefcase, Phone, Building2 } from 'lucide-react';
-import { apiService } from '@/services/apiService';
-import { SERVICES } from '@/constants/services';
-import { SOLUTIONS } from '@/constants/solutions';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  Mail,
+  User,
+  MessageSquare,
+  Send,
+  CheckCircle,
+  Briefcase,
+  Phone,
+  Building2,
+} from "lucide-react";
+import { apiService } from "@/services/apiService";
+import { SERVICES } from "@/constants/services";
+import { SOLUTIONS } from "@/constants/solutions";
+import { LeadPayload } from "@/types/lead.types";
 
 interface ContactFormProps {
   onSuccess?: () => void;
@@ -13,16 +23,16 @@ interface ContactFormProps {
 
 const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    service: '',
-    message: '',
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    service: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+  const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
 
   useEffect(() => {
     setIsVisible(true);
@@ -30,10 +40,15 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
 
   const handleSubmit = async () => {
     // Validation
-    if (!formData.name || !formData.email || !formData.message || !formData.service) {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.message ||
+      !formData.service
+    ) {
       setSubmitStatus({
-        type: 'error',
-        message: 'Please fill in all required fields.',
+        type: "error",
+        message: "Please fill in all required fields.",
       });
       return;
     }
@@ -42,18 +57,17 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setSubmitStatus({
-        type: 'error',
-        message: 'Please enter a valid email address.',
+        type: "error",
+        message: "Please enter a valid email address.",
       });
       return;
     }
 
     setIsSubmitting(true);
-    setSubmitStatus({ type: '', message: '' });
+    setSubmitStatus({ type: "", message: "" });
 
     try {
-      // Prepare data for API
-      const leadData = {
+      const leadData: LeadPayload = {
         fullname: formData.name,
         email: formData.email,
         phone: formData.phone || null,
@@ -67,35 +81,36 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
       await apiService.createLead(leadData);
 
       setSubmitStatus({
-        type: 'success',
-        message: "Message sent successfully! We'll get back to you within 24 hours.",
+        type: "success",
+        message:
+          "Message sent successfully! We'll get back to you within 24 hours.",
       });
 
       // Reset form
       setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        service: '',
-        message: '',
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        service: "",
+        message: "",
       });
 
       // Call success callback after delay
       setTimeout(() => {
-        setSubmitStatus({ type: '', message: '' });
+        setSubmitStatus({ type: "", message: "" });
         if (onSuccess) {
           onSuccess();
         }
       }, 3000);
-
     } catch (error) {
-      console.error('Form submission failed:', error);
+      console.error("Form submission failed:", error);
       setSubmitStatus({
-        type: 'error',
-        message: error instanceof Error 
-          ? error.message 
-          : 'Failed to send message. Please try again or contact us directly.',
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Failed to send message. Please try again or contact us directly.",
       });
     } finally {
       setIsSubmitting(false);
@@ -103,11 +118,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
+
   const combinedOptions = [...SERVICES, ...SOLUTIONS];
 
   return (
@@ -121,7 +138,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
       <div className="mb-8">
         <h3 className="text-3xl font-bold text-gray-900 mb-3">Get In Touch</h3>
         <p className="text-gray-600 text-lg">
-          Fill out the form below and we&apos;ll get back to you within 24 hours.
+          Fill out the form below and we&apos;ll get back to you within 24
+          hours.
         </p>
       </div>
 
@@ -130,12 +148,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className={`mb-6 p-4 rounded-xl flex items-center gap-3 ${
-            submitStatus.type === 'success'
-              ? 'bg-green-50 text-green-800 border border-green-200'
-              : 'bg-red-50 text-red-800 border border-red-200'
+            submitStatus.type === "success"
+              ? "bg-green-50 text-green-800 border border-green-200"
+              : "bg-red-50 text-red-800 border border-red-200"
           }`}
         >
-          {submitStatus.type === 'success' && (
+          {submitStatus.type === "success" && (
             <CheckCircle className="w-5 h-5 flex-shrink-0" />
           )}
           <span className="font-medium">{submitStatus.message}</span>
@@ -250,9 +268,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               required
               className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white appearance-none"
             >
-              <option value="" disabled>Select a service/solution</option>
-              {[...new Set(combinedOptions)].map(option => (
-                <option key={option} value={option}>{option}</option>
+              <option value="" disabled>
+                Select a service/solution
+              </option>
+              {[...new Set(combinedOptions)].map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
               ))}
             </select>
           </div>

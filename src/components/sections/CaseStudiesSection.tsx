@@ -13,7 +13,6 @@ import {
 } from "@/constants/animationVariants";
 
 import {
-  HERO_DESCRIPTION_SIZE,
   FONT_WEIGHT,
   SECTION_HEADING_SIZE,
   TITLE_SIZE,

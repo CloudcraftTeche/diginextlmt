@@ -9,7 +9,6 @@ import {
 import {
   HERO_HEADING_SIZE,
   DESCRIPTION_SIZE,
-  CENTER_DESCRIPTION_SIZE,
   TITLE_SIZE,
   FONT_WEIGHT,
 } from "@/constants/typographyConstants";

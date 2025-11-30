@@ -6,9 +6,7 @@ import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 
 // Import modular constants
 import { 
-  fadeInUpVariants, 
-  onceInViewPort 
-} from "@/constants/animationVariants"; 
+  fadeInUpVariants} from "@/constants/animationVariants"; 
 
 import {
   FONT_WEIGHT,

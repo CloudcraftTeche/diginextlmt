@@ -11,7 +11,6 @@ import {
   SECTION_PY,
 } from "@/constants/layoutConstants";
 import {
-  HERO_HEADING_SIZE,
   HERO_DESCRIPTION_SIZE,
   FONT_WEIGHT,
   SECTION_HEADING_SIZE,

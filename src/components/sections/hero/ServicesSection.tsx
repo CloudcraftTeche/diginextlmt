@@ -1,6 +1,4 @@
 "use client";
-import { Send } from "lucide-react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 
 // Reuse layout/color constants
@@ -8,10 +6,6 @@ import {
   SECTION_PX,
   SECTION_PY,
   CONTENT_WRAPPER_CLASSES,
-  PRIMARY_ORANGE_TEXT,
-  WHITE_TEXT,
-  GRAY_TEXT_LIGHT,
-  GRAY_TEXT_DARK,
 } from "@/constants/layoutConstants";
 
 import {
