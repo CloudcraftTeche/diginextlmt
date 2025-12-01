@@ -4,6 +4,8 @@ import Footer from "@/components/layout/Footer";
 import HeroBanner from "@/components/ui/HeroBanner";
 import PortfolioShowcaseSection from "@/components/sections/ourWorks/PortfolioShowcaseSection";
 import { ImageConstants } from "@/constants/ImageConstants";
+import CaseStudiesSection from "@/components/sections/CaseStudiesSection";
+import PortfolioShowcase from "@/components/sections/ourWorks/PortfolioShowcase";
 
 export const metadata: Metadata = {
   title: "Our Works - DigiNext",
@@ -21,7 +23,8 @@ export default function WorksPage() {
           backgorundImage={ImageConstants.INSIDE_BANNER_3}
           title="Our Works"
         />
-        <PortfolioShowcaseSection />
+        {/* <PortfolioShowcaseSection /> */}
+        <PortfolioShowcase/>
         <Footer />
       </div>
     </>
