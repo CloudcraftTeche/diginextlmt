@@ -295,7 +295,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               value={formData.message}
               onChange={handleChange}
               required
-              rows={5}
+              rows={3}
               className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all resize-none bg-gray-50 focus:bg-white"
               placeholder="Tell us about your project requirements..."
             />

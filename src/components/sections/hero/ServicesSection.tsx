@@ -110,14 +110,14 @@ const ServicesSection: React.FC<ServicesProps> = ({
               >
                 {/* Title */}
                 <h3
-                  className={`${TITLE_SIZE} mb-2 group-hover:text-white transition-colors duration-500`}
+                  className={`${TITLE_SIZE} mb-4 group-hover:text-white transition-colors duration-500`}
                 >
                   {service.title}
                 </h3>
 
                 {/* Description */}
                 <p
-                  className={`${DESCRIPTION_SIZE} ${FONT_WEIGHT.light} group-hover:text-white leading-relaxed mb-3 xs:mb-4 sm:mb-5 md:mb-6`}
+                  className={`${DESCRIPTION_SIZE} ${FONT_WEIGHT.light} group-hover:text-white leading-relaxed`}
                 >
                   {service.description}
                 </p>
