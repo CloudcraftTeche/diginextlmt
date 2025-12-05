@@ -72,7 +72,7 @@ const Footer: React.FC<FooterProps> = ({
     "Custom Softwares",
     "CRM Systems",
   ],
-  
+
   usefulLinks = [
     "Impact",
     "Testimonials",
@@ -255,47 +255,49 @@ const Footer: React.FC<FooterProps> = ({
                 </div>
 
                 {/* Newsletter Form - Single Row on All Screens */}
-                <div className="flex flex-row gap-0 max-w-full mx-auto lg:max-w-full">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder={newsletter.placeholder}
-                    className="flex-1 px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 text-left bg-white/90 backdrop-blur-sm text-black placeholder-gray-500 rounded-l-md border-2 border-transparent focus:border-orange-500 focus:outline-none focus:ring-4 focus:ring-orange-500/20 transition-all duration-300 text-xs xs:text-sm sm:text-base min-w-[150px] xs:min-w-[180px] sm:min-w-[200px]"
-                  />
-                  <button
-                    onClick={handleNewsletterSubmit}
-                    disabled={!isValidEmail(email) || isSubmitting}
-                    className="px-3 xs:px-4 sm:px-6 py-2 xs:py-2.5 sm:py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-r-md transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-xs xs:text-sm sm:text-base hover:shadow-xl hover:shadow-orange-500/25 disabled:cursor-not-allowed min-w-[80px] xs:min-w-[100px] sm:min-w-[120px]"
-                  >
-                    {isSubmitting ? (
-                      <div className="flex items-center justify-center">
-                        <svg
-                          className="animate-spin h-3 w-3 xs:h-4 xs:w-4 sm:h-5 sm:w-5"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                      </div>
-                    ) : (
-                      newsletter.buttonText
-                    )}
-                  </button>
+                <div className="w-full">
+                  <div className="flex flex-row gap-0 w-full max-w-2xl mx-auto lg:mx-0 lg:ml-auto">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      placeholder={newsletter.placeholder}
+                      className="flex-1 px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 text-left bg-white/90 backdrop-blur-sm text-black placeholder-gray-500 rounded-l-md border-2 border-transparent focus:border-orange-500 focus:outline-none focus:ring-4 focus:ring-orange-500/20 transition-all duration-300 text-xs xs:text-sm sm:text-base"
+                    />
+                    <button
+                      onClick={handleNewsletterSubmit}
+                      disabled={!isValidEmail(email) || isSubmitting}
+                      className="px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-r-md transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-xs xs:text-sm sm:text-base hover:shadow-xl hover:shadow-orange-500/25 disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap"
+                    >
+                      {isSubmitting ? (
+                        <div className="flex items-center justify-center">
+                          <svg
+                            className="animate-spin h-3 w-3 xs:h-4 xs:h-4 sm:h-5 sm:w-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        </div>
+                      ) : (
+                        newsletter.buttonText
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
