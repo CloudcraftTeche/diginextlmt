@@ -65,14 +65,12 @@ const StatItem: React.FC<StatItemProps> = ({
   number,
   suffix,
   label,
-  delay, // Delay is now managed by Framer Motion stagger, but kept for counter logic compatibility
+  delay,
 }) => {
-  // Keeping the complex counter logic but removing the Intersection Observer
   const [animatedNumber, setAnimatedNumber] = useState(0);
   const itemRef = useRef(null);
 
   useEffect(() => {
-    // We only run the counter once the component is mounted (which is handled by whileInView in the parent)
     const targetNumber = parseInt(number);
     if (isNaN(targetNumber)) return;
     
@@ -81,7 +79,6 @@ const StatItem: React.FC<StatItemProps> = ({
     const increment = targetNumber / steps;
     let current = 0;
 
-    // Use a delay to ensure the counter starts slightly after the element fades in
     const startTimeout = setTimeout(() => {
       const timer = setInterval(() => {
         current += increment;
@@ -94,7 +91,7 @@ const StatItem: React.FC<StatItemProps> = ({
       }, duration / steps);
       
       return () => clearInterval(timer);
-    }, delay); // Using the delay prop here to stagger the counters
+    }, delay);
 
     return () => clearTimeout(startTimeout);
   }, [number, delay]);
@@ -102,7 +99,7 @@ const StatItem: React.FC<StatItemProps> = ({
   return (
     <motion.div
       ref={itemRef}
-      variants={statItemVariants} // Apply item variant for staggered entry
+      variants={statItemVariants}
       className="text-center"
     >
       <div className="mb-3">
@@ -130,14 +127,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
     { number: "5", suffix: "+", label: "Countries Served" },
   ],
 }) => {
-  // Simplified state: Only need state for hover pause
   const [isPaused, setIsPaused] = useState(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false); // Kept for cursor styling
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  // Removed Intersection Observer logic (now using motion.div whileInView)
 
   const clientLogos = [
     { name: "Tata Power", logo: ImageConstants.COMPANY_LOGO_1 },
@@ -158,55 +148,19 @@ const TrustSection: React.FC<TrustSectionProps> = ({
     { name: "Company 16", logo: ImageConstants.COMPANY_LOGO_16 },
   ];
 
-  // Mouse drag handlers (Simplified, relying on mouse down/up/move/leave for control)
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!scrollContainerRef.current) return;
-    setIsDragging(true);
-    setIsPaused(true); // Pause animation on interaction start
-    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
-    setScrollLeft(scrollContainerRef.current.scrollLeft);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    // Resume animation 1 second after mouse interaction ends
-    setTimeout(() => setIsPaused(false), 1000); 
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !scrollContainerRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollContainerRef.current.offsetLeft;
-    const walk = (x - startX) * 2;
-    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  // Touch handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!scrollContainerRef.current) return;
-    setIsPaused(true);
-    setStartX(e.touches[0].pageX - scrollContainerRef.current.offsetLeft);
-    setScrollLeft(scrollContainerRef.current.scrollLeft);
-  };
-
-  const handleTouchEnd = () => {
-    // Resume animation 1 second after touch interaction ends
-    setTimeout(() => setIsPaused(false), 1000);
-  };
-
   return (
     <section 
       id="trust-section" 
-      className={`${SECTION_PX} ${SECTION_PY} bg-white overflow-hidden`} // Use layout constants
+      className={`${SECTION_PX} ${SECTION_PY} bg-white overflow-hidden`}
     >
-      <div className={CONTENT_WRAPPER_CLASSES}> {/* Use layout constant */}
+      <div className={CONTENT_WRAPPER_CLASSES}>
         
         {/* Header Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16">
           
           {/* Left Side - Title and Description */}
           <motion.div
-            variants={fadeInUpVariants} // Use entry animation
+            variants={fadeInUpVariants}
             initial="initial"
             whileInView="animate"
             viewport={onceInViewPort}
@@ -243,7 +197,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
 
           {/* Right Side - Statistics Grid */}
           <motion.div
-            variants={statsContainerVariants} // Use container variant for staggering
+            variants={statsContainerVariants}
             initial="initial"
             whileInView="animate"
             viewport={onceInViewPort}
@@ -258,7 +212,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                     number={stat.number}
                     suffix={stat.suffix}
                     label={stat.label}
-                    delay={index * 150} // Stagger delay for the counter effect
+                    delay={index * 150}
                   />
                 </div>
               ))}
@@ -267,9 +221,9 @@ const TrustSection: React.FC<TrustSectionProps> = ({
         </div>
       </div>
 
-      {/* Client Logos Section - Manual Scrolling with Faster Auto Scroll */}
+      {/* Client Logos Section - Smooth Infinite Scroll */}
       <motion.div
-        variants={fadeInUpVariants} // Use entry animation
+        variants={fadeInUpVariants}
         initial="initial"
         whileInView="animate"
         viewport={onceInViewPort}
@@ -277,9 +231,9 @@ const TrustSection: React.FC<TrustSectionProps> = ({
         <div className="border-t border-gray-200 pt-8">
           <div className="relative overflow-hidden">
             
-            {/* Consolidated CSS for Scrolling Logos */}
+            {/* Improved CSS for Smooth Scrolling Logos */}
             <style jsx global>{`
-              @keyframes scroll {
+              @keyframes smoothScroll {
                 0% {
                   transform: translateX(0);
                 }
@@ -288,101 +242,75 @@ const TrustSection: React.FC<TrustSectionProps> = ({
                 }
               }
 
-              .animate-scroll {
-                animation: scroll 8s linear infinite;
+              .logo-scroll-track {
+                display: flex;
+                width: fit-content;
+                animation: smoothScroll 10s linear infinite;
                 will-change: transform;
               }
 
-              .animate-scroll.paused {
+              .logo-scroll-track.paused {
+                animation-play-state: paused;
+              }
+
+              .logo-scroll-wrapper {
+                overflow: hidden;
+                position: relative;
+                width: 100%;
+              }
+
+              .logo-scroll-wrapper:hover .logo-scroll-track {
                 animation-play-state: paused;
               }
 
               @media (max-width: 768px) {
-                .animate-scroll {
-                  animation: scroll 6s linear infinite;
+                .logo-scroll-track {
+                  animation: smoothScroll 20s linear infinite;
                 }
               }
 
               @media (prefers-reduced-motion: reduce) {
-                .animate-scroll {
+                .logo-scroll-track {
                   animation: none;
                 }
               }
-
-              .logo-scroll-wrapper {
-                cursor: grab;
-                user-select: none;
-                overflow-x: auto;
-                overflow-y: hidden;
-              }
-
-              .logo-scroll-wrapper:active {
-                cursor: grabbing;
-              }
-
-              .logo-scroll-wrapper::-webkit-scrollbar {
-                display: none;
-              }
-
-              .logo-scroll-wrapper {
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-              }
-
-              .logo-track {
-                  min-width: 200%; /* Ensure duplication works */
-              }
-              
             `}</style>
 
             <div
-              ref={scrollContainerRef}
               className="logo-scroll-wrapper"
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onMouseMove={handleMouseMove}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
               onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => {
-                handleMouseUp();
-                if (!isDragging) setIsPaused(false);
-              }}
+              onMouseLeave={() => setIsPaused(false)}
             >
-              <div
-                className={`flex logo-track ${
-                  isPaused ? "animate-scroll paused" : "animate-scroll"
-                }`}
-              >
+              <div className={`logo-scroll-track ${isPaused ? 'paused' : ''}`}>
                 {/* First set of logos */}
                 {clientLogos.map((client, index) => (
                   <div
-                    key={`${client.name}-${index}`}
-                    className="flex-shrink-0 px-2 sm:px-2 md:px-4 lg:px-5"
+                    key={`logo-1-${index}`}
+                    className="flex-shrink-0 px-6 md:px-8 lg:px-10 flex items-center justify-center"
                   >
                     <Image
                       src={client.logo}
                       alt={`${client.name} logo`}
-                      width={120}
-                      height={48}
-                      className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain opacity-100"
+                      width={140}
+                      height={56}
+                      className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
                       priority={index < 4}
                       draggable={false}
                     />
                   </div>
                 ))}
-                {/* Duplicate set for seamless loop */}
+                {/* Second set - seamless duplication */}
                 {clientLogos.map((client, index) => (
                   <div
-                    key={`${client.name}-duplicate-${index}`}
-                    className="flex-shrink-0 px-3 sm:px-4 md:px-6 lg:px-8"
+                    key={`logo-2-${index}`}
+                    className="flex-shrink-0 px-6 md:px-8 lg:px-10 flex items-center justify-center"
                   >
                     <Image
                       src={client.logo}
                       alt={`${client.name} logo`}
-                      width={120}
-                      height={48}
-                      className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain opacity-100"
+                      width={140}
+                      height={56}
+                      className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
                       draggable={false}
                     />
                   </div>

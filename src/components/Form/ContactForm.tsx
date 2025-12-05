@@ -15,7 +15,7 @@ import {
 import { apiService } from "@/services/apiService";
 import { SERVICES } from "@/constants/services";
 import { SOLUTIONS } from "@/constants/solutions";
-import { LeadPayload } from "@/types/lead.types";
+import { LeadPayload } from "@/types/api.types";
 
 interface ContactFormProps {
   onSuccess?: () => void;
@@ -133,7 +133,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.6 }}
-      className="bg-white rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-100 max-w-4xl mx-auto"
+      className="bg-white rounded-3xl shadow-2xl p-6 lg:p-8 border border-gray-100"
     >
       <div className="mb-8">
         <h3 className="text-3xl font-bold text-gray-900 mb-3">Get In Touch</h3>

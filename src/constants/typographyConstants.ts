@@ -37,10 +37,10 @@ export const SECTION_HEADING_SIZE =
 // Includes default justification and secondary color.
 export const LIGHT_HERO_DESCRIPTION_SIZE =
   `${GRAY_TEXT_LIGHT} ${FONT_WEIGHT.normal} text-justify ` +
-  "text-xs xs:text-sm sm:text-sm lg:text-base xl:text-xl 2xl:text-2xl";
+  "text-xs xs:text-sm sm:text-sm lg:text-base xl:text-lg 2xl:text-xl";
 export const HERO_DESCRIPTION_SIZE =
   `${GRAY_TEXT_DARK} ${FONT_WEIGHT.normal} text-justify ` +
-  "text-xs xs:text-sm sm:text-sm lg:text-base xl:text-xl 2xl:text-2xl";
+  "text-xs xs:text-sm sm:text-sm lg:text-base xl:text-lg 2xl:text-xl";
 
 export const DESCRIPTION_SIZE =
   `${GRAY_TEXT_DARK} ${FONT_WEIGHT.normal} text-justify ` +
@@ -48,7 +48,7 @@ export const DESCRIPTION_SIZE =
 
 export const CENTER_DESCRIPTION_SIZE =
   `${GRAY_TEXT_DARK} ${FONT_WEIGHT.normal} text-center ` +
-  "text-xs xs:text-sm sm:text-sm lg:text-base xl:text-xl 2xl:text-2xl";
+  "text-xs xs:text-sm sm:text-sm lg:text-base xl:text-lg 2xl:text-xl";
 
 // Title size (used for smaller titles/features)
 export const TITLE_SIZE =

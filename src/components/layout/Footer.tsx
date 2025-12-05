@@ -623,7 +623,7 @@ const Footer: React.FC<FooterProps> = ({
                 <p className="text-gray-400 text-xs xs:text-sm sm:text-sm">
                   © 2025 DigiNext - Branding Agency Dubai. All Rights Reserved
                 </p>
-                <div className="flex flex-col xs:flex-row justify-center lg:justify-end gap-2 xs:gap-3 sm:gap-4 items-center">
+                <div className="flex flex-col xs:flex-row justify-end lg:justify-end gap-2 xs:gap-3 sm:gap-4 items-end">
                   <span className="text-gray-400 text-xs xs:text-sm sm:text-sm">
                     DigiNext is a part of L M TECH IT SERVICES
                   </span>

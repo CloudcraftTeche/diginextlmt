@@ -7,3 +7,6 @@ export interface LeadPayload {
   message: string;
   submitted_at: string;
 }
+export interface SubscribePayload{
+  email:string
+}
