@@ -1,31 +1,16 @@
-import React from 'react';
+import React from "react";
 
 const ProductCustomizationSection = ({
   title = "Customise Products as Desired",
-  description = "The app lets users easily add their preferred features of the product, and customise them according to their preferences. With a user-friendly interface, the app helps shoppers customise the products they wish to purchase with their preferred combinations."
+  description = "The app lets users easily add their preferred features of the product, and customise them according to their preferences. With a user-friendly interface, the app helps shoppers customise the products they wish to purchase with their preferred combinations.",
 }) => {
   return (
     <section className="w-full bg-gradient-to-b from-white to-blue-50 py-16 sm:py-24 px-6 sm:px-12 lg:px-24">
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-4">
-            Major Features
-          </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-6">
-            {title}
-          </h2>
-          <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
-            {description}
-          </p>
-        </div>
-
-        {/* Mobile App Preview */}
-        <div className="flex justify-center">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* LEFT – Mobile App Preview */}
+        <div className="flex justify-center order-2 lg:order-1">
           <div className="relative w-full max-w-sm lg:max-w-md">
-            {/* Phone Frame */}
             <div className="relative bg-gradient-to-b from-blue-100 to-blue-50 rounded-[3rem] p-6 shadow-2xl">
-              {/* Phone Screen */}
               <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-lg">
                 {/* Status Bar */}
                 <div className="bg-white px-6 py-3 flex justify-between items-center text-xs">
@@ -52,20 +37,27 @@ const ProductCustomizationSection = ({
                     COLD PRESS LEMONADE
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    Your Favourite Cold Press mixed with fresh apple, and served over ice.
+                    Your Favourite Cold Press mixed with fresh apple, and served
+                    over ice.
                   </p>
 
                   {/* Size Selection */}
                   <div className="mb-6">
                     <div className="flex gap-2">
                       <button className="flex-1 py-2 text-sm border-2 border-gray-300 rounded-lg hover:border-gray-900 transition-colors">
-                        SMALL<br/>283 ML
+                        SMALL
+                        <br />
+                        283 ML
                       </button>
                       <button className="flex-1 py-2 text-sm border-2 border-gray-300 rounded-lg hover:border-gray-900 transition-colors">
-                        MEDIUM<br/>402 ML
+                        MEDIUM
+                        <br />
+                        402 ML
                       </button>
                       <button className="flex-1 py-2 text-sm font-semibold bg-gray-900 text-white rounded-lg">
-                        LARGE<br/>$2.850
+                        LARGE
+                        <br />
+                        $2.850
                       </button>
                     </div>
                   </div>
@@ -96,6 +88,19 @@ const ProductCustomizationSection = ({
               </div>
             </div>
           </div>
+        </div>
+
+        {/* RIGHT – Content */}
+        <div className="order-1 lg:order-2 text-center lg:text-left">
+          <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-4">
+            Major Features
+          </p>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-6">
+            {title}
+          </h2>
+          <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-lg mb-10 lg:mb-0">
+            {description}
+          </p>
         </div>
       </div>
     </section>
