@@ -28,7 +28,7 @@ const ChallengesSection = ({
     <section className="w-full bg-white py-16 sm:py-24 px-6 sm:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto">
         {/* Top Image */}
-        <div className="relative w-full h-[250px] sm:h-[300px] rounded-2xl overflow-hidden mb-12">
+        <div className="relative w-full h-[400px] sm:h-[500px] rounded-2xl overflow-hidden mb-12">
           <Image
             src={backgroundImage}
             alt="Customer Journey"

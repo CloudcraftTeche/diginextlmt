@@ -281,9 +281,9 @@ const TrustSection: React.FC<TrustSectionProps> = ({
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            <div className={`logo-scroll-track ${isPaused ? 'paused' : ''}`}>
+            <div className={`logo-scroll-track  ${isPaused ? 'paused' : ''}`}>
               {clientLogos.map((client, index) => (
-                <div key={`logo-${index}`} className="logo-item">
+                <div key={`logo-${index}`} className="logo-item border border-gray-200 rounded-lg m-2">
                   <img
                     src={client.logo}
                     alt={`${client.name} logo`}

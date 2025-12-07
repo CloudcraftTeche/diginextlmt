@@ -1,34 +1,44 @@
-import React from 'react';
+import React from "react";
 
 const UXDesignSection = ({
   title = "Superior UX Design",
   description = "The app offers users real-time order status, information about the new products, pop-ups, and the option to choose rewards. With an intuitive interface and superior UX that facilitates ease of purchase and payment, users have a highly engaging experience.",
   features = [
     {
-      image: "https://images.unsplash.com/photo-1557683316-973673baf926?w=600&h=400&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1557683316-973673baf926?w=600&h=400&fit=crop",
       title: "ORDER PREPARING",
       subtitle: "Expected at 03:00 PM",
-      description: "Real-time order tracking with estimated preparation time"
+      description: "Real-time order tracking with estimated preparation time",
     },
     {
-      image: "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=600&h=400&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=600&h=400&fit=crop",
       title: "Select the emoji that matches with your mood",
-      description: "Personalized experience based on customer mood"
+      description: "Personalized experience based on customer mood",
     },
     {
-      image: "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=600&h=400&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=600&h=400&fit=crop",
       title: "REAL CHOCOLATE CHIPS!",
-      description: "Featured product promotions and seasonal items"
+      description: "Featured product promotions and seasonal items",
     },
     {
-      image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop",
       title: "CHOOSE YOUR PERFECT CUP OF JOY",
-      description: "Easy category navigation for quick ordering"
-    }
-  ]
+      description: "Easy category navigation for quick ordering",
+    },
+  ],
 }) => {
   return (
-    <section className="w-full bg-gradient-to-b from-blue-50 to-white py-16 sm:py-24 px-6 sm:px-12 lg:px-24">
+    <section
+      className="w-full bg-cover bg-center bg-no-repeat py-16 sm:py-24 px-6 sm:px-12 lg:px-24"
+      style={{
+        backgroundImage:
+          "url('https://img.freepik.com/free-vector/background-realistic-abstract-technology-particle_23-2148431735.jpg?semt=ais_hybrid&w=740&q=80')",
+      }}
+    >
       <div className="max-w-7xl mx-auto">
         {/* App Preview - Top */}
         <div className="flex justify-center mb-16">
@@ -67,7 +77,9 @@ const UXDesignSection = ({
                 />
                 {feature.subtitle && (
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg">
-                    <p className="text-xs font-semibold text-gray-900">{feature.subtitle}</p>
+                    <p className="text-xs font-semibold text-gray-900">
+                      {feature.subtitle}
+                    </p>
                   </div>
                 )}
               </div>
