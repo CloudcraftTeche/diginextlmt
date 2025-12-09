@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
   User,
@@ -11,6 +11,8 @@ import {
   Briefcase,
   Phone,
   Building2,
+  ChevronDown,
+  Check,
 } from "lucide-react";
 import { apiService } from "@/services/apiService";
 import { SERVICES } from "@/constants/services";
@@ -33,9 +35,25 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsVisible(true);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleSubmit = async () => {
@@ -125,7 +143,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const combinedOptions = [...SERVICES, ...SOLUTIONS];
+  const combinedOptions = [...new Set([...SERVICES, ...SOLUTIONS])];
+
+  const handleServiceSelect = (value: string) => {
+    setFormData({ ...formData, service: value });
+    setIsDropdownOpen(false);
+  };
 
   return (
     <motion.div
@@ -251,7 +274,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
           </div>
         </div>
 
-        <div className="group">
+        <div className="group" ref={dropdownRef}>
           <label
             htmlFor="service"
             className="block text-sm font-semibold text-gray-700 mb-2"
@@ -259,24 +282,53 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
             Service/Solution <span className="text-orange-500">*</span>
           </label>
           <div className="relative">
-            <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors" />
-            <select
-              id="service"
-              name="service"
-              value={formData.service}
-              onChange={handleChange}
-              required
-              className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white appearance-none"
+            <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors pointer-events-none z-10" />
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className={`w-full pl-12 pr-12 py-3.5 border-2 rounded-xl text-left outline-none transition-all ${
+                isDropdownOpen
+                  ? "border-orange-500 ring-4 ring-orange-500/10 bg-white"
+                  : "border-gray-200 bg-gray-50 hover:bg-white"
+              } ${formData.service ? "text-gray-900" : "text-gray-500"}`}
             >
-              <option value="" disabled>
-                Select a service/solution
-              </option>
-              {[...new Set(combinedOptions)].map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+              {formData.service || "Select a service/solution"}
+            </button>
+            <ChevronDown
+              className={`absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 transition-transform pointer-events-none ${
+                isDropdownOpen ? "rotate-180 text-orange-500" : ""
+              }`}
+            />
+
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl max-h-60 overflow-y-auto"
+                >
+                  {combinedOptions.map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => handleServiceSelect(option)}
+                      className={`w-full px-4 py-3 text-left hover:bg-orange-50 transition-colors flex items-center justify-between group ${
+                        formData.service === option
+                          ? "bg-orange-50 text-orange-600"
+                          : "text-gray-700"
+                      }`}
+                    >
+                      <span className="font-medium">{option}</span>
+                      {formData.service === option && (
+                        <Check className="w-5 h-5 text-orange-500" />
+                      )}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
@@ -295,7 +347,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               value={formData.message}
               onChange={handleChange}
               required
-              rows={3}
+              rows={2}
               className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all resize-none bg-gray-50 focus:bg-white"
               placeholder="Tell us about your project requirements..."
             />
