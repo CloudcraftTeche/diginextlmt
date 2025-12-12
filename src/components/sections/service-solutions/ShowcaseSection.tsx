@@ -42,7 +42,8 @@ export interface ServiceItem {
 const SERVICES_DATA: ServiceItem[] = [
   {
     title: "Design",
-    description: "Comprehensive visual design services for branding and UX",
+    description:
+      "We offer a full range of visual design services that improve your brand image and user experience.  We want to create designs that look good, serve a purpose, and help you reach your business goals.",
     slug: "design",
     image: ImageConstants.SERVICE_DESIGN,
     imageAlt: "Design Services",
@@ -54,7 +55,8 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     title: "Development",
-    description: "Custom software and mobile app development solutions",
+    description:
+      "We develop custom software and mobile apps that are designed to help you reach your business goals. Our team makes sure that your digital products work well, have modern interfaces, and can grow with what you require.",
     slug: "development",
     image: ImageConstants.SERVICE_DEVELOPMENT,
     imageAlt: "Development Services",
@@ -83,7 +85,7 @@ const SERVICES_DATA: ServiceItem[] = [
   {
     title: "Digital Marketing",
     description:
-      "Marketing services to boost your online presence and engagement",
+      "Our digital marketing services are designed to make you more visible, get people engaged in what you have to say, and bring in consistent, measurable growth on all of your online platforms.",
     slug: "digital-marketing",
     image: ImageConstants.SERVICE_DM,
     imageAlt: "Digital Marketing Services",
@@ -112,7 +114,8 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     title: "Web Hosting",
-    description: "Reliable and scalable web hosting solutions",
+    description:
+      "We offer web hosting services that are safe, reliable, and scalable. This means that your website will run smoothly with little downtime and the best performance.",
     slug: "web-hosting",
     image: ImageConstants.SERVICE_WEB_HOSTING,
     imageAlt: "Web Hosting Services",
@@ -126,7 +129,8 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     title: "Production",
-    description: "Creative production services for photography and videography",
+    description:
+      "Our production services include professional photography and videography that clearly, creatively and effectively portrays your brand, products, and events.",
     slug: "production",
     image: ImageConstants.SERVICE_PRODUCTION,
     imageAlt: "Production Services",
@@ -138,7 +142,7 @@ const SERVICES_DATA: ServiceItem[] = [
   {
     title: "Entertainment & Events",
     description:
-      "We bring your events to life with creative planning, execution, and media coverage from corporate events to concerts and celebrations.",
+      "We make your events come to life by planning them professionally, carrying them out smoothly, and full media coverage. This makes sure that every event, from corporate functions to concerts and parties, is one to remember.",
     slug: "entertainment-events",
     image:
       "https://images.unsplash.com/photo-1561489396-888724a1543d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170?w=800&h=600&fit=crop",
