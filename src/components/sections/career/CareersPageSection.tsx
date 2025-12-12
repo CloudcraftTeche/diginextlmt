@@ -301,7 +301,7 @@ const CareersPage: React.FC = () => {
               className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-medium mb-6"
             >
               <Sparkles className="w-4 h-4" />
-              We're Hiring - Multiple Positions
+              We&apos;re Hiring - Multiple Positions
             </motion.div>
 
             <motion.h1
@@ -315,7 +315,7 @@ const CareersPage: React.FC = () => {
               variants={fadeInUpVariants}
               className={`${DESCRIPTION_SIZE} text-gray-600 max-w-3xl mx-auto leading-relaxed`}
             >
-              We're looking for talented individuals to help shape the future of
+              We&apos;re looking for talented individuals to help shape the future of
               digital design and brand identity. Be part of a team that creates
               meaningful experiences.
             </motion.p>
@@ -614,7 +614,7 @@ const CareersPage: React.FC = () => {
             <p
               className={`${DESCRIPTION_SIZE} text-gray-600 max-w-3xl mx-auto`}
             >
-              We're an equal opportunity employer and value diversity at our
+              We&apos;re an equal opportunity employer and value diversity at our
               company. We do not discriminate on the basis of race, religion,
               color, national origin, gender, sexual orientation, age, marital
               status, veteran status, or disability status.
