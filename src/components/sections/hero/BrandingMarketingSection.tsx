@@ -36,7 +36,7 @@ const BrandingMarketingSection: React.FC<BrandingMarketingSectionProps> = ({
   socialMediaTitle = "Photography, Videography & Print",
   socialMediaDescription = "Our creative services use strong visuals, signs and prints of excellent quality to bring your brand story to life.",
   paidCampaignsTitle = "Content Development",
-  paidCampaignsDescription = "We deliver engaging and business related content that connects with your audience and makes your online presence stronger.",
+  paidCampaignsDescription = "We deliver engaging and business related content that connects with your audience and makes your online presence stronger. We generate engaging, business-focused content that talks directly to your audience and helps you build a stronger online presence. We do not just write content, we also know your brand voice, target market, and industry goals so that we can create articles that can create wonders.",
   bottomSectionText = "At DigiNext, our primary focus is to develop strategies that really connect your brand with your audience. We work with you to create successful marketing efforts through our IT solution services. We want to provide you with experiences that are memorable, unique, and will connect with your target audience.",
 }) => {
   return (

@@ -1,68 +1,50 @@
+// "use client";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
-import CaseStudiesSection from "@/components/sections/CaseStudiesSection";
 import HeroBanner from "@/components/ui/HeroBanner";
 import { ImageConstants } from "@/constants/ImageConstants";
 import { generatePageMetadata } from "@/lib/metadata";
 import { PAGES_SEO } from "@/lib/seo-data";
+import { caseStudyData } from "@/lib/insightsData";
 import { Metadata } from "next";
 import React from "react";
+import CaseStudiesSection from "@/components/sections/insights/CaseStudiesSection";
+
 export const metadata: Metadata = generatePageMetadata(
   PAGES_SEO.insights,
   "/insights"
 );
-export default function page() {
+
+export default function InsightsPage() {
+  // ✅ FIXED: Truncate description to fit line-clamp-3 (max ~120 chars)
+  const caseStudiesArray = Object.entries(caseStudyData)
+    // .slice(0, 9) // Limit to 9 for grid layout (3x3)
+    .map(([slug, data]) => ({
+      image: data.heroImage,
+      title: data.client,
+      percentage: data.timeline,
+      // ✅ Truncate to first 110 chars + "..." to fit line-clamp-3 perfectly
+      description: data.overview.description
+        .split(" ")
+        .slice(0, 20)
+        .join(" ")
+        .substring(0, 110) + "...",
+      slug: slug,
+      navigationText: "Read Case Study",
+    }));
+
   return (
     <div>
       <Header />
       <HeroBanner
-        title="Projects"
+        title="Our Projects & Case Studies"
         backgorundImage={ImageConstants.INSIDE_BANNER_6}
       />
       <CaseStudiesSection
-        caseStudies={[
-          {
-            image: ImageConstants.CASE_STUDY_1,
-            title: "Organic Growth",
-            // percentage: "100X",
-            description:
-              "By providing professional IT solutions consulting, we helped businesses to achieve excellent organic growth, giving them an advantage over their competitors and a chance to reach a larger audience.",
-            slug: "caribou-coffee-case-study",
-          },
-          {
-            image: ImageConstants.CASE_STUDY_2,
-            title: "Branding Design",
-            description:
-              "Partner with us to build a strong brand identity that accurately reflects our whole range of IT solutions and services.",
-            navigationText: "Read Case Study",
-          },
-          {
-            image: ImageConstants.CASE_STUDY_3,
-            title: "Design Concepts",
-            description:
-              "As the best IT solution company in Dubai, we transform brands by creating powerful designs that communicate our innovative IT solution services with clarity and visual appeal.",
-            navigationText: "Read Case Study",
-          },
-          {
-            image: ImageConstants.CASE_STUDY_1,
-            title: "Organic Growth",
-            // percentage: "100X",
-            description:
-              "By providing professional IT solutions consulting, we helped businesses to achieve excellent organic growth, giving them an advantage over their competitors and a chance to reach a larger audience.",
-          },
-          {
-            image: ImageConstants.CASE_STUDY_2,
-            title: "Branding Design",
-            description:
-              "Partner with us to build a strong brand identity that accurately reflects our whole range of IT solutions and services.",
-          },
-          {
-            image: ImageConstants.CASE_STUDY_3,
-            title: "Design Concepts",
-            description:
-              "As the best IT solution company in Dubai, we transform brands by creating powerful designs that communicate our innovative IT solution services with clarity and visual appeal.",
-          },
-        ]}
+        mainTitle="Client Success Stories & Our Insights"
+        subtitle="Discover how we've helped businesses across various industries achieve remarkable growth through strategic digital solutions and innovative IT services."
+        buttonText="View All Projects"
+        caseStudies={caseStudiesArray}
       />
       <Footer />
     </div>

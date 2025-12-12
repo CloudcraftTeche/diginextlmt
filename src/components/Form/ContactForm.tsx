@@ -9,15 +9,18 @@ import {
   Send,
   CheckCircle,
   Briefcase,
-  Phone,
   Building2,
   ChevronDown,
   Check,
+  Phone,
 } from "lucide-react";
 import { apiService } from "@/services/apiService";
 import { SERVICES } from "@/constants/services";
 import { SOLUTIONS } from "@/constants/solutions";
 import { LeadPayload } from "@/types/api.types";
+// Import PhoneInput
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
 
 interface ContactFormProps {
   onSuccess?: () => void;
@@ -27,7 +30,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
+    phone: "", // Will hold full international number (e.g. +971501234567)
     company: "",
     service: "",
     message: "",
@@ -57,7 +60,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   }, []);
 
   const handleSubmit = async () => {
-    // Validation
     if (
       !formData.name ||
       !formData.email ||
@@ -71,7 +73,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
       return;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setSubmitStatus({
@@ -88,14 +89,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
       const leadData: LeadPayload = {
         fullname: formData.name,
         email: formData.email,
-        phone: formData.phone || null,
+        phone: formData.phone || null, // Already includes country code
         company: formData.company || null,
         service: formData.service,
         message: formData.message,
         submitted_at: new Date().toISOString(),
       };
 
-      // Call API service
       await apiService.createLead(leadData);
 
       setSubmitStatus({
@@ -104,7 +104,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
           "Message sent successfully! We'll get back to you within 24 hours.",
       });
 
-      // Reset form
       setFormData({
         name: "",
         email: "",
@@ -114,7 +113,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
         message: "",
       });
 
-      // Call success callback after delay
       setTimeout(() => {
         setSubmitStatus({ type: "", message: "" });
         if (onSuccess) {
@@ -161,8 +159,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
       <div className="mb-8">
         <h3 className="text-3xl font-bold text-gray-900 mb-3">Get In Touch</h3>
         <p className="text-gray-600 text-lg">
-          Fill out the form below and we&apos;ll get back to you within 24
-          hours.
+          Fill out the form below and we'll get back to you within 24 hours.
         </p>
       </div>
 
@@ -238,18 +235,62 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
             >
               Phone Number
             </label>
-            <div className="relative">
-              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors" />
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
+
+            <div className="relative phone-input-wrapper">
+              <PhoneInput
+                defaultCountry="ae"
                 value={formData.phone}
-                onChange={handleChange}
-                className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white"
-                placeholder="+1 (555) 000-0000"
+                onChange={(phone) => {
+                  console.log("Phone onChange - Received value:", phone);
+                  setFormData((prev) => {
+                    console.log("Setting phone to:", phone);
+                    return { ...prev, phone: phone };
+                  });
+                }}
+                inputClassName="!w-full !pl-4 !pr-4 !py-3.5 !border-2 !border-gray-200 !rounded-r-xl !text-gray-900 !bg-gray-50 focus:!border-orange-500 focus:!ring-4 focus:!ring-orange-500/10 !outline-none !transition-all focus:!bg-white !h-[54px]"
+                countrySelectorStyleProps={{
+                  buttonClassName:
+                    "!border-2 !border-r-0 !border-gray-200 !rounded-l-xl !bg-gray-50 hover:!bg-white focus:!border-orange-500 focus:!ring-4 focus:!ring-orange-500/10 !transition-all !h-[54px]",
+                  dropdownStyleProps: {
+                    className:
+                      "!border-2 !border-gray-200 !rounded-xl !shadow-xl !mt-2",
+                    listItemClassName: "hover:!bg-orange-50 !transition-colors",
+                  },
+                }}
+                inputProps={{
+                  id: "phone",
+                  name: "phone",
+                  placeholder: "50 123 4567",
+                }}
               />
             </div>
+
+            <style jsx global>{`
+              .phone-input-wrapper .react-international-phone-input-container {
+                display: flex;
+                align-items: stretch;
+                height: 54px;
+              }
+
+              .phone-input-wrapper
+                .react-international-phone-country-selector-button {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+              }
+
+              .phone-input-wrapper
+                .react-international-phone-country-selector-button__button-content {
+                padding: 0 12px !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+              }
+
+              .phone-input-wrapper .react-international-phone-input {
+                border-left: 0 !important;
+              }
+            `}</style>
           </div>
 
           <div className="group">

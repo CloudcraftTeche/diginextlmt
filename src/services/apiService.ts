@@ -6,8 +6,10 @@ export const apiService = {
   createLead: (data: LeadPayload) => {
     return apiClient.post(ApiConstants.contact_leads_create, data);
   },
-  createSubscribe:(data:SubscribePayload)=>{
+  createSubscribe: (data: SubscribePayload) => {
     return apiClient.post(ApiConstants.api_subscribe_create, data);
-
-  }
+  },
+  getTrustSection: () => {
+    return apiClient.get(ApiConstants.trust_section);
+  },
 };

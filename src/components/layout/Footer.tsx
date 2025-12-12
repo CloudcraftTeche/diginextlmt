@@ -81,7 +81,7 @@ const Footer: React.FC<FooterProps> = ({
     "Industries",
   ],
   footerText = [
-    { text: "Careers", link: "#" },
+    { text: "Careers", link: "/careers" },
     { text: "Blog", link: "/blog" },
     { text: "Download Brochure", link: "#" },
     { text: "Locations", link: "/location" },
