@@ -12,4 +12,7 @@ export const apiService = {
   getTrustSection: () => {
     return apiClient.get(ApiConstants.trust_section);
   },
+  getServices: () => {
+    return apiClient.get(ApiConstants.services);
+  },
 };

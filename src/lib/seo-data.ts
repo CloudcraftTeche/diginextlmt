@@ -106,9 +106,29 @@ export const SERVICES_SEO: Record<string, PageMetadata> = {
     ],
   },
   "app-development": {
-    title: "Android & iOS App Development Company in Dubai, UAE | Diginext",
+    title: "Mobile App Development Company Dubai, UAE | Diginext",
     description:
-      "Diginext is a top Android app development company in Dubai offering custom iOS app development services with innovative, secure, and high-performance solutions.",
+      "Diginext is a Mobile app development company Dubai providing reliable services. App development company in Dubai creating high-quality mobile applications.",
+    keywords: [
+      "app development Dubai",
+      "Android development",
+      "iOS development",
+    ],
+  },
+  "android-development": {
+    title: "Android App Development Company in Dubai, UAE | Diginext",
+    description:
+      "Diginext is a top android app development company in Dubai offering innovative, secure, high-performance android application development solutions for businesses.",
+    keywords: [
+      "app development Dubai",
+      "Android development",
+      "iOS development",
+    ],
+  },
+  "ios-development": {
+    title: "iPhone Application Development in Dubai, UAE | Diginext",
+    description:
+      "Expert iPhone application development in Dubai delivering smooth, secure apps. Trusted iOS development services in Dubai for businesses of all sizes.",
     keywords: [
       "app development Dubai",
       "Android development",
