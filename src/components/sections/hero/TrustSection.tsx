@@ -189,7 +189,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
   return (
     <section
       id="trust-section"
-      className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 bg-white overflow-hidden"
+      className="px-4 sm:px-6 lg:px-8 bg-white overflow-hidden"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
@@ -367,10 +367,10 @@ const TrustSection: React.FC<TrustSectionProps> = ({
             }
 
             .logo-item img {
-              height: 48px;
+              height: 65px;
               width: auto;
               object-fit: contain;
-              opacity: 0.7;
+              // opacity: 0.7;
               transition: opacity 0.3s ease, transform 0.3s ease;
             }
 

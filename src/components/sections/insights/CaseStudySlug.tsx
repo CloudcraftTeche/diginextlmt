@@ -5,10 +5,23 @@ import {
   ArrowLeft,
   CheckCircle2,
   TrendingUp,
-  Users,
-  Globe,
-  Award,
 } from "lucide-react";
+import {
+  SECTION_PX,
+  SECTION_PY,
+  CONTENT_WRAPPER_CLASSES,
+  PRIMARY_GRADIENT,
+  PRIMARY_SHADOW_HOVER,
+  WHITE_TEXT,
+  GRAY_TEXT_LIGHT,
+  GRAY_TEXT_DARK,
+  COMMON_GAP_MD,
+  COMMON_GAP_SM,
+  COMMON_GAP_XLG,
+  COMMON_MB_SM,
+  COMMON_MB_MD,
+  CARD_PADDING,
+} from "@/constants/layoutConstants";
 
 // Animation variants
 const fadeInUpVariants = {
@@ -63,7 +76,6 @@ type CaseStudyData = {
   [key: string]: CaseStudy;
 };
 
-// Fix: Change function signature to accept props object
 interface CaseStudyPageProps {
   slug: string;
 }
@@ -96,16 +108,18 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden">
+      <section
+        className={`relative bg-gradient-to-br from-gray-900 via-black to-gray-800 ${WHITE_TEXT} overflow-hidden ${SECTION_PX} ${SECTION_PY}`}
+      >
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-orange-600/20 animate-pulse" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10">
+        <div className={`${CONTENT_WRAPPER_CLASSES} relative z-10`}>
           <motion.button
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors mb-8 group"
+            className={`inline-flex items-center ${COMMON_GAP_SM} ${GRAY_TEXT_LIGHT} hover:text-white transition-colors ${COMMON_MB_SM} group`}
             onClick={() => window.history.back()}
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
@@ -116,12 +130,12 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
             variants={staggerContainerVariants}
             initial="initial"
             animate="animate"
-            className="grid lg:grid-cols-2 gap-12 items-center"
+            className={`grid lg:grid-cols-2 ${COMMON_GAP_XLG} items-center`}
           >
             <div>
               <motion.div
                 variants={fadeInUpVariants}
-                className="flex items-center gap-3 mb-4"
+                className={`flex items-center ${COMMON_GAP_SM} mb-4`}
               >
                 <span className="px-4 py-1 bg-orange-500/20 text-orange-400 rounded-full text-sm font-medium">
                   {caseStudy.industry}
@@ -140,14 +154,14 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
 
               <motion.p
                 variants={fadeInUpVariants}
-                className="text-lg text-gray-300 leading-relaxed mb-8"
+                className={`text-lg ${GRAY_TEXT_LIGHT} leading-relaxed ${COMMON_MB_SM}`}
               >
                 {caseStudy.overview.description}
               </motion.p>
 
               <motion.div
                 variants={fadeInUpVariants}
-                className="flex flex-wrap gap-2"
+                className={`flex flex-wrap ${COMMON_GAP_SM}`}
               >
                 {caseStudy.services.map((service, index) => (
                   <span
@@ -176,8 +190,8 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
       </section>
 
       {/* Challenge Section */}
-      <section className="py-16 lg:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className={`${SECTION_PX} ${SECTION_PY} bg-gray-50`}>
+        <div className={CONTENT_WRAPPER_CLASSES}>
           <motion.div
             variants={staggerContainerVariants}
             initial="initial"
@@ -193,23 +207,23 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
 
             <motion.p
               variants={fadeInUpVariants}
-              className="text-lg text-gray-600 mb-12 max-w-3xl"
+              className={`text-lg ${GRAY_TEXT_DARK} ${COMMON_MB_MD} max-w-3xl`}
             >
-              Before partnering with DigiNext, {caseStudy.client} faced
-              common digital issues that prevented potential clients from
-              discovering their services.
+              Before partnering with DigiNext, {caseStudy.client} faced common
+              digital issues that prevented potential clients from discovering
+              their services.
             </motion.p>
 
             <motion.div
               variants={fadeInUpVariants}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className={`grid md:grid-cols-2 lg:grid-cols-3 ${COMMON_GAP_MD}`}
             >
               {caseStudy.challenges.map((challenge, index) => (
                 <div
                   key={index}
-                  className="p-6 bg-white rounded-xl border border-gray-200 hover:border-orange-500 hover:shadow-lg transition-all duration-300"
+                  className={`${CARD_PADDING} bg-white rounded-xl border border-gray-200 hover:border-orange-500 hover:shadow-lg transition-all duration-300`}
                 >
-                  <div className="flex items-start gap-3">
+                  <div className={`flex items-start ${COMMON_GAP_SM}`}>
                     <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-1">
                       <div className="w-3 h-3 rounded-full bg-red-500" />
                     </div>
@@ -223,8 +237,8 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
       </section>
 
       {/* Solution Section */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className={`${SECTION_PX} ${SECTION_PY} bg-white`}>
+        <div className={CONTENT_WRAPPER_CLASSES}>
           <motion.div
             variants={staggerContainerVariants}
             initial="initial"
@@ -240,12 +254,12 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
 
             <motion.p
               variants={fadeInUpVariants}
-              className="text-lg text-gray-600 mb-16 max-w-3xl"
+              className={`text-lg ${GRAY_TEXT_DARK} ${COMMON_MB_MD} max-w-3xl`}
             >
               {caseStudy.solution.intro}
             </motion.p>
 
-            <div className="space-y-12">
+            <div className={`grid md:grid-cols-2 ${COMMON_GAP_MD} lg:gap-12`}>
               {caseStudy.solution.strategies.map((strategy, index) => (
                 <motion.div
                   key={index}
@@ -268,7 +282,10 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
 
                   <ul className="space-y-2">
                     {strategy.points.map((point, pointIndex) => (
-                      <li key={pointIndex} className="flex items-start gap-3">
+                      <li
+                        key={pointIndex}
+                        className={`flex items-start ${COMMON_GAP_SM}`}
+                      >
                         <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                         <span className="text-gray-700">{point}</span>
                       </li>
@@ -282,8 +299,10 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
       </section>
 
       {/* Results Section */}
-      <section className="py-16 lg:py-24 bg-gradient-to-br from-orange-50 to-orange-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section
+        className={`${SECTION_PX} ${SECTION_PY} bg-gradient-to-br from-orange-50 to-orange-100`}
+      >
+        <div className={CONTENT_WRAPPER_CLASSES}>
           <motion.div
             variants={staggerContainerVariants}
             initial="initial"
@@ -299,22 +318,22 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
 
             <motion.p
               variants={fadeInUpVariants}
-              className="text-lg text-gray-600 mb-16 max-w-3xl mx-auto text-center"
+              className={`text-lg ${GRAY_TEXT_DARK} ${COMMON_MB_MD} max-w-3xl mx-auto text-center`}
             >
-              Within months, {caseStudy.client} experienced significant
-              growth across all key metrics.
+              Within months, {caseStudy.client} experienced significant growth
+              across all key metrics.
             </motion.p>
 
             <motion.div
               variants={fadeInUpVariants}
-              className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
+              className={`grid md:grid-cols-2 lg:grid-cols-4 ${COMMON_GAP_MD} mb-12`}
             >
               {caseStudy.results.map((result, index) => {
                 const Icon = result.icon;
                 return (
                   <div
                     key={index}
-                    className="p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-orange-500"
+                    className={`${CARD_PADDING} bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-orange-500`}
                   >
                     <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-4">
                       <Icon className="w-6 h-6 text-orange-500" />
@@ -335,14 +354,17 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
 
             <motion.div
               variants={fadeInUpVariants}
-              className="bg-white rounded-2xl p-8 shadow-lg"
+              className={`bg-white rounded-2xl ${CARD_PADDING} shadow-lg`}
             >
               <h3 className="text-xl font-bold text-gray-900 mb-6">
                 Additional Achievements
               </h3>
               <ul className="space-y-4">
                 {caseStudy.additionalResults.map((result, index) => (
-                  <li key={index} className="flex items-start gap-3">
+                  <li
+                    key={index}
+                    className={`flex items-start ${COMMON_GAP_SM}`}
+                  >
                     <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-700 text-lg">{result}</span>
                   </li>
@@ -354,7 +376,9 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
       </section>
 
       {/* Conclusion Section */}
-      <section className="py-16 lg:py-24 bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
+      <section
+        className={`${SECTION_PX} ${SECTION_PY} bg-gradient-to-br from-gray-900 via-black to-gray-800 ${WHITE_TEXT}`}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             variants={staggerContainerVariants}
@@ -371,16 +395,18 @@ const CaseStudyPage = ({ slug }: CaseStudyPageProps) => {
 
             <motion.p
               variants={fadeInUpVariants}
-              className="text-lg text-gray-300 leading-relaxed mb-12"
+              className={`text-lg ${GRAY_TEXT_LIGHT} leading-relaxed mb-12`}
             >
               {caseStudy.conclusion.description}
             </motion.p>
 
             <motion.div
               variants={fadeInUpVariants}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              className={`flex flex-col sm:flex-row ${COMMON_GAP_SM} justify-center`}
             >
-              <button className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full hover:shadow-xl hover:shadow-orange-500/25 transition-all duration-300">
+              <button
+                className={`px-8 py-4 ${PRIMARY_GRADIENT} ${WHITE_TEXT} font-semibold rounded-full ${PRIMARY_SHADOW_HOVER} transition-all duration-300`}
+              >
                 Start Your Success Story
               </button>
               <button className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300">

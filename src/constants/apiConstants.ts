@@ -1,5 +1,6 @@
 export const ApiConstants = {
   contact_leads_create: "/api/contact/leads/",
   api_subscribe_create:"/api/subscribe/",
-  trust_section:"/api/home/text1/"
+  trust_section:"/api/home/text1/",
+  services:"/api/services/service-names/"
 };
