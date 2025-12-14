@@ -100,7 +100,7 @@ const StatItem: React.FC<StatItemProps> = ({
 };
 
 const TrustSection: React.FC<TrustSectionProps> = ({
-  title: defaultTitle = "Companies That affasffdaTrust Us",
+  title: defaultTitle = "Companies That Trust Us",
   stats = [
     { number: "300", suffix: "+", label: "Happy Clients" },
     { number: "1000", suffix: "+", label: "Projects Delivered" },
