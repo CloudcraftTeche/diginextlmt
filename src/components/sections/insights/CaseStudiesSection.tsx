@@ -101,7 +101,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
               {navigationText}
             </span>
             <ArrowUpRight
-              className={`w-3 xs:w-4 sm:w-5 h-3 xs:h-4 sm:w-5 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 ${PRIMARY_ORANGE_TEXT}`}
+              className={`w-3 xs:w-4 sm:w-5 h-3 xs:h-4 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 ${PRIMARY_ORANGE_TEXT}`}
             />
           </button>
         </Link>
@@ -245,7 +245,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
 
         {/* Case Studies Grid */}
         <div
-          className={`grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ${COMMON_GAP_MD}`}
+          className={`grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ${COMMON_GAP_MD}`}
         >
           {currentCaseStudies.map((study, index) => (
             <CaseStudyCard
