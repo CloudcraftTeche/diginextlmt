@@ -189,11 +189,11 @@ const TrustSection: React.FC<TrustSectionProps> = ({
   return (
     <section
       id="trust-section"
-      className="px-4 sm:px-6 lg:px-8 bg-white overflow-hidden"
+      className="px-4 sm:px-6 lg:px-8 bg-white overflow-hidden pt-[clamp(1rem,5vw,4rem)] lg:pt-2"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto ">
         {/* Header Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-6 ">
           {/* Left Side - Title and Description */}
           <div>
             <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 mb-6 leading-tight">
@@ -283,7 +283,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
             <div className="absolute top-1/2 left-0 right-0 h-px bg-gray-300 transform -translate-y-1/2" />
 
             {stats.map((stat, index) => (
-              <div key={`${stat.label}-${index}`} className="p-8 lg:p-12">
+              <div key={`${stat.label}-${index}`} className="p-8 lg:p-8">
                 <StatItem
                   number={stat.number}
                   suffix={stat.suffix}
@@ -297,7 +297,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
       </div>
 
       {/* Client Logos Section - Auto-Scroll Infinite Slider */}
-      <div className="border-t border-gray-200 pt-8">
+      <div className="border-t mb:p3 lg:p-6">
         <div className="relative overflow-hidden">
           <style jsx>{`
             @keyframes smoothScroll {
