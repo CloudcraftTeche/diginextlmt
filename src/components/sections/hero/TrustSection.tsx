@@ -189,7 +189,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
   return (
     <section
       id="trust-section"
-      className="px-4 sm:px-6 lg:px-8 bg-white overflow-hidden pt-[clamp(1rem,5vw,4rem)] lg:pt-2"
+      className="px-4 sm:px-6 lg:px-8 bg-white overflow-hidden pt-[clamp(1rem,5vw,4rem)] lg:pt-9"
     >
       <div className="max-w-7xl mx-auto ">
         {/* Header Section */}
