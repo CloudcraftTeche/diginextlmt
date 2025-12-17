@@ -15,6 +15,7 @@ import Footer from "@/components/layout/Footer";
 import ITSolutionsHero from "@/components/sections/hero/ITSolutionsHero";
 import { caseStudyData } from "@/lib/insightsData";
 import CaseStudiesSection from "@/components/sections/insights/CaseStudiesSection";
+import HeroVideoSection from "@/components/sections/hero/HeroVideoSection";
 
 export const metadata: Metadata = generatePageMetadata(PAGES_SEO.home, "/");
 
@@ -55,7 +56,8 @@ export default function HomePage() {
       <StructuredData data={structuredData} />
       <Header isTransparent={true} forceTransparent={true} />
       <div className="pt-16">
-        <HeroSection />
+        {/* <HeroSection /> */}
+        <HeroVideoSection/>
         <TrustSection />
         <ITSolutionsHero />
         <CaseStudiesSection caseStudies={caseStudiesArray}/>
