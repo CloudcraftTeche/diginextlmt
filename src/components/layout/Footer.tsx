@@ -1,103 +1,13 @@
 "use client";
-import { ImageConstants } from "@/constants/ImageConstants";
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
-interface FooterProps {
-  newsletter?: {
-    title?: string;
-    description?: string;
-    placeholder?: string;
-    buttonText?: string;
-  };
-  company?: {
-    logo?: string;
-    description?: string;
-  };
-  contact?: {
-    address?: string;
-    phone?: string;
-    email?: string;
-  };
-  services?: string[];
-  solutions?: string[];
-  blog?: string[];
-  usefulLinks?: string[];
-  footerText?: Array<{
-    text: string;
-    link: string;
-  }>;
-  footerLink?: string[];
-  socialLinks?: {
-    linkedin?: string;
-    behance?: string;
-    youtube?: string;
-    instagram?: string;
-    facebook?: string;
-    twitter?: string;
-  };
-  onNewsletterSubmit?: (email: string) => void;
+interface SocialIconProps {
+  type: string;
+  href?: string;
 }
 
-const Footer: React.FC<FooterProps> = ({
-  newsletter = {
-    title: "Subscribe to our Newsletter & Growth Tips",
-    description:
-      "We give you the latest tips for growing your business and market insights. Subscribe to get the latest news and give your business more power.",
-    placeholder: "Enter your email address",
-    buttonText: "Submit",
-  },
-  company = {
-    logo: "/assets/logos/LOGO_DIGINxt-White 1.svg",
-    description:
-      "By combining creativity and technology, DigiNext has built its reputation on delivering necessary digital solutions.",
-  },
-  contact = {
-    address: "The Metropolis Tower, Business Bay, Dubai",
-    phone: "+971 50 320 5007",
-    email: "hello@diginext.ae",
-  },
-  services = [
-    "Design",
-    "Development",
-    "Digital Marketing",
-    "Web Hosting",
-    "Production",
-  ],
-  solutions = [
-    "Print & Signages",
-    "Marketing",
-    "IT Infrastructure",
-    "Custom Softwares",
-    "CRM Systems",
-  ],
-
-  usefulLinks = [
-    "Impact",
-    "Testimonials",
-    "Clients",
-    "Partnership",
-    "Industries",
-  ],
-  footerText = [
-    { text: "Careers", link: "/careers" },
-    { text: "Blog", link: "/blog" },
-    { text: "Download Brochure", link: "#" },
-    { text: "Locations", link: "/location" },
-    { text: "Support", link: "#" },
-  ],
-
-  socialLinks = {
-    linkedin: "http://linkedin.com/company/diginext-ae/",
-    behance: "#",
-    youtube: "#",
-    instagram: "https://www.instagram.com/diginext.ae/",
-    facebook: "https://www.facebook.com/profile.php?id=61583870428448",
-    twitter: "https://x.com/Diginext_global",
-  },
-  onNewsletterSubmit,
-}) => {
+const Footer = () => {
   const [email, setEmail] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -105,48 +15,101 @@ const Footer: React.FC<FooterProps> = ({
     address: false,
     services: false,
     solutions: false,
-    blog: false,
     usefulLinks: false,
+    locations: false,
   });
 
-  // Intersection Observer for animations
+  const newsletter = {
+    title: "Subscribe to our Newsletter & Growth Tips",
+    description:
+      "We give you the latest tips for growing your business and market insights.",
+    placeholder: "Enter your email address",
+    buttonText: "Submit",
+  };
+
+  const company = {
+    description:
+      "By combining creativity and technology, DigiNext has built its reputation on delivering necessary digital solutions.",
+  };
+
+  const contact = {
+    address: "The Metropolis Tower, Business Bay, Dubai",
+    phone: "+971 50 320 5007",
+    email: "hello@diginext.ae",
+  };
+
+  const services = [
+    "Design",
+    "Development",
+    "Digital Marketing",
+    "Web Hosting",
+    "Production",
+  ];
+  const solutions = [
+    "Print & Signages",
+    "Marketing",
+    "IT Infrastructure",
+    "Custom Softwares",
+    "CRM Systems",
+  ];
+  const usefulLinks = [
+    "Impact",
+    "Testimonials",
+    "Clients",
+    "Partnership",
+    "Industries",
+  ];
+
+  const locationLinks = [
+    { name: "Abu Dhabi", slug: "abu-dhabi" },
+    { name: "Dubai", slug: "dubai" },
+    { name: "Sharjah", slug: "sharjah" },
+    { name: "Ajman", slug: "ajman" },
+    { name: "Al Ain", slug: "al-ain" },
+    { name: "Ras Al Khaimah", slug: "ras-al-khaimah" },
+  ];
+
+  const footerText = [
+    { text: "Careers", link: "/careers" },
+    { text: "Blog", link: "/blog" },
+    { text: "Download Brochure", link: "#" },
+    { text: "Support", link: "#" },
+  ];
+
+  const socialLinks = {
+    linkedin: "http://linkedin.com/company/diginext-ae/",
+    behance: "#",
+    youtube: "#",
+    instagram: "https://www.instagram.com/diginext.ae/",
+    facebook: "https://www.facebook.com/profile.php?id=61583870428448",
+    twitter: "https://x.com/Diginext_global",
+  };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
+      ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.1 }
     );
-
     const element = document.querySelector("#footer-section");
     if (element) observer.observe(element);
-
     return () => observer.disconnect();
   }, []);
 
   const handleNewsletterSubmit = async () => {
     if (!email.trim() || !isValidEmail(email)) return;
-
     setIsSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    if (onNewsletterSubmit) {
-      onNewsletterSubmit(email);
-    }
-
+    alert(`Subscribed with: ${email}`);
     setEmail("");
     setIsSubmitting(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleNewsletterSubmit();
-    }
+    if (e.key === "Enter") handleNewsletterSubmit();
   };
 
-  const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections((prev) => ({
@@ -155,8 +118,8 @@ const Footer: React.FC<FooterProps> = ({
     }));
   };
 
-  const SocialIcon = ({ type, href }: { type: string; href?: string }) => {
-    const icons = {
+  const SocialIcon: React.FC<SocialIconProps> = ({ type, href }) => {
+    const icons: Record<string, React.ReactNode> = {
       linkedin: (
         <svg
           className="w-4 h-4 xs:w-5 xs:h-5"
@@ -218,10 +181,16 @@ const Footer: React.FC<FooterProps> = ({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-7 h-7 xs:w-8 xs:h-8 sm:w-10 sm:h-10 bg-gray-800 hover:bg-orange-500 rounded-full flex items-center justify-center text-gray-300 hover:text-white transition-all duration-300 hover:scale-110"
+        className="w-9 h-9 xs:w-10 xs:h-10 bg-gray-800 hover:bg-orange-500 rounded-full flex items-center justify-center text-gray-300 hover:text-white transition-all duration-300 hover:scale-110 cursor-pointer relative z-30"
         aria-label={`Follow us on ${type}`}
+        onClick={(e) => {
+          if (href === "#") {
+            e.preventDefault();
+            alert(`${type} link coming soon!`);
+          }
+        }}
       >
-        {icons[type as keyof typeof icons]}
+        {icons[type]}
       </a>
     );
   };
@@ -229,32 +198,27 @@ const Footer: React.FC<FooterProps> = ({
   return (
     <footer
       id="footer-section"
-      className="py-3 xs:py-4 sm:py-6 lg:py-8 bg-white"
+      className="py-3 xs:py-4 sm:py-6 lg:py-8 bg-white relative"
+      style={{ zIndex: 100 }}
     >
       <div className="px-3 xs:px-4 sm:px-6 lg:px-8">
         <div className="bg-black rounded-xl p-4 xs:p-5 sm:p-8 lg:p-12">
-          <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mx-auto">
-            {/* Newsletter Section */}
+          <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
+            {/* Newsletter */}
             <div
-              className={`transition-all duration-700 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
+              className={`transition-all duration-700 ${
+                isVisible ? "opacity-100" : "opacity-0"
               }`}
-              style={{ transitionDelay: "200ms" }}
             >
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 xs:gap-6 sm:gap-8 lg:gap-12 items-center mb-8 xs:mb-10 sm:mb-12 lg:mb-16">
-                {/* Newsletter Title and Description */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 xs:gap-6 sm:gap-8 items-center mb-8 xs:mb-10 sm:mb-12 lg:mb-16">
                 <div className="text-center lg:text-left">
-                  <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl font-medium text-white mb-3 xs:mb-4 sm:mb-6 leading-tight">
+                  <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl font-medium text-white mb-3 xs:mb-4 sm:mb-6">
                     {newsletter.title}
                   </h2>
-                  <p className="text-gray-300 text-xs xs:text-sm sm:text-base leading-relaxed max-w-lg mx-auto lg:mx-0">
+                  <p className="text-gray-300 text-xs xs:text-sm sm:text-base leading-relaxed">
                     {newsletter.description}
                   </p>
                 </div>
-
-                {/* Newsletter Form - Single Row on All Screens */}
                 <div className="w-full">
                   <div className="flex flex-row gap-0 w-full max-w-2xl mx-auto lg:mx-0 lg:ml-auto">
                     <input
@@ -263,352 +227,306 @@ const Footer: React.FC<FooterProps> = ({
                       onChange={(e) => setEmail(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder={newsletter.placeholder}
-                      className="flex-1 px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 text-left bg-white/90 backdrop-blur-sm text-black placeholder-gray-500 rounded-l-md border-2 border-transparent focus:border-orange-500 focus:outline-none focus:ring-4 focus:ring-orange-500/20 transition-all duration-300 text-xs xs:text-sm sm:text-base"
+                      className="flex-1 px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-white/90 text-black placeholder-gray-500 rounded-l-md border-2 border-transparent focus:border-orange-500 focus:outline-none text-xs xs:text-sm sm:text-base"
                     />
                     <button
                       onClick={handleNewsletterSubmit}
                       disabled={!isValidEmail(email) || isSubmitting}
-                      className="px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-r-md transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 text-xs xs:text-sm sm:text-base hover:shadow-xl hover:shadow-orange-500/25 disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap"
+                      className="px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-r-md transition-all duration-300 text-xs xs:text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
-                      {isSubmitting ? (
-                        <div className="flex items-center justify-center">
-                          <svg
-                            className="animate-spin h-3 w-3 xs:h-4 xs:h-4 sm:h-5 sm:w-5"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                        </div>
-                      ) : (
-                        newsletter.buttonText
-                      )}
+                      {isSubmitting ? "..." : newsletter.buttonText}
                     </button>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Divider Line */}
             <div className="w-full h-px bg-gray-700 mb-8 xs:mb-10 sm:mb-12 lg:mb-16"></div>
 
-            {/* Main Footer Content */}
-            <div
-              className={`transition-all duration-700 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-              style={{ transitionDelay: "400ms" }}
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 xs:gap-6 sm:gap-8 lg:gap-12">
-                {/* Company Info */}
-                <div className="sm:col-span-2 lg:col-span-2">
-                  <Image
-                    src={ImageConstants.WHITE_LOGO}
-                    alt="Diginext Logo"
-                    width={300}
-                    height={80}
-                    className="h-12 xs:h-14 sm:h-16 lg:h-20 w-auto transition-all duration-300 hover:scale-105 mb-3 xs:mb-4 sm:mb-6"
-                    priority
-                  />
-                  <p className="text-gray-300 text-xs xs:text-sm sm:text-base leading-relaxed mb-4 xs:mb-6 sm:mb-8">
-                    {company.description}
-                  </p>
+            {/* Main Content */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 xs:gap-6 sm:gap-8 lg:gap-12">
+              <div className="sm:col-span-2 lg:col-span-2">
+                <div className="text-white text-2xl font-bold mb-4">
+                  DigiNext
                 </div>
+                <p className="text-gray-300 text-xs xs:text-sm sm:text-base leading-relaxed mb-4">
+                  {company.description}
+                </p>
+              </div>
 
-                {/* Our Address - Collapsible on Mobile/Tablet */}
-                <div className="sm:col-span-2 lg:col-span-1">
-                  <button
-                    onClick={() => toggleSection("address")}
-                    className="text-white text-base xs:text-lg sm:text-lg lg:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:cursor-default"
+              {/* Address */}
+              <div className="sm:col-span-2 lg:col-span-1">
+                <button
+                  onClick={() => toggleSection("address")}
+                  className="text-white text-base xs:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:pointer-events-none cursor-pointer"
+                >
+                  Our Address
+                  <svg
+                    className={`w-4 h-4 lg:hidden transition-transform ${
+                      openSections.address ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    Our Address
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className={`space-y-2 xs:space-y-3 sm:space-y-4 ${
+                    openSections.address ? "block" : "hidden"
+                  } lg:block`}
+                >
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                      contact.address
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start space-x-2 xs:space-x-3 group cursor-pointer"
+                  >
                     <svg
-                      className={`w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5 lg:hidden transform transition-transform duration-300 ${
-                        openSections.address ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+                      className="w-3 h-3 xs:w-4 xs:h-4 text-gray-400 group-hover:text-orange-400 mt-0.5 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
                     >
                       <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
+                        fillRule="evenodd"
+                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                        clipRule="evenodd"
                       />
                     </svg>
-                  </button>
-                  <div
-                    className={`space-y-2 xs:space-y-3 sm:space-y-4 lg:block ${
-                      openSections.address ? "block" : "hidden lg:block"
-                    }`}
+                    <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm">
+                      {contact.address}
+                    </p>
+                  </a>
+                  <a
+                    href={`tel:${contact.phone.replace(/\s/g, "")}`}
+                    className="flex items-center space-x-2 xs:space-x-3 group cursor-pointer"
                   >
-                    {/* Location Link - Opens Google Maps */}
-                    <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                        contact.address || ""
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-start space-x-2 xs:space-x-3 group cursor-pointer"
+                    <svg
+                      className="w-3 h-3 xs:w-4 xs:h-4 text-gray-400 group-hover:text-orange-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
                     >
-                      <svg
-                        className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-orange-400 mt-0.5 flex-shrink-0 transition-colors duration-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
+                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                    <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm">
+                      {contact.phone}
+                    </p>
+                  </a>
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="flex items-center space-x-2 xs:space-x-3 group cursor-pointer"
+                  >
+                    <svg
+                      className="w-3 h-3 xs:w-4 xs:h-4 text-gray-400 group-hover:text-orange-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                    <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm">
+                      {contact.email}
+                    </p>
+                  </a>
+                </div>
+              </div>
+
+              {/* Services */}
+              <div>
+                <button
+                  onClick={() => toggleSection("services")}
+                  className="text-white text-base xs:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:pointer-events-none cursor-pointer"
+                >
+                  Services
+                  <svg
+                    className={`w-4 h-4 lg:hidden transition-transform ${
+                      openSections.services ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <ul
+                  className={`space-y-2 xs:space-y-3 ${
+                    openSections.services ? "block" : "hidden"
+                  } lg:block`}
+                >
+                  {services.map((service, i) => (
+                    <li key={i}>
+                      <Link
+                        href="/services"
+                        className="text-gray-300 text-xs xs:text-sm hover:text-orange-400 transition-colors cursor-pointer"
                       >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm sm:text-sm lg:text-sm transition-colors duration-300">
-                        {contact.address}
-                      </p>
-                    </a>
+                        {service}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                    {/* Phone Link - Opens Phone Dialer */}
-                    <a
-                      href={`tel:${(contact.phone || "").replace(/\s/g, "")}`}
-                      className="flex items-center space-x-2 xs:space-x-3 group cursor-pointer"
-                    >
-                      <svg
-                        className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-orange-400 flex-shrink-0 transition-colors duration-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
+              {/* Solutions */}
+              <div>
+                <button
+                  onClick={() => toggleSection("solutions")}
+                  className="text-white text-base xs:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:pointer-events-none cursor-pointer"
+                >
+                  Solutions
+                  <svg
+                    className={`w-4 h-4 lg:hidden transition-transform ${
+                      openSections.solutions ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <ul
+                  className={`space-y-2 xs:space-y-3 ${
+                    openSections.solutions ? "block" : "hidden"
+                  } lg:block`}
+                >
+                  {solutions.map((solution, i) => (
+                    <li key={i}>
+                      <Link
+                        href="/solutions"
+                        className="text-gray-300 text-xs xs:text-sm hover:text-orange-400 transition-colors cursor-pointer"
                       >
-                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                      </svg>
-                      <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm sm:text-sm lg:text-sm transition-colors duration-300">
-                        {contact.phone}
-                      </p>
-                    </a>
+                        {solution}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                    {/* Email Link - Opens Mail Client */}
-                    <a
-                      href={`mailto:${contact.email || ""}`}
-                      className="flex items-center space-x-2 xs:space-x-3 group cursor-pointer"
-                    >
-                      <svg
-                        className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-orange-400 flex-shrink-0 transition-colors duration-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
+              {/* Useful Links */}
+              <div>
+                <button
+                  onClick={() => toggleSection("usefulLinks")}
+                  className="text-white text-base xs:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:pointer-events-none cursor-pointer"
+                >
+                  Useful Links
+                  <svg
+                    className={`w-4 h-4 lg:hidden transition-transform ${
+                      openSections.usefulLinks ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <ul
+                  className={`space-y-2 xs:space-y-3 ${
+                    openSections.usefulLinks ? "block" : "hidden"
+                  } lg:block`}
+                >
+                  {usefulLinks.map((link, i) => (
+                    <li key={i}>
+                      <a
+                        href="#"
+                        className="text-gray-300 text-xs xs:text-sm hover:text-orange-400 transition-colors cursor-pointer"
                       >
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                      </svg>
-                      <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm sm:text-sm lg:text-sm transition-colors duration-300">
-                        {contact.email}
-                      </p>
-                    </a>
-                  </div>
-                </div>
-
-                {/* Services - Collapsible on Mobile/Tablet */}
-                <div>
-                  <button
-                    onClick={() => toggleSection("services")}
-                    className="text-white text-base xs:text-lg sm:text-lg lg:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:cursor-default"
-                  >
-                    Services
-                    <svg
-                      className={`w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5 lg:hidden transform transition-transform duration-300 ${
-                        openSections.services ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-                  <ul
-                    className={`space-y-2 xs:space-y-3 lg:block ${
-                      openSections.services ? "block" : "hidden lg:block"
-                    }`}
-                  >
-                    {services.map((service, index) => (
-                      <li key={index}>
-                        <Link
-                          href="/services"
-                          className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm hover:text-orange-400 transition-colors duration-300"
-                        >
-                          {service}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Solutions - Collapsible on Mobile/Tablet */}
-                <div>
-                  <button
-                    onClick={() => toggleSection("solutions")}
-                    className="text-white text-base xs:text-lg sm:text-lg lg:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:cursor-default"
-                  >
-                    Solutions
-                    <svg
-                      className={`w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5 lg:hidden transform transition-transform duration-300 ${
-                        openSections.solutions ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-                  <ul
-                    className={`space-y-2 xs:space-y-3 lg:block ${
-                      openSections.solutions ? "block" : "hidden lg:block"
-                    }`}
-                  >
-                    {solutions.map((solution, index) => (
-                      <li key={index}>
-                        <Link
-                          href="/solutions"
-                          className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm hover:text-orange-400 transition-colors duration-300"
-                        >
-                          {solution}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Blog - Collapsible on Mobile/Tablet */}
-                {/* <div>
-                  <button
-                    onClick={() => toggleSection("blog")}
-                    className="text-white text-base xs:text-lg sm:text-lg lg:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:cursor-default"
-                  >
-                    Blog
-                    <svg
-                      className={`w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5 lg:hidden transform transition-transform duration-300 ${
-                        openSections.blog ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-                  <ul
-                    className={`space-y-2 xs:space-y-3 lg:block ${
-                      openSections.blog ? "block" : "hidden lg:block"
-                    }`}
-                  >
-                    {blog.map((item, index) => (
-                      <li key={index}>
-                        <Link
-                          href="/blog"
-                          className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm hover:text-orange-400 transition-colors duration-300"
-                        >
-                          {item}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div> */}
-
-                {/* Useful Links - Collapsible on Mobile/Tablet */}
-                <div>
-                  <button
-                    onClick={() => toggleSection("usefulLinks")}
-                    className="text-white text-base xs:text-lg sm:text-lg lg:text-lg font-medium mb-3 xs:mb-4 sm:mb-6 w-full text-left flex items-center justify-between lg:cursor-default"
-                  >
-                    Useful Links
-                    <svg
-                      className={`w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5 lg:hidden transform transition-transform duration-300 ${
-                        openSections.usefulLinks ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-                  <ul
-                    className={`space-y-2 xs:space-y-3 lg:block ${
-                      openSections.usefulLinks ? "block" : "hidden lg:block"
-                    }`}
-                  >
-                    {usefulLinks.map((link, index) => (
-                      <li key={index}>
-                        <a
-                          href="#"
-                          className="text-gray-300 text-xs xs:text-sm sm:text-sm lg:text-sm hover:text-orange-400 transition-colors duration-300"
-                        >
-                          {link}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
-            {/* Bottom Section */}
-            <div
-              className={`mt-6 xs:mt-8 sm:mt-12 lg:mt-16 transition-all duration-700 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-              style={{ transitionDelay: "600ms" }}
-            >
-              <div className="flex flex-wrap justify-center sm:justify-start gap-3 xs:gap-4 sm:gap-6 mb-4 xs:mb-6 sm:mb-8">
-                {footerText.map((item, index) => (
-                  <Link
-                    key={index}
+            {/* Bottom */}
+            <div className="mt-6 xs:mt-8 sm:mt-12 lg:mt-16">
+              <div className="flex flex-wrap justify-center sm:justify-start gap-3 xs:gap-4 sm:gap-6 mb-4 xs:mb-6 sm:mb-8 items-center">
+                {footerText.map((item, i) => (
+                  <a
+                    key={i}
                     href={item.link}
-                    className="text-gray-300 hover:text-orange-400 transition"
+                    className="text-gray-300 text-xs xs:text-sm hover:text-orange-400 transition cursor-pointer relative z-30"
+                    onClick={(e) => {
+                      if (item.link === "#") {
+                        e.preventDefault();
+                        alert(`${item.text} coming soon!`);
+                      }
+                    }}
                   >
                     {item.text}
-                  </Link>
+                  </a>
                 ))}
+
+                {/* Locations Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => toggleSection("locations")}
+                    className="text-gray-300 text-xs xs:text-sm hover:text-orange-400 transition cursor-pointer relative z-30 flex items-center gap-1"
+                  >
+                    Locations
+                    <svg
+                      className={`w-3 h-3 transition-transform ${
+                        openSections.locations ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  {openSections.locations && (
+                    <div className="absolute bottom-full left-0 mb-2 bg-gray-900 rounded-lg shadow-xl p-3 min-w-[180px] z-50 border border-gray-700">
+                      <ul className="space-y-2">
+                        {locationLinks.map((location, i) => (
+                          <li key={i}>
+                            <a
+                              href={`/location/${location.slug}`}
+                              className="text-gray-300 text-xs hover:text-orange-400 transition-colors block py-1 cursor-pointer"
+                            >
+                              {location.name}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
+
               <div className="flex items-center justify-center mb-4 xs:mb-6 sm:mb-8">
                 <div className="flex-1 h-px bg-gray-700 mr-3 xs:mr-4 sm:mr-8"></div>
-
                 <div className="flex space-x-2 xs:space-x-3 sm:space-x-4">
                   <SocialIcon type="linkedin" href={socialLinks.linkedin} />
                   <SocialIcon type="behance" href={socialLinks.behance} />
@@ -617,35 +535,34 @@ const Footer: React.FC<FooterProps> = ({
                   <SocialIcon type="facebook" href={socialLinks.facebook} />
                   <SocialIcon type="twitter" href={socialLinks.twitter} />
                 </div>
-
                 <div className="flex-1 h-px bg-gray-700 ml-3 xs:ml-4 sm:ml-8"></div>
               </div>
 
               <div className="flex flex-col lg:flex-row justify-between items-center space-y-3 xs:space-y-4 sm:space-y-0 text-center lg:text-left">
-                <p className="text-gray-400 text-xs xs:text-sm sm:text-sm">
+                <p className="text-gray-400 text-xs xs:text-sm">
                   © 2025 DigiNext - Branding Agency Dubai. All Rights Reserved
                 </p>
-                <div className="flex flex-col xs:flex-row justify-end lg:justify-end gap-2 xs:gap-3 sm:gap-4 items-end">
-                  <span className="text-gray-400 text-xs xs:text-sm sm:text-sm">
+                <div className="flex flex-col xs:flex-row gap-2 xs:gap-3 sm:gap-4">
+                  <span className="text-gray-400 text-xs xs:text-sm">
                     DigiNext is a part of L M TECH IT SERVICES
                   </span>
                   <span className="text-gray-400 hidden xs:inline">|</span>
-                  <div className="flex flex-wrap justify-center gap-2 xs:gap-3 sm:gap-4">
+                  <div className="flex flex-wrap justify-center gap-2 xs:gap-3">
                     <a
                       href="#"
-                      className="text-gray-400 text-xs xs:text-sm sm:text-sm hover:text-orange-400 transition-colors"
+                      className="text-gray-400 text-xs xs:text-sm hover:text-orange-400 cursor-pointer relative z-30"
                     >
                       Terms & Conditions
                     </a>
                     <a
                       href="#"
-                      className="text-gray-400 text-xs xs:text-sm sm:text-sm hover:text-orange-400 transition-colors"
+                      className="text-gray-400 text-xs xs:text-sm hover:text-orange-400 cursor-pointer relative z-30"
                     >
                       Privacy Policy
                     </a>
                     <a
                       href="#"
-                      className="text-gray-400 text-xs xs:text-sm sm:text-sm hover:text-orange-400 transition-colors"
+                      className="text-gray-400 text-xs xs:text-sm hover:text-orange-400 cursor-pointer relative z-30"
                     >
                       Payment Policy
                     </a>
