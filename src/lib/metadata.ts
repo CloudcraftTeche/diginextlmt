@@ -40,15 +40,3 @@ export function generatePageMetadata(
     },
   };
 }
-
-// Helper for home page
-export function generateHomePageMetadata(): Metadata {
-  return generatePageMetadata(
-    {
-      title: "IT Solutions and Services Company in Dubai | Diginext",
-      description: "Diginext is a trusted IT solutions and services company in Dubai offering professional and reliable IT support to help your business grow seamlessly.",
-      keywords: ["IT solutions Dubai", "IT services", "IT support Dubai"],
-    },
-    "/"
-  );
-}

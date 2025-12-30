@@ -32,6 +32,8 @@ export interface PartnerSection {
 export interface ServiceDetailContent {
   slug: string;
   title: string;
+  heading: string;
+
   heroDescription: string;
   ctaSection?: {
     title: string;
@@ -49,6 +51,7 @@ export interface ServiceDetailContent {
 export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
   "branding-graphics-design": {
     slug: "branding-graphics-design",
+    heading: "Branding",
     title: "Top Branding and Graphic Design Agency in Dubai",
     heroDescription:
       "As a leading Branding Agency in Dubai, we make visual stories that show who you are and what you believe in. Our creative technique combines design, strategy, and innovation to give your brand a unique personality. Our team helps in transforming concepts into attractive pictures that make an impact. DigiNext is one of the best branding agencies in Dubai, and we are known for our purposeful creativity.",
@@ -157,6 +160,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
   },
   "product-packaging-design": {
     slug: "product-packaging-design",
+    heading: "Product Design",
     title: "Product & Packaging Design Services in Dubai",
     heroDescription:
       "As a leading product design company in Dubai, we create packaging and product ideas that combine creativity, strategy, and functionality to make sure your brand stands out on every shelf and screen. Our goal is simple, to make sure people not only see your product but also remember it. With a team of expert product designers in Dubai, we focus on understanding your market, your audience, and your brand personality to create designs that connect emotionally and perform commercially. DigiNext adds new ideas and accuracy to every detail, whether you are introducing a new product or updating an old one.",
@@ -262,6 +266,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
   },
   "ui-ux-design": {
     slug: "ui-ux-design",
+    heading: "UI/UX Design",
     title: "UI/UX Design Company in Dubai",
     heroDescription:
       "At DigiNext, we believe that good design is more than just how things look. It is about creating experiences that connect, engage, and inspire people. As one of the best UI/UX web design companies in Dubai, we work hard to develop designs that not only look great but also improve performance, keep visitors on your site, and reduce bounce rates. As a trusted UI/UX design services company, we combine information based on research and user-focused innovation to define each step of the user journey. Our mission is simple, to create digital experiences that are easy to use and fit perfectly with your business goals and what your customers want.",
@@ -381,6 +386,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "website-design": {
+    heading: "Web Design",
     slug: "website-design",
     title: "Best Web Design Company in Dubai",
     heroDescription:
@@ -490,6 +496,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "ecommerce-development": {
+    heading: "E-Commerce Web Development",
     slug: "ecommerce-development",
     title: "E-Commerce Web Development Company in Dubai",
     heroDescription:
@@ -600,6 +607,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "native-hybrid-development": {
+    heading: "Native Hybrid Development",
     slug: "native-hybrid-development",
     title: "Native & Hybrid App Development Company in Dubai",
     heroDescription:
@@ -706,6 +714,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "android-development": {
+    heading: "Android App Development",
     slug: "android-development",
     title: "Top Android App Development Company in Dubai",
     heroDescription:
@@ -814,6 +823,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "ios-development": {
+    heading: "iOS App Development",
     slug: "ios-development",
     title: "Leading iOS App Development Company in Dubai",
     heroDescription:
@@ -923,6 +933,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "custom-web-application": {
+    heading: "Custom Web Application",
     slug: "custom-web-application",
     title: "Custom Web Application Development",
     heroDescription:
@@ -1031,6 +1042,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "linkedin-marketing": {
+    heading: "LinkedIn Marketing",
     slug: "linkedin-marketing",
     title: "LinkedIn Marketing for Building Meaningful Connections",
     heroDescription:
@@ -1138,6 +1150,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
   },
   "instagram-marketing": {
     slug: "instagram-marketing",
+    heading: "Instagram Marketing",
     title: "Top Instagram Marketing Firm in Dubai",
     heroDescription:
       "Instagram is more than just a social media site in today's world of visual-first content. It is a great way for your brand to tell stories. We are one of the top instagram marketing firms in Dubai, through creative and data-driven Instagram marketing strategies, we help businesses make real connections, get more people to engage and turn followers into loyal customers. Our team goes beyond basic posts and hashtags, we create targeted campaigns that increase visibility, build trust, and get results that can be measured.",
@@ -1242,6 +1255,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
   },
   "facebook-marketing": {
     slug: "facebook-marketing",
+    heading: "Facebook Marketing",
     title: "Leading Facebook Marketing Company in UAE",
     heroDescription:
       "As a leading Facebook marketing company in the UAE, we use data to plan campaigns that get to the right people at the right time with the right message. Our team designs every Facebook marketing strategy to maximize engagement, build brand awareness, and deliver measurable returns for your business. We change likes into leads and followers into loyal customers by telling creative stories and targeting the right audience. This helps your brand grow stronger in today's competitive digital world.",
@@ -1348,6 +1362,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
   },
   "twitter-marketing": {
     slug: "twitter-marketing",
+    heading: "Twitter Marketing",
     title: "Twitter Marketing Agency in Dubai",
     heroDescription:
       "We believe every tweet can tell a story, spark a conversation, and build a brand. As a leading Twitter marketing agency in Dubai, we help businesses reach their customers in real time with content that is based on strategy and campaigns that get people engaged. Our team works on making lasting impressions with 280 characters to increase visibility, engagement, and growth. We make your brand part of the conversation, not just a spectator, by using trending hashtags and running successful ad campaigns. With our expert Twitter marketing services in the UAE, you can make your voice louder, get more loyal followers, and get more people to know about your brand on the platform.",
@@ -1448,6 +1463,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "social-media-optimization": {
+    heading: "Social Media Optimization",
     slug: "social-media-optimization",
     title: "Top Social Media Optimization Company in Dubai",
     heroDescription:
@@ -1554,6 +1570,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "search-engine-optimization": {
+    heading: "Search Engine Optimization",
     slug: "search-engine-optimization",
     title: "Best SEO Company in Dubai",
     heroDescription:
@@ -1668,6 +1685,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "email-marketing": {
+    heading: "Email Marketing",
     slug: "email-marketing",
     title: "Best Email Marketing Agency in Dubai",
     heroDescription:
@@ -1779,6 +1797,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "ppc-advertising": {
+    heading: "PPC Advertising",
     slug: "ppc-advertising",
     title: "Best PPC Agency in Dubai",
     heroDescription:
@@ -1888,6 +1907,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "shared-hosting": {
+    heading: "Shared Web Hosting",
     slug: "shared-hosting",
     title: "Reliable Shared Web Hosting Services in Dubai",
     heroDescription:
@@ -1997,6 +2017,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "dedicated-hosting": {
+    heading: "Dedicated Hosting",
     slug: "dedicated-hosting",
     title: "Reliable Dedicated Hosting Services in Dubai",
     heroDescription:
@@ -2101,6 +2122,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "cloud-hosting": {
+    heading: "Cloud Hosting",
     slug: "cloud-hosting",
     title: "Reliable Cloud Hosting Services in Dubai",
     heroDescription:
@@ -2205,6 +2227,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "email-hosting": {
+    heading: "Email Hosting",
     slug: "email-hosting",
     title: "Reliable Email Hosting in Dubai",
     heroDescription:
@@ -2312,6 +2335,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "g-suite": {
+    heading: "G Suite",
     slug: "g-suite",
     title: "Give Power to Your Business with G Suite in Dubai",
     heroDescription:
@@ -2416,6 +2440,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
   },
   photography: {
     slug: "photography",
+    heading: "Photography",
     title: "Professional Photography Services in Dubai",
     heroDescription:
       "We are one of the best photography services in Dubai and we are experts at turning moments into visual stories that emotionally connect with your audience. Our team of expert photographers in the UAE combines creativity and precision to deliver high-quality visuals that bring your brand’s story to life. If it’s for a product, event, or corporate campaign, our professional photographers in Dubai ensure every frame speaks with purpose and authenticity. From lighting and composition to post-production finesse, we craft imagery that upgrades your brand presence both online and offline.",
@@ -2522,6 +2547,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   videography: {
+    heading: "Videography",
     slug: "videography",
     title: "Creative Video Production Company in Dubai",
     heroDescription:
@@ -2627,6 +2653,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "app-development": {
+    heading: "Mobile App Development",
     slug: "mobile-app-development",
     title: "Leading Mobile App Development Company in Dubai",
     heroDescription:
@@ -2732,6 +2759,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
   },
   "event-management": {
     slug: "event-management",
+    heading: "Entertainment & Events",
     title: "Entertainment & Events Solutions",
     heroDescription:
       "We turn regular events into amazing ones. As one of the best event management companies, we plan and carry out event planning that gets your audience engaged, entertained, and inspired. Our solutions make sure that every detail of your corporate events and entertainment shows reflects your brand and vision.",
@@ -2833,6 +2861,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "concerts-and-shows": {
+    heading: "Entertainment & Events",
     slug: "concerts-and-shows",
     title: "Concerts & Shows in Dubai",
     heroDescription:
@@ -2936,6 +2965,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "corporate-events": {
+    heading: "Entertainment & Events",
     slug: "corporate-events",
     title: "Corporate Event Management Company in Dubai",
     heroDescription:
@@ -3046,6 +3076,7 @@ export const SERVICE_DETAILS: Record<string, ServiceDetailContent> = {
     },
   },
   "media-coverage": {
+    heading: "Entertainment & Events",
     slug: "media-coverage",
     title: "Media Coverage Services in Dubai",
     heroDescription:
