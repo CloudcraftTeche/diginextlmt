@@ -86,7 +86,7 @@ export default async function ServiceDetailPage({
         {/* Hero Banner - Use title from query params or fall back to serviceData.title */}
         <HeroBanner
           backgorundImage={ImageConstants.INSIDE_BANNER_5}
-          title={title || serviceData.title}
+          title={serviceData.heading}
         />
 
         {/* Service Hero Section with Breadcrumbs */}

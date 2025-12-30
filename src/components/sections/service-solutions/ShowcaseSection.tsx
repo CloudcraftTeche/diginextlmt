@@ -286,7 +286,7 @@ const ServiceCard: React.FC<{
               <div>
                 <div className="flex items-center gap-3 relative group flex-1">
                   <a
-                    href={`${basePath}/${item.slug}?title=${item.name}`}
+                    href={`${basePath}/${item.slug}`}
                     className={`${TITLE_SIZE} text-gray-800 hover:text-orange-600 transition-colors duration-200`}
                   >
                     <span className="relative">
@@ -335,7 +335,7 @@ const ServiceCard: React.FC<{
                       {item.subItems.map((subItem, subIdx) => (
                         <li key={subIdx}>
                           <a
-                            href={`${basePath}/${subItem.slug}?title=${subItem.name}`}
+                            href={`${basePath}/${subItem.slug}`}
                             className={`${DESCRIPTION_SIZE} block py-1 group/sub`}
                           >
                             <span className="relative">

@@ -32,6 +32,7 @@ export interface PartnerSection {
 export interface SolutionDetailContent {
   slug: string;
   title: string;
+  heading: string;
   heroDescription: string;
   ctaSection?: {
     title: string;
@@ -49,6 +50,7 @@ export interface SolutionDetailContent {
 export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
   "digital-printing": {
     slug: "digital-printing",
+    heading: "Digital Printing",
     title: "High-Quality Digital Printing Services in Dubai",
     heroDescription:
       "We bring your ideas to life at DigiNext with our high-quality digital printing services. Our team creates beautiful visuals that attract attention and improve your brand's identity, from creative ideas to bright prints. As a trusted name for digital printing in Dubai, we use the best printing technology and craftsmanship to make sure that every print represents your brand. \n\n No matter if it is marketing material, corporate stationery, signage, or product packaging, our printing solutions are structured in a way to meet your goals in the right way.",
@@ -131,6 +133,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
   },
   signages: {
     slug: "signages",
+    heading: "Signages",
     title: "The Best Signage Company in Dubai",
     heroDescription:
       "We believe your brand should stand out, not just online but also in every place your audience looks. As one of the best signage companies in Dubai, we design and deliver signage solutions that get people's attention and make your business stand out. Our creative experts make sure that your brand message is seen, remembered, and admired from concept to installation.\n\nNo matter if you need indoor branding, outdoor displays or digital signage solutions, we use creativity, technology, and accuracy to make your ideas real. Every sign we make is a reflection of your brand's personality, bold, clear, and designed to make an impression.",
@@ -210,6 +213,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
   },
   "exhibition-stand-builders": {
     slug: "exhibition-stand-builders",
+    heading: "Exhibition Stand Builders",
     title: "Best Exhibition Stand Contractor in Dubai",
     heroDescription:
       "Your brand should stand out, literally. We create exhibition stands at DigiNext that do not just take up space, they get people's attention. As one of the best exhibition stand contractors in Dubai, we use creativity, functionality, and new ideas to make stands that will make your brand the centre of attention at any event.\n\nOur experienced exhibition stand builders in Dubai understand that every brand has a story to tell. That is why we focus on providing custom exhibition solutions that show who you are, draw in visitors, and make a lasting impression. From concept to construction, we make sure every detail is designed to impress and perform.",
@@ -292,6 +296,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
   },
   "corporate-gift": {
     slug: "corporate-gift",
+    heading: "Corporate Gift",
     title: "Corporate Gifts That Make a Lasting Impression",
     heroDescription:
       "As a trusted corporate gifts supplier in Dubai, we help brands build stronger relationships by giving them elegant, high-quality, and personalized corporate gifts that people will remember. It is easy for us to help your brand show thanks, recognition, and professionalism in the best way possible.\n\nIf you are celebrating clients, employees, or business milestones, we deliver branded corporate gifts that reflect your company’s identity and values. DigiNext makes sure that every product, from design to delivery, gets attention, shows appreciation, and boosts your business's presence.",
@@ -369,6 +374,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "performance-marketing": {
+    heading: "Performance Marketing",
     slug: "performance-marketing",
     title: "Performance Marketing Agency in Dubai",
     heroDescription:
@@ -448,6 +454,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
   },
   "marketing-consultant": {
     slug: "marketing-consultant",
+    heading: "Marketing Consultant",
     title: "Marketing Consultancy That Drives Strategy, Growth, and Success",
     heroDescription:
       "Having the right marketing plan is very important in today's digital world. We do more than just run campaigns, we give you clear goals, direction, and results. As a trusted marketing and advertising consultant, our goal is to help brands make stronger connections, get greater visibility, and see measurable growth through strategies that are made just for them.\n\nDigiNext has become one of the best marketing agencies in Dubai because it has been in business for a long time and knows the industry well. We research your market, get to know your audience, and make marketing plans that are unique to you and help you reach your goals.",
@@ -522,6 +529,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
   },
   "growth-marketing": {
     slug: "growth-marketing",
+    heading: "Growth Marketing",
     title: "Growth Marketing Agency in Dubai",
     heroDescription:
       "As a leading growth marketing agency in Dubai, we help businesses achieve measurable success through data-based campaigns, creative storytelling, and continuous optimization. Our team combines new ideas with information to help your brand grow faster, making every marketing effort a long-term benefit.\n\nGrowth marketing focuses on the whole customer journey, from awareness to retention. We experiment, look at the results, and make improvements at every step to make sure you get results that are consistent and scalable that matter to your bottom line.",
@@ -599,6 +607,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
   },
   "content-marketing": {
     slug: "content-marketing",
+    heading: "Content Marketing",
     title: "Content Marketing Services in Dubai",
     heroDescription:
       "We help businesses stand out by telling stories that are organized and writing content that informs, inspires, and converts. As a trusted content marketing agency in Dubai, we create powerful stories that get people engaged, build trust, and help your business grow continuously.\n\nOur content marketing services in Dubai are designed to help you get real results that matter, if you want to improve your online presence, get more leads, or get more people to see your business.",
@@ -689,6 +698,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "influencer-marketing": {
+    heading: "Influencer Marketing",
     slug: "influencer-marketing",
     title: "Influencer Marketing Agency in Dubai",
     heroDescription:
@@ -771,6 +781,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "it-services": {
+    heading: "IT Services",
     slug: "it-services",
     title: "Leading IT Services in Dubai",
     heroDescription:
@@ -847,6 +858,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "enterprise-solutions": {
+    heading: "Enterprise Solutions",
     slug: "enterprise-solutions",
     title: "Enterprise Solutions Company in UAE",
     heroDescription:
@@ -932,6 +944,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "gis-planning": {
+    heading: "GIS Planning",
     slug: "gis-planning",
     title: "Smart GIS Planning Solutions",
     heroDescription:
@@ -1013,6 +1026,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "on-site-support": {
+    heading: "On Site Support",
     slug: "on-site-support",
     title: "Reliable On-Site IT Support Services & Solutions",
     heroDescription:
@@ -1095,6 +1109,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "cyber-security": {
+    heading: "Cyber Security",
     slug: "cyber-security",
     title: "Leading Cyber Security Company in UAE",
     heroDescription:
@@ -1186,6 +1201,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "hr-software-development": {
+    heading: "HR Software Development",
     slug: "hr-software-development",
     title: "Smart HR Software Solutions in Dubai",
     heroDescription:
@@ -1269,6 +1285,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "enterprise-crm-software": {
+    heading: "Enterprise CRM Software",
     slug: "enterprise-crm-software",
     title: "Enterprise CRM Software for Smarter Customer Relationships",
     heroDescription:
@@ -1354,6 +1371,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "erp-development-consultation": {
+    heading: "ERP Development Consultation",
     slug: "erp-development-consultation",
     title: "Leading ERP Development Company",
     heroDescription:
@@ -1434,6 +1452,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "enterprise-erp-software": {
+    heading: "Enterprise ERP Software",
     slug: "enterprise-erp-software",
     title: "Enterprise ERP Software for Smarter Business Operations",
     heroDescription:
@@ -1514,6 +1533,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "custom-dashboard-design": {
+    heading: "Custom Dashboard Design",
     slug: "custom-dashboard-design",
     title: "Custom Dashboard Design Services",
     heroDescription:
@@ -1594,6 +1614,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "erp-data-migration": {
+    heading: "ERP Data Migration",
     slug: "erp-data-migration",
     title: "Data Migration for a Smarter, Connected Business",
     heroDescription:
@@ -1673,6 +1694,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "erp-app-development": {
+    heading: "ERP App Development",
     slug: "erp-app-development",
     title: "Smart ERP App Development Solutions",
     heroDescription:
@@ -1754,6 +1776,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "learning-management-system": {
+    heading: "Learning Management System",
     slug: "learning-management-system",
     title: "Learning Management System in Dubai",
     heroDescription:
@@ -1841,6 +1864,7 @@ export const SERVICE_DETAILS: Record<string, SolutionDetailContent> = {
     faqs: { items: [] }, // No FAQ
   },
   "devops-and-cloud-solutions": {
+    heading: "DevOps",
     slug: "devops-and-cloud-solutions",
     title: "Powerful DevOps & Cloud Hosting Solutions",
     heroDescription:

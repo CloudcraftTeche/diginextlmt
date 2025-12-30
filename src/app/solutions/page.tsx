@@ -97,22 +97,22 @@ const SOLUTIONS_DATA: ServiceItem[] = [
 ];
 
 export default function SolutionsPage() {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "Our Solutions",
-    description: PAGES_SEO.solutions.description,
-    url: `${SITE_CONFIG.url}/solutions`,
-    provider: {
-      "@type": "Organization",
-      name: SITE_CONFIG.name,
-      url: SITE_CONFIG.url,
-    },
-  };
+  // const structuredData = {
+  //   "@context": "https://schema.org",
+  //   "@type": "CollectionPage",
+  //   name: "Our Solutions",
+  //   description: PAGES_SEO.solutions.description,
+  //   url: `${SITE_CONFIG.url}/solutions`,
+  //   provider: {
+  //     "@type": "Organization",
+  //     name: SITE_CONFIG.name,
+  //     url: SITE_CONFIG.url,
+  //   },
+  // };
 
   return (
     <>
-      <StructuredData data={structuredData} />
+      {/* <StructuredData data={structuredData} /> */}
 
       <Header forceTransparent={true} />
 

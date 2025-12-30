@@ -86,7 +86,7 @@ export default async function SolutionDetailPage({
         {/* Hero Banner - Use title from query params or fall back to default */}
         <HeroBanner
           backgorundImage={ImageConstants.INSIDE_BANNER_5}
-          title={title || "Solution Details"}
+          title={solutionData.heading || "Solution Details"}
         />
 
         {/* Solution Hero Section with Breadcrumbs */}

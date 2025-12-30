@@ -19,21 +19,21 @@ import CaseStudiesSection from "@/components/sections/insights/CaseStudiesSectio
 export const metadata: Metadata = generatePageMetadata(PAGES_SEO.home, "/");
 
 export default function HomePage() {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: SITE_CONFIG.name,
-    description: PAGES_SEO.home.description,
-    url: SITE_CONFIG.url,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${SITE_CONFIG.url}/search?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
-  };
+  // const structuredData = {
+  //   "@context": "https://schema.org",
+  //   "@type": "WebSite",
+  //   name: SITE_CONFIG.name,
+  //   description: PAGES_SEO.home.description,
+  //   url: SITE_CONFIG.url,
+  //   potentialAction: {
+  //     "@type": "SearchAction",
+  //     target: {
+  //       "@type": "EntryPoint",
+  //       urlTemplate: `${SITE_CONFIG.url}/search?q={search_term_string}`,
+  //     },
+  //     "query-input": "required name=search_term_string",
+  //   },
+  // };
   // ✅ FIXED: Truncate description to fit line-clamp-3 (max ~120 chars)
   const caseStudiesArray = Object.entries(caseStudyData)
     .slice(0, 3) // Limit to 9 for grid layout (3x3)
@@ -52,7 +52,6 @@ export default function HomePage() {
     }));
   return (
     <>
-      <StructuredData data={structuredData} />
       <Header isTransparent={true} forceTransparent={true} />
       <div className="pt-16">
         <HeroSection />
