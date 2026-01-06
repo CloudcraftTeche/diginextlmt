@@ -91,10 +91,9 @@ const PORTFOLIO_DETAILS: Record<string, PortfolioDetailContent> = {
     slug: "caribou-coffee-kuwait",
     title: "Caribou Coffee Kuwait",
     industry: "Food",
-    heroImage:
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&h=800&fit=crop",
+    heroImage: ImageConstants.WORKS.TEST.HERO,
     featuredImage:
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&h=800&fit=crop",
+      ImageConstants.WORKS.TEST.CONTAINER_BANNER_1,
     galleryImages: [
       {
         url: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&h=600&fit=crop",
@@ -132,7 +131,7 @@ const PORTFOLIO_DETAILS: Record<string, PortfolioDetailContent> = {
     },
     brandStats: {
       backgroundImage:
-        "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&h=600&fit=crop",
+       ImageConstants.WORKS.TEST.CONTAINER_BANNER_1,
       title: "A Premium Coffee Brand With 85+ Stores at Kuwait",
       stats: [
         { value: "15K", label: "Number of orders processed daily via app" },
@@ -193,23 +192,39 @@ const PORTFOLIO_DETAILS: Record<string, PortfolioDetailContent> = {
       features: [
         {
           image:
-            "https://images.unsplash.com/photo-1557683316-973673baf926?w=600&h=400&fit=crop",
+            ImageConstants.WORKS.TEST.PRODUCT_1,
           title: "ORDER PREPARING",
           subtitle: "Expected at 03:00 PM",
           description:
             "Real-time order tracking with estimated preparation time and push notifications at each stage.",
         },
+        // {
+        //   image:
+        //     ImageConstants.WORKS.TEST.PRODUCT_2,
+        //   title: "BROWSE MENU",
+        //   subtitle: "Explore our collection",
+        //   description:
+        //     "Beautifully designed menu with high-quality images and detailed product information.",
+        // },
         {
           image:
-            "https://images.unsplash.com/photo-1481487196290-c152efe083f5?w=600&h=400&fit=crop",
-          title: "BROWSE MENU",
-          subtitle: "Explore our collection",
+           ImageConstants.WORKS.TEST.PRODUCT_3,
+          title: "STORE LOCATOR",
+          subtitle: "Find nearby stores",
           description:
-            "Beautifully designed menu with high-quality images and detailed product information.",
+            "Interactive map showing all store locations with directions and store hours.",
         },
         {
           image:
-            "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&h=400&fit=crop",
+           ImageConstants.WORKS.TEST.PRODUCT_4,
+          title: "STORE LOCATOR",
+          subtitle: "Find nearby stores",
+          description:
+            "Interactive map showing all store locations with directions and store hours.",
+        },
+        {
+          image:
+           ImageConstants.WORKS.TEST.PRODUCT_5,
           title: "STORE LOCATOR",
           subtitle: "Find nearby stores",
           description:

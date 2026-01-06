@@ -1,3 +1,5 @@
+import { ImageConstants } from "@/constants/ImageConstants";
+import Image from "next/image";
 import React from "react";
 
 const ProductCustomizationSection = ({
@@ -8,97 +10,27 @@ const ProductCustomizationSection = ({
     <section className="w-full bg-gradient-to-b from-white to-blue-50 py-16 sm:py-24 px-6 sm:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* LEFT – Mobile App Preview */}
-        <div className="flex justify-center order-2 lg:order-1">
-          <div className="relative w-full max-w-sm lg:max-w-md">
-            <div className="relative bg-gradient-to-b from-blue-100 to-blue-50 rounded-[3rem] p-6 shadow-2xl">
-              <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-lg">
-                {/* Status Bar */}
-                <div className="bg-white px-6 py-3 flex justify-between items-center text-xs">
-                  <span className="font-semibold">9:41</span>
-                  <div className="flex gap-1">
-                    <div className="w-4 h-3 border border-gray-400 rounded-sm" />
-                    <div className="w-4 h-3 border border-gray-400 rounded-sm" />
-                    <div className="w-4 h-3 border border-gray-400 rounded-sm bg-gray-900" />
-                  </div>
-                </div>
-
-                {/* Product Image */}
-                <div className="bg-white px-6 py-8">
-                  <div className="w-48 h-48 mx-auto mb-6">
-                    <img
-                      src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=400&fit=crop"
-                      alt="Cold Press Lemonade"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-
-                  {/* Product Name */}
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">
-                    COLD PRESS LEMONADE
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Your Favourite Cold Press mixed with fresh apple, and served
-                    over ice.
-                  </p>
-
-                  {/* Size Selection */}
-                  <div className="mb-6">
-                    <div className="flex gap-2">
-                      <button className="flex-1 py-2 text-sm border-2 border-gray-300 rounded-lg hover:border-gray-900 transition-colors">
-                        SMALL
-                        <br />
-                        283 ML
-                      </button>
-                      <button className="flex-1 py-2 text-sm border-2 border-gray-300 rounded-lg hover:border-gray-900 transition-colors">
-                        MEDIUM
-                        <br />
-                        402 ML
-                      </button>
-                      <button className="flex-1 py-2 text-sm font-semibold bg-gray-900 text-white rounded-lg">
-                        LARGE
-                        <br />
-                        $2.850
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Flavor Options */}
-                  <div className="mb-6">
-                    <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">
-                      Choice of Flavor
-                    </p>
-                    <div className="flex gap-2">
-                      <button className="flex-1 py-2 text-sm font-semibold bg-gray-900 text-white rounded-lg">
-                        APPLE
-                      </button>
-                      <button className="flex-1 py-2 text-sm border-2 border-gray-300 rounded-lg hover:border-gray-900 transition-colors">
-                        WATERMELON
-                      </button>
-                      <button className="flex-1 py-2 text-sm border-2 border-gray-300 rounded-lg hover:border-gray-900 transition-colors">
-                        ORANGE
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Add to Cart Button */}
-                  <button className="w-full bg-teal-500 text-white py-4 rounded-lg font-semibold hover:bg-teal-600 transition-colors">
-                    Add to cart - $2.850
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="relative w-full h-[420px] sm:h-[520px] lg:h-[600px] flex justify-center">
+          <Image
+            src={ImageConstants.WORKS.TEST.MOBILE_1}
+            alt="Product Customization App Preview"
+            fill
+            className="object-contain"
+            priority
+          />
         </div>
 
         {/* RIGHT – Content */}
-        <div className="order-1 lg:order-2 text-center lg:text-left">
+        <div className="text-center lg:text-left">
           <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-4">
             Major Features
           </p>
+
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-6">
             {title}
           </h2>
-          <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-lg mb-10 lg:mb-0">
+
+          <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-lg mx-auto lg:mx-0">
             {description}
           </p>
         </div>
