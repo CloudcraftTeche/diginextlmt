@@ -1,8 +1,9 @@
+import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
 import React from "react";
 
 const ChallengesSection = ({
-  backgroundImage = "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=400&fit=crop",
+  backgroundImage = ImageConstants.WORKS.TEST.CONTAINER_BANNER_2,
   challenges = [
     {
       icon: "👤",

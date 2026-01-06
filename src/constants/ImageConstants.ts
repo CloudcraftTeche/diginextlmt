@@ -87,9 +87,26 @@ export class ImageConstants {
 
   static SOLUTION_IMAGE =
     "/assets/images/service/webHosting/Shared Web Hosting.jpg";
-  static WORK_BANNER = "/assets/images/image.png";  
+  static WORK_BANNER = "/assets/images/image.png";
   static CASE_STUDY_DETAILED_1 = "/assets/images/ikea_54473e2d09.webp";
   static CASE_STUDY_DETAILED_2 =
     "/assets/images/careebu_coffee_19e3d1a32c.webp";
   static CASE_STUDY_DETAILED_3 = "/assets/images/thumb_2_82757380ce.webp";
+
+  static WORKS = {
+    TEST: {
+      HERO: "/assets/works/01/Hero BannerDiginext Mobile variant.jpg",
+      CONTAINER_BANNER_1: "/assets/works/01/Container Banner 1.jpg",
+      CONTAINER_BANNER_2: "/assets/works/01/Container Banner 2 .jpg",
+      SOCIAL_BANNER_1: "/assets/works/01/Hero Banner Social Media DigiNext.jpg",
+      SOCIAL_BANNER_2: "/assets/works/01/Hero Banner Social Media variant.jpg",
+      PRODUCT_1: "/assets/works/01/Products 1.jpg",
+      PRODUCT_2: "/assets/works/21/Products 2.jpg",
+      PRODUCT_3: "/assets/works/01/Products 3.jpg",
+      PRODUCT_4: "/assets/works/01/Products 4.jpg",
+      PRODUCT_5: "/assets/works/01/Products 5.jpg",
+      MOBILE_1: "/assets/works/01/Mobile MockUp 2.jpg",
+      MOBILE_3: "/assets/works/01/Mobile MockUp 3.jpg",
+    },
+  };
 }
