@@ -34,10 +34,10 @@ const ChallengesSection = ({
             src={backgroundImage}
             alt="Customer Journey"
             className="w-full h-full object-cover"
-            width={200}
-            height={200}
+            width={1000}
+            height={1000}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/40 to-transparent flex items-center px-8">
+          <div className="absolute inset-0  flex items-center px-8">
             <h3 className="text-2xl sm:text-3xl font-light text-white">
               Customer&apos;s Journey
             </h3>

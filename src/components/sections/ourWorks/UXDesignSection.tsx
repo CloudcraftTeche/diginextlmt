@@ -45,7 +45,7 @@ const UXDesignSection = ({
       />
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-black/30" />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto">
