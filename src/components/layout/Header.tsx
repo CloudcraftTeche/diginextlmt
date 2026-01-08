@@ -75,7 +75,7 @@ const Header = ({
       title: 'Digital Marketing',
       slug: 'digital-marketing',
       services: [
-        { name: 'Social Media Marketing', slug: 'social-media-marketing' },
+        // { name: 'Social Media Marketing', slug: 'social-media-marketing' },
         { name: 'Search Engine Optimization', slug: 'search-engine-optimization' },
         { name: 'Email Marketing', slug: 'email-marketing' },
         { name: 'PPC Advertising', slug: 'ppc-advertising' },

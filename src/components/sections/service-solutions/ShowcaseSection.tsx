@@ -20,19 +20,19 @@ import {
 // --- Type Definitions ---
 interface ServiceSubItem {
   name: string;
-  slug: string;
+  slug?: string;
 }
 
 interface ServiceMainItem {
   name: string;
-  slug: string;
+  slug?: string;
   subItems?: ServiceSubItem[];
 }
 
 export interface ServiceItem {
   title: string;
   description: string;
-  slug: string;
+  slug?: string;
   image: string;
   imageAlt: string;
   services: ServiceMainItem[];
@@ -71,10 +71,10 @@ const SERVICES_DATA: ServiceItem[] = [
             name: "Native Hybrid Development",
             slug: "native-hybrid-development",
           },
-          {
-            name: "React Native Development",
-            slug: "react-native-development",
-          },
+          // {
+          //   name: "React Native Development",
+          //   slug: "react-native-development",
+          // },
           { name: "Android App Development", slug: "android-development" },
           { name: "iOS App Development", slug: "ios-development" },
         ],
@@ -92,7 +92,7 @@ const SERVICES_DATA: ServiceItem[] = [
     services: [
       {
         name: "Social Media Marketing",
-        slug: "social-media-marketing",
+        // slug: "social-media-marketing",
         subItems: [
           { name: "LinkedIn Marketing", slug: "linkedin-marketing" },
           { name: "Instagram Marketing", slug: "instagram-marketing" },
@@ -281,76 +281,102 @@ const ServiceCard: React.FC<{
 
         {/* Service List */}
         <ul className="space-y-6">
-          {service.services.map((item, idx) => (
-            <li key={idx}>
-              <div>
-                <div className="flex items-center gap-3 relative group flex-1">
-                  <a
-                    href={`${basePath}/${item.slug}`}
-                    className={`${TITLE_SIZE} text-gray-800 hover:text-orange-600 transition-colors duration-200`}
-                  >
-                    <span className="relative">
-                      {item.name}
-                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300" />
-                    </span>
-                  </a>
+          {service.services.map((item, idx) => {
+            const hasSlug = Boolean(item.slug);
 
-                  {item.subItems && item.subItems.length > 0 && (
-                    <button
-                      onClick={() => toggleSubItems(idx)}
-                      className="text-gray-400 hover:text-orange-600 transition-colors ml-2 p-1 focus:outline-none"
-                      aria-label={
-                        expandedItems.has(idx) ? "Collapse" : "Expand"
-                      }
-                    >
-                      <svg
-                        className={`w-6 h-6 transform transition-transform duration-300 ${
-                          expandedItems.has(idx) ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+            return (
+              <li key={idx}>
+                <div>
+                  <div className="flex items-center gap-3 relative group flex-1">
+                    {/* Title */}
+                    {hasSlug ? (
+                      <a
+                        href={`${basePath}/${item.slug}`}
+                        className={`${TITLE_SIZE} text-gray-800 hover:text-orange-600 transition-colors duration-200`}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
+                        <span className="relative">
+                          {item.name}
+                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300" />
+                        </span>
+                      </a>
+                    ) : (
+                      <span
+                        className={`${TITLE_SIZE} text-gray-800 cursor-default`}
+                      >
+                        {item.name}
+                      </span>
+                    )}
+
+                    {/* Expand / Collapse Button */}
+                    {item.subItems && item.subItems?.length > 0 && (
+                      <button
+                        onClick={() => toggleSubItems(idx)}
+                        className="text-gray-400 hover:text-orange-600 transition-colors ml-2 p-1 focus:outline-none"
+                        aria-label={
+                          expandedItems.has(idx) ? "Collapse" : "Expand"
+                        }
+                      >
+                        <svg
+                          className={`w-6 h-6 transform transition-transform duration-300 ${
+                            expandedItems.has(idx) ? "rotate-180" : ""
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Sub-items */}
+                  {item.subItems && item.subItems?.length > 0 && (
+                    <div
+                      className={`grid transition-all duration-300 ease-out ${
+                        expandedItems.has(idx)
+                          ? "grid-rows-[1fr] opacity-100 mt-4 mb-2"
+                          : "grid-rows-[0fr] opacity-0"
+                      }`}
+                    >
+                      <ul className="overflow-hidden pl-6 border-l-2 border-orange-100 space-y-3">
+                        {item.subItems.map((subItem, subIdx) => {
+                          const hasSubSlug = Boolean(subItem.slug);
+
+                          return (
+                            <li key={subIdx}>
+                              {hasSubSlug ? (
+                                <a
+                                  href={`${basePath}/${subItem.slug}`}
+                                  className={`${DESCRIPTION_SIZE} block py-1 group/sub`}
+                                >
+                                  <span className="relative">
+                                    {subItem.name}
+                                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover/sub:w-full transition-all duration-300" />
+                                  </span>
+                                </a>
+                              ) : (
+                                <span
+                                  className={`${DESCRIPTION_SIZE} block py-1 text-gray-700`}
+                                >
+                                  {subItem.name}
+                                </span>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
                   )}
                 </div>
-
-                {/* Sub-items */}
-                {item.subItems && item.subItems.length > 0 && (
-                  <div
-                    className={`grid transition-all duration-300 ease-out ${
-                      expandedItems.has(idx)
-                        ? "grid-rows-[1fr] opacity-100 mt-4 mb-2"
-                        : "grid-rows-[0fr] opacity-0"
-                    }`}
-                  >
-                    <ul className="overflow-hidden pl-6 border-l-2 border-orange-100 space-y-3">
-                      {item.subItems.map((subItem, subIdx) => (
-                        <li key={subIdx}>
-                          <a
-                            href={`${basePath}/${subItem.slug}`}
-                            className={`${DESCRIPTION_SIZE} block py-1 group/sub`}
-                          >
-                            <span className="relative">
-                              {subItem.name}
-                              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover/sub:w-full transition-all duration-300" />
-                            </span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       </motion.div>
     </motion.div>
