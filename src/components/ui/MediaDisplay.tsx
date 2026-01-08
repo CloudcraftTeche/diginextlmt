@@ -1,3 +1,5 @@
+"use client";
+
 import { Loader2, ImageOff } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -15,8 +17,10 @@ const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
 
   const getMediaType = (url: string): "video" | "youtube" | "image" => {
     if (!url) return "image";
-    if (url.includes("youtube.com") || url.includes("youtu.be")) return "youtube";
-    if (url.endsWith(".mp4") || url.endsWith(".webm") || url.endsWith(".ogg")) return "video";
+    if (url.includes("youtube.com") || url.includes("youtu.be"))
+      return "youtube";
+    if (url.endsWith(".mp4") || url.endsWith(".webm") || url.endsWith(".ogg"))
+      return "video";
     return "image";
   };
 
@@ -29,7 +33,9 @@ const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
   };
 
   return (
-    <div className={`relative w-full h-full bg-gray-100 overflow-hidden ${className}`}>
+    <div
+      className={`relative w-full h-full bg-gray-100 overflow-hidden ${className}`}
+    >
       {/* Loading Skeleton */}
       {isLoading && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse z-10 flex items-center justify-center">
@@ -60,7 +66,7 @@ const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
                 onLoadingComplete={handleLoad}
                 onError={handleError}
               />
-             </div>
+            </div>
           ) : mediaType === "youtube" ? (
             <iframe
               src={`${src}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0`}
@@ -93,4 +99,5 @@ const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
     </div>
   );
 };
-export default MediaDisplay 
+
+export default MediaDisplay;
