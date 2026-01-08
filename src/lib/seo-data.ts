@@ -59,6 +59,16 @@ export const PAGES_SEO: Record<string, PageMetadata> = {
       "technical support Dubai",
     ],
   },
+  location: {
+    title: "Contact Us ",
+    description:
+      "Get in touch with DigiNext, a trusted IT solution company in Dubai. We provide extensive technical support and IT services to help your business run smoothly.",
+    keywords: [
+      "contact diginext",
+      "IT company Dubai contact",
+      "technical support Dubai",
+    ],
+  },
 };
 
 // Services metadata
