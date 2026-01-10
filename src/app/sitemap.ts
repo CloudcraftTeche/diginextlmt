@@ -115,6 +115,7 @@ export default function sitemap() {
     "/location/dubai",
     "/location/ajman",
     "/location/al-ain",
+    "/location/sharjah",
     "/location/ras-al-khaimah",
   ];
 
