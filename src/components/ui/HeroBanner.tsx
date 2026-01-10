@@ -53,9 +53,14 @@ const HeroBanner = ({
       {/* Content */}
       <div className="relative z-10 max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 pb-8 w-full">
         <div className="max-w-3xl">
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-normal text-white ">
+          {/* Changed from h1 to div with aria-label for accessibility */}
+          <div 
+            className="text-xl md:text-2xl lg:text-3xl font-normal text-white"
+            role="heading"
+            aria-level={2}
+          >
             {title}
-          </h1>
+          </div>
           {subtitle && (
             <p className="text-lg md:text-xl text-white/90 max-w-2xl leading-relaxed">
               {subtitle}

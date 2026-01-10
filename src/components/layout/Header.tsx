@@ -241,7 +241,7 @@ const Header = ({
                   {category.services.map((service) => (
                     <Link
                       key={service.slug}
-                      href={`/${item.dropdownType}/${service.slug}?title=${service.name}`}
+                      href={`/${item.dropdownType}/${service.slug}`}
                       onClick={() => setOpenDropdown(null)}
                       className="block text-gray-400 hover:text-orange-500 transition-colors duration-200 text-sm lg:text-base"
                     >
@@ -472,7 +472,7 @@ const Header = ({
                                     {category.services.map((service) => (
                                       <Link
                                         key={service.slug}
-                                        href={`/${item.dropdownType}/${service.slug}?title=${service.name}`}
+                                        href={`/${item.dropdownType}/${service.slug}`}
                                         className={`${TITLE_SIZE} block px-3 py-2 text-sm font-normal text-gray-700 hover:bg-white hover:text-orange-500 rounded-lg transition-all duration-200`}
                                         onClick={() => setIsMenuOpen(false)}
                                       >
