@@ -1,42 +1,38 @@
 // app/solutions/[slug]/page.tsx
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { Metadata } from "next";
 import HeroBanner from "@/components/ui/HeroBanner";
 import { ImageConstants } from "@/constants/ImageConstants";
 import SolutionsOfferedSection from "@/components/sections/service-solutions/OfferedSection";
 import ProcessAccordionSection from "@/components/sections/service-solutions/ProcessAccordionSection";
 import CTASection from "@/components/sections/service-solutions/CTASection";
-import Link from "next/link";
 import PartnerSection from "@/components/sections/service-solutions/PartnerSection";
+import ServiceHeroSection from "@/components/sections/service-solutions/ServiceHeroSection";
 import {
   getAllSolutionSlugs,
   getSolutionDetailBySlug,
 } from "@/lib/solutionDetailData";
 import { generatePageMetadata } from "@/lib/metadata";
 import { SOLUTIONS_SEO } from "@/lib/seo-data";
-import ServiceHeroSection from "@/components/sections/service-solutions/ServiceHeroSection";
 
-interface SolutionDetailPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-  searchParams: Promise<{
-    title?: string;
-  }>;
-}
+// NEXT.JS 16: Props type - params is a Promise
+type Props = {
+  params: Promise<{ slug: string }>;
+};
 
-// CRITICAL: Proper metadata generation for SEO
-export async function generateMetadata({
-  params,
-}: SolutionDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
+// CRITICAL: generateMetadata for Next.js 16
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  // MUST await params in Next.js 16
+  const params = await props.params;
+  const { slug } = params;
+
   const solutionData = SOLUTIONS_SEO[slug];
 
-  // Handle 404 case with proper metadata
   if (!solutionData) {
     return {
-      title: "Solution Not Found | DigiNext",
+      title: "Solution Not Found",
       description: "The solution you're looking for doesn't exist.",
       robots: {
         index: false,
@@ -45,44 +41,20 @@ export async function generateMetadata({
     };
   }
 
-  // Return complete metadata - Next.js will inject into <head>
   return generatePageMetadata(solutionData, `/solutions/${slug}`);
 }
 
-// Main page component - must be async Server Component
-export default async function SolutionDetailPage({
-  params,
-  searchParams,
-}: SolutionDetailPageProps) {
-  const { slug } = await params;
-  const { title } = await searchParams;
+// Page component for Next.js 16
+export default async function SolutionDetailPage(props: Props) {
+  // MUST await params in Next.js 16
+  const params = await props.params;
+  const { slug } = params;
+
   const solutionData = getSolutionDetailBySlug(slug);
 
-  // If solution not found, show 404
+  // Use Next.js notFound() for 404s
   if (!solutionData) {
-    return (
-      <>
-        <Header />
-        <div className="min-h-screen flex items-center justify-center pt-16">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Solution Not Found
-            </h1>
-            <p className="text-gray-600 mb-8">
-              The solution you&apos;re looking for doesn&apos;t exist.
-            </p>
-
-            <Link
-              href="/solutions"
-              className="inline-block px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
-            >
-              Back to Solutions
-            </Link>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
+    notFound();
   }
 
   return (
@@ -90,13 +62,11 @@ export default async function SolutionDetailPage({
       <Header forceTransparent={true} />
 
       <div className="pt-16">
-        {/* Hero Banner */}
         <HeroBanner
-          backgorundImage={ImageConstants.INSIDE_BANNER_5} 
+          backgorundImage={ImageConstants.INSIDE_BANNER_5}
           title={solutionData.heading || "Solution Details"}
         />
 
-        {/* Solution Hero Section with Breadcrumbs */}
         <ServiceHeroSection
           title={solutionData.title}
           description={solutionData.heroDescription}
@@ -107,7 +77,6 @@ export default async function SolutionDetailPage({
           imageSrc={solutionData.imageUrl}
         />
 
-        {/* CTA Section */}
         {solutionData.ctaSection && (
           <CTASection
             title={solutionData.ctaSection.title}
@@ -115,21 +84,18 @@ export default async function SolutionDetailPage({
           />
         )}
 
-        {/* Solutions Offered Section */}
         <SolutionsOfferedSection
           title={solutionData.servicesOffered.title}
           description={solutionData.servicesOffered.description}
           services={solutionData.servicesOffered.services}
         />
 
-        {/* Process Accordion Section */}
         <ProcessAccordionSection
           title={solutionData.process.title}
           steps={solutionData.process.steps}
           description={solutionData.process.description}
         />
 
-        {/* Partner Section */}
         {solutionData.partnerSection && (
           <PartnerSection
             title={solutionData.partnerSection.title}
@@ -138,13 +104,12 @@ export default async function SolutionDetailPage({
         )}
       </div>
 
-      {/* Footer moved OUTSIDE the main content wrapper */}
       <Footer />
     </>
   );
 }
 
-// Generate static paths for all solutions
+// Generate static params - return format stays the same
 export async function generateStaticParams() {
   const slugs = getAllSolutionSlugs();
 
