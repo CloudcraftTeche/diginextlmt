@@ -13,6 +13,7 @@ export function generatePageMetadata(
   const ogImagePath = `/images/og-${
     path.split("/").filter(Boolean).pop() || "home"
   }.jpg`;
+  const fullImageUrl = `${SITE_CONFIG.url}${ogImagePath}`;
 
   return {
     // Basic metadata
@@ -58,7 +59,7 @@ export function generatePageMetadata(
       locale: "en_US",
       images: [
         {
-          url: `${SITE_CONFIG.url}${ogImagePath}`,
+          url: fullImageUrl,
           width: 1200,
           height: 630,
           alt: pageData.title,
@@ -66,23 +67,18 @@ export function generatePageMetadata(
       ],
     },
 
-    // Twitter metadata
+    // Twitter metadata - CRITICAL FIX
     twitter: {
       card: "summary_large_image",
       title: pageData.title,
       description: pageData.description,
       creator: SITE_CONFIG.twitter,
-      images: [
-        {
-          url: `${SITE_CONFIG.url}${ogImagePath}`,
-          alt: pageData.title,
-        },
-      ],
+      images: [fullImageUrl], // Use array of strings, not objects
     },
   };
 }
 
-// Optional: Helper function for 404 pages
+// Helper function for 404 pages
 export function generate404Metadata(): Metadata {
   return {
     title: "Page Not Found | Diginext",
@@ -94,13 +90,14 @@ export function generate404Metadata(): Metadata {
   };
 }
 
-// Optional: Helper function for dynamic pages with custom OG images
+// Helper function for dynamic pages with custom OG images
 export function generatePageMetadataWithCustomImage(
   pageData: PageMetadata,
   path: string,
   customOgImage: string
 ): Metadata {
   const metadata = generatePageMetadata(pageData, path);
+  const fullCustomImageUrl = `${SITE_CONFIG.url}${customOgImage}`;
 
   return {
     ...metadata,
@@ -108,7 +105,7 @@ export function generatePageMetadataWithCustomImage(
       ...metadata.openGraph!,
       images: [
         {
-          url: `${SITE_CONFIG.url}${customOgImage}`,
+          url: fullCustomImageUrl,
           width: 1200,
           height: 630,
           alt: pageData.title,
@@ -117,12 +114,7 @@ export function generatePageMetadataWithCustomImage(
     },
     twitter: {
       ...metadata.twitter!,
-      images: [
-        {
-          url: `${SITE_CONFIG.url}${customOgImage}`,
-          alt: pageData.title,
-        },
-      ],
+      images: [fullCustomImageUrl],
     },
   };
 }
