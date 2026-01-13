@@ -27,22 +27,29 @@ interface ServiceDetailPageProps {
   }>;
 }
 
-// Use the same interface for generateMetadata
-export async function generateMetadata({ 
-  params 
+// CRITICAL FIX: generateMetadata must be async and return proper Metadata
+export async function generateMetadata({
+  params,
 }: ServiceDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const serviceData = SERVICES_SEO[slug];
 
   if (!serviceData) {
     return {
-      title: "Service Not Found",
+      title: "Service Not Found | Diginext",
+      description: "The service you're looking for doesn't exist.",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
+  // Return the metadata directly - Next.js will inject it into <head>
   return generatePageMetadata(serviceData, `/services/${slug}`);
 }
 
+// Ensure this is a proper async Server Component
 export default async function ServiceDetailPage({
   params,
   searchParams,
@@ -83,7 +90,7 @@ export default async function ServiceDetailPage({
       <Header forceTransparent={true} />
 
       <div className="pt-16">
-        {/* Hero Banner - Use title from query params or fall back to serviceData.title */}
+        {/* Hero Banner */}
         <HeroBanner
           backgorundImage={ImageConstants.INSIDE_BANNER_5}
           title={serviceData.heading}
@@ -96,7 +103,6 @@ export default async function ServiceDetailPage({
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Services", href: "/services" },
-            // { label: serviceData.title, href: `/services/?${slug}` },
           ]}
           imageSrc={serviceData.imageUrl}
         />
@@ -138,6 +144,7 @@ export default async function ServiceDetailPage({
   );
 }
 
+// generateStaticParams for static generation
 export async function generateStaticParams() {
   const slugs = getAllServiceSlugs();
 

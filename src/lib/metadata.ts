@@ -8,14 +8,47 @@ export function generatePageMetadata(
   path: string
 ): Metadata {
   const url = `${SITE_CONFIG.url}${path}`;
-  
+
+  // Generate dynamic OG image path
+  const ogImagePath = `/images/og-${
+    path.split("/").filter(Boolean).pop() || "home"
+  }.jpg`;
+
   return {
+    // Basic metadata
     title: pageData.title,
     description: pageData.description,
     keywords: pageData.keywords,
+
+    // Author and creator information
+    authors: [{ name: "Diginext Team" }],
+    creator: "Diginext Team",
+    publisher: "Diginext",
+
+    // Canonical URL
     alternates: {
       canonical: url,
     },
+
+    // Robots configuration
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+
+    // Google site verification
+    verification: {
+      google: "FEEPMTuIlMk8-qSGivtt8URG6yT_vwXRN_-2v1ZQzRY",
+    },
+
+    // Open Graph metadata
     openGraph: {
       title: pageData.title,
       description: pageData.description,
@@ -25,7 +58,57 @@ export function generatePageMetadata(
       locale: "en_US",
       images: [
         {
-          url: `/images/og-${path.split("/").filter(Boolean).pop() || "home"}.jpg`,
+          url: `${SITE_CONFIG.url}${ogImagePath}`,
+          width: 1200,
+          height: 630,
+          alt: pageData.title,
+        },
+      ],
+    },
+
+    // Twitter metadata
+    twitter: {
+      card: "summary_large_image",
+      title: pageData.title,
+      description: pageData.description,
+      creator: SITE_CONFIG.twitter,
+      images: [
+        {
+          url: `${SITE_CONFIG.url}${ogImagePath}`,
+          alt: pageData.title,
+        },
+      ],
+    },
+  };
+}
+
+// Optional: Helper function for 404 pages
+export function generate404Metadata(): Metadata {
+  return {
+    title: "Page Not Found | Diginext",
+    description: "The page you're looking for doesn't exist.",
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
+
+// Optional: Helper function for dynamic pages with custom OG images
+export function generatePageMetadataWithCustomImage(
+  pageData: PageMetadata,
+  path: string,
+  customOgImage: string
+): Metadata {
+  const metadata = generatePageMetadata(pageData, path);
+
+  return {
+    ...metadata,
+    openGraph: {
+      ...metadata.openGraph!,
+      images: [
+        {
+          url: `${SITE_CONFIG.url}${customOgImage}`,
           width: 1200,
           height: 630,
           alt: pageData.title,
@@ -33,10 +116,13 @@ export function generatePageMetadata(
       ],
     },
     twitter: {
-      card: "summary_large_image",
-      title: pageData.title,
-      description: pageData.description,
-      creator: SITE_CONFIG.twitter,
+      ...metadata.twitter!,
+      images: [
+        {
+          url: `${SITE_CONFIG.url}${customOgImage}`,
+          alt: pageData.title,
+        },
+      ],
     },
   };
 }
