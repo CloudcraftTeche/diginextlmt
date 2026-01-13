@@ -49,7 +49,6 @@ export async function generateMetadata({
   return generatePageMetadata(serviceData, `/services/${slug}`);
 }
 
-// Ensure this is a proper async Server Component
 export default async function ServiceDetailPage({
   params,
   searchParams,
@@ -58,7 +57,6 @@ export default async function ServiceDetailPage({
   const { title } = await searchParams;
   const serviceData = getServiceDetailBySlug(slug);
 
-  // If service not found, show 404
   if (!serviceData) {
     return (
       <>
@@ -71,7 +69,6 @@ export default async function ServiceDetailPage({
             <p className="text-gray-600 mb-8">
               The service you&apos;re looking for doesn&apos;t exist.
             </p>
-
             <Link
               href="/services"
               className="inline-block px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
@@ -137,9 +134,10 @@ export default async function ServiceDetailPage({
         )}
 
         <FAQSection faqs={serviceData.faqs.items} description="" />
-
-        <Footer />
       </div>
+
+      {/* ← Footer moved OUTSIDE the main content div */}
+      <Footer />
     </>
   );
 }
