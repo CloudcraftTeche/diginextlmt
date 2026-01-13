@@ -92,7 +92,7 @@ export default async function SolutionDetailPage({
       <div className="pt-16">
         {/* Hero Banner */}
         <HeroBanner
-          backgorundImage={ImageConstants.INSIDE_BANNER_5}
+          backgorundImage={ImageConstants.INSIDE_BANNER_5} 
           title={solutionData.heading || "Solution Details"}
         />
 
@@ -136,9 +136,10 @@ export default async function SolutionDetailPage({
             description={solutionData.partnerSection.description}
           />
         )}
-
-        <Footer />
       </div>
+
+      {/* Footer moved OUTSIDE the main content wrapper */}
+      <Footer />
     </>
   );
 }
