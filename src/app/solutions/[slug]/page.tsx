@@ -26,23 +26,30 @@ interface SolutionDetailPageProps {
   }>;
 }
 
-// Dynamic metadata generation
-export async function generateMetadata({ 
-  params 
+// CRITICAL: Proper metadata generation for SEO
+export async function generateMetadata({
+  params,
 }: SolutionDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const solutionData = SOLUTIONS_SEO[slug];
 
+  // Handle 404 case with proper metadata
   if (!solutionData) {
     return {
       title: "Solution Not Found | DigiNext",
       description: "The solution you're looking for doesn't exist.",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
+  // Return complete metadata - Next.js will inject into <head>
   return generatePageMetadata(solutionData, `/solutions/${slug}`);
 }
 
+// Main page component - must be async Server Component
 export default async function SolutionDetailPage({
   params,
   searchParams,
@@ -83,7 +90,7 @@ export default async function SolutionDetailPage({
       <Header forceTransparent={true} />
 
       <div className="pt-16">
-        {/* Hero Banner - Use title from query params or fall back to default */}
+        {/* Hero Banner */}
         <HeroBanner
           backgorundImage={ImageConstants.INSIDE_BANNER_5}
           title={solutionData.heading || "Solution Details"}
@@ -96,7 +103,6 @@ export default async function SolutionDetailPage({
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Solutions", href: "/solutions" },
-            // { label: solutionData.title, href: `/solutions/${slug}` },
           ]}
           imageSrc={solutionData.imageUrl}
         />
@@ -123,6 +129,7 @@ export default async function SolutionDetailPage({
           description={solutionData.process.description}
         />
 
+        {/* Partner Section */}
         {solutionData.partnerSection && (
           <PartnerSection
             title={solutionData.partnerSection.title}
@@ -136,6 +143,7 @@ export default async function SolutionDetailPage({
   );
 }
 
+// Generate static paths for all solutions
 export async function generateStaticParams() {
   const slugs = getAllSolutionSlugs();
 
