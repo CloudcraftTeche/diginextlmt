@@ -15,6 +15,8 @@ import {
   getPortfolioDetailBySlug,
   getAllPortfolioSlugs,
 } from "@/lib/portfolioData";
+import GridSection from "@/components/sections/ourWorks/GridSection";
+import LaptopMockupSection from "@/components/sections/ourWorks/LaptopMockupSection";
 
 export const dynamicParams = true;
 export const revalidate = 0;
@@ -48,10 +50,10 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${portfolioData.title} | Our Work`,
+    title: `${portfolioData.hero.title} | Our Work`,
     description:
-      portfolioData.projectOverview?.description ||
-      `Explore our ${portfolioData.title} project`,
+      portfolioData.hero?.description ||
+      `Explore our ${portfolioData.hero.title} project`,
   };
 }
 
@@ -74,40 +76,25 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
     <>
       <Header forceTransparent={true} />
       <div className="pt-16">
-        <CaseStudyHero
-          title={portfolioData.title}
-          industry={portfolioData.industry}
-          backgroundImage={portfolioData.heroImage}
+        <CaseStudyHero data={portfolioData.hero} />
+
+        <ProjectOverview data={portfolioData.overview} />
+
+        <BrandStatsSection data={portfolioData.brandStats} />
+
+        <ObjectivesSection data={portfolioData.objectives} />
+
+        <ChallengesSection data={portfolioData.challenges} />
+
+        <UXDesignSection data={portfolioData.uxDesign} />
+        <ProductCustomizationSection
+          data={portfolioData.productCustomization}
         />
-
-        {portfolioData.projectOverview && (
-          <ProjectOverview {...portfolioData.projectOverview} />
+        {portfolioData.gridSection && (
+          <GridSection data={portfolioData.gridSection} />
         )}
-
-        {portfolioData.brandStats && (
-          <BrandStatsSection {...portfolioData.brandStats} />
-        )}
-
-        {portfolioData.objectives && (
-          <ObjectivesSection objectives={portfolioData.objectives} />
-        )}
-
-        {portfolioData.challenges && (
-          <ChallengesSection challenges={portfolioData.challenges} />
-        )}
-
-        {portfolioData.uxDesign && (
-          <UXDesignSection {...portfolioData.uxDesign} />
-        )}
-
-        {portfolioData.productCustomization && (
-          <ProductCustomizationSection
-            {...portfolioData.productCustomization}
-          />
-        )}
-
-        {portfolioData.loyaltyProgram && (
-          <LoyaltyProgramSection {...portfolioData.loyaltyProgram} />
+        {portfolioData.laptopMockupSection && (
+          <LaptopMockupSection data={portfolioData.laptopMockupSection} />
         )}
 
         <Footer />

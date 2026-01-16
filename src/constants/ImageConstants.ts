@@ -95,18 +95,192 @@ export class ImageConstants {
 
   static WORKS = {
     TEST: {
-      HERO: "/assets/works/01/Hero BannerDiginext Mobile variant.jpg",
+      HERO_1: "/assets/works/01/Hero BannerDiginext Mobile variant.jpg",
+      HERO_2: "/assets/works/01/Hero Banner Social Media variant.jpg",
+
       CONTAINER_BANNER_1: "/assets/works/01/Container Banner 1.jpg",
       CONTAINER_BANNER_2: "/assets/works/01/Container Banner 2 .jpg",
-      SOCIAL_BANNER_1: "/assets/works/01/Hero Banner Social Media DigiNext.jpg",
-      SOCIAL_BANNER_2: "/assets/works/01/Hero Banner Social Media variant.jpg",
+
+      PHONE_MOCKUP_1: "/assets/works/01/Mobile MockUp 2.jpg",
+      PHONE_MOCKUP_2: "/assets/works/01/Mobile MockUp 3.jpg",
+
+      LAP_MOCKUP: "/assets/works/01/Products 1.jpg",
+      TABLET_MOCKUP: "/assets/works/01/Products 2.jpg",
+
       PRODUCT_1: "/assets/works/01/Products 1.jpg",
       PRODUCT_2: "/assets/works/21/Products 2.jpg",
       PRODUCT_3: "/assets/works/01/Products 3.jpg",
       PRODUCT_4: "/assets/works/01/Products 4.jpg",
-      PRODUCT_5: "/assets/works/01/Products 5.jpg",
-      MOBILE_1: "/assets/works/01/Mobile MockUp 2.jpg",
-      MOBILE_3: "/assets/works/01/Mobile MockUp 3.jpg",
+    },
+
+    ALHABAT_INTERIOR: {
+      HERO_1: "/assets/works/Alhabat Interior/Hero Banner Alhabat.jpg",
+      HERO_2: "/assets/works/Alhabat Interior/Hero Banner Alhabat 2 .jpg",
+
+      CONTAINER_BANNER_1:
+        "/assets/works/Alhabat Interior/Container Banner 1.jpg",
+      CONTAINER_BANNER_2:
+        "/assets/works/Alhabat Interior/Container Banner 2.jpg",
+
+      PHONE_MOCKUP_1: "/assets/works/Alhabat Interior/Vertical Banner.jpg",
+      PHONE_MOCKUP_2: "/assets/works/Alhabat Interior/Vertical Banner 2 .jpg",
+
+      LAP_MOCKUP: "/assets/works/Alhabat Interior/Product 1.jpg",
+      TABLET_MOCKUP: "/assets/works/Alhabat Interior/Product 2.jpg",
+
+      PRODUCT_1: "/assets/works/Alhabat Interior/Product 1.jpg",
+      PRODUCT_2: "/assets/works/Alhabat Interior/Product 2.jpg",
+      PRODUCT_3: "/assets/works/Alhabat Interior/Product 3.jpg",
+      PRODUCT_4: "/assets/works/Alhabat Interior/Product 4.jpg",
+    },
+
+    BALANCE_SPA: {
+      HERO_1: "/assets/works/Balance Spa/Hero Banner Balance Spa.jpg",
+      HERO_2: "/assets/works/Balance Spa/Hero Banner Social Media variant.jpg",
+
+      CONTAINER_BANNER_1:
+        "/assets/works/Balance Spa/Container Banner Balance Spa.jpg",
+      CONTAINER_BANNER_2:
+        "/assets/works/Balance Spa/Container Banner Balance Spa 2.jpg",
+
+      PHONE_MOCKUP_1: "/assets/works/Balance Spa/Balance Spa Mob MockUp .jpg",
+      PHONE_MOCKUP_2:
+        "/assets/works/Balance Spa/Balance Spa Mobile MockUp .jpg",
+
+      LAP_MOCKUP: "/assets/works/Balance Spa/Square 1.jpg",
+      TABLET_MOCKUP: "/assets/works/Balance Spa/Square 2.jpg",
+
+      PRODUCT_1: "/assets/works/Balance Spa/Square 1.jpg",
+      PRODUCT_2: "/assets/works/Balance Spa/Square 2.jpg",
+      PRODUCT_3: "/assets/works/Balance Spa/Square 3.jpg",
+      PRODUCT_4: "/assets/works/Balance Spa/Square 4.jpg",
+    },
+
+    BETHEL_AG: {
+      HERO_1: "/assets/works/Bethal AG/Hero Banner.jpg",
+      HERO_2: "/assets/works/Bethal AG/Hero Banner 2. jpg.jpg",
+
+      CONTAINER_BANNER_1: "/assets/works/Bethal AG/Container Banner 1.jpg",
+      CONTAINER_BANNER_2: "/assets/works/Bethal AG/Container Banner 2.jpg",
+
+      PHONE_MOCKUP_1: "/assets/works/Bethal AG/Lap Mockup.jpg",
+      PHONE_MOCKUP_2: "/assets/works/Bethal AG/Lap Mockup.jpg",
+
+      LAP_MOCKUP: "/assets/works/Bethal AG/Lap Mockup.jpg",
+      TABLET_MOCKUP: "/assets/works/Bethal AG/Lap Mockup.jpg",
+
+      PRODUCT_1: "/assets/works/Bethal AG/Square 1.jpg",
+      PRODUCT_2: "/assets/works/Bethal AG/Square 2.jpg",
+      PRODUCT_3: "/assets/works/Bethal AG/Square 3.jpg",
+      PRODUCT_4: "/assets/works/Bethal AG/Square 4.jpg",
+    },
+
+    DR_ANJALI: {
+      HERO_1: "/assets/works/Dr Anjali/Hero Banner 1.jpg",
+      HERO_2: "/assets/works/Dr Anjali/Hero Banner 2.jpg",
+
+      CONTAINER_BANNER_1: "/assets/works/Dr Anjali/Container Banner 1.jpg",
+      CONTAINER_BANNER_2: "/assets/works/Dr Anjali/Container Banner 2.jpg",
+
+      PHONE_MOCKUP_1: "/assets/works/Dr Anjali/Vertical 1.jpg",
+      PHONE_MOCKUP_2: "/assets/works/Dr Anjali/Vertical 2.jpg",
+
+      LAP_MOCKUP: "/assets/works/Dr Anjali/Lap Mockup.jpg",
+      TABLET_MOCKUP: "/assets/works/Dr Anjali/Tablet Mockup 1.jpg",
+
+      PRODUCT_1: "/assets/works/Dr Anjali/Square 1.jpg",
+      PRODUCT_2: "/assets/works/Dr Anjali/Square 2.jpg",
+      PRODUCT_3: "/assets/works/Dr Anjali/Square 3.jpg",
+      PRODUCT_4: "/assets/works/Dr Anjali/Square 4.jpg",
+    },
+
+    EXPLORE_EDUCATION: {
+      HERO_1: "/assets/works/Explore Education/Hero Banner 1.jpg",
+      HERO_2: "/assets/works/Explore Education/Hero Banner 2.jpg",
+
+      CONTAINER_BANNER_1:
+        "/assets/works/Explore Education/Container Banner 1.jpg",
+      CONTAINER_BANNER_2:
+        "/assets/works/Explore Education/Container Banner 2.jpg",
+
+      PHONE_MOCKUP_1:
+        "/assets/works/Explore Education/Mobile Mock Up GM CapeXL.jpg",
+      PHONE_MOCKUP_2: "/assets/works/Explore Education/Vertical 1.jpg",
+
+      LAP_MOCKUP: "/assets/works/Explore Education/Vertical 2.jpg",
+      TABLET_MOCKUP: "/assets/works/Explore Education/Vertical 1.jpg",
+
+      PRODUCT_1: "/assets/works/Explore Education/Vertical 1.jpg",
+      PRODUCT_2: "/assets/works/Explore Education/Vertical 2.jpg",
+      PRODUCT_3: "/assets/works/Explore Education/Vertical 1.jpg",
+      PRODUCT_4: "/assets/works/Explore Education/Vertical 2.jpg",
+    },
+
+    JK_DIARIES: {
+      HERO_1: "/assets/works/JK Diaries/Hero Banner 1.jpg",
+      HERO_2: "/assets/works/JK Diaries/Hero Banner 2.jpg",
+
+      CONTAINER_BANNER_1: "/assets/works/JK Diaries/Container Banner 1.jpg",
+      CONTAINER_BANNER_2: "/assets/works/JK Diaries/Container Banner 2.jpg",
+
+      PHONE_MOCKUP_1: "/assets/works/JK Diaries/JK Diary Mobile Mockup.jpg",
+      PHONE_MOCKUP_2: "/assets/works/JK Diaries/JK Diary Mobile Mockup.jpg",
+
+      LAP_MOCKUP: "/assets/works/JK Diaries/JK Diaries Lap Mockup.jpg",
+      TABLET_MOCKUP: "/assets/works/JK Diaries/JK Diaries Tablet.jpg",
+
+      PRODUCT_1: "/assets/works/JK Diaries/Mockup 1.jpg",
+      PRODUCT_2: "/assets/works/JK Diaries/Mockup 2.jpg",
+      PRODUCT_3: "/assets/works/JK Diaries/Mockup 1.jpg",
+      PRODUCT_4: "/assets/works/JK Diaries/Mockup 2.jpg",
+    },
+
+    MONDIAL_EXPRESS: {
+      HERO_1: "/assets/works/Mondial Express/Mondial Express Hero Banner 1.jpg",
+      HERO_2: "/assets/works/Mondial Express/Mondial Express Hero Banner 1.jpg",
+
+      CONTAINER_BANNER_1:
+        "/assets/works/Mondial Express/Mondial Express Container Banner 1.jpg",
+      CONTAINER_BANNER_2:
+        "/assets/works/Mondial Express/Mondial Express Container Banner 2.jpg",
+
+      PHONE_MOCKUP_1: "/assets/works/Mondial Express/Mondial Mob Mockup.jpg",
+      PHONE_MOCKUP_2: "/assets/works/Mondial Express/Mondial Mob Mockup.jpg",
+
+      LAP_MOCKUP: "/assets/works/Mondial Express/Mondial Mob Mockup.jpg",
+      TABLET_MOCKUP:
+        "/assets/works/Mondial Express/Mondial Express Tablet Vertical.jpg",
+
+      PRODUCT_1: "/assets/works/Mondial Express/Mondial Mob Mockup.jpg",
+      PRODUCT_2:
+        "/assets/works/Mondial Express/Mondial Express Tablet Vertical.jpg",
+      PRODUCT_3: "/assets/works/Mondial Express/Mondial Mob Mockup.jpg",
+      PRODUCT_4:
+        "/assets/works/Mondial Express/Mondial Express Tablet Vertical.jpg",
+    },
+
+    WESTERN_EDUCATION: {
+      HERO_1: "/assets/works/Western Education/HERO BANNER 1.jpg",
+      HERO_2: "/assets/works/Western Education/Hero Banner 2.jpg",
+
+      CONTAINER_BANNER_1:
+        "/assets/works/Western Education/Container Banner.jpg",
+      CONTAINER_BANNER_2:
+        "/assets/works/Western Education/Container Banner.jpg",
+
+      PHONE_MOCKUP_1: "/assets/works/Western Education/Vertical.jpg",
+      PHONE_MOCKUP_2: "/assets/works/Western Education/Vertical.jpg",
+
+      LAP_MOCKUP:
+        "/assets/works/Western Education/Western World Lap Mockup.jpg",
+      TABLET_MOCKUP: "/assets/works/Western Education/Website.jpg",
+
+      PRODUCT_1: "/assets/works/Western Education/Website.jpg",
+      PRODUCT_2:
+        "/assets/works/Western Education/Western Education Website.jpg",
+      PRODUCT_3: "/assets/works/Western Education/Website.jpg",
+      PRODUCT_4:
+        "/assets/works/Western Education/Western Education Website.jpg",
     },
   };
 }

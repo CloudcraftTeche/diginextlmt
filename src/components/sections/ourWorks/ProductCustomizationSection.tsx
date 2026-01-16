@@ -1,38 +1,63 @@
-import { ImageConstants } from "@/constants/ImageConstants";
+import { ProductCustomizationSection as ProductCustomizationSectionData } from "@/lib/portfolioData";
+import { getImageWithPlaceholder } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 
-const ProductCustomizationSection = ({
-  title = "Customise Products as Desired",
-  description = "The app lets users easily add their preferred features of the product, and customise them according to their preferences. With a user-friendly interface, the app helps shoppers customise the products they wish to purchase with their preferred combinations.",
-}) => {
+interface ProductCustomizationSectionProps {
+  data: ProductCustomizationSectionData;
+}
+
+const ProductCustomizationSection: React.FC<
+  ProductCustomizationSectionProps
+> = ({ data }) => {
+  const { subtitle, title, description, image, image_2 } = data;
+
   return (
-    <section className="w-full bg-gradient-to-b from-white to-blue-50 py-16 sm:py-24 px-6 sm:px-12 lg:px-24">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* LEFT – Mobile App Preview */}
-        <div className="relative w-full h-[420px] sm:h-[520px] lg:h-[600px] flex justify-center">
-          <Image
-            src={ImageConstants.WORKS.TEST.MOBILE_1}
-            alt="Product Customization App Preview"
-            fill
-            className="object-contain"
-            priority
-          />
-        </div>
+    <section className="w-full bg-gradient-to-br from-blue-50 via-white to-purple-50 py-16 sm:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
+          {/* LEFT – Phone Mockups */}
+          <div className="w-full flex justify-center lg:justify-start gap-10">
+            {/* Phone 1 */}
+            <div className="relative w-[180px] sm:w-[240px] lg:w-[300px] aspect-[9/19]">
+              <div className="absolute inset-0 border-[6px] sm:border-[8px] border-black rounded-[28px] sm:rounded-[36px] shadow-2xl overflow-hidden bg-white">
+                <Image
+                  src={getImageWithPlaceholder(image)}
+                  alt={`${title} preview 1`}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
 
-        {/* RIGHT – Content */}
-        <div className="text-center lg:text-left">
-          <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-4">
-            Major Features
-          </p>
+            {/* Phone 2 */}
+            <div className="relative w-[180px] sm:w-[240px] lg:w-[300px] aspect-[9/19]">
+              <div className="absolute inset-0 border-[6px] sm:border-[8px] border-black rounded-[28px] sm:rounded-[36px] shadow-2xl overflow-hidden bg-white">
+                <Image
+                  src={getImageWithPlaceholder(image_2)}
+                  alt={`${title} preview 2`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-6">
-            {title}
-          </h2>
+          {/* RIGHT – Content */}
+          <div className="w-full text-center lg:text-left">
+            <h3 className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-4">
+              {subtitle}
+            </h3>
 
-          <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-lg mx-auto lg:mx-0">
-            {description}
-          </p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-6 leading-tight">
+              {title}
+            </h2>
+
+            <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-xl lg:max-w-none">
+              {description}
+            </p>
+          </div>
         </div>
       </div>
     </section>

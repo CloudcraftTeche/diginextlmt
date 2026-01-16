@@ -1,67 +1,49 @@
-import React from 'react';
+import React from "react";
+import { BrandStatsSection as BrandStatsSectionData } from "@/lib/portfolioData";
+import { getImageWithPlaceholder } from "@/lib/utils";
 
-const BrandStatsSection = ({
-  backgroundImage = "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&h=600&fit=crop",
-  title = "A Premium Coffee Brand With 85+ Stores at Kuwait"
-}) => {
+interface BrandStatsSectionProps {
+  data: BrandStatsSectionData;
+}
+
+const BrandStatsSection: React.FC<BrandStatsSectionProps> = ({ data }) => {
+  const { backgroundImage, title, description, stats } = data;
+
   return (
-    <section className="w-full bg-white py-16 px-6 sm:px-12 lg:px-24">
+    <section className="w-full bg-gray-50 py-20 px-6 sm:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto">
-        {/* Image Banner */}
-        <div className="relative w-full h-[400px] sm:h-[500px] rounded-2xl overflow-hidden mb-16">
+        {/* Hero Image */}
+        <div className="relative w-full h-[500px] rounded-3xl overflow-hidden mb-10">
           <img
-            src={backgroundImage}
-            alt="Caribou Coffee Brand"
+            src={getImageWithPlaceholder(backgroundImage)}
+            alt="Brand Story"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white text-center px-6 leading-tight">
-              {title}
-            </h2>
-          </div>
         </div>
 
-        {/* Results Section */}
-        <div className="mb-12">
-          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
-            WAC&apos;s Turn Towards Making Incredible Results For Caribou
-          </h3>
-          <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-            Caribou Coffee Kuwait app launch has been an integral part of the brand and witnessed an unparalleled shift in sales patterns.
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-black leading-tight mb-10 max-w-3xl">
+          {title}
+        </h2>
+
+        {/* Description */}
+        <div className="mb-16">
+          <p className="text-lg text-gray-600 leading-relaxed max-w-4xl">
+            {description}
           </p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
-          {/* Stat 1 */}
-          <div>
-            <div className="text-5xl sm:text-6xl lg:text-7xl font-light text-blue-600 mb-4">
-              15K
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
+          {stats.map((stat, index) => (
+            <div key={index} className="group">
+              <div className="text-6xl sm:text-7xl lg:text-8xl font-light text-blue-600 mb-6 group-hover:scale-105 transition-transform duration-300">
+                {stat.value}
+              </div>
+              <p className="text-base text-gray-700 leading-relaxed">
+                {stat.label}
+              </p>
             </div>
-            <p className="text-base text-gray-700 leading-relaxed">
-              Number of orders processed daily via app
-            </p>
-          </div>
-
-          {/* Stat 2 */}
-          <div>
-            <div className="text-5xl sm:text-6xl lg:text-7xl font-light text-blue-600 mb-4">
-              33%
-            </div>
-            <p className="text-base text-gray-700 leading-relaxed">
-              Orders placed via app increased from 0 to 33%
-            </p>
-          </div>
-
-          {/* Stat 3 */}
-          <div>
-            <div className="text-5xl sm:text-6xl lg:text-7xl font-light text-blue-600 mb-4">
-              60%
-            </div>
-            <p className="text-base text-gray-700 leading-relaxed">
-              Customers retained, aided by app&apos;s loyalty program
-            </p>
-          </div>
+          ))}
         </div>
       </div>
     </section>

@@ -141,3 +141,10 @@ export function cn(...inputs: ClassValue[]): string {
   const tokens = flat.split(/\s+/).filter(Boolean);
   return mergeTailwind(tokens).join(" ");
 }
+
+export const getImageWithPlaceholder = (imageUrl?: string): string => {
+  if (!imageUrl) {
+    return "https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80&w=2000";
+  }
+  return imageUrl;
+};

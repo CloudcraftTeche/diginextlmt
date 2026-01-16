@@ -1,802 +1,1121 @@
-// lib/portfolioData.ts
 import { ImageConstants } from "@/constants/ImageConstants";
 
-export interface PortfolioFAQ {
-  question: string;
-  answer: string;
-}
-
-export interface PortfolioStep {
-  title: string;
-  description: string;
-}
-
-export interface PortfolioProcess {
-  title: string;
-  description: string;
-  steps: PortfolioStep[];
-}
-
-export interface PortfolioSection {
-  title: string;
-  description: string;
-  items: {
-    title: string;
-    description: string;
-  }[];
-}
-
-export interface PortfolioDetailContent {
-  id: number;
-  slug: string;
+export interface HeroSection {
   title: string;
   industry: string;
   heroImage: string;
-  featuredImage: string;
-  galleryImages: {
-    url: string;
-    alt: string;
-    title?: string;
-  }[];
-  projectOverview?: {
-    title: string;
-    description: string;
-    language: string;
-    timescale: string;
-    launchDate: string;
-    system: string;
-    services: string[];
-  };
-  brandStats?: {
-    backgroundImage: string;
-    title: string;
-    stats: Array<{
-      value: string;
-      label: string;
-    }>;
-  };
-  objectives?: Array<{
-    icon: string;
+  description: string;
+}
+
+export interface ProjectOverviewSection {
+  title: string;
+  description: string;
+  language: string;
+  timescale: string;
+  launchDate: string;
+  system: string;
+  services: string[];
+}
+
+export interface BrandStatsSection {
+  backgroundImage: string;
+  title: string;
+  description: string;
+  stats: Array<{
+    value: string;
+    label: string;
+  }>;
+}
+export interface LaptopMockupSection {
+  backgroundImage: string;
+  title: string;
+  description: string;
+}
+
+export interface ObjectivesSection {
+  subtitle: string;
+  title: string;
+  description: string;
+  objectives: Array<{
     title: string;
     description: string;
   }>;
-  challenges?: Array<{
-    icon: string;
+}
+
+export interface ChallengesSection {
+  backgroundImage: string;
+  subtitle: string;
+  title: string;
+  description: string;
+  challenges: Array<{
     title: string;
     description: string;
   }>;
-  uxDesign?: {
+}
+
+export interface UXDesignSection {
+  subtitle: string;
+  title: string;
+  backgroundImage: string;
+  description: string;
+  features: Array<{
+    image: string;
     title: string;
+    subtitle?: string;
     description: string;
-    features: Array<{
-      image: string;
-      title: string;
-      subtitle?: string;
-      description: string;
-    }>;
-  };
-  productCustomization?: {
-    title: string;
-    description: string;
-  };
-  loyaltyProgram?: {
-    title: string;
-    description: string;
-  };
+  }>;
+}
+
+export interface ProductCustomizationSection {
+  subtitle: string;
+  title: string;
+  description: string;
+  image: string;
+  image_2: string;
+}
+
+export interface GridSection {
+  title: string;
+  description: string;
+  images: Array<{
+    image: string;
+    alt?: string;
+  }>;
+}
+
+export interface PortfolioDetailContent {
+  title: string;
+  slug: string;
+  description: string;
+  hero: HeroSection;
+  overview: ProjectOverviewSection;
+  brandStats: BrandStatsSection;
+  objectives: ObjectivesSection;
+  challenges: ChallengesSection;
+  uxDesign: UXDesignSection;
+  productCustomization: ProductCustomizationSection;
+  gridSection?: GridSection;
+  laptopMockupSection?: LaptopMockupSection;
 }
 
 const PORTFOLIO_DETAILS: Record<string, PortfolioDetailContent> = {
-  "caribou-coffee-kuwait": {
-    id: 1,
-    slug: "caribou-coffee-kuwait",
-    title: "Caribou Coffee Kuwait",
-    industry: "Food",
-    heroImage: ImageConstants.WORKS.TEST.HERO,
-    featuredImage:
-      ImageConstants.WORKS.TEST.CONTAINER_BANNER_1,
-    galleryImages: [
-      {
-        url: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&h=600&fit=crop",
-        alt: "Caribou Coffee mobile app interface",
-        title: "Mobile App Home Screen",
-      },
-      {
-        url: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=600&fit=crop",
-        alt: "Coffee customization screen",
-        title: "Product Customization",
-      },
-      {
-        url: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
-        alt: "Order tracking interface",
-        title: "Real-time Order Tracking",
-      },
-    ],
-    projectOverview: {
-      title:
-        "Developing an Extraordinary Mobile App for Premium US-Based Coffee Brand",
+  "alhabat-interior": {
+    title: "Alhabat Interior",
+    slug: "alhabat-interior",
+    description:
+      "Alhabat Interior is a premium interior design and fit-out brand delivering modern, functional, and elegant spaces.",
+
+    hero: {
+      title: "Alhabat Interior",
+      industry: "Interior Design · Fit-Out Solutions",
+      heroImage: ImageConstants.WORKS.ALHABAT_INTERIOR.HERO_1,
       description:
-        "Caribou Coffee is a US-based premium coffee brand, providing high-quality handcrafted beverages, coffee lifestyle products and food items in a welcoming coffeehouse environment for over three decades.",
-      language: "PHP / Kotlin / Swift",
-      timescale: "20 Weeks",
-      launchDate: "January 2024",
-      system: "Laravel",
-      services: [
-        "UI/UX Design",
-        "E-commerce",
-        "Web App Development",
-        "Mobile App Development",
-        "Digital Marketing",
-        "Cloud Services",
-      ],
+        "Premium interior design and fit-out solutions crafted with precision, style, and functionality.",
     },
-    brandStats: {
-      backgroundImage:
-       ImageConstants.WORKS.TEST.CONTAINER_BANNER_1,
-      title: "A Premium Coffee Brand With 85+ Stores at Kuwait",
-      stats: [
-        { value: "15K", label: "Number of orders processed daily via app" },
-        {
-          value: "33%",
-          label: "Orders placed via app increased from 0 to 33%",
-        },
-        {
-          value: "60%",
-          label: "Customers retained, aided by app's loyalty program",
-        },
-      ],
-    },
-    objectives: [
-      {
-        icon: "📱",
-        title: "Online ordering system",
-        description:
-          "They wished to adopt a preferable combination of both offline sales and online sales to boost revenue and customer satisfaction.",
-      },
-      {
-        icon: "🎯",
-        title: "Customer engagement",
-        description:
-          "Increase customer engagement through a seamless digital experience and loyalty rewards program.",
-      },
-      {
-        icon: "🔄",
-        title: "Streamlined operations",
-        description:
-          "Integrate online orders with existing POS systems across all 85+ stores for efficient order management.",
-      },
-    ],
-    challenges: [
-      {
-        icon: "👤",
-        title: "Lack of personalised order experience",
-        description:
-          "There was no app-based solution for the customers in the region to customize and order their preferred beverages.",
-      },
-      {
-        icon: "⚡",
-        title: "Order management complexity",
-        description:
-          "Managing peak hour orders across 85+ stores required a robust and scalable solution.",
-      },
-      {
-        icon: "🌐",
-        title: "Multi-location coordination",
-        description:
-          "Ensuring real-time inventory sync and order routing to the nearest or preferred store location.",
-      },
-    ],
-    uxDesign: {
-      title: "Superior UX Design",
+
+    overview: {
+      title: "Transforming Spaces with Modern Design Excellence",
       description:
-        "The app offers users real-time order status updates and intuitive navigation for a seamless ordering experience.",
-      features: [
-        {
-          image:
-            ImageConstants.WORKS.TEST.PRODUCT_1,
-          title: "ORDER PREPARING",
-          subtitle: "Expected at 03:00 PM",
-          description:
-            "Real-time order tracking with estimated preparation time and push notifications at each stage.",
-        },
-        // {
-        //   image:
-        //     ImageConstants.WORKS.TEST.PRODUCT_2,
-        //   title: "BROWSE MENU",
-        //   subtitle: "Explore our collection",
-        //   description:
-        //     "Beautifully designed menu with high-quality images and detailed product information.",
-        // },
-        {
-          image:
-           ImageConstants.WORKS.TEST.PRODUCT_3,
-          title: "STORE LOCATOR",
-          subtitle: "Find nearby stores",
-          description:
-            "Interactive map showing all store locations with directions and store hours.",
-        },
-        {
-          image:
-           ImageConstants.WORKS.TEST.PRODUCT_4,
-          title: "STORE LOCATOR",
-          subtitle: "Find nearby stores",
-          description:
-            "Interactive map showing all store locations with directions and store hours.",
-        },
-        {
-          image:
-           ImageConstants.WORKS.TEST.PRODUCT_5,
-          title: "STORE LOCATOR",
-          subtitle: "Find nearby stores",
-          description:
-            "Interactive map showing all store locations with directions and store hours.",
-        },
-      ],
-    },
-    productCustomization: {
-      title: "Customise Products as Desired",
-      description:
-        "The app lets users easily add their preferred features to their orders, from milk alternatives to flavor shots and toppings. Each customization option is clearly presented with images and pricing, making it simple to create the perfect beverage.",
-    },
-    loyaltyProgram: {
-      title: "Loyalty we serve to our customers",
-      description:
-        "Caribou coffee app lets customers redeem points for rewards, encouraging repeat visits and building brand loyalty. Members earn points on every purchase, unlock exclusive perks, and receive personalized offers based on their preferences.",
-    },
-  },
-  "ikea-foods-ecommerce": {
-    id: 2,
-    slug: "ikea-foods-ecommerce",
-    title: "IKEA Foods E-commerce",
-    industry: "Retail / Food",
-    heroImage:
-      "https://images.unsplash.com/photo-1555421689-d68471e189f2?w=1200&h=800&fit=crop",
-    featuredImage:
-      "https://images.unsplash.com/photo-1555421689-d68471e189f2?w=1200&h=800&fit=crop",
-    galleryImages: [
-      {
-        url: "https://images.unsplash.com/photo-1555421689-d68471e189f2?w=800&h=600&fit=crop",
-        alt: "IKEA Foods product catalog",
-        title: "Product Showcase",
-      },
-      {
-        url: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=800&h=600&fit=crop",
-        alt: "Shopping cart interface",
-        title: "Checkout Experience",
-      },
-      {
-        url: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&h=600&fit=crop",
-        alt: "Mobile responsive design",
-        title: "Mobile Shopping",
-      },
-    ],
-    projectOverview: {
-      title: "Delectably Designed Branded E-commerce Store",
-      description:
-        "Launching a new sales channel for IKEA Foods with a modern, user-friendly e-commerce platform that brings the IKEA food experience online. From Swedish meatballs to organic jams, customers can now enjoy IKEA's beloved food products delivered to their doorstep.",
-      language: "React / Node.js / TypeScript",
-      timescale: "16 Weeks",
+        "Alhabat Interior specializes in creating sophisticated living and working environments through innovative design and meticulous execution. Our approach combines contemporary aesthetics with functional design principles, delivering spaces that not only look exceptional but enhance the daily lives of their occupants. From concept to completion, we ensure every detail reflects quality craftsmanship and timeless elegance.",
+      language: "English, Arabic",
+      timescale: "6-8 weeks",
       launchDate: "March 2024",
-      system: "Next.js / Shopify",
+      system: "Custom Design & Build",
       services: [
-        "UI/UX Design",
-        "E-commerce Development",
-        "Payment Integration",
-        "Digital Marketing",
-        "SEO Optimization",
-        "Analytics Setup",
-      ],
-    },
-    brandStats: {
-      backgroundImage:
-        "https://images.unsplash.com/photo-1555421689-d68471e189f2?w=1200&h=600&fit=crop",
-      title: "Bringing IKEA Food Experience Online",
-      stats: [
-        { value: "8K", label: "Monthly orders in first quarter" },
-        {
-          value: "45%",
-          label: "Repeat customer rate within 3 months",
-        },
-        {
-          value: "4.8",
-          label: "Average customer rating out of 5",
-        },
-      ],
-    },
-    objectives: [
-      {
-        icon: "🛒",
-        title: "New revenue channel",
-        description:
-          "Create a dedicated e-commerce platform to sell IKEA food products directly to consumers online.",
-      },
-      {
-        icon: "🌍",
-        title: "Market expansion",
-        description:
-          "Reach customers who may not have easy access to physical IKEA stores but love their food products.",
-      },
-      {
-        icon: "📦",
-        title: "Subscription model",
-        description:
-          "Implement a subscription service for regular deliveries of popular items like coffee, snacks, and Swedish specialties.",
-      },
-    ],
-    challenges: [
-      {
-        icon: "❄️",
-        title: "Cold chain logistics",
-        description:
-          "Ensuring frozen and refrigerated items maintain quality during shipping required careful logistics planning.",
-      },
-      {
-        icon: "🎨",
-        title: "Brand consistency",
-        description:
-          "Maintaining IKEA's distinctive brand identity while creating a food-focused e-commerce experience.",
-      },
-      {
-        icon: "📱",
-        title: "Mobile-first design",
-        description:
-          "Optimizing the shopping experience for mobile users who make up 70% of IKEA's digital traffic.",
-      },
-    ],
-    uxDesign: {
-      title: "Scandinavian Simplicity in Design",
-      description:
-        "The platform embodies IKEA's design philosophy with clean lines, intuitive navigation, and a focus on product discovery.",
-      features: [
-        {
-          image:
-            "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&h=400&fit=crop",
-          title: "PRODUCT DISCOVERY",
-          subtitle: "Shop by category or cuisine",
-          description:
-            "Intuitive categorization with filters for dietary preferences, meal types, and Swedish specialties.",
-        },
-        {
-          image:
-            "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&h=400&fit=crop",
-          title: "RECIPE INSPIRATION",
-          subtitle: "Cook with IKEA products",
-          description:
-            "Integrated recipe suggestions using IKEA food products, with one-click add to cart for ingredients.",
-        },
-        {
-          image:
-            "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&h=400&fit=crop",
-          title: "SUBSCRIPTION SERVICE",
-          subtitle: "Never run out",
-          description:
-            "Flexible subscription options for regular deliveries with easy management and customization.",
-        },
-      ],
-    },
-    productCustomization: {
-      title: "Tailored Shopping Experience",
-      description:
-        "Customers can create personalized shopping lists, save favorite products, and set up recurring orders for pantry staples. The platform learns preferences over time and suggests relevant products.",
-    },
-    loyaltyProgram: {
-      title: "IKEA Family Benefits",
-      description:
-        "Integration with IKEA Family membership program provides exclusive discounts, early access to new products, and special seasonal offers on food items.",
-    },
-  },
-  "turtlewax-website-redesign": {
-    id: 3,
-    slug: "turtlewax-website-redesign",
-    title: "Turtlewax Website Redesign",
-    industry: "Automobile",
-    heroImage:
-      "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&h=800&fit=crop",
-    featuredImage:
-      "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&h=800&fit=crop",
-    galleryImages: [
-      {
-        url: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop",
-        alt: "Turtlewax homepage design",
-        title: "Homepage Hero Section",
-      },
-      {
-        url: "https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=800&h=600&fit=crop",
-        alt: "Product catalog page",
-        title: "Product Catalog",
-      },
-      {
-        url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=600&fit=crop",
-        alt: "Interactive car care guide",
-        title: "Car Care Resources",
-      },
-    ],
-    projectOverview: {
-      title: "Achieving Glossy Greatness with a Smooth Redefined Website",
-      description:
-        "Modernizing Turtlewax's digital presence with a sleek, responsive website that reflects their premium car care products. With over 75 years of automotive care expertise, Turtlewax needed a digital platform that showcases their innovation and heritage.",
-      language: "React / TypeScript",
-      timescale: "12 Weeks",
-      launchDate: "February 2024",
-      system: "Next.js",
-      services: [
-        "UI/UX Design",
-        "Web Development",
-        "Content Strategy",
-        "SEO Optimization",
-        "Performance Optimization",
-        "CMS Integration",
-      ],
-    },
-    brandStats: {
-      backgroundImage:
-        "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&h=600&fit=crop",
-      title: "75+ Years of Automotive Care Excellence",
-      stats: [
-        { value: "125%", label: "Increase in organic traffic" },
-        {
-          value: "3.2s",
-          label: "Average page load time improvement",
-        },
-        {
-          value: "65%",
-          label: "Increase in product page conversions",
-        },
-      ],
-    },
-    objectives: [
-      {
-        icon: "🚗",
-        title: "Modernize brand presence",
-        description:
-          "Update the website to reflect Turtlewax's premium positioning and innovative product line.",
-      },
-      {
-        icon: "🎯",
-        title: "Improve product discovery",
-        description:
-          "Create an intuitive product finder that helps customers select the right car care products for their needs.",
-      },
-      {
-        icon: "📚",
-        title: "Educational content hub",
-        description:
-          "Establish Turtlewax as a thought leader in car care with comprehensive guides and tutorials.",
-      },
-    ],
-    challenges: [
-      {
-        icon: "🔍",
-        title: "Complex product catalog",
-        description:
-          "Over 200 products across multiple categories needed clear organization and easy navigation.",
-      },
-      {
-        icon: "🌐",
-        title: "Global consistency",
-        description:
-          "Maintaining brand consistency across multiple regional sites while allowing for local customization.",
-      },
-      {
-        icon: "⚡",
-        title: "Performance requirements",
-        description:
-          "Delivering a fast, responsive experience with rich media content and product visualization.",
-      },
-    ],
-    uxDesign: {
-      title: "Sleek and Performance-Driven Design",
-      description:
-        "The redesigned website features bold visuals, smooth animations, and an intuitive interface that guides users through the car care journey.",
-      features: [
-        {
-          image:
-            "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&h=400&fit=crop",
-          title: "PRODUCT FINDER",
-          subtitle: "Find your perfect match",
-          description:
-            "Interactive quiz that recommends products based on vehicle type, condition, and desired results.",
-        },
-        {
-          image:
-            "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&h=400&fit=crop",
-          title: "HOW-TO GUIDES",
-          subtitle: "Step-by-step instructions",
-          description:
-            "Video tutorials and detailed guides for achieving professional car care results at home.",
-        },
-        {
-          image:
-            "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&h=400&fit=crop",
-          title: "WHERE TO BUY",
-          subtitle: "Find retailers near you",
-          description:
-            "Store locator with real-time inventory information and online purchasing options.",
-        },
-      ],
-    },
-    productCustomization: {
-      title: "Personalized Product Recommendations",
-      description:
-        "Smart recommendation engine that suggests complementary products and complete car care kits based on user selections and browsing history. The system adapts to seasonal needs and vehicle-specific requirements.",
-    },
-    loyaltyProgram: {
-      title: "Pro Detailer Rewards",
-      description:
-        "Exclusive program for professional detailers and enthusiasts offering early access to new products, bulk pricing, and expert-level educational content.",
-    },
-  },
-  "lulu-hypermarket-app": {
-    id: 4,
-    slug: "lulu-hypermarket-app",
-    title: "LuLu Hypermarket Mobile App",
-    industry: "Retail",
-    heroImage:
-      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&h=800&fit=crop",
-    featuredImage:
-      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&h=800&fit=crop",
-    galleryImages: [
-      {
-        url: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop",
-        alt: "LuLu app home screen",
-        title: "App Interface",
-      },
-      {
-        url: "https://images.unsplash.com/photo-1601598851547-4302969d0614?w=800&h=600&fit=crop",
-        alt: "Shopping list feature",
-        title: "Smart Shopping Lists",
-      },
-      {
-        url: "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?w=800&h=600&fit=crop",
-        alt: "Delivery tracking",
-        title: "Real-time Delivery Tracking",
-      },
-    ],
-    projectOverview: {
-      title: "Building a One-Click Path to Groceries",
-      description:
-        "A comprehensive mobile app with intensive CRM integration for seamless grocery shopping experience. LuLu Hypermarket, one of the largest retail chains in the Middle East with 240+ stores, needed a digital solution to serve millions of customers efficiently.",
-      language: "Flutter / Kotlin / Swift",
-      timescale: "24 Weeks",
-      launchDate: "April 2024",
-      system: "Flutter / Firebase",
-      services: [
-        "UI/UX Design",
-        "Mobile App Development",
-        "CRM Integration",
-        "Payment Gateway",
-        "Push Notifications",
-        "Analytics Integration",
-        "Cloud Infrastructure",
-      ],
-    },
-    brandStats: {
-      backgroundImage:
-        "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&h=600&fit=crop",
-      title: "Serving Millions Across 240+ Stores",
-      stats: [
-        { value: "500K+", label: "App downloads in first 3 months" },
-        {
-          value: "40%",
-          label: "Of total online sales now through app",
-        },
-        {
-          value: "2.5M",
-          label: "Products available for instant search",
-        },
-      ],
-    },
-    objectives: [
-      {
-        icon: "📱",
-        title: "Omnichannel experience",
-        description:
-          "Seamlessly integrate in-store and online shopping with click-and-collect, home delivery, and in-app exclusive deals.",
-      },
-      {
-        icon: "🎯",
-        title: "Personalization at scale",
-        description:
-          "Leverage customer data to provide personalized recommendations, offers, and shopping experiences for millions of users.",
-      },
-      {
-        icon: "⚡",
-        title: "Operational efficiency",
-        description:
-          "Streamline order fulfillment, inventory management, and customer service across the entire store network.",
-      },
-    ],
-    challenges: [
-      {
-        icon: "📊",
-        title: "Massive product catalog",
-        description:
-          "Managing and displaying 2.5 million SKUs with real-time inventory sync across 240+ locations.",
-      },
-      {
-        icon: "🔄",
-        title: "Complex CRM integration",
-        description:
-          "Integrating with existing legacy CRM systems while maintaining data accuracy and system performance.",
-      },
-      {
-        icon: "🌍",
-        title: "Multi-region support",
-        description:
-          "Supporting multiple languages, currencies, and regional preferences across different markets.",
-      },
-    ],
-    uxDesign: {
-      title: "Intuitive Shopping Made Simple",
-      description:
-        "The app prioritizes ease of use with smart search, personalized recommendations, and quick reordering features that make grocery shopping effortless.",
-      features: [
-        {
-          image:
-            "https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=600&h=400&fit=crop",
-          title: "SMART SEARCH",
-          subtitle: "Find anything instantly",
-          description:
-            "AI-powered search with voice support, image recognition, and predictive suggestions.",
-        },
-        {
-          image:
-            "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&h=400&fit=crop",
-          title: "QUICK REORDER",
-          subtitle: "Shop your favorites",
-          description:
-            "One-tap reordering of frequently purchased items and saved shopping lists.",
-        },
-        {
-          image:
-            "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=600&h=400&fit=crop",
-          title: "LIVE TRACKING",
-          subtitle: "Know exactly when",
-          description:
-            "Real-time order tracking from warehouse to doorstep with GPS-enabled delivery updates.",
-        },
-      ],
-    },
-    productCustomization: {
-      title: "Personalized Shopping Assistant",
-      description:
-        "The app learns from shopping patterns to create personalized product recommendations, dietary preference filters, and budget-aware suggestions. Smart notifications alert users to deals on their favorite products and remind them of commonly repurchased items.",
-    },
-    loyaltyProgram: {
-      title: "Happy Family Rewards",
-      description:
-        "Integrated loyalty program where customers earn points on every purchase, unlock tier-based benefits, and receive exclusive app-only offers. Members get early access to sales, birthday specials, and personalized cashback rewards.",
-    },
-  },
-  "joyalukkas-brand-experience": {
-    id: 5,
-    slug: "joyalukkas-brand-experience",
-    title: "Joyalukkas Brand Experience",
-    industry: "Retail / Fashion",
-    heroImage:
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1200&h=800&fit=crop",
-    featuredImage:
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1200&h=800&fit=crop",
-    galleryImages: [
-      {
-        url: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=600&fit=crop",
-        alt: "Joyalukkas jewelry showcase",
-        title: "3D Jewelry Viewer",
-      },
-      {
-        url: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=800&h=600&fit=crop",
-        alt: "Virtual try-on feature",
-        title: "AR Try-On Experience",
-      },
-      {
-        url: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&h=600&fit=crop",
-        alt: "Collection gallery",
-        title: "Premium Collections",
-      },
-    ],
-    projectOverview: {
-      title: "Interactive-First Approach to Timeless Jewelry Experience",
-      description:
-        "Creating an immersive digital brand experience for one of the world's leading jewelry retailers. With over 160 showrooms globally and a legacy spanning decades, Joyalukkas needed a digital presence that matches their reputation for excellence.",
-      language: "React / Three.js / TypeScript",
-      timescale: "18 Weeks",
-      launchDate: "May 2024",
-      system: "Next.js / WebGL",
-      services: [
-        "Brand Strategy",
-        "UI/UX Design",
+        "Interior Design",
+        "Space Planning",
+        "Fit-Out Solutions",
+        "Custom Furniture",
         "3D Visualization",
-        "Web Development",
-        "Digital Marketing",
-        "AR/VR Integration",
-        "Content Production",
+        "Project Management",
       ],
     },
+
     brandStats: {
-      backgroundImage:
-        "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1200&h=600&fit=crop",
-      title: "World's Favorite Jeweler with 160+ Global Showrooms",
+      backgroundImage: ImageConstants.WORKS.ALHABAT_INTERIOR.HERO_2,
+      title:
+        "Delivering Excellence in Every Project, Building Trust Through Quality",
+      description:
+        "Our commitment to excellence has positioned us as a trusted partner in the interior design industry. Through meticulous attention to detail, innovative design solutions, and unwavering dedication to client satisfaction, we've established a track record that speaks for itself.",
       stats: [
-        { value: "200%", label: "Increase in online engagement" },
         {
-          value: "85%",
-          label: "Users interact with 3D product views",
+          value: "200+",
+          label: "Successfully completed residential and commercial projects",
         },
         {
-          value: "4.5x",
-          label: "Longer average session duration",
+          value: "98%",
+          label: "Client satisfaction rate with repeat business partnerships",
+        },
+        {
+          value: "15+",
+          label: "Years of combined experience in interior design and fit-out",
         },
       ],
     },
-    objectives: [
-      {
-        icon: "💎",
-        title: "Premium digital presence",
-        description:
-          "Create a luxurious online experience that reflects Joyalukkas's position as a premium jewelry retailer.",
-      },
-      {
-        icon: "🎨",
-        title: "Interactive product visualization",
-        description:
-          "Enable customers to explore jewelry in stunning detail with 3D views and AR try-on capabilities.",
-      },
-      {
-        icon: "🌍",
-        title: "Global brand consistency",
-        description:
-          "Maintain consistent brand experience across different markets while celebrating regional craftsmanship.",
-      },
-    ],
-    challenges: [
-      {
-        icon: "⚡",
-        title: "High-quality 3D rendering",
-        description:
-          "Rendering photorealistic jewelry with intricate details while maintaining fast load times and smooth performance.",
-      },
-      {
-        icon: "🎭",
-        title: "Heritage storytelling",
-        description:
-          "Balancing modern digital experiences with the rich heritage and traditional craftsmanship of the brand.",
-      },
-      {
-        icon: "📱",
-        title: "Cross-device experience",
-        description:
-          "Delivering immersive 3D and AR experiences across devices with varying capabilities.",
-      },
-    ],
-    uxDesign: {
-      title: "Luxury Meets Innovation",
+
+    objectives: {
+      subtitle: "Project Goals",
+      title: "Objectives",
       description:
-        "The digital experience combines elegant design with cutting-edge technology, allowing customers to explore jewelry collections in unprecedented detail.",
+        "Our primary objective was to create a comprehensive brand identity and digital presence that reflects Alhabat Interior's commitment to excellence while providing clients with an immersive experience of their design capabilities.",
+      objectives: [
+        {
+          title: "Brand Identity Development",
+          description:
+            "Establish a sophisticated visual identity that communicates luxury, precision, and modern design excellence across all touchpoints.",
+        },
+        {
+          title: "Digital Experience Enhancement",
+          description:
+            "Create an engaging online platform that showcases portfolio work and facilitates seamless client interaction and project inquiries.",
+        },
+        {
+          title: "Market Positioning",
+          description:
+            "Position Alhabat Interior as a premium interior design brand that delivers exceptional value through innovative solutions and quality craftsmanship.",
+        },
+      ],
+    },
+
+    challenges: {
+      backgroundImage: ImageConstants.WORKS.ALHABAT_INTERIOR.CONTAINER_BANNER_1,
+      subtitle: "What We Solved",
+      title: "Challenges",
+      description:
+        "Every great project comes with its unique set of challenges. Here's how we tackled them head-on to deliver exceptional results.",
+      challenges: [
+        {
+          title: "Client Vision Alignment",
+          description:
+            "Translating diverse client preferences into cohesive design concepts while maintaining brand consistency and design integrity.",
+        },
+        {
+          title: "Space Optimization",
+          description:
+            "Maximizing functionality and aesthetics in limited spaces while adhering to building regulations and client budget constraints.",
+        },
+        {
+          title: "Timeline Management",
+          description:
+            "Coordinating multiple vendors, ensuring timely material delivery, and maintaining quality standards under strict project deadlines.",
+        },
+      ],
+    },
+
+    uxDesign: {
+      subtitle: "Design Excellence",
+      title: "Visual Identity & Brand Experience",
+      backgroundImage: ImageConstants.WORKS.ALHABAT_INTERIOR.HERO_2,
+      description:
+        "Creating a cohesive visual language that reflects sophistication, elegance, and modern design principles across all brand touchpoints.",
       features: [
         {
-          image:
-            "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&h=400&fit=crop",
-          title: "360° PRODUCT VIEW",
-          subtitle: "Every angle, every detail",
+          image: ImageConstants.WORKS.ALHABAT_INTERIOR.PRODUCT_1,
+          title: "Brand Identity",
+          subtitle: "Logo Design",
           description:
-            "Interactive 3D models allowing customers to zoom, rotate, and examine jewelry from every angle.",
+            "Contemporary logo design reflecting the perfect balance of luxury and minimalism in interior design.",
         },
         {
-          image:
-            "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&h=400&fit=crop",
-          title: "AR TRY-ON",
-          subtitle: "See before you buy",
+          image: ImageConstants.WORKS.ALHABAT_INTERIOR.PRODUCT_2,
+          title: "Marketing Materials",
+          subtitle: "Print Design",
           description:
-            "Augmented reality feature enabling virtual try-on using smartphone camera.",
+            "Professional brochures and presentation materials showcasing project portfolios with elegant layouts.",
         },
         {
-          image:
-            "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&h=400&fit=crop",
-          title: "COLLECTION STORIES",
-          subtitle: "Craftsmanship heritage",
+          image: ImageConstants.WORKS.ALHABAT_INTERIOR.PRODUCT_3,
+          title: "Digital Presence",
+          subtitle: "Web Design",
           description:
-            "Immersive storytelling showcasing the artistry and inspiration behind each collection.",
+            "Responsive website design highlighting portfolio work with immersive visual experiences and intuitive navigation.",
+        },
+        {
+          image: ImageConstants.WORKS.ALHABAT_INTERIOR.PRODUCT_4,
+          title: "Social Media",
+          subtitle: "Content Design",
+          description:
+            "Engaging social media templates and content design maintaining consistent brand aesthetics across platforms.",
         },
       ],
+    },
+
+    productCustomization: {
+      subtitle: "Interactive Experience",
+      title: "3D Visualization & Virtual Tours",
+      description:
+        "Experience spaces before they're built with our cutting-edge 3D visualization technology. Our interactive virtual tours allow clients to walk through their future spaces, make real-time design adjustments, and visualize material selections with photorealistic accuracy. This immersive approach ensures complete confidence in design decisions and eliminates costly revisions during construction.",
+      image: ImageConstants.WORKS.ALHABAT_INTERIOR.PHONE_MOCKUP_1,
+      image_2: ImageConstants.WORKS.ALHABAT_INTERIOR.PHONE_MOCKUP_2,
+    },
+    gridSection: {
+      title: "We Create Excellence Through Technology",
+      description:
+        "Our primary objective is to be the go-to one-stop platform for all corporate advertising, branding, and event needs in the UAE. We empower businesses through innovative technology solutions.",
+      images: [
+        {
+          image: ImageConstants.WORKS.ALHABAT_INTERIOR.PRODUCT_1,
+          alt: "Modern interior design workspace",
+        },
+        {
+          image: ImageConstants.WORKS.ALHABAT_INTERIOR.PRODUCT_2,
+          alt: "Contemporary office space",
+        },
+        {
+          image: ImageConstants.WORKS.ALHABAT_INTERIOR.PRODUCT_3,
+          alt: "Elegant design consultation area",
+        },
+      ],
+    },
+    laptopMockupSection: {
+      backgroundImage: ImageConstants.WORKS.ALHABAT_INTERIOR.LAP_MOCKUP,
+      title:
+        "Delivering Excellence in Every Project, Building Trust Through Quality",
+      description:
+        "Our commitment to excellence has positioned us as a trusted partner in the interior design industry. Through meticulous attention to detail, innovative design solutions, and unwavering dedication to client satisfaction, we've established a track record that speaks for itself.",
+    },
+  },
+  "balance-spa": {
+    title: "Balance Spa",
+    slug: "balance-spa",
+    description:
+      "Balance Spa is a wellness brand focused on relaxation, rejuvenation, and holistic healing experiences.",
+
+    hero: {
+      title: "Balance Spa",
+      industry: "Wellness · Spa & Therapy",
+      heroImage: ImageConstants.WORKS.BALANCE_SPA.HERO_1,
+      description:
+        "A serene wellness experience crafted to restore balance, harmony, and peace.",
+    },
+
+    overview: {
+      title: "Wellness Through Design & Experience",
+      description:
+        "Balance Spa required a calming and premium visual identity that reflects relaxation, luxury, and holistic wellness. The project focused on creating visually soothing designs that align with the brand’s philosophy of healing and rejuvenation.",
+      language: "English",
+      timescale: "4–5 weeks",
+      launchDate: "2024",
+      system: "Branding & Creative Design",
+      services: [
+        "Brand Identity",
+        "Social Media Creatives",
+        "Print Design",
+        "Marketing Banners",
+      ],
+    },
+
+    brandStats: {
+      backgroundImage:
+        ImageConstants.WORKS.BALANCE_SPA.HERO_2 ||
+        ImageConstants.WORKS.BALANCE_SPA.HERO_1,
+      title: "Creating Calm Through Visual Storytelling",
+      description:
+        "Every design element was curated to evoke tranquility and trust.",
+      stats: [
+        { value: "50+", label: "Creative Assets Delivered" },
+        { value: "4.9★", label: "Customer Satisfaction Rating" },
+        { value: "20+", label: "Spa Campaign Designs" },
+      ],
+    },
+
+    objectives: {
+      subtitle: "Project Goals",
+      title: "Objectives",
+      description:
+        "To build a soothing and consistent brand presence across digital and physical touchpoints.",
+      objectives: [
+        {
+          title: "Visual Calmness",
+          description:
+            "Use soft colors and minimal layouts to reflect wellness.",
+        },
+        {
+          title: "Brand Recognition",
+          description: "Ensure consistency across marketing platforms.",
+        },
+        {
+          title: "Customer Engagement",
+          description: "Attract new customers through appealing visuals.",
+        },
+      ],
+    },
+
+    challenges: {
+      backgroundImage: ImageConstants.WORKS.BALANCE_SPA.CONTAINER_BANNER_1,
+      subtitle: "What We Solved",
+      title: "Challenges",
+      description:
+        "Designing visuals that communicate relaxation while staying commercially effective.",
+      challenges: [
+        {
+          title: "Color Balance",
+          description:
+            "Maintaining a calming palette across multiple creatives.",
+        },
+        {
+          title: "Platform Adaptability",
+          description: "Optimizing designs for print and digital formats.",
+        },
+      ],
+    },
+
+    uxDesign: {
+      subtitle: "Creative Direction",
+      title: "Wellness-Focused Visual Identity",
+      backgroundImage:
+        ImageConstants.WORKS.BALANCE_SPA.HERO_2 ||
+        ImageConstants.WORKS.BALANCE_SPA.HERO_1,
+      description:
+        "A clean, elegant design language that reflects peace and wellness.",
+      features: [
+        {
+          image: ImageConstants.WORKS.BALANCE_SPA.PRODUCT_1,
+          title: "Social Media Design",
+          description: "Minimal and calming social creatives.",
+        },
+        {
+          image: ImageConstants.WORKS.BALANCE_SPA.PRODUCT_2,
+          title: "Promotional Creatives",
+          description: "High-impact spa promotional visuals.",
+        },
+        {
+          image: ImageConstants.WORKS.BALANCE_SPA.PRODUCT_3,
+          title: "Brand Collaterals",
+          description: "Consistent branding across print materials.",
+        },
+        {
+          image: ImageConstants.WORKS.BALANCE_SPA.PRODUCT_4,
+          title: "Campaign Designs",
+          description: "Seasonal and promotional campaigns.",
+        },
+      ],
+    },
+
+    productCustomization: {
+      subtitle: "Mobile Experience",
+      title: "Digital Spa Presence",
+      description:
+        "Mobile-first creatives designed to attract and engage wellness audiences.",
+      image: ImageConstants.WORKS.BALANCE_SPA.PHONE_MOCKUP_1,
+      image_2: ImageConstants.WORKS.BALANCE_SPA.PHONE_MOCKUP_2,
+    },
+
+    gridSection: {
+      title: "Designing Wellness Experiences",
+      description:
+        "A collection of brand creatives that represent calm and luxury.",
+      images: [
+        { image: ImageConstants.WORKS.BALANCE_SPA.PRODUCT_1 },
+        { image: ImageConstants.WORKS.BALANCE_SPA.PRODUCT_2 },
+        { image: ImageConstants.WORKS.BALANCE_SPA.PRODUCT_3 },
+      ],
+    },
+
+    laptopMockupSection: {
+      backgroundImage: ImageConstants.WORKS.BALANCE_SPA.PRODUCT_1,
+      title: "A Brand Built on Relaxation",
+      description:
+        "Visuals that enhance customer trust and wellness perception.",
+    },
+  },
+  "western-education": {
+    title: "Western Education",
+    slug: "western-education",
+    description:
+      "Western Education is an overseas education consultancy helping students achieve global academic opportunities.",
+
+    hero: {
+      title: "Western Education",
+      industry: "Education · Study Abroad",
+      heroImage: ImageConstants.WORKS.WESTERN_EDUCATION.HERO_1,
+      description:
+        "Guiding students towards international education and global success.",
+    },
+
+    overview: {
+      title: "Empowering Students for Global Education",
+      description:
+        "Western Education needed a professional and trustworthy brand presence to connect with students aspiring to study abroad. The focus was on clarity, credibility, and strong visual communication.",
+      language: "English",
+      timescale: "5–6 weeks",
+      launchDate: "2024",
+      system: "Branding & Digital Design",
+      services: [
+        "Brand Identity",
+        "Social Media Creatives",
+        "Marketing Campaigns",
+        "Print Design",
+      ],
+    },
+
+    brandStats: {
+      backgroundImage:
+        ImageConstants.WORKS.WESTERN_EDUCATION.HERO_2 ||
+        ImageConstants.WORKS.WESTERN_EDUCATION.HERO_1,
+      title: "Building Trust Through Clear Communication",
+      description:
+        "Strong visuals and messaging helped position the brand as a reliable education partner.",
+      stats: [
+        { value: "1000+", label: "Students Guided" },
+        { value: "15+", label: "Partner Universities" },
+        { value: "95%", label: "Application Success Rate" },
+      ],
+    },
+
+    objectives: {
+      subtitle: "Project Goals",
+      title: "Objectives",
+      description:
+        "To create a credible and engaging brand identity for student-focused communication.",
+      objectives: [
+        {
+          title: "Trust Building",
+          description: "Create confidence among students and parents.",
+        },
+        {
+          title: "Clear Messaging",
+          description: "Simplify complex education processes visually.",
+        },
+        {
+          title: "Brand Consistency",
+          description: "Maintain uniform branding across platforms.",
+        },
+      ],
+    },
+
+    challenges: {
+      backgroundImage:
+        ImageConstants.WORKS.WESTERN_EDUCATION.CONTAINER_BANNER_1,
+      subtitle: "What We Solved",
+      title: "Challenges",
+      description: "Balancing informative content with engaging design.",
+      challenges: [
+        {
+          title: "Information Density",
+          description: "Presenting large amounts of data clearly.",
+        },
+        {
+          title: "Student Engagement",
+          description: "Designing youth-friendly visuals.",
+        },
+      ],
+    },
+
+    uxDesign: {
+      subtitle: "Visual Strategy",
+      title: "Education-Focused Design",
+      backgroundImage:
+        ImageConstants.WORKS.WESTERN_EDUCATION.HERO_2 ||
+        ImageConstants.WORKS.WESTERN_EDUCATION.HERO_1,
+      description: "Clean layouts and structured visuals for clarity.",
+      features: [
+        {
+          image: ImageConstants.WORKS.WESTERN_EDUCATION.PRODUCT_1,
+          title: "Social Media Creatives",
+          description: "Informative posts designed for students.",
+        },
+        {
+          image: ImageConstants.WORKS.WESTERN_EDUCATION.PRODUCT_2,
+          title: "Promotional Banners",
+          description: "High-impact admission campaigns.",
+        },
+        {
+          image: ImageConstants.WORKS.WESTERN_EDUCATION.PRODUCT_3,
+          title: "Print Materials",
+          description: "Brochures and flyers for offline marketing.",
+        },
+        {
+          image: ImageConstants.WORKS.WESTERN_EDUCATION.PRODUCT_4,
+          title: "Campaign Visuals",
+          description: "Event and intake campaigns.",
+        },
+      ],
+    },
+
+    productCustomization: {
+      subtitle: "Mobile Presence",
+      title: "Student-Centric Digital Creatives",
+      description: "Optimized visuals for mobile-first student audiences.",
+      image: ImageConstants.WORKS.WESTERN_EDUCATION.PHONE_MOCKUP_1,
+      image_2: ImageConstants.WORKS.WESTERN_EDUCATION.PHONE_MOCKUP_2,
+    },
+
+    gridSection: {
+      title: "Creative Education Campaigns",
+      description: "Designs that inspire students to take the next step.",
+      images: [
+        { image: ImageConstants.WORKS.WESTERN_EDUCATION.PRODUCT_1 },
+        { image: ImageConstants.WORKS.WESTERN_EDUCATION.PRODUCT_2 },
+        { image: ImageConstants.WORKS.WESTERN_EDUCATION.PRODUCT_3 },
+      ],
+    },
+
+    laptopMockupSection: {
+      backgroundImage: ImageConstants.WORKS.WESTERN_EDUCATION.PRODUCT_1,
+      title: "Designing Educational Impact",
+      description: "Strong visuals supporting student success journeys.",
+    },
+  },
+  "mondial-express": {
+    title: "Mondial Express",
+    slug: "mondial-express",
+    description:
+      "Mondial Express is a logistics and courier service specializing in fast and reliable deliveries.",
+
+    hero: {
+      title: "Mondial Express",
+      industry: "Logistics · Courier Services",
+      heroImage: ImageConstants.WORKS.MONDIAL_EXPRESS.HERO_1,
+      description: "Delivering speed, reliability, and trust worldwide.",
+    },
+
+    overview: {
+      title: "Logistics Powered by Smart Design",
+      description:
+        "The project focused on creating a bold and professional visual identity that communicates speed and reliability.",
+      language: "English",
+      timescale: "4 weeks",
+      launchDate: "2024",
+      system: "Branding & Marketing Design",
+      services: [
+        "Brand Identity",
+        "Social Media Design",
+        "Print Advertising",
+        "Promotional Creatives",
+      ],
+    },
+
+    brandStats: {
+      backgroundImage:
+        ImageConstants.WORKS.MONDIAL_EXPRESS.HERO_2 ||
+        ImageConstants.WORKS.MONDIAL_EXPRESS.HERO_1,
+      title: "Speed Meets Visual Precision",
+      description: "Designs that reinforce reliability and trust.",
+      stats: [
+        { value: "24/7", label: "Delivery Support" },
+        { value: "30+", label: "Service Locations" },
+        { value: "99%", label: "On-Time Delivery Rate" },
+      ],
+    },
+
+    objectives: {
+      subtitle: "Project Goals",
+      title: "Objectives",
+      description: "To visually communicate speed and professionalism.",
+      objectives: [
+        {
+          title: "Brand Recognition",
+          description: "Create a strong logistics identity.",
+        },
+        {
+          title: "Customer Trust",
+          description: "Reinforce reliability visually.",
+        },
+        {
+          title: "Marketing Impact",
+          description: "High-visibility promotional designs.",
+        },
+      ],
+    },
+
+    challenges: {
+      backgroundImage: ImageConstants.WORKS.MONDIAL_EXPRESS.CONTAINER_BANNER_1,
+      subtitle: "What We Solved",
+      title: "Challenges",
+      description: "Communicating logistics efficiency visually.",
+      challenges: [
+        {
+          title: "Speed Representation",
+          description: "Designing visuals that feel fast.",
+        },
+        {
+          title: "Brand Consistency",
+          description: "Unified look across platforms.",
+        },
+      ],
+    },
+
+    uxDesign: {
+      subtitle: "Design System",
+      title: "Logistics Branding",
+      backgroundImage:
+        ImageConstants.WORKS.MONDIAL_EXPRESS.HERO_2 ||
+        ImageConstants.WORKS.MONDIAL_EXPRESS.HERO_1,
+      description: "Bold typography and structured layouts.",
+      features: [
+        {
+          image: ImageConstants.WORKS.MONDIAL_EXPRESS.PRODUCT_1,
+          title: "Social Media Ads",
+          description: "High-impact delivery promotions.",
+        },
+        {
+          image: ImageConstants.WORKS.MONDIAL_EXPRESS.PRODUCT_2,
+          title: "Print Campaigns",
+          description: "Courier service advertising.",
+        },
+        {
+          image: ImageConstants.WORKS.MONDIAL_EXPRESS.PRODUCT_3,
+          title: "Brand Materials",
+          description: "Stationery and brand assets.",
+        },
+        {
+          image: ImageConstants.WORKS.MONDIAL_EXPRESS.PRODUCT_4,
+          title: "Campaign Creatives",
+          description: "Offer-based designs.",
+        },
+      ],
+    },
+
+    productCustomization: {
+      subtitle: "Mobile Ads",
+      title: "Delivery Campaign Creatives",
+      description: "Mobile-first designs for courier promotions.",
+      image: ImageConstants.WORKS.MONDIAL_EXPRESS.PHONE_MOCKUP_1,
+      image_2: ImageConstants.WORKS.MONDIAL_EXPRESS.PHONE_MOCKUP_2,
+    },
+    gridSection: {
+      title: "Delivering Logistics with Precision",
+      description:
+        "Visual assets designed to reinforce speed, reliability, and trust across logistics platforms.",
+      images: [
+        { image: ImageConstants.WORKS.MONDIAL_EXPRESS.PRODUCT_1 },
+        { image: ImageConstants.WORKS.MONDIAL_EXPRESS.PRODUCT_2 },
+        { image: ImageConstants.WORKS.MONDIAL_EXPRESS.PRODUCT_3 },
+      ],
+    },
+
+    laptopMockupSection: {
+      backgroundImage: ImageConstants.WORKS.MONDIAL_EXPRESS.PRODUCT_1,
+      title: "Reliable Logistics, Strong Visual Identity",
+      description:
+        "Consistent branding that communicates efficiency and professionalism.",
+    },
+  },
+  "bethel-ag": {
+    title: "Bethel AG",
+    slug: "bethel-ag",
+    description:
+      "Bethel AG is a faith-based organization focused on community outreach, events, and spiritual growth.",
+
+    hero: {
+      title: "Bethel AG",
+      industry: "Religious Organization · Community",
+      heroImage: ImageConstants.WORKS.BETHEL_AG.HERO_1,
+      description:
+        "Connecting people through faith-driven events and meaningful community engagement.",
+    },
+
+    overview: {
+      title: "Faith-Centered Visual Communication",
+      description:
+        "The project focused on creating visually inspiring designs that communicate faith, unity, and community values while maintaining clarity and consistency across platforms.",
+      language: "English",
+      timescale: "4–5 weeks",
+      launchDate: "2024",
+      system: "Creative Branding",
+      services: [
+        "Brand Design",
+        "Event Creatives",
+        "Social Media Graphics",
+        "Print Materials",
+      ],
+    },
+
+    brandStats: {
+      backgroundImage:
+        ImageConstants.WORKS.BETHEL_AG.HERO_2 ||
+        ImageConstants.WORKS.BETHEL_AG.HERO_1,
+      title: "Designing for Faith and Community Impact",
+      description:
+        "Consistent visuals helped strengthen community recognition and participation.",
+      stats: [
+        { value: "50+", label: "Events Designed" },
+        { value: "10k+", label: "Community Reach" },
+        { value: "100%", label: "Brand Consistency" },
+      ],
+    },
+
+    objectives: {
+      subtitle: "Project Goals",
+      title: "Objectives",
+      description:
+        "To visually communicate faith-based messages clearly and effectively.",
+      objectives: [
+        {
+          title: "Community Engagement",
+          description:
+            "Increase event participation through compelling visuals.",
+        },
+        {
+          title: "Faith Representation",
+          description: "Reflect spiritual values through design.",
+        },
+        {
+          title: "Consistency",
+          description: "Maintain a unified look across all media.",
+        },
+      ],
+    },
+
+    challenges: {
+      backgroundImage: ImageConstants.WORKS.BETHEL_AG.CONTAINER_BANNER_1,
+      subtitle: "What We Solved",
+      title: "Challenges",
+      description: "Balancing spiritual depth with modern design.",
+      challenges: [
+        {
+          title: "Message Clarity",
+          description: "Presenting messages without visual clutter.",
+        },
+        {
+          title: "Audience Diversity",
+          description: "Designing for all age groups.",
+        },
+      ],
+    },
+
+    uxDesign: {
+      subtitle: "Creative Direction",
+      title: "Event & Faith Design",
+      backgroundImage:
+        ImageConstants.WORKS.BETHEL_AG.HERO_2 ||
+        ImageConstants.WORKS.BETHEL_AG.HERO_1,
+      description: "Calm color palettes and meaningful typography.",
+      features: [
+        {
+          image: ImageConstants.WORKS.BETHEL_AG.PRODUCT_1,
+          title: "Event Posters",
+          description: "Inspirational church event creatives.",
+        },
+        {
+          image: ImageConstants.WORKS.BETHEL_AG.PRODUCT_2,
+          title: "Social Media Posts",
+          description: "Engaging weekly designs.",
+        },
+        {
+          image: ImageConstants.WORKS.BETHEL_AG.PRODUCT_3,
+          title: "Campaign Creatives",
+          description: "Special programs and campaigns.",
+        },
+        {
+          image: ImageConstants.WORKS.BETHEL_AG.PRODUCT_4,
+          title: "Announcements",
+          description: "Clear and readable announcements.",
+        },
+      ],
+    },
+
+    productCustomization: {
+      subtitle: "Digital Reach",
+      title: "Faith-Based Social Creatives",
+      description: "Optimized designs for online ministry engagement.",
+      image: ImageConstants.WORKS.BETHEL_AG.PHONE_MOCKUP_1,
+      image_2: ImageConstants.WORKS.BETHEL_AG.PHONE_MOCKUP_2,
+    },
+    gridSection: {
+      title: "Designing Faith-Based Experiences",
+      description:
+        "Creative assets crafted to strengthen spiritual connection and community engagement.",
+      images: [
+        { image: ImageConstants.WORKS.BETHEL_AG.PRODUCT_1 },
+        { image: ImageConstants.WORKS.BETHEL_AG.PRODUCT_2 },
+        { image: ImageConstants.WORKS.BETHEL_AG.PRODUCT_3 },
+      ],
+    },
+
+    laptopMockupSection: {
+      backgroundImage: ImageConstants.WORKS.BETHEL_AG.LAP_MOCKUP,
+      title: "Faith, Community & Visual Consistency",
+      description:
+        "Designs that support meaningful communication across church platforms.",
+    },
+  },
+  "dr-anjali": {
+    title: "Dr Anjali",
+    slug: "dr-anjali",
+    description:
+      "Dr Anjali is a healthcare professional brand dedicated to building patient trust and promoting wellness through clear, approachable, and visually consistent communication. The brand combines medical professionalism with compassionate design to enhance patient engagement and confidence.",
+
+    hero: {
+      title: "Dr Anjali",
+      industry: "Healthcare · Medical Practice",
+      heroImage: ImageConstants.WORKS.DR_ANJALI.HERO_1,
+      description:
+        "A healthcare brand that communicates compassion, trust, and professionalism through clear design. Our aim was to visually represent the brand’s commitment to patient care and medical excellence.",
+    },
+
+    overview: {
+      title: "Healthcare Communication Through Design",
+      description:
+        "The project focused on creating a visual identity that bridges the gap between medical professionalism and patient approachability. The goal was to design calm, trustworthy visuals for social media, print, and digital communication that resonate with patients, providing clarity, education, and reassurance.",
+      language: "English",
+      timescale: "4 Weeks",
+      launchDate: "2024",
+      system: "Medical Branding & Communication",
+      services: [
+        "Comprehensive Brand Identity Design",
+        "Social Media Creative Design",
+        "Patient Awareness Campaigns",
+        "Print Materials & Collateral Design",
+        "Digital Communication Templates",
+      ],
+    },
+
+    brandStats: {
+      backgroundImage:
+        ImageConstants.WORKS.DR_ANJALI.HERO_2 ||
+        ImageConstants.WORKS.DR_ANJALI.HERO_1,
+      title: "Designing Trust in Healthcare",
+      description:
+        "A consistent and professional visual identity helped Dr Anjali build patient confidence and enhance engagement across multiple channels. The structured design system allowed the clinic to communicate medical information clearly while maintaining a friendly and approachable tone.",
+      stats: [
+        { value: "5000+", label: "Patients Reached" },
+        { value: "100%", label: "Consistent Brand Professionalism" },
+        { value: "4.9★", label: "Average Patient Satisfaction Rating" },
+      ],
+    },
+
+    objectives: {
+      subtitle: "Project Goals",
+      title: "Objectives",
+      description:
+        "The key objective was to create a medical brand identity that feels credible, approachable, and reassuring. Each visual and communication element was designed to reinforce trust, simplify complex medical information, and provide a seamless digital presence.",
+      objectives: [
+        {
+          title: "Patient Trust",
+          description:
+            "Through careful color selection, typography, and layout design, we aimed to create visuals that feel safe, reliable, and professional, building a sense of security for patients at every touchpoint.",
+        },
+        {
+          title: "Clear Health Awareness",
+          description:
+            "We focused on designing educational content that simplifies medical information for patients. Infographics, awareness posts, and health tips were crafted to be visually digestible and informative, promoting better understanding and engagement.",
+        },
+        {
+          title: "Strong Digital Presence",
+          description:
+            "A cohesive social media and digital presence was established with consistent templates, layouts, and tone. This approach ensures that the clinic communicates a unified identity, enhancing recognition and trust across all platforms.",
+        },
+      ],
+    },
+
+    challenges: {
+      backgroundImage: ImageConstants.WORKS.DR_ANJALI.CONTAINER_BANNER_1,
+      subtitle: "What We Solved",
+      title: "Challenges",
+      description:
+        "Designing for healthcare requires careful attention to accuracy, tone, and patient perception. Balancing clinical credibility with visual simplicity was critical to ensure that medical content was easy to understand without compromising professionalism.",
+      challenges: [
+        {
+          title: "Medical Accuracy",
+          description:
+            "Ensuring that all visuals, infographics, and awareness content conveyed correct information was a priority. We collaborated with medical experts to confirm content accuracy and visual representation of health information.",
+        },
+        {
+          title: "Tone & Approachability",
+          description:
+            "Healthcare design often risks appearing too clinical or distant. We carefully selected a color palette, fonts, and imagery that are professional yet approachable, making patients feel welcomed and supported.",
+        },
+      ],
+    },
+
+    uxDesign: {
+      subtitle: "Visual Language",
+      title: "Medical Branding System",
+      backgroundImage:
+        ImageConstants.WORKS.DR_ANJALI.HERO_2 ||
+        ImageConstants.WORKS.DR_ANJALI.HERO_1,
+      description:
+        "The branding system was designed as a flexible, patient-centric framework to ensure visual consistency across all touchpoints. Clean layouts, calm color tones, and consistent typography were implemented to create a reassuring, professional experience for patients.",
+      features: [
+        {
+          image: ImageConstants.WORKS.DR_ANJALI.PRODUCT_1,
+          title: "Patient Awareness Posts",
+          description:
+            "Educational creatives to inform patients about common health issues, preventive care, and wellness tips, designed to be visually engaging and easy to comprehend.",
+        },
+        {
+          image: ImageConstants.WORKS.DR_ANJALI.PRODUCT_2,
+          title: "Clinic Promotions",
+          description:
+            "Visual content highlighting specific treatments, services, and events at the clinic, ensuring clarity and appeal while maintaining professional aesthetics.",
+        },
+        {
+          image: ImageConstants.WORKS.DR_ANJALI.PRODUCT_3,
+          title: "Health Tips & Guidance",
+          description:
+            "Quick, digestible tips designed to empower patients with actionable knowledge, fostering trust and positioning Dr Anjali as a reliable source of health guidance.",
+        },
+        {
+          image: ImageConstants.WORKS.DR_ANJALI.PRODUCT_4,
+          title: "Brand Visuals & Identity",
+          description:
+            "A consistent visual language applied across all digital and physical touchpoints, reinforcing recognition and enhancing brand credibility in the healthcare space.",
+        },
+      ],
+    },
+
+    productCustomization: {
+      subtitle: "Mobile-First Communication",
+      title: "Patient-Focused Creatives",
+      description:
+        "With the majority of patients accessing information via mobile devices, all content was designed with a mobile-first approach. Layouts, readability, and user experience were optimized for smartphone screens without compromising visual quality or clarity.",
+      image: ImageConstants.WORKS.DR_ANJALI.PHONE_MOCKUP_1,
+      image_2: ImageConstants.WORKS.DR_ANJALI.PHONE_MOCKUP_2,
+    },
+
+    gridSection: {
+      title: "Healthcare Communication Through Design",
+      description:
+        "A curated selection of patient-focused creatives showcasing clarity, trust, and accessibility in medical communication. Each design reinforces the clinic’s commitment to educating and engaging patients effectively.",
+      images: [
+        { image: ImageConstants.WORKS.DR_ANJALI.TABLET_MOCKUP },
+        { image: ImageConstants.WORKS.DR_ANJALI.PRODUCT_1 },
+        { image: ImageConstants.WORKS.DR_ANJALI.PRODUCT_3 },
+      ],
+    },
+
+    laptopMockupSection: {
+      backgroundImage: ImageConstants.WORKS.DR_ANJALI.LAP_MOCKUP,
+      title: "Designing Trust in Healthcare",
+      description:
+        "A comprehensive design system that ensures patient-focused clarity, consistency, and professional aesthetics. By combining calm color schemes, clean layouts, and a patient-centric approach, the brand successfully communicates credibility and care.",
+    },
+  },
+
+  "jk-diaries": {
+    title: "JK Diaries",
+    slug: "jk-diaries",
+    description:
+      "JK Diaries specializes in customized corporate diaries and branded stationery.",
+
+    hero: {
+      title: "JK Diaries",
+      industry: "Printing · Corporate Branding",
+      heroImage: ImageConstants.WORKS.JK_DIARIES.HERO_1,
+      description: "Premium customized diaries for corporate identity.",
+    },
+
+    overview: {
+      title: "Turning Print into Brand Experience",
+      description:
+        "The project focused on showcasing product quality and customization options through strong visuals.",
+      language: "English",
+      timescale: "5 weeks",
+      launchDate: "2024",
+      system: "Print Branding",
+      services: [
+        "Product Design",
+        "Advertising Creatives",
+        "Social Media Design",
+        "Print Campaigns",
+      ],
+    },
+
+    brandStats: {
+      backgroundImage:
+        ImageConstants.WORKS.JK_DIARIES.HERO_2 ||
+        ImageConstants.WORKS.JK_DIARIES.HERO_1,
+      title: "Designing Corporate Identity Through Print",
+      description: "Visual storytelling enhanced product value.",
+      stats: [
+        { value: "100+", label: "Corporate Clients" },
+        { value: "500+", label: "Custom Designs" },
+        { value: "10+", label: "Years Experience" },
+      ],
+    },
+
+    objectives: {
+      subtitle: "Project Goals",
+      title: "Objectives",
+      description:
+        "To visually highlight customization quality and brand reliability.",
+      objectives: [
+        {
+          title: "Product Showcase",
+          description: "Highlight diary quality and finish.",
+        },
+        {
+          title: "Brand Value",
+          description: "Strengthen corporate appeal.",
+        },
+        {
+          title: "Market Reach",
+          description: "Boost visibility through ads.",
+        },
+      ],
+    },
+
+    challenges: {
+      backgroundImage: ImageConstants.WORKS.JK_DIARIES.CONTAINER_BANNER_1,
+      subtitle: "What We Solved",
+      title: "Challenges",
+      description: "Showcasing print quality digitally.",
+      challenges: [
+        {
+          title: "Texture Representation",
+          description: "Visually expressing premium materials.",
+        },
+        {
+          title: "Customization Clarity",
+          description: "Presenting multiple options clearly.",
+        },
+      ],
+    },
+
+    uxDesign: {
+      subtitle: "Product Design",
+      title: "Corporate Print Visuals",
+      backgroundImage: ImageConstants.WORKS.JK_DIARIES.HERO_2,
+      description: "High-detail product-focused designs.",
+      features: [
+        {
+          image: ImageConstants.WORKS.JK_DIARIES.PRODUCT_1,
+          title: "Diary Mockups",
+          description: "Realistic product presentations.",
+        },
+        {
+          image: ImageConstants.WORKS.JK_DIARIES.PRODUCT_2,
+          title: "Customization Options",
+          description: "Multiple branding variations.",
+        },
+        {
+          image: ImageConstants.WORKS.JK_DIARIES.PRODUCT_3,
+          title: "Advertising Creatives",
+          description: "Promotional designs.",
+        },
+        {
+          image: ImageConstants.WORKS.JK_DIARIES.PRODUCT_4,
+          title: "Graphic Design",
+          description: "Supporting brand visuals.",
+        },
+      ],
+    },
+
+    productCustomization: {
+      subtitle: "Print Excellence",
+      title: "Customized Diary Designs",
+      description: "Premium corporate diary customization.",
+      image: ImageConstants.WORKS.JK_DIARIES.PHONE_MOCKUP_1,
+      image_2: ImageConstants.WORKS.JK_DIARIES.PHONE_MOCKUP_2,
+    },
+    gridSection: {
+      title: "Corporate Print Excellence",
+      description:
+        "Showcasing premium diary designs and corporate branding solutions.",
+      images: [
+        { image: ImageConstants.WORKS.JK_DIARIES.PRODUCT_1 },
+        { image: ImageConstants.WORKS.JK_DIARIES.PRODUCT_2 },
+        { image: ImageConstants.WORKS.JK_DIARIES.PRODUCT_3 },
+      ],
+    },
+
+    laptopMockupSection: {
+      backgroundImage: ImageConstants.WORKS.JK_DIARIES.PRODUCT_1,
+      title: "Print That Reflects Brand Identity",
+      description:
+        "High-quality visuals that elevate corporate stationery branding.",
     },
   },
 };
