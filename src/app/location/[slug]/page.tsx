@@ -90,6 +90,22 @@ const locationsData: Record<string, LocationData> = {
       "We are here to help you every step of the way if you are looking for a team that can improve your IT systems, change your online presence, and strengthen your branding throughout Ras Al Khaimah.",
     ],
   },
+  dubai: {
+    city: "Dubai",
+    title:
+      "IT Solution Company in Dubai | Technology, Support & IT Consultancy",
+    mediaUrl:
+      "https://videos.pexels.com/video-files/1526909/1526909-hd_1920_1080_30fps.mp4",
+
+    mediaType: "video",
+    content: [
+      "DigiNext is a popular IT solutions company in Dubai that helps businesses build strong digital foundations, make their operations more efficient, and make brands that stand out in one of the most competitive markets in the world. Dubai is a rapidly evolving city, and the businesses here need partners in technology, marketing, and branding who can keep up their growth. At DigiNext, we use our technical expertise, creative strategy, and knowledge of the local market to come up with solutions that work.",
+      "Our clients in Dubai trust us with managing all of their IT needs, from managed IT services and IT support to cloud hosting, DevOps, website design, UI/UX, SEO, social media marketing, and Google Ads. We make sure that your digital systems function perfectly and can grow with your business, from creating high-performance websites to managing secure cloud environments. Every solution is customized according to your needs and your target audience.",
+      "We help brands make a big impact offline as well as online through signage, printing, and event management. Our team makes sure that your physical presence matches the quality and consistency of your digital identity. Our team of experts take care of everything from generating ideas to putting them into action, so you can focus on running your business.",
+      "We want to work with you for a long time. We do not believe in one-time projects. Instead, we work closely with you, keep improving, and change our strategies as your business grows. Our clients appreciate how open we are, our quick response, and our focus on getting results that can be measured.",
+      "DigiNext is ready to help you grow faster, work smarter, and build a brand that people in Dubai can trust. We help your business succeed online, offline, and everywhere your customers are by providing a full range of IT, digital, and branding services with a dedicated local team",
+    ],
+  },
 };
 
 // Get all location slugs for generateStaticParams
