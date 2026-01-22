@@ -1,7 +1,7 @@
 // GridSection.tsx
 import React from "react";
 import { GridSection as GridSectionData } from "@/lib/portfolioData";
-import { getImageWithPlaceholder } from "@/lib/utils";
+import { getImageWithPlaceholder } from "@/lib/imageUtils";
 import Image from "next/image";
 
 interface GridSectionProps {

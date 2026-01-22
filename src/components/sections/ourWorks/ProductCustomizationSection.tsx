@@ -1,5 +1,6 @@
+import { getImageWithPlaceholder } from "@/lib/imageUtils";
 import { ProductCustomizationSection as ProductCustomizationSectionData } from "@/lib/portfolioData";
-import { getImageWithPlaceholder } from "@/lib/utils";
+
 import Image from "next/image";
 import React from "react";
 

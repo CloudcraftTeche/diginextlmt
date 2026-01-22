@@ -12,11 +12,17 @@ export const ApiConstants = {
   home_vision: `${API}/home/visions/`,
   home_faq: `${API}/home/faq/`,
   home_seo: `${API}/home/digital-marketing/`,
-  
+
   // About Us
   about_banners: `${API}/aboutus/banners/`,
   about_text1: `${API}/aboutus/text1/`,
   about_text2: `${API}/aboutus/text2/`,
   about_missions: `${API}/aboutus/missions/`,
   about_seo: `${API}/aboutus/digital-marketing/`,
+
+  // Services
+  services_banner: `${API}/services/`,
+  services_list: `${API}/services/service-names/`,
+  services_seo: `${API}/services/serviceDigitalMarket`,
+  subservice_detail: `${API}/services/subservice/`,
 };

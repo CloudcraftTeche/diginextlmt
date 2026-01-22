@@ -142,4 +142,12 @@ export function cn(...inputs: ClassValue[]): string {
   return mergeTailwind(tokens).join(" ");
 }
 
-
+export function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "-and-") // Replace & with 'and'
+    .replace(/[\s\W-]+/g, "-") // Replace spaces, non-word chars and dashes with single dash
+    .replace(/^-+|-+$/g, ""); // Trim dashes from start and end
+}

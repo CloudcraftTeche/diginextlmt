@@ -13,18 +13,6 @@ import {
   FONT_WEIGHT,
 } from "@/constants/typographyConstants";
 
-import {
-  SECTION_PX,
-  SECTION_PY,
-  CONTENT_WRAPPER_CLASSES,
-} from "@/constants/layoutConstants";
-import {
-  HERO_HEADING_SIZE,
-  DESCRIPTION_SIZE,
-  TITLE_SIZE,
-  FONT_WEIGHT,
-} from "@/constants/typographyConstants";
-
 interface FAQItem {
   question: string;
   answer: string;
@@ -45,24 +33,16 @@ const FAQSection: React.FC<FAQSectionProps> = ({
   faqs = [],
   isLoading = false,
 }) => {
-  const [openIndex, setOpenIndex] = useState<number>(0);
-
-  if (isLoading) {
-    return <FAQLoadingSkeleton />;
-  }
+  const [openIndex, setOpenIndex] = useState<number>(0); // Last item open by default
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? -1 : index);
   };
 
+  if (isLoading) {
+    return <FAQLoadingSkeleton />;
+  }
   return (
-    <section
-      id="faq-section"
-      className={`${SECTION_PX} ${SECTION_PY} bg-white`}
-    >
-      <div className={CONTENT_WRAPPER_CLASSES}>
-        <div className="bg-blue-50 rounded-xl xs:rounded-2xl">
-          <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 py-6 sm:py-8 lg:py-10">
     <section
       id="faq-section"
       className={`${SECTION_PX} ${SECTION_PY} bg-white`}
@@ -76,12 +56,8 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                 <h2
                   className={`${HERO_HEADING_SIZE} ${FONT_WEIGHT.normal} mb-4 sm:mb-5 lg:mb-6 leading-tight`}
                 >
-                <h2
-                  className={`${HERO_HEADING_SIZE} ${FONT_WEIGHT.normal} mb-4 sm:mb-5 lg:mb-6 leading-tight`}
-                >
                   {title}
                 </h2>
-                <p className={DESCRIPTION_SIZE}>{description}</p>
                 <p className={DESCRIPTION_SIZE}>{description}</p>
               </div>
 
@@ -96,9 +72,6 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                       onClick={() => toggleFAQ(index)}
                       className="w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
                     >
-                      <span
-                        className={`${TITLE_SIZE}  pr-4 leading-snug`}
-                      >
                       <span
                         className={`${TITLE_SIZE}  pr-4 leading-snug`}
                       >
@@ -140,7 +113,6 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                     {openIndex === index && (
                       <div className="px-4 sm:px-6 pb-4 sm:pb-5">
                         <div className="pt-2 border-t border-gray-100">
-                          <p className={DESCRIPTION_SIZE}>
                           <p className={DESCRIPTION_SIZE}>
                             {faq.answer}
                           </p>

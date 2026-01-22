@@ -5,7 +5,7 @@ import HeroSection from "@/components/sections/hero/HeroSection";
 import CaseStudiesSection from "@/components/sections/hero/CaseStudiesSection";
 import ServicesSection from "@/components/sections/hero/ServicesSection";
 import BrandingMarketingSection from "@/components/sections/hero/BrandingMarketingSection";
-import FAQSection from "@/components/sections/FAQSection";
+
 import Footer from "@/components/layout/Footer";
 import { HomeService } from "@/services/HomeService";
 import { usePageLoading } from "@/hooks/usePageLoading";
@@ -13,6 +13,7 @@ import { getFullImageUrl } from "@/lib/imageUtils";
 import VisionSection from "@/components/sections/hero/VisionSection";
 import AboutSection from "@/components/sections/hero/AboutSection";
 import { updateSeoMetadata } from "@/lib/seoUtils";
+import FAQSection from "@/components/sections/FAQSection";
 
 interface BannerData {
   id: number;

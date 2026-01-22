@@ -1,5 +1,5 @@
+import { getImageWithPlaceholder } from "@/lib/imageUtils";
 import { HeroSection } from "@/lib/portfolioData";
-import { getImageWithPlaceholder } from "@/lib/utils";
 import React from "react";
 
 

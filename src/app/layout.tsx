@@ -56,47 +56,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     creator: SITE_CONFIG.twitter,
   },
-  metadataBase: new URL(SITE_CONFIG.url),
-  verification: {
-    google: "FEEPMTuIlMk8-qSGivtt8URG6yT_vwXRN_-2v1ZQzRY",
-  },
-  title: {
-    template: "%s | Diginext",
-    default: "IT Solutions and Services Company in Dubai | Diginext",
-  },
-  description: "IT Solutions and Services Company in Dubai",
-  keywords: ["IT solutions Dubai", "IT services", "web development Dubai"],
-  authors: [{ name: SITE_CONFIG.author }],
-  creator: SITE_CONFIG.author,
-  publisher: SITE_CONFIG.name,
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    siteName: SITE_CONFIG.name,
-  },
-  twitter: {
-    card: "summary_large_image",
-    creator: SITE_CONFIG.twitter,
-  },
-};
+};  
 
 export default function RootLayout({
   children,
 }: {
-}: {
   children: React.ReactNode;
-}) {
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -123,3 +88,4 @@ export default function RootLayout({
     </html>
   );
 }
+   

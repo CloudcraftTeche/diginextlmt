@@ -1,6 +1,6 @@
 import React from "react";
 import { UXDesignSection as UXDesignSectionData } from "@/lib/portfolioData";
-import { getImageWithPlaceholder } from "@/lib/utils";
+import { getImageWithPlaceholder } from "@/lib/imageUtils";
 import Image from "next/image";
 
 interface UXDesignSectionProps {

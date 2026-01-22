@@ -1,6 +1,6 @@
 import React from "react";
 import { ChallengesSection as ChallengesSectionData } from "@/lib/portfolioData";
-import { getImageWithPlaceholder } from "@/lib/utils";
+import { getImageWithPlaceholder } from "@/lib/imageUtils";
 
 interface ChallengesSectionProps {
   data: ChallengesSectionData;

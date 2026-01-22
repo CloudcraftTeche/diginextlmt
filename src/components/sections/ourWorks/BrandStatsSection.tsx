@@ -1,6 +1,7 @@
 import React from "react";
 import { BrandStatsSection as BrandStatsSectionData } from "@/lib/portfolioData";
-import { getImageWithPlaceholder } from "@/lib/utils";
+import { getImageWithPlaceholder } from "@/lib/imageUtils";
+
 
 interface BrandStatsSectionProps {
   data: BrandStatsSectionData;

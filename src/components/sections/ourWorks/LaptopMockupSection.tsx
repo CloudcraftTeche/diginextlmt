@@ -1,6 +1,6 @@
 import React from "react";
 import { LaptopMockupSection as LaptopMockupSectionData } from "@/lib/portfolioData";
-import { getImageWithPlaceholder } from "@/lib/utils";
+import { getImageWithPlaceholder } from "@/lib/imageUtils";
 
 interface BrandStatsSectionProps {
   data: LaptopMockupSectionData;
