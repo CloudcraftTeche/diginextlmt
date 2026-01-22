@@ -35,6 +35,7 @@ interface CaseStudyProps {
   description: string;
   slug?: string;
   navigationText?: string;
+  category?: string;
 }
 
 interface CaseStudiesSectionProps {
@@ -48,6 +49,7 @@ interface CaseStudiesSectionProps {
     description: string;
     slug?: string;
     navigationText?: string;
+    category?: string;
   }>;
   itemsPerPage?: number;
 }
@@ -59,6 +61,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
   description,
   navigationText = "Read Case Study",
   slug,
+  category,
 }) => {
   return (
     <div className="group bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 transform">
@@ -73,6 +76,11 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
           priority={true}
         />
         <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-300" />
+        {category && (
+          <div className="absolute top-4 left-4 bg-orange-500/90 text-white text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm shadow-sm">
+            {category}
+          </div>
+        )}
       </div>
 
       {/* Content Section */}
@@ -256,6 +264,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
               description={study.description}
               slug={study.slug}
               navigationText={study.navigationText}
+              category={study.category}
             />
           ))}
         </div>

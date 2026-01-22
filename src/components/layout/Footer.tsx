@@ -1,6 +1,10 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
+import { LayoutService } from "@/services/LayoutService";
+import FooterSkeleton from "@/components/LoadingSkelton/layout/FooterSkeleton";
+import Image from "next/image";
+import { ImageConstants } from "@/constants/ImageConstants";
 
 interface SocialIconProps {
   type: string;
@@ -11,6 +15,12 @@ const Footer = () => {
   const [email, setEmail] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [footerInfo, setFooterInfo] = useState({
+    title: "DigiNext",
+    description:
+      "By combining creativity and technology, DigiNext has built its reputation on delivering necessary digital solutions.",
+  });
   const [openSections, setOpenSections] = useState({
     address: false,
     services: false,
@@ -25,11 +35,6 @@ const Footer = () => {
       "We give you the latest tips for growing your business and market insights.",
     placeholder: "Enter your email address",
     buttonText: "Submit",
-  };
-
-  const company = {
-    description:
-      "By combining creativity and technology, DigiNext has built its reputation on delivering necessary digital solutions.",
   };
 
   const contact = {
@@ -86,9 +91,27 @@ const Footer = () => {
   };
 
   useEffect(() => {
+    const fetchFooterData = async () => {
+      try {
+        const response = await LayoutService.getFooter();
+        if (response.data?.success && response.data?.data?.[0]) {
+          const { title, description } = response.data.data[0];
+          setFooterInfo({ title, description });
+        }
+      } catch (error) {
+        console.error("Failed to fetch footer data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFooterData();
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
     const element = document.querySelector("#footer-section");
     if (element) observer.observe(element);
@@ -195,6 +218,10 @@ const Footer = () => {
     );
   };
 
+  if (loading) {
+    return <FooterSkeleton />;
+  }
+
   return (
     <footer
       id="footer-section"
@@ -205,11 +232,7 @@ const Footer = () => {
         <div className="bg-black rounded-xl p-4 xs:p-5 sm:p-8 lg:p-12">
           <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
             {/* Newsletter */}
-            <div
-              className={`transition-all duration-700 ${
-                isVisible ? "opacity-100" : "opacity-0"
-              }`}
-            >
+            <div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 xs:gap-6 sm:gap-8 items-center mb-8 xs:mb-10 sm:mb-12 lg:mb-16">
                 <div className="text-center lg:text-left">
                   <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl font-medium text-white mb-3 xs:mb-4 sm:mb-6">
@@ -246,11 +269,17 @@ const Footer = () => {
             {/* Main Content */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 xs:gap-6 sm:gap-8 lg:gap-12">
               <div className="sm:col-span-2 lg:col-span-2">
-                <div className="text-white text-2xl font-bold mb-4">
-                  DigiNext
+                <div className="text-white text-xl font-bold mb-4">
+                  {/* {footerInfo.title} */}
+                  <Image
+                    src={ImageConstants.WHITE_LOGO}
+                    alt="DigiNext"
+                    width={200}
+                    height={200}
+                  />
                 </div>
                 <p className="text-gray-300 text-xs xs:text-sm sm:text-base leading-relaxed mb-4">
-                  {company.description}
+                  {footerInfo.description}
                 </p>
               </div>
 
@@ -284,7 +313,7 @@ const Footer = () => {
                 >
                   <a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                      contact.address
+                      contact.address,
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"

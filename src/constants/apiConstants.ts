@@ -25,4 +25,10 @@ export const ApiConstants = {
   services_list: `${API}/services/service-names/`,
   services_seo: `${API}/services/serviceDigitalMarket`,
   subservice_detail: `${API}/services/subservice/`,
+  footer: `${API}/footer/`,
+
+  // Insights
+  insights_banner: `${API}/insights/banner/`,
+  insights_list: `${API}/insights/our-insights/`,
+  insight_detail: `${API}/insights/our-insights/`,
 };
