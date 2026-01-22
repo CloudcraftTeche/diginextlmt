@@ -3,7 +3,7 @@ import { SECTION_PX, SECTION_PY } from "@/constants/layoutConstants";
 
 export const SubServiceSkeleton = () => {
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-white text-white min-h-screen">
       {/* Hero Skeleton (Banner) */}
       <div className="relative h-[60vh] lg:h-[70vh] w-full bg-white/5 animate-pulse">
         <div
