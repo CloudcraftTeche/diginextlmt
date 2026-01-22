@@ -4,8 +4,8 @@ import { generatePageMetadata } from "@/lib/metadata";
 import { PAGES_SEO } from "@/lib/seo-data";
 
 export const metadata: Metadata = generatePageMetadata(
-  PAGES_SEO.about, 
-  "/about"
+  PAGES_SEO.about,
+  "/about",
 );
 
 export default function AboutLayout({

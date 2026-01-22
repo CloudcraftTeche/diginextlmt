@@ -23,7 +23,29 @@ interface JourneyItem {
   description: string;
 }
 
-export function JourneyValuesSection() {
+import { JourneySkeleton } from "@/components/LoadingSkelton/about/JourneySkeleton";
+
+interface MissionData {
+  id: number;
+  title: string;
+  mission_text: string;
+  icon: string | null;
+}
+
+interface TextData {
+  id: number;
+  heading: string;
+  content: string;
+}
+
+interface JourneyValuesSectionProps {
+  missions?: MissionData[];
+  text?: TextData | null;
+  isLoading?: boolean;
+}
+
+// Internal component to handle scroll hooks when data is loaded
+function JourneyValuesContent({ missions = [], text }: { missions?: MissionData[]; text?: TextData | null }) {
   const [isInView, setIsInView] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -42,72 +64,33 @@ export function JourneyValuesSection() {
     updateScrollState,
   } = useHorizontalScroll(420, 32);
 
-  const journeyItems: JourneyItem[] = [
-    {
-      id: "01",
-      number: "01",
-      icon: <Rocket className="w-8 h-8" />,
-      title: "Our Story",
-      description:
-        "We at DigiNext believe that technology is more than just a tool; it's the foundation of a successful. What initially began as a small idea has turned into one of Dubai's top IT solution companies.",
-    },
-    {
-      id: "02",
-      number: "02",
-      icon: <Target className="w-8 h-8" />,
-      title: "Our Mission",
-      description:
-        "Our mission is to empower businesses through innovative digital solutions that drive growth and transformation. We strive to be the trusted partner in your digital journey.",
-    },
-    {
-      id: "03",
-      number: "03",
-      icon: <Lightbulb className="w-8 h-8" />,
-      title: "Innovation First",
-      description:
-        "We constantly push boundaries and embrace cutting-edge technologies to deliver solutions that keep you ahead of the competition in the ever-evolving digital landscape.",
-    },
-    {
-      id: "04",
-      number: "04",
-      icon: <Users className="w-8 h-8" />,
-      title: "Client-Centric",
-      description:
-        "Your success is our success. We build lasting partnerships by deeply understanding your business needs and delivering tailored solutions that exceed expectations.",
-    },
-    {
-      id: "05",
-      number: "05",
-      icon: <Heart className="w-8 h-8" />,
-      title: "Quality & Excellence",
-      description:
-        "We are committed to delivering exceptional quality in every project. Our attention to detail and dedication to excellence sets us apart in the industry.",
-    },
-    {
-      id: "06",
-      number: "06",
-      icon: <Award className="w-8 h-8" />,
-      title: "Proven Track Record",
-      description:
-        "With hundreds of successful projects delivered across various industries, we have established ourselves as a reliable technology partner you can trust.",
-    },
-    {
-      id: "07",
-      number: "07",
-      icon: <TrendingUp className="w-8 h-8" />,
-      title: "Growth Focused",
-      description:
-        "We don't just deliver projects; we deliver results that contribute to your business growth and help you achieve your strategic objectives.",
-    },
-    {
-      id: "08",
-      number: "08",
-      icon: <Camera className="w-8 h-8" />,
-      title: "Creative Solutions",
-      description:
-        "Our creative team brings fresh perspectives and innovative ideas to every challenge, ensuring your brand stands out in the digital world.",
-    },
-  ];
+  // Map dynamic missions to JourneyItems or use default if empty/loading
+  const getIcon = (index: number) => {
+    const icons = [
+      <Rocket key="rocket" className="w-8 h-8" />,
+      <Target key="target" className="w-8 h-8" />,
+      <Lightbulb key="lightbulb" className="w-8 h-8" />,
+      <Users key="users" className="w-8 h-8" />,
+      <Heart key="heart" className="w-8 h-8" />,
+      <Award key="award" className="w-8 h-8" />,
+      <TrendingUp key="trending" className="w-8 h-8" />,
+      <Camera key="camera" className="w-8 h-8" />,
+    ];
+    return icons[index % icons.length];
+  };
+
+  const journeyItems: JourneyItem[] = missions.length > 0 
+    ? missions.map((m, index) => ({
+        id: m.id.toString(),
+        number: (index + 1).toString().padStart(2, '0'),
+        icon: getIcon(index),
+        title: m.title,
+        description: m.mission_text
+      }))
+    : [];
+
+  const heading = text?.heading || "Our Journey & Values";
+  const content = text?.content || "Discover the story behind DigiNext and what drives us to deliver exceptional IT solutions and creative services.";
 
   // Intersection Observer to detect when section is in view (only once)
   useEffect(() => {
@@ -172,7 +155,7 @@ export function JourneyValuesSection() {
                 : "opacity-0 translate-y-8"
             }`}
           >
-            Our Journey & Values
+            {heading}
           </h2>
           
           {/* Description with Navigation Buttons */}
@@ -184,8 +167,7 @@ export function JourneyValuesSection() {
                   : "opacity-0 translate-y-4"
               }`}
             >
-              Discover the story behind DigiNext and what drives us to deliver
-              exceptional IT solutions and creative services.
+              {content}
             </p>
 
             {/* Navigation Buttons aligned with description */}
@@ -332,4 +314,11 @@ export function JourneyValuesSection() {
       </div>
     </section>
   );
+}
+
+export function JourneyValuesSection({ missions = [], text, isLoading = false }: JourneyValuesSectionProps) {
+  if (isLoading) {
+    return <JourneySkeleton />;
+  }
+  return <JourneyValuesContent missions={missions} text={text} />;
 }

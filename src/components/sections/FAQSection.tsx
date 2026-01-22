@@ -18,34 +18,26 @@ interface FAQItem {
   answer: string;
 }
 
+import { FAQLoadingSkeleton } from "../LoadingSkelton/home/FAQLoadingSkeleton";
+
 interface FAQSectionProps {
   title?: string;
   description?: string;
   faqs?: FAQItem[];
+  isLoading?: boolean;
 }
 
 const FAQSection: React.FC<FAQSectionProps> = ({
   title = "Have Any Questions In Mind?",
   description = "Our team is available to help you if you require trustworthy IT solution services, customised strategies or professional advice on IT solutions. Together, we can transform your questions into opportunities.",
-  faqs = [
-    {
-      question: "How can we calculate organic growth?",
-      answer:
-        "As a trusted IT solution company in Dubai, we measure organic growth by analyzing website traffic, search rankings and keyword performance. With our smart IT solutions, we help you keep track of actual growth and make sure your online presence keeps growing.",
-    },
-    {
-      question: "Is there any process for web design and development?",
-      answer:
-        "Every great website begins with a process. As a trusted IT solution provider, we plan, design and build websites step by step, making sure that creativity and functionality work together. Our expert IT solutions give your brand a digital presence that is both engaging and successful.",
-    },
-    {
-      question: "How will social media advertising benefit my business?",
-      answer:
-        "Through precise targeting, social media ads can help your business reach the right people. It is flexible, cost-effective and one of the most powerful ways to grow your online presence. It provides you with measurable results, from building communities to getting more visitors and sales.",
-    },
-  ],
+  faqs = [],
+  isLoading = false,
 }) => {
   const [openIndex, setOpenIndex] = useState<number>(0);
+
+  if (isLoading) {
+    return <FAQLoadingSkeleton />;
+  }
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? -1 : index);

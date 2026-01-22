@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useMemo, useRef, useState, useEffect } from "react";
 import type { MotionValue } from "framer-motion";
 import GlassSphereVisual from "./GlassSphereVisual";
+import { StatsSkeleton } from "@/components/LoadingSkelton/about/StatsSkeleton";
 
 type StatItem = {
   end: number;
@@ -50,9 +51,27 @@ function StatDisplay({
   );
 }
 
-export function StatsScrolly() {
+
+// Define types
+interface BannerData {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+}
+
+interface StatsScrollyProps {
+  data?: BannerData | null;
+  isLoading?: boolean;
+}
+
+// Internal component to handle scroll hooks when data is loaded
+function StatsScrollyContent({ data }: { data: BannerData | null | undefined }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const title = data?.title || "Big Dreams, Bigger Numbers";
+  const subtitle = data?.subtitle || "We are moving ahead with relentless energy to achieve amazing results that speak volumes. We don't intend to slow down either!";
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -120,14 +139,10 @@ export function StatsScrolly() {
             >
               <div>
                 <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-light leading-tight mb-3 lg:mb-6">
-                  Big Dreams,
-                  <br />
-                  Bigger Numbers
+                  {title}
                 </h1>
                 <p className="text-sm sm:text-base text-justify md:text-xl text-gray-400 font-light max-w-xl leading-relaxed">
-                  We are moving ahead with relentless energy to achieve amazing
-                  results that speak volumes. We don&apos;t intend to slow down
-                  either!
+                  {subtitle}
                 </p>
               </div>
             </div>
@@ -169,4 +184,11 @@ export function StatsScrolly() {
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
     </section>
   );
+}
+
+export function StatsScrolly({ data, isLoading = false }: StatsScrollyProps) {
+  if (isLoading) {
+    return <StatsSkeleton />;
+  }
+  return <StatsScrollyContent data={data} />;
 }

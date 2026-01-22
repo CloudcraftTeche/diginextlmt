@@ -1,67 +1,259 @@
-// app/page.tsx
-import { Metadata } from "next";
+"use client";
+import React, { useEffect, useState } from "react";
 import Header from "@/components/layout/Header";
 import HeroSection from "@/components/sections/hero/HeroSection";
-import { StructuredData } from "@/components/seo/StructuredData";
-import { SITE_CONFIG } from "@/lib/constants";
-import { PAGES_SEO } from "@/lib/seo-data";
-import { generatePageMetadata } from "@/lib/metadata";
-import TrustSection from "@/components/sections/hero/TrustSection";
-import EthosSection from "@/components/sections/hero/EthosSection";
+import CaseStudiesSection from "@/components/sections/hero/CaseStudiesSection";
 import ServicesSection from "@/components/sections/hero/ServicesSection";
 import BrandingMarketingSection from "@/components/sections/hero/BrandingMarketingSection";
 import FAQSection from "@/components/sections/FAQSection";
 import Footer from "@/components/layout/Footer";
-import ITSolutionsHero from "@/components/sections/hero/ITSolutionsHero";
-import { caseStudyData } from "@/lib/insightsData";
-import CaseStudiesSection from "@/components/sections/insights/CaseStudiesSection";
+import { HomeService } from "@/services/HomeService";
+import { usePageLoading } from "@/hooks/usePageLoading";
+import { getFullImageUrl } from "@/lib/imageUtils";
+import VisionSection from "@/components/sections/hero/VisionSection";
+import AboutSection from "@/components/sections/hero/AboutSection";
+import { updateSeoMetadata } from "@/lib/seoUtils";
 
-export const metadata: Metadata = generatePageMetadata(PAGES_SEO.home, "/");
+interface BannerData {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+}
 
-export default function HomePage() {
-  // const structuredData = {
-  //   "@context": "https://schema.org",
-  //   "@type": "WebSite",
-  //   name: SITE_CONFIG.name,
-  //   description: PAGES_SEO.home.description,
-  //   url: SITE_CONFIG.url,
-  //   potentialAction: {
-  //     "@type": "SearchAction",
-  //     target: {
-  //       "@type": "EntryPoint",
-  //       urlTemplate: `${SITE_CONFIG.url}/search?q={search_term_string}`,
-  //     },
-  //     "query-input": "required name=search_term_string",
-  //   },
-  // };
-  // ✅ FIXED: Truncate description to fit line-clamp-3 (max ~120 chars)
-  const caseStudiesArray = Object.entries(caseStudyData)
-    .slice(0, 3) // Limit to 9 for grid layout (3x3)
-    .map(([slug, data]) => ({
-      image: data.heroImage,
-      title: data.client,
-      percentage: data.timeline,
-      // ✅ Truncate to first 110 chars + "..." to fit line-clamp-3 perfectly
-      description: data.overview.description
-        .split(" ")
-        .slice(0, 20)
-        .join(" ")
-        .substring(0, 110) + "...",
-      slug: slug,
-      navigationText: "Read Case Study",
-    }));
+interface AboutData {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+}
+
+interface VisionData {
+  id: number;
+  title: string;
+  description: string;
+}
+
+interface FaqData {
+  id: number;
+  title: string;
+  description: string;
+}
+
+interface SeoData {
+  id: number;
+  meta_title: string;
+  meta_description: string;
+  meta_keywords: string;
+  banner_image: string;
+}
+
+interface AsyncState<T> {
+  data: T;
+  loading: boolean;
+  error: string | null;
+}
+
+export default function Home() {
+  // --- STATE ---
+  const [banner, setBanner] = useState<AsyncState<BannerData[]>>({
+    data: [],
+    loading: true,
+    error: null,
+  });
+
+  const [about, setAbout] = useState<AsyncState<AboutData | null>>({
+    data: null,
+    loading: true,
+    error: null,
+  });
+
+  const [vision, setVision] = useState<AsyncState<VisionData | null>>({
+    data: null,
+    loading: true,
+    error: null,
+  });
+
+  const [faq, setFaq] = useState<AsyncState<FaqData[]>>({
+    data: [],
+    loading: true,
+    error: null,
+  });
+
+  
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        setBanner((prev) => ({ ...prev, loading: true, error: null }));
+        const response = await HomeService.getHomeBanners();
+        if (response.data.success) {
+          setBanner({
+            data: response.data.data,
+            loading: false,
+            error: null,
+          });
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        setBanner({
+          data: [],
+          loading: false,
+          error: "Failed to load banners",
+        });
+      }
+    };
+    fetchBanners();
+  }, []);
+
+  // 2. Fetch About
+  useEffect(() => {
+    const fetchAbout = async () => {
+      try {
+        setAbout((prev) => ({ ...prev, loading: true, error: null }));
+        const response = await HomeService.getAbout();
+        if (response.data.success && response.data.data.length > 0) {
+          setAbout({
+            data: response.data.data[0],
+            loading: false,
+            error: null,
+          });
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        setAbout({
+          data: null,
+          loading: false,
+          error: "Failed to load about section",
+        });
+      }
+    };
+    fetchAbout();
+  }, []);
+
+  // 3. Fetch Vision (Ethos)
+  useEffect(() => {
+    const fetchVision = async () => {
+      try {
+        setVision((prev) => ({ ...prev, loading: true, error: null }));
+
+        // Ensure this method exists in your HomeService
+        const response = await HomeService.getVision();
+
+        if (response.data.success && response.data.data.length > 0) {
+          setVision({
+            data: response.data.data[0],
+            loading: false,
+            error: null,
+          });
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        setVision({
+          data: null,
+          loading: false,
+          error: "Failed to load vision section",
+        });
+      }
+    };
+    fetchVision();
+  }, []);
+
+  // 4. Fetch FAQ
+  useEffect(() => {
+    const fetchFaq = async () => {
+      try {
+        setFaq((prev) => ({ ...prev, loading: true, error: null }));
+        const response = await HomeService.getFaq();
+        if (response.data.success) {
+          setFaq({
+            data: response.data.data,
+            loading: false,
+            error: null,
+          });
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        setFaq({
+          data: [],
+          loading: false,
+          error: "Failed to load FAQ section",
+        });
+      }
+    };
+    fetchFaq();
+  }, []);
+
+  // 5. Fetch SEO
+  const [seo, setSeo] = useState<AsyncState<SeoData | null>>({
+    data: null,
+    loading: true,
+    error: null,
+  });
+
+  useEffect(() => {
+    const fetchSeo = async () => {
+      try {
+        setSeo((prev) => ({ ...prev, loading: true, error: null }));
+        const response = await HomeService.getHomeSeo();
+        if (response.data.success && response.data.data.length > 0) {
+          setSeo({
+            data: response.data.data[0],
+            loading: false,
+            error: null,
+          });
+          
+          // Update document metadata (client-side)
+          updateSeoMetadata(response.data.data[0]);
+
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        setSeo({
+          data: null,
+          loading: false,
+          error: "Failed to load SEO data",
+        });
+      }
+    };
+    fetchSeo();
+  }, []);
+
+  const slides = banner.data.map((item) => ({
+    title: item.title,
+    content: item.description,
+    image: getFullImageUrl(item.image),
+  }));
+
+  const isPageLoading = banner.loading && about.loading && vision.loading && faq.loading && seo.loading; 
+  usePageLoading(isPageLoading);
+
   return (
     <>
-      <Header isTransparent={true} forceTransparent={true} />
+      <Header />
+
       <div className="pt-16">
-        <HeroSection />
-        <TrustSection />
-        <ITSolutionsHero />
-        <CaseStudiesSection caseStudies={caseStudiesArray}/>
-        <EthosSection />
+        <HeroSection slides={slides} isLoading={banner.loading} />
+
+        <AboutSection data={about.data} isLoading={about.loading} />
+
+        <CaseStudiesSection />
+
+        <VisionSection data={about.data} isLoading={vision.loading} />
+
         <ServicesSection />
         <BrandingMarketingSection />
-        <FAQSection />
+        <FAQSection
+          faqs={faq.data.map((item) => ({
+            question: item.title,
+            answer: item.description,
+          }))}
+          isLoading={faq.loading}
+        />
         <Footer />
       </div>
     </>

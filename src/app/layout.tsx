@@ -1,11 +1,13 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
 import ContactModal from "@/components/Modal/ContactModal";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
-import { GoogleTagManager } from "@/components/GoogleTagManager"; 
+import { GoogleTagManager } from "@/components/GoogleTagManager";
+import { LoadingProvider } from "@/contexts/LoadingContext";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -69,9 +71,18 @@ export default function RootLayout({
         {/* Google Tag Manager - Loads first */}
         <GoogleTagManager gtmId="GTM-WTTZD4MF" />
 
-        {children}
-        <ContactModal />
-        <WhatsAppWidget />
+        {/* Loading Provider wraps entire app */}
+        <LoadingProvider>
+          {/* Global Loading Overlay */}
+          <GlobalLoading />
+
+          {/* Main Content */}
+          {children}
+
+          {/* Modals and Widgets */}
+          <ContactModal />
+          <WhatsAppWidget />
+        </LoadingProvider>
       </body>
     </html>
   );

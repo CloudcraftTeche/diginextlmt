@@ -2,19 +2,20 @@
 import React, { useEffect, useRef, useState } from "react";
 
 // Import modular constants
-import { 
-  LIGHT_HERO_DESCRIPTION_SIZE ,
+import {
+  LIGHT_HERO_DESCRIPTION_SIZE,
   FONT_WEIGHT,
   SECTION_HEADING_SIZE,
-} from "@/constants/typographyConstants"; 
+} from "@/constants/typographyConstants";
 
 import {
-  SECTION_PX, 
+  SECTION_PX,
   SECTION_PY,
-  CONTENT_WRAPPER_CLASSES, // <--- USING STANDARD CONTENT WRAPPER
+  CONTENT_WRAPPER_CLASSES,
   WHITE_TEXT,
   GRAY_TEXT_LIGHT,
-} from "@/constants/layoutConstants"; 
+} from "@/constants/layoutConstants";
+import { VisionLoadingSkeleton } from "@/components/LoadingSkelton/home/VisionLoadingSkeleton";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ThreeJS = any;
@@ -25,16 +26,20 @@ declare global {
   }
 }
 
-interface EthosSectionProps {
-  title?: string;
-  description?: string;
-  subtitle?: string;
+// Define the shape of the data object
+interface VisionData {
+  title: string;
+  description: string;
 }
 
-const EthosSection3D: React.FC<EthosSectionProps> = ({
-  title = "Our Vision",
-  description = "Our vision is simple, to be more than just a service provider. We are a part of each business we partner with. For a leading IT solutions and services company, this means providing more than just marketing, it means becoming their trusted partner for strategic IT solutions consulting. We believe that the secret to building a successful digital ecosystem is true partnership.",
-  subtitle = "We are proud of our research, analysis and innovation skills, offering essential IT solution services that support businesses in reaching their objectives and staying ahead of new trends. Our dedication to providing 24/7 support and open communication guarantees that our partners will always have the help they need to be successful.",
+interface VisionSectionProps {
+  data: VisionData | null; // Changed to accept the data object
+  isLoading?: boolean;
+}
+
+const VisionSection: React.FC<VisionSectionProps> = ({
+  data, // Destructure the data object here
+  isLoading = false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -42,6 +47,33 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
   const [rotation, setRotation] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const animationFrameRef = useRef<number>(0);
+
+  // Safely extract properties from data
+  const title = data?.title;
+  const description = data?.description;
+
+  // --- Text Processing Logic ---
+  const processText = () => {
+    if (!description) return { main: "", sub: "" };
+
+    // Split by double newline to separate paragraphs
+    const paragraphs = description.split(/\r\n\r\n|\n\n/);
+
+    if (paragraphs.length <= 1) {
+      return { main: description, sub: "" };
+    }
+
+    // Assign the last paragraph to the bottom 'subtitle' section
+    const sub = paragraphs[paragraphs.length - 1];
+
+    // Join the rest as the main description
+    const main = paragraphs.slice(0, paragraphs.length - 1).join("\n\n");
+
+    return { main, sub };
+  };
+
+  const { main: mainDescription, sub: subDescription } = processText();
+  // -----------------------------
 
   useEffect(() => {
     const checkMobile = () => {
@@ -52,7 +84,10 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Three.js loading and initialization logic...
   useEffect(() => {
+    if (isLoading) return;
+
     if (window.THREE) {
       setThreeLoaded(true);
       return;
@@ -70,13 +105,16 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
         document.body.removeChild(script);
       }
     };
-  }, []);
+  }, [isLoading]);
 
   useEffect(() => {
-    if (!containerRef.current || !threeLoaded || !window.THREE) return;
+    if (isLoading || !containerRef.current || !threeLoaded || !window.THREE)
+      return;
 
     const THREE = window.THREE;
     const el = containerRef.current;
+
+    while (el.firstChild) el.removeChild(el.firstChild);
 
     const scene = new THREE.Scene();
 
@@ -84,7 +122,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       45,
       el.clientWidth / el.clientHeight,
       0.1,
-      1000
+      1000,
     );
     camera.position.z = 10;
     camera.position.y = 0.5;
@@ -95,7 +133,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       powerPreference: "high-performance",
     });
     renderer.setPixelRatio(
-      Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2)
+      Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2),
     );
     renderer.setSize(el.clientWidth, el.clientHeight);
     renderer.setClearColor(0x000000, 0);
@@ -107,7 +145,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     const sphereGeo = new THREE.SphereGeometry(
       1.2,
       isMobile ? 32 : 64,
-      isMobile ? 32 : 64
+      isMobile ? 32 : 64,
     );
     const sphereMat = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
@@ -138,7 +176,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
         0,
         2 * Math.PI,
         false,
-        0
+        0,
       );
 
       const points = curve.getPoints(isMobile ? 50 : 100);
@@ -151,7 +189,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
         isMobile ? 50 : 100,
         0.08,
         8,
-        true
+        true,
       );
       const tubeMat = new THREE.MeshPhysicalMaterial({
         color: new THREE.Color().setHSL(0.5 + i * 0.1, 0.8, 0.6),
@@ -240,7 +278,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
 
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
     if (el) observer.observe(el);
 
@@ -261,7 +299,7 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
       });
       renderer.dispose();
     };
-  }, [threeLoaded, isMobile]);
+  }, [threeLoaded, isMobile, isLoading]);
 
   const stats = [
     { number: "300+", label: "Happy Clients", angle: 0 },
@@ -270,21 +308,20 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
     { number: "5+", label: "Countries Served", angle: (3 * Math.PI) / 2 },
   ];
 
+  if (isLoading) {
+    return <VisionLoadingSkeleton />;
+  }
+
   return (
     <section className={`${SECTION_PX} ${SECTION_PY} bg-white`}>
-      {/* Black Background Container - No horizontal padding here, uses hardcoded inner padding */}
       <div className="w-full bg-black rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-8 lg:p-12 relative overflow-hidden">
-        
-        {/* Background decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
         </div>
 
-        {/* Content Wrapper using CONTENT_WRAPPER_CLASSES */}
-        <div className={CONTENT_WRAPPER_CLASSES}> 
+        <div className={CONTENT_WRAPPER_CLASSES}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
-            
             {/* Left Side - Text Content */}
             <div
               className={`text-left order-2 lg:order-1 transition-all duration-1000 ease-out opacity-100 translate-x-0`}
@@ -293,30 +330,29 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
                 className={`${SECTION_HEADING_SIZE} ${FONT_WEIGHT.medium} mb-6 sm:mb-8 ${WHITE_TEXT} leading-tight`}
                 style={{ transitionDelay: "200ms" }}
               >
-                {title}
+                {/* Fallback to default title if data title is missing */}
+                {title || "Our Vision"}
               </h2>
 
               <div
-                className={`${GRAY_TEXT_LIGHT} ${FONT_WEIGHT.light} ${LIGHT_HERO_DESCRIPTION_SIZE } leading-relaxed mb-6 sm:mb-8`}
+                className={`${GRAY_TEXT_LIGHT} ${FONT_WEIGHT.light} ${LIGHT_HERO_DESCRIPTION_SIZE} leading-relaxed mb-6 sm:mb-8`}
                 style={{ transitionDelay: "400ms" }}
               >
-                <p className="mb-4 sm:mb-6 text-justify">
-                  {description.split(".")[0]}.{" "}
-                  <span className={`${FONT_WEIGHT.light} ${WHITE_TEXT}`}>We</span>{" "}
-                  {description.split(".").slice(1, 3).join(". ")}.
-                </p>
-                <p className="text-justify">
-                  {" "}
-                  {description.split(".").slice(3).join(". ")}
-                </p>
+                {mainDescription.split("\n\n").map((para, i) => (
+                  <p key={i} className="mb-4 sm:mb-6 text-justify">
+                    {para}
+                  </p>
+                ))}
               </div>
 
-              <p
-                className={`${GRAY_TEXT_LIGHT} ${LIGHT_HERO_DESCRIPTION_SIZE } text-justify ${FONT_WEIGHT.light} leading-relaxed`}
-                style={{ transitionDelay: "600ms" }}
-              >
-                {subtitle}
-              </p>
+              {subDescription && (
+                <p
+                  className={`${GRAY_TEXT_LIGHT} ${LIGHT_HERO_DESCRIPTION_SIZE} text-justify ${FONT_WEIGHT.light} leading-relaxed`}
+                  style={{ transitionDelay: "600ms" }}
+                >
+                  {subDescription}
+                </p>
+              )}
             </div>
 
             {/* Right Side - Glass Sphere 3D Visual */}
@@ -329,13 +365,11 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
               style={{ transitionDelay: "300ms" }}
             >
               <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px]">
-                {/* 3D Canvas */}
                 <div
                   ref={containerRef}
                   className="absolute inset-0 w-full h-full"
                 />
 
-                {/* Rotating Stats - Optimized for Mobile */}
                 {threeLoaded &&
                   stats.map((stat, index) => {
                     const angle = stat.angle + rotation;
@@ -374,14 +408,12 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
                     );
                   })}
 
-                {/* Radial gradient overlay */}
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.12),rgba(139,92,246,0.08),transparent_65%)]" />
 
-                {/* Loading State */}
                 {!threeLoaded && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-white text-sm sm:text-lg animate-pulse">
-                      Loading 3D Visual...
+                      Initializing 3D Visual...
                     </div>
                   </div>
                 )}
@@ -394,4 +426,4 @@ const EthosSection3D: React.FC<EthosSectionProps> = ({
   );
 };
 
-export default EthosSection3D;
+export default VisionSection;

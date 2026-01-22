@@ -1,32 +1,32 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { ImageConstants } from "@/constants/ImageConstants";
 import Image from "next/image";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 
 // Import modular constants
-import { 
-  staggerContainerVariants, 
-  fadeInUpVariants, 
-  logoInVariants, 
-  onceInViewPort 
-} from "@/constants/animationVariants"; 
+import {
+  staggerContainerVariants,
+  fadeInUpVariants,
+  logoInVariants,
+  onceInViewPort,
+} from "@/constants/animationVariants";
 
 import {
   HERO_HEADING_SIZE,
   HERO_BUTTON_SIZE,
   FONT_WEIGHT,
   LIGHT_HERO_DESCRIPTION_SIZE,
-} from "@/constants/typographyConstants"; 
+} from "@/constants/typographyConstants";
 
 import {
-  SECTION_PX, 
+  SECTION_PX,
   SECTION_PY,
   CONTENT_WRAPPER_CLASSES,
-  PRIMARY_ORANGE_TEXT,          // <-- IMPORTED WHITE TEXT COLOR
-} from "@/constants/layoutConstants"; 
-
+  PRIMARY_ORANGE_TEXT,
+} from "@/constants/layoutConstants";
+import { getImageWithPlaceholder } from "@/lib/imageUtils";
+import { HeroLoadingSkelton } from "../../LoadingSkelton/home/HeroLoadingSkelton";
 
 interface Slide {
   title: string;
@@ -41,12 +41,17 @@ interface HeroSectionProps {
   primaryButtonLink?: string;
   secondaryButtonLink?: string;
   autoPlayInterval?: number;
+  isLoading?: boolean;
 }
 
 // --- Framer Motion Variants for this component ---
 const slideTitleVariants: Variants = {
   active: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-  inactive: { opacity: 0.5, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  inactive: {
+    opacity: 0.5,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
 };
 
 const slideContentVariants: Variants = {
@@ -57,79 +62,63 @@ const slideContentVariants: Variants = {
 
 const slideImageVariants: Variants = {
   enter: { opacity: 0, scale: 0.95, y: -10 },
-  center: { 
-    opacity: 1, 
-    scale: 1, 
-    y: 0, 
-    transition: { 
-      type: "spring", 
-      stiffness: 100, 
+  center: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
       damping: 20,
-      duration: 0.8
-    }
+      duration: 0.8,
+    },
   },
   exit: { opacity: 0, scale: 0.95, y: 10, transition: { duration: 0.2 } },
 };
 // -------------------------------------------------
 
-
 const HeroSection: React.FC<HeroSectionProps> = ({
-  slides = [
-    {
-      title: "Discover",
-      content:
-        "Discover the true potential of your business by transforming complicated IT into a simple, clear strategy for business optimization.",
-      image: ImageConstants.HOME_DISCOVERT_1,
-    },
-    {
-      title: "Connect",
-      content:
-        "Connect with trusted, proactive, 24/7 IT support that ensures company continuity and manages your systems with ease.",
-      image: ImageConstants.HOME_CONNECT_1,
-    },
-    {
-      title: "Grow",
-      content:
-        "Grow your business confidently on a secure infrastructure that is optimized while we take care of all technical management and strategic growth.",
-      image: ImageConstants.HOME_GROWTH_1,
-    },
-  ],
+  slides = [],
   primaryButtonText = "Get Your Quote",
   secondaryButtonText = "Why Digi Next?",
   primaryButtonLink = "/contact",
   secondaryButtonLink = "/about",
   autoPlayInterval = 5000,
+  isLoading = false,
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Auto-play slides
   useEffect(() => {
+    if (!slides || slides.length === 0) return;
+
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, autoPlayInterval);
 
     return () => clearInterval(interval);
-  }, [slides.length, autoPlayInterval]);
+  }, [slides, autoPlayInterval]);
 
   const handleDotClick = (index: number) => {
     setCurrentSlide(index);
   };
-  
-  // Get current slide data
-  const slideData = slides[currentSlide];
+
+  const slideData = slides && slides.length > 0 ? slides[currentSlide] : null;
+ 
+  if (isLoading || !slideData) {
+    return <HeroLoadingSkelton />;
+  }
 
   return (
     <section
       id="hero-section"
-      className={`${SECTION_PX} ${SECTION_PY} bg-white overflow-hidden`} 
+      className={`${SECTION_PX} ${SECTION_PY} bg-white overflow-hidden`}
       aria-labelledby="hero-heading"
     >
       {/* Full-width black background */}
       <div className="w-full bg-black via-black to-gray-800 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 lg:p-10 relative overflow-hidden">
-        
         {/* Constrained content wrapper */}
-        <div className={CONTENT_WRAPPER_CLASSES}> 
-          
+        <div className={CONTENT_WRAPPER_CLASSES}>
           <motion.div
             className="flex flex-col lg:flex-row gap-6 xs:gap-8 sm:gap-10 lg:gap-8 xl:gap-10 2xl:gap-12 items-start lg:items-center min-h-[250px] xs:min-h-[300px] sm:min-h-[350px] lg:min-h-[420px] relative z-10"
             variants={staggerContainerVariants}
@@ -143,7 +132,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               variants={logoInVariants}
             >
               <div className="relative w-full max-w-[300px] lg:max-w-[400px] aspect-square">
-                
                 {/* AnimatePresence ensures old slide animates out as new slide animates in */}
                 <AnimatePresence initial={false} mode="wait">
                   <motion.div
@@ -155,7 +143,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     className="absolute inset-0 w-full h-full"
                   >
                     <Image
-                      src={slideData.image}
+                      src={getImageWithPlaceholder(slideData.image)}
                       alt={`${slideData.title} illustration`}
                       fill
                       className="object-contain"
@@ -163,15 +151,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     />
                   </motion.div>
                 </AnimatePresence>
-                
               </div>
             </motion.div>
 
             {/* Right Side - Content (7/12 width) */}
-            <div className="w-full  order-2 lg:order-2">
-              
+            <div className="w-full lg:w-7/12 order-2 lg:order-2">
               {/* Title Navigation */}
-              <motion.div 
+              <motion.div
                 className="flex flex-wrap gap-2 xs:gap-3 sm:gap-4 mb-4 xs:mb-5 sm:mb-6"
                 variants={fadeInUpVariants}
               >
@@ -181,11 +167,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     onClick={() => handleDotClick(index)}
                     variants={slideTitleVariants}
                     animate={currentSlide === index ? "active" : "inactive"}
-                    // APPLY COLOR DYNAMICALLY: Orange when active, White/50 when inactive
                     className={`${HERO_HEADING_SIZE} ${FONT_WEIGHT.light} transition-all duration-500 ease-out hover:scale-105 ${
                       currentSlide === index
                         ? PRIMARY_ORANGE_TEXT
-                        : "text-white/50 hover:text-white/70" // Using white/50 for inactive color
+                        : "text-white/50 hover:text-white/70"
                     }`}
                   >
                     {slide.title}
@@ -197,7 +182,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               </motion.div>
 
               {/* Animated Content */}
-              <motion.div 
+              <motion.div
                 className="relative min-h-[100px] xs:min-h-[100px] sm:min-h-[100px] mb-4 xs:mb-5 sm:mb-6"
                 variants={fadeInUpVariants}
               >
@@ -208,7 +193,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    // Use updated typography constants for light font and size
                     className={`${LIGHT_HERO_DESCRIPTION_SIZE} ${FONT_WEIGHT.light} leading-relaxed text-justify text-gray-300 w-full absolute`}
                   >
                     {slideData.content}
@@ -217,7 +201,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               </motion.div>
 
               {/* Progress Dots */}
-              <motion.div 
+              <motion.div
                 className="flex justify-center lg:justify-start gap-1 xs:gap-2 sm:gap-2 mb-4 xs:mb-5 sm:mb-6"
                 variants={fadeInUpVariants}
               >
@@ -236,7 +220,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               </motion.div>
 
               {/* Animated Buttons */}
-              <motion.div 
+              <motion.div
                 className="flex flex-row gap-2 xs:gap-3 sm:gap-4 justify-center lg:justify-start"
                 variants={fadeInUpVariants}
               >

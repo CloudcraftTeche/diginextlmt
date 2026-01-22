@@ -9,9 +9,9 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "diginextae.onrender.com",
+        hostname: "diginextae-1.onrender.com",
         port: "",
-        pathname: "/media/**",
+        pathname: "/**", 
       },
     ],
   },
