@@ -28,7 +28,7 @@ const ProductCustomizationSection: React.FC<
           <div className="w-full flex justify-center lg:justify-start gap-10">
             {/* Phone 1 */}
             <div className="relative w-[180px] sm:w-[240px] lg:w-[300px] aspect-[9/19]">
-              <div className="absolute inset-0 border-[6px] sm:border-[8px] border-black rounded-[28px] sm:rounded-[36px] shadow-2xl overflow-hidden bg-white">
+              <div className="absolute inset-0 border-[6px] sm:border-[8px] rounded-[28px] sm:rounded-[36px] shadow-2xl overflow-hidden bg-white">
                 <MediaDisplay
                   src={image}
                   alt={`${title} preview 1`}
@@ -39,7 +39,7 @@ const ProductCustomizationSection: React.FC<
 
             {/* Phone 2 */}
             <div className="relative w-[180px] sm:w-[240px] lg:w-[300px] aspect-[9/19]">
-              <div className="absolute inset-0 border-[6px] sm:border-[8px] border-black rounded-[28px] sm:rounded-[36px] shadow-2xl overflow-hidden bg-white">
+              <div className="absolute inset-0 border-[6px] sm:border-[8px] rounded-[28px] sm:rounded-[36px] shadow-2xl overflow-hidden bg-white">
                 <MediaDisplay
                   src={image_2}
                   alt={`${title} preview 2`}
