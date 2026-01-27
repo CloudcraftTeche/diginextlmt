@@ -1,25 +1,32 @@
 import React from "react";
 import { ChallengesSection as ChallengesSectionData } from "@/lib/portfolioData";
 import { getImageWithPlaceholder } from "@/lib/imageUtils";
+import MediaDisplay from "@/components/ui/MediaDisplay";
 
 interface ChallengesSectionProps {
-  data: ChallengesSectionData;
+  data: any; // Relaxed type
 }
 
 const ChallengesSection: React.FC<ChallengesSectionProps> = ({ data }) => {
-  const { backgroundImage, subtitle, title, description, challenges } = data;
+  const subtitle = data.subtitle || data.heading;
+  const title = data.title;
+  const description = data.description;
+  const challenges = data.challenges || [];
+  const backgroundImage = data.backgroundImage || data.image;
 
   return (
     <section className="w-full bg-gray-50 py-20 sm:py-28 px-6 sm:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto">
         {/* Featured Image */}
-        <div className="relative w-full h-[500px] rounded-3xl overflow-hidden mb-16">
-          <img
-            src={getImageWithPlaceholder(backgroundImage)}
-            alt="Challenges Overview"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        {backgroundImage && (
+          <div className="relative w-full h-[500px] rounded-3xl overflow-hidden mb-16">
+            <MediaDisplay
+              src={backgroundImage}
+              alt="Challenges Overview"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
 
         <div className="mb-16">
           <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">
@@ -34,7 +41,7 @@ const ChallengesSection: React.FC<ChallengesSectionProps> = ({ data }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {challenges.map((challenge, index) => (
+          {challenges.map((challenge: any, index: number) => (
             <div key={index} className="group">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 {challenge.title}

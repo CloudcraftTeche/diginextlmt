@@ -2,9 +2,8 @@ import { getImageWithPlaceholder } from "@/lib/imageUtils";
 import { HeroSection } from "@/lib/portfolioData";
 import React from "react";
 
-
 interface CaseStudyHeroProps {
-  data: HeroSection;
+  data: any; // Relaxed type
 }
 
 const CaseStudyHero: React.FC<CaseStudyHeroProps> = ({ data }) => {

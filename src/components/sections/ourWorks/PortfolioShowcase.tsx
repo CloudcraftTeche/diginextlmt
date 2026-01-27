@@ -16,7 +16,8 @@ import {
 } from "@/constants/typographyConstants";
 
 import MediaDisplay from "@/components/ui/MediaDisplay";
-import { getAllPortfolioItems } from "@/lib/portfolioData";
+import { WorkService } from "@/services/WorkService";
+import { ChevronDown, Loader2 } from "lucide-react";
 
 // Animation Variants
 const containerVariants: Variants = {
@@ -38,28 +39,67 @@ const cardVariants: Variants = {
     transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
+interface PortfolioShowcaseProps {
+  works: any;
+  onFilter: (type: "expertise" | "industry", id: number) => void;
+}
 
-const PortfolioShowcase: React.FC = () => {
+const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
+  works,
+  onFilter,
+}) => {
   const router = useRouter();
 
-  const [selectedIndustry] = useState<string>("All");
-  const [selectedExpertise] = useState<string>("All");
-
-  const portfolioItems = getAllPortfolioItems();
-
-  // Filter (kept for future use, no structure change)
-  const filteredWorks = portfolioItems.filter((item) => {
-    const matchesIndustry =
-      selectedIndustry === "All" || item.hero.industry === selectedIndustry;
-
-    const matchesExpertise =
-      selectedExpertise === "All" || item.overview.system === selectedExpertise;
-
-    return matchesIndustry && matchesExpertise;
-  });
+  // Chip States
+  const [openDropdown, setOpenDropdown] = useState<
+    "expertise" | "industries" | null
+  >(null);
+  const [expertiseData, setExpertiseData] = useState<{
+    data: any[];
+    loading: boolean;
+  }>({ data: [], loading: false });
+  const [industriesData, setIndustriesData] = useState<{
+    data: any[];
+    loading: boolean;
+  }>({ data: [], loading: false });
 
   const handleWorkClick = (slug: string) => {
     router.push(`/work/${slug}`);
+  };
+
+  const toggleDropdown = async (type: "expertise" | "industries") => {
+    if (openDropdown === type) {
+      setOpenDropdown(null);
+      return;
+    }
+
+    setOpenDropdown(type);
+
+    // Fetch data if not already present
+    if (type === "expertise" && expertiseData.data.length === 0) {
+      setExpertiseData((prev) => ({ ...prev, loading: true }));
+      try {
+        const res = await WorkService.getExpertise();
+        setExpertiseData({ data: res.data.data || [], loading: false });
+      } catch (err) {
+        console.error(err);
+        setExpertiseData({ data: [], loading: false });
+      }
+    } else if (type === "industries" && industriesData.data.length === 0) {
+      setIndustriesData((prev) => ({ ...prev, loading: true }));
+      try {
+        const res = await WorkService.getIndustries();
+        setIndustriesData({ data: res.data.data || [], loading: false });
+      } catch (err) {
+        console.error(err);
+        setIndustriesData({ data: [], loading: false });
+      }
+    }
+  };
+
+  const handleFilterClick = (type: "expertise" | "industry", id: number) => {
+    onFilter(type, id);
+    setOpenDropdown(null);
   };
 
   return (
@@ -72,9 +112,88 @@ const PortfolioShowcase: React.FC = () => {
             >
               Case Studies
               <span className="text-gray-400 ml-3 text-xl">
-                ({filteredWorks.length})
+                ({works.length})
               </span>
             </h1>
+          </div>
+
+          {/* Filter Chips */}
+          <div className="flex gap-4 relative">
+            {/* Expertise Chip */}
+            <div className="relative">
+              <button
+                onClick={() => toggleDropdown("expertise")}
+                className={`flex items-center gap-2 px-6 py-2 rounded-full transition-all duration-300 border border-black text-sm font-medium
+                    ${openDropdown === "expertise" ? "bg-black text-white" : "bg-transparent text-black hover:bg-black hover:text-white"}`}
+              >
+                Expertise
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${openDropdown === "expertise" ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {openDropdown === "expertise" && (
+                <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-100 z-20 py-2 max-h-64 overflow-y-auto">
+                  {expertiseData.loading ? (
+                    <div className="flex justify-center p-4">
+                      <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                    </div>
+                  ) : expertiseData.data.length > 0 ? (
+                    expertiseData.data.map((item: any) => (
+                      <div
+                        key={item.id}
+                        onClick={() => handleFilterClick("expertise", item.id)}
+                        className="px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 transition-colors"
+                      >
+                        {item.name}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="px-4 py-2 text-xs text-gray-400">
+                      No expertise found
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Industries Chip */}
+            <div className="relative">
+              <button
+                onClick={() => toggleDropdown("industries")}
+                className={`flex items-center gap-2 px-6 py-2 rounded-full transition-all duration-300 border border-black text-sm font-medium
+                    ${openDropdown === "industries" ? "bg-black text-white" : "bg-transparent text-black hover:bg-black hover:text-white"}`}
+              >
+                Industries
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${openDropdown === "industries" ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {openDropdown === "industries" && (
+                <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-100 z-20 py-2 max-h-64 overflow-y-auto">
+                  {industriesData.loading ? (
+                    <div className="flex justify-center p-4">
+                      <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                    </div>
+                  ) : industriesData.data.length > 0 ? (
+                    industriesData.data.map((item: any) => (
+                      <div
+                        key={item.id}
+                        onClick={() => handleFilterClick("industry", item.id)}
+                        className="px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 transition-colors"
+                      >
+                        {item.name}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="px-4 py-2 text-xs text-gray-400">
+                      No industries found
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -85,16 +204,24 @@ const PortfolioShowcase: React.FC = () => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {filteredWorks.map((work) => (
+          {works.map((work: any) => (
             <motion.article
-              key={work.slug}
+              // Use ID or fallback to title/random key since API doesn't have slug yet
+              key={work.id || work.title}
               variants={cardVariants}
               className="group cursor-pointer"
-              onClick={() => handleWorkClick(work.slug)}
+              // API doesn't provide slug, using ID for now (though page expects string slug).
+              // TODO: Update API or frontend to use consistent IDs/Slugs.
+              // Using ID as string if slug is missing.
+              onClick={() => handleWorkClick(work.slug || work.id.toString())}
             >
               <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-5 bg-gray-100">
                 <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
-                  <MediaDisplay src={work.hero.heroImage} alt={work.title} />
+                  {/* Access image directly from work object, fallback to banner_image or empty string */}
+                  <MediaDisplay
+                    src={work.image || work.banner_image || ""}
+                    alt={work.title}
+                  />
                 </div>
 
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -106,17 +233,21 @@ const PortfolioShowcase: React.FC = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
-                  <span>{work.hero.industry}</span>
+                  {/* Industry is an ID in API (number), so we might want to map it or just show safe fallback */}
+                  <span>{work.industry || "Industry"}</span>
                   <span>•</span>
-                  <span>{work.overview.system}</span>
+                  {/* System is at root level in API */}
+                  <span>{work.system || "System"}</span>
                 </div>
 
-                <h3 className="text-xl font-semibold text-gray-900 group-hover:text-orange-600 transition-colors duration-300">
-                  {work.title}
-                </h3>
+                <div className="flex justify-between items-start">
+                  <h3 className="text-xl font-semibold text-gray-900 group-hover:text-orange-600 transition-colors duration-300">
+                    {work.title}
+                  </h3>
+                </div>
 
                 <p
-                  className={`${DESCRIPTION_SIZE} text-gray-600 leading-relaxed`}
+                  className={`${DESCRIPTION_SIZE} text-gray-600 leading-relaxed line-clamp-2`}
                 >
                   {work.description}
                 </p>

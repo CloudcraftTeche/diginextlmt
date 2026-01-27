@@ -11,7 +11,21 @@ interface MediaDisplayProps {
   className?: string;
 }
 
+import { API_BASE_URL } from "@/config/apiConfig";
+
+const CLOUDINARY_BASE_URL = "https://res.cloudinary.com/dfaffsfs9/";
+
 const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
+  // Prepend CLOUDINARY_BASE_URL if src starts with 'image/' (Cloudinary path from API)
+  const finalSrc = src?.startsWith("image/")
+    ? `${CLOUDINARY_BASE_URL}${src.startsWith("/") ? src.slice(1) : src}`
+    : src;
+
+  // Check for other relative paths that might need resolving or are local assets
+  const isExternal = finalSrc?.startsWith("http");
+  // If it's not external and doesn't start with '/', it might be invalid or need handling.
+  // But local assets usually start with '/'.
+
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
@@ -24,7 +38,7 @@ const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
     return "image";
   };
 
-  const mediaType = getMediaType(src);
+  const mediaType = getMediaType(finalSrc);
 
   const handleLoad = () => setIsLoading(false);
   const handleError = () => {
@@ -56,7 +70,7 @@ const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
           {mediaType === "image" ? (
             <div className="relative w-full h-full group">
               <Image
-                src={src}
+                src={finalSrc}
                 alt={alt}
                 fill
                 className={`object-cover transition-transform duration-700  ${
@@ -69,7 +83,7 @@ const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
             </div>
           ) : mediaType === "youtube" ? (
             <iframe
-              src={`${src}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0`}
+              src={`${finalSrc}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0`}
               className={`w-full h-full object-cover transition-opacity duration-500 ${
                 isLoading ? "opacity-0" : "opacity-100"
               }`}
@@ -81,7 +95,7 @@ const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
             />
           ) : (
             <video
-              src={src}
+              src={finalSrc}
               autoPlay
               loop
               muted

@@ -2,16 +2,23 @@ import { getImageWithPlaceholder } from "@/lib/imageUtils";
 import { ProductCustomizationSection as ProductCustomizationSectionData } from "@/lib/portfolioData";
 
 import Image from "next/image";
+import MediaDisplay from "@/components/ui/MediaDisplay";
 import React from "react";
 
 interface ProductCustomizationSectionProps {
-  data: ProductCustomizationSectionData;
+  data: any; // Relaxed type
 }
 
 const ProductCustomizationSection: React.FC<
   ProductCustomizationSectionProps
 > = ({ data }) => {
-  const { subtitle, title, description, image, image_2 } = data;
+  const subtitle = data.subtitle || data.title; // Page maps label->title->subtitle
+  const title = data.title || data.heading; // Page maps title->heading->title
+  const description = data.description;
+
+  // Extract images from features if not at root
+  const image = data.image || data.features?.[0]?.image;
+  const image_2 = data.image_2 || data.features?.[1]?.image;
 
   return (
     <section className="w-full bg-gradient-to-br from-blue-50 via-white to-purple-50 py-16 sm:py-24">
@@ -22,12 +29,10 @@ const ProductCustomizationSection: React.FC<
             {/* Phone 1 */}
             <div className="relative w-[180px] sm:w-[240px] lg:w-[300px] aspect-[9/19]">
               <div className="absolute inset-0 border-[6px] sm:border-[8px] border-black rounded-[28px] sm:rounded-[36px] shadow-2xl overflow-hidden bg-white">
-                <Image
-                  src={getImageWithPlaceholder(image)}
+                <MediaDisplay
+                  src={image}
                   alt={`${title} preview 1`}
-                  fill
-                  className="object-cover"
-                  priority
+                  className="object-cover w-full h-full"
                 />
               </div>
             </div>
@@ -35,11 +40,10 @@ const ProductCustomizationSection: React.FC<
             {/* Phone 2 */}
             <div className="relative w-[180px] sm:w-[240px] lg:w-[300px] aspect-[9/19]">
               <div className="absolute inset-0 border-[6px] sm:border-[8px] border-black rounded-[28px] sm:rounded-[36px] shadow-2xl overflow-hidden bg-white">
-                <Image
-                  src={getImageWithPlaceholder(image_2)}
+                <MediaDisplay
+                  src={image_2}
                   alt={`${title} preview 2`}
-                  fill
-                  className="object-cover"
+                  className="object-cover w-full h-full"
                 />
               </div>
             </div>

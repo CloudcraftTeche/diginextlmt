@@ -2,26 +2,31 @@ import React from "react";
 import { UXDesignSection as UXDesignSectionData } from "@/lib/portfolioData";
 import { getImageWithPlaceholder } from "@/lib/imageUtils";
 import Image from "next/image";
+import MediaDisplay from "@/components/ui/MediaDisplay";
 
 interface UXDesignSectionProps {
-  data: UXDesignSectionData;
+  data: any; // Relaxed type
 }
 
 const UXDesignSection: React.FC<UXDesignSectionProps> = ({ data }) => {
-  const { subtitle, title, description, features, backgroundImage } = data;
+  const subtitle = data.subtitle || data.heading;
+  const title = data.title;
+  const description = data.description;
+  const features = data.features || [];
+  const backgroundImage = data.backgroundImage;
 
   return (
     <>
-      {/* Image Section */}
-      <section className="relative w-full h-[500px] sm:h-[600px] lg:h-[700px] overflow-hidden">
-        <Image
-          src={getImageWithPlaceholder(backgroundImage)}
-          alt="UX Design Background"
-          fill
-          priority
-          className="object-cover"
-        />
-      </section>
+      {/* Image Section - Only render if available */}
+      {backgroundImage && (
+        <section className="relative w-full h-[500px] sm:h-[600px] lg:h-[700px] overflow-hidden">
+          <MediaDisplay
+            src={backgroundImage}
+            alt="UX Design Background"
+            className="w-full h-full object-cover"
+          />
+        </section>
+      )}
 
       {/* Features Section */}
       <section className="w-full bg-white py-20 sm:py-28 px-6 sm:px-12 lg:px-24">
@@ -39,14 +44,14 @@ const UXDesignSection: React.FC<UXDesignSectionProps> = ({ data }) => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
+            {features.map((feature: any, index: number) => (
               <div
                 key={index}
                 className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group"
               >
                 <div className="relative h-62 overflow-hidden">
-                  <img
-                    src={getImageWithPlaceholder(feature.image)}
+                  <MediaDisplay
+                    src={feature.image}
                     alt={feature.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />

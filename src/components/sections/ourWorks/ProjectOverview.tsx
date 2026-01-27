@@ -2,7 +2,7 @@ import React from "react";
 import { ProjectOverviewSection } from "@/lib/portfolioData";
 
 interface ProjectOverviewProps {
-  data: ProjectOverviewSection;
+  data: any; // Relaxed type
 }
 
 const ProjectOverview: React.FC<ProjectOverviewProps> = ({ data }) => {
@@ -10,10 +10,10 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({ data }) => {
     title,
     description,
     language,
-    timescale,
-    launchDate,
+    timescale = data.timeline, // Alias
+    launchDate = data.year, // Alias
     system,
-    services,
+    services = [],
   } = data;
 
   return (
@@ -26,7 +26,7 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({ data }) => {
               Services Provided
             </h3>
             <div className="flex flex-wrap gap-3">
-              {services.map((service, index) => (
+              {services.map((service: string, index: number) => (
                 <span
                   key={index}
                   className="px-5 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 cursor-default"

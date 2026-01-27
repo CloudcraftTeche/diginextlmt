@@ -2,11 +2,15 @@ import React from "react";
 import { ObjectivesSection as ObjectivesSectionData } from "@/lib/portfolioData";
 
 interface ObjectivesSectionProps {
-  data: ObjectivesSectionData;
+  data: any; // Relaxed type to accept API mapped data
 }
 
 const ObjectivesSection: React.FC<ObjectivesSectionProps> = ({ data }) => {
-  const { subtitle, title, description, objectives } = data;
+  // Map API fields (heading/goals) to Component fields (subtitle/objectives)
+  const subtitle = data.subtitle || data.heading;
+  const title = data.title;
+  const description = data.description;
+  const objectives = data.objectives || data.goals || [];
 
   return (
     <section className="w-full bg-white py-20 sm:py-28 px-6 sm:px-12 lg:px-24">
@@ -24,7 +28,7 @@ const ObjectivesSection: React.FC<ObjectivesSectionProps> = ({ data }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {objectives.map((objective, index) => (
+          {objectives.map((objective: any, index: number) => (
             <div key={index} className="group">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 {objective.title}
