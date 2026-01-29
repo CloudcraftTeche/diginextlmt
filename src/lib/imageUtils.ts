@@ -1,6 +1,6 @@
 // src/lib/imageUtils.ts
 
-import { API_BASE_URL } from "@/config/apiConfig";
+import { IMAGE_BASE_URL } from "@/config/apiConfig";
 
 /**
  * Constructs full image URL from API response
@@ -21,9 +21,9 @@ export const getFullImageUrl = (imagePath: string): string => {
   }
 
   // Remove trailing slash from base URL if present
-  const baseUrl = API_BASE_URL.endsWith("/")
-    ? API_BASE_URL.slice(0, -1)
-    : API_BASE_URL;
+  const baseUrl = IMAGE_BASE_URL.endsWith("/")
+    ? IMAGE_BASE_URL.slice(0, -1)
+    : IMAGE_BASE_URL;
 
   // Ensure path starts with /
   const path = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
@@ -56,4 +56,13 @@ export const extractHostname = (url: string): string => {
   } catch {
     return "";
   }
+};
+
+export const getMediaType = (url: string): "video" | "youtube" | "image" => {
+  if (!url) return "image";
+  if (url.includes("youtube.com") || url.includes("youtu.be"))
+    return "youtube";
+  if (url.endsWith(".mp4") || url.endsWith(".webm") || url.endsWith(".ogg"))
+    return "video";
+  return "image";
 };

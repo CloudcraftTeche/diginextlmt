@@ -11,32 +11,16 @@ interface MediaDisplayProps {
   className?: string;
 }
 
-import { API_BASE_URL } from "@/config/apiConfig";
-
-const CLOUDINARY_BASE_URL = "https://res.cloudinary.com/dfaffsfs9/";
+import { IMAGE_BASE_URL } from "@/config/apiConfig";
+import { getMediaType } from "@/lib/imageUtils";
 
 const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
-  // Prepend CLOUDINARY_BASE_URL if src starts with 'image/' (Cloudinary path from API)
   const finalSrc = src?.startsWith("image/")
-    ? `${CLOUDINARY_BASE_URL}${src.startsWith("/") ? src.slice(1) : src}`
+    ? `${IMAGE_BASE_URL}${src.startsWith("/") ? src.slice(1) : src}`
     : src;
-
-  // Check for other relative paths that might need resolving or are local assets
-  const isExternal = finalSrc?.startsWith("http");
-  // If it's not external and doesn't start with '/', it might be invalid or need handling.
-  // But local assets usually start with '/'.
 
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-
-  const getMediaType = (url: string): "video" | "youtube" | "image" => {
-    if (!url) return "image";
-    if (url.includes("youtube.com") || url.includes("youtu.be"))
-      return "youtube";
-    if (url.endsWith(".mp4") || url.endsWith(".webm") || url.endsWith(".ogg"))
-      return "video";
-    return "image";
-  };
 
   const mediaType = getMediaType(finalSrc);
 
