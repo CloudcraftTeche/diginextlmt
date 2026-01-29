@@ -42,6 +42,7 @@ const GridSection: React.FC<GridSectionProps> = ({ data }) => {
                   src={getImageWithPlaceholder(image.image)}
                   alt={image.alt || `Grid image ${index + 1}`}
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
                 />
               </div>

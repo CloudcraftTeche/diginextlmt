@@ -5,7 +5,7 @@ export const mockInsightsList = {
     {
       id: 23,
       category: "Business Consulting & Corporate Services",
-      title: "Optimum Corporate",
+      title: "Optimum Corporate2323",
       description:
         "Optimum Corporate is a comprehensive business services firm specializing in company formation, documentation, compliance, corporate advisory, and ongoing business management. Serving entrepreneurs, SMEs, and international investors, they streamline UAE business operations with professional efficiency. While operationally strong, their online presence lacked the visibility needed to capture executives and decision-makers relying on search engines for business consulting and setup services.",
       services:

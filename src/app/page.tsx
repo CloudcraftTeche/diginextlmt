@@ -8,6 +8,7 @@ import BrandingMarketingSection from "@/components/sections/hero/BrandingMarketi
 
 import Footer from "@/components/layout/Footer";
 import { HomeService } from "@/services/HomeService";
+import { InsightsService } from "@/services/InsightsService";
 import { usePageLoading } from "@/hooks/usePageLoading";
 import { getFullImageUrl } from "@/lib/imageUtils";
 import VisionSection from "@/components/sections/hero/VisionSection";
@@ -81,7 +82,12 @@ export default function Home() {
     error: null,
   });
 
-  
+  const [insights, setInsights] = useState<AsyncState<any[]>>({
+    data: [],
+    loading: true,
+    error: null,
+  });
+
   useEffect(() => {
     const fetchBanners = async () => {
       try {
@@ -188,6 +194,32 @@ export default function Home() {
     fetchFaq();
   }, []);
 
+  // 5. Fetch Insights
+  useEffect(() => {
+    const fetchInsights = async () => {
+      try {
+        setInsights((prev) => ({ ...prev, loading: true, error: null }));
+        const response = await InsightsService.getInsights();
+        if (response.data.success) {
+          setInsights({
+            data: response.data.data || [],
+            loading: false,
+            error: null,
+          });
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        setInsights({
+          data: [],
+          loading: false,
+          error: "Failed to load insights",
+        });
+      }
+    };
+    fetchInsights();
+  }, []);
+
   // 5. Fetch SEO
   const [seo, setSeo] = useState<AsyncState<SeoData | null>>({
     data: null,
@@ -206,10 +238,9 @@ export default function Home() {
             loading: false,
             error: null,
           });
-          
+
           // Update document metadata (client-side)
           updateSeoMetadata(response.data.data[0]);
-
         } else {
           throw new Error();
         }
@@ -230,7 +261,24 @@ export default function Home() {
     image: getFullImageUrl(item.image),
   }));
 
-  const isPageLoading = banner.loading && about.loading && vision.loading && faq.loading && seo.loading; 
+  const caseStudiesData = insights.data.slice(0, 4).map((item) => ({
+    image: getFullImageUrl(item.image),
+    title: item.title,
+    percentage: item.insight_date || "Recent",
+    description: item.description
+      ? item.description.split(" ").slice(0, 20).join(" ").substring(0, 110) +
+        "..."
+      : "",
+    slug: item.id.toString(),
+    navigationText: "Read Case Study",
+  }));
+
+  const isPageLoading =
+    banner.loading &&
+    about.loading &&
+    vision.loading &&
+    faq.loading &&
+    seo.loading;
   usePageLoading(isPageLoading);
 
   return (
@@ -242,7 +290,9 @@ export default function Home() {
 
         <AboutSection data={about.data} isLoading={about.loading} />
 
-        <CaseStudiesSection />
+        <CaseStudiesSection
+          caseStudies={caseStudiesData.length > 0 ? caseStudiesData : undefined}
+        />
 
         <VisionSection data={about.data} isLoading={vision.loading} />
 

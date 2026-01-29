@@ -61,7 +61,7 @@ const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {
                   isLoading ? "opacity-0" : "opacity-100"
                 }`}
                 sizes="(max-width: 1024px) 100vw, 800px"
-                onLoadingComplete={handleLoad}
+                onLoad={handleLoad}
                 onError={handleError}
               />
             </div>

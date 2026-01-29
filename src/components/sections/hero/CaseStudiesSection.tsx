@@ -167,7 +167,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
         <motion.div
           className={COMMON_MB_MD}
           variants={staggerContainerVariants}
-          initial="initial"
+          initial="visible"
           whileInView="animate"
           viewport={onceInViewPort}
         >
@@ -222,7 +222,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
         <motion.div
           className={` ${COMMON_GAP_MD} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20`}
           variants={cardsContainerVariants}
-          initial="initial"
+          initial="animate"
           whileInView="animate"
           viewport={onceInViewPort}
         >

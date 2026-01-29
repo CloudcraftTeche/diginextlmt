@@ -5,12 +5,12 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CaseStudyHero from "@/components/sections/ourWorks/CaseStudyHero";
 import ProjectOverview from "@/components/sections/ourWorks/ProjectOverview";
-import BrandStatsSection from "@/components/sections/ourWorks/BrandStatsSection";
 import ObjectivesSection from "@/components/sections/ourWorks/ObjectivesSection";
 import ChallengesSection from "@/components/sections/ourWorks/ChallengesSection";
 import UXDesignSection from "@/components/sections/ourWorks/UXDesignSection"; // Creative Direction
 import ProductCustomizationSection from "@/components/sections/ourWorks/ProductCustomizationSection"; // Mobile Section
-import LoyaltyProgramSection from "@/components/sections/ourWorks/LoyaltyProgramSection"; // Section 4
+import LaptopMockupSection from "@/components/sections/ourWorks/LaptopMockupSection"; // Section 5
+import GridSection from "@/components/sections/ourWorks/GridSection"; // Section 4
 import { notFound, useParams } from "next/navigation";
 import { WorkService } from "@/services/WorkService";
 import { Loader2 } from "lucide-react";
@@ -27,7 +27,7 @@ export default function WorkDetailPage() {
     const fetchData = async () => {
       if (!slug) return;
       try {
-        const response = await WorkService.getWorkDetail(slug);
+        const response: any = await WorkService.getWorkDetail(slug);
 
         if (response.data && response.data.success) {
           setData(response.data.data);
@@ -146,6 +146,34 @@ export default function WorkDetailPage() {
       }
     : null;
 
+  // Section 4 -> GridSection
+  const gridSectionData = data.section4
+    ? {
+        title: data.section4.heading,
+        description: data.section4.description,
+        images: [
+          data.section4.image_1
+            ? { image: data.section4.image_1, alt: "Grid Image 1" }
+            : null,
+          data.section4.image_2
+            ? { image: data.section4.image_2, alt: "Grid Image 2" }
+            : null,
+          data.section4.image_3
+            ? { image: data.section4.image_3, alt: "Grid Image 3" }
+            : null,
+        ].filter(Boolean) as any[],
+      }
+    : null;
+
+  // Section 5 -> LaptopMockupSection
+  const section5Data = data.section5
+    ? {
+        title: data.section5.heading,
+        description: data.section5.description,
+        backgroundImage: data.section5.image,
+      }
+    : null;
+
   return (
     <>
       <Header forceTransparent={true} />
@@ -153,9 +181,6 @@ export default function WorkDetailPage() {
         <CaseStudyHero data={heroData} />
 
         <ProjectOverview data={overviewData} />
-
-        {/* Brand Stats - Optional or mapped if data available */}
-        {/* <BrandStatsSection data={portfolioData.brandStats} /> */}
 
         {objectivesData && <ObjectivesSection data={objectivesData} />}
 
@@ -165,42 +190,9 @@ export default function WorkDetailPage() {
 
         {mobileData && <ProductCustomizationSection data={mobileData} />}
 
-        {/* Section 4 Mapping */}
-        {data.section4 && (
-          <section className="bg-black py-20 px-4 md:px-8">
-            <div className="max-w-7xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-                {data.section4.heading}
-              </h2>
-              <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-3xl">
-                {data.section4.description}
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {data.section4.image_1 && (
-                  <img
-                    src={data.section4.image_1}
-                    alt="Tech 1"
-                    className="rounded-lg w-full h-64 object-cover"
-                  />
-                )}
-                {data.section4.image_2 && (
-                  <img
-                    src={data.section4.image_2}
-                    alt="Tech 2"
-                    className="rounded-lg w-full h-64 object-cover"
-                  />
-                )}
-                {data.section4.image_3 && (
-                  <img
-                    src={data.section4.image_3}
-                    alt="Tech 3"
-                    className="rounded-lg w-full h-64 object-cover"
-                  />
-                )}
-              </div>
-            </div>
-          </section>
-        )}
+        {gridSectionData && <GridSection data={gridSectionData} />}
+
+        {section5Data && <LaptopMockupSection data={section5Data} />}
 
         <Footer />
       </div>

@@ -1,5 +1,7 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { ServicesService } from "@/services/ServicesService";
 
 // Reuse layout/color constants
 import {
@@ -37,33 +39,49 @@ interface ServicesProps {
 const ServicesSection: React.FC<ServicesProps> = ({
   title = "Our Main IT Solutions",
   subtitle = "Maintain high standards of ethics in engaging and delivering content and strategy that result in measurable business growth.",
-  services = [
-    {
-      title: "Web UI/UX & eCommerce Development",
-      description:
-        "We do not just design websites, We make digital experiences that are easy to use. From UI/UX designs to custom eCommerce platforms, we help businesses attract customers and maximize sales.",
-      link: "#web-design",
-    },
-    {
-      title: "Mobile App Development",
-      description:
-        "We transform app ideas into fully functional mobile solutions that stand out in the competitive market using top-class UX and performance.",
-      link: "#mobile-app",
-    },
-    {
-      title: "Cloud & Data Solutions",
-      description:
-        "We help businesses move to the cloud with scalable, secure and collaborative infrastructure ready for the future.",
-      link: "#cloud",
-    },
-    {
-      title: "System Optimisation & Infrastructure Management",
-      description:
-        "Proactive IT support ensuring systems work smoothly — including server management, cybersecurity and network optimization.",
-      link: "#infrastructure",
-    },
-  ],
+  services: initialServices,
 }) => {
+  const [services, setServices] = useState<ServiceCard[]>(
+    initialServices || [],
+  );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await ServicesService.getServices();
+
+        let serviceList: any[] = [];
+        // Handle both direct array (mock) and envelope structure (API)
+        if (Array.isArray(response.data)) {
+          serviceList = response.data;
+        } else if (response.data?.data && Array.isArray(response.data.data)) {
+          serviceList = response.data.data;
+        }
+
+        if (serviceList.length > 0) {
+          const mappedServices = serviceList.map((item: any) => ({
+            title: item.service_name,
+            description: item.service_description,
+            // Generate basic slug if missing, e.g. "Design" -> "design"
+            link: `/solutions/${
+              item.slug ||
+              item.service_name?.toLowerCase().replace(/\s+/g, "-") ||
+              "#"
+            }`,
+          }));
+          setServices(mappedServices);
+        }
+      } catch (error) {
+        console.error("Failed to fetch services:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
   return (
     <section
       id="services-section"

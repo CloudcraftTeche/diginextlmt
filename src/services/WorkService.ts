@@ -1,73 +1,135 @@
+import { IS_MOCK_ENABLED } from "@/config/apiConfig";
 import { ApiConstants } from "@/constants/apiConstants";
 import apiClient from "@/lib/axiosInstance";
-import { IS_MOCK_ENABLED } from "@/config/apiConfig";
+import { mockWorkList } from "@/mocks/works/workList.mock";
+import {
+  mockIndustryList,
+  mockExpertiseList,
+} from "@/mocks/works/filters.mock";
 import axios from "axios";
-import { mockServicesList } from "@/mocks/services/servicesList.mock";
-
-const useMockData = async <T>(mockData: T, delay = 300) => {
-  await new Promise((resolve) => setTimeout(resolve, delay));
-  return Promise.resolve({ data: mockData });
-};
 
 export const WorkService = {
-  getWorks: async (params?: { expertise?: number; industry?: number }) => {
+  getWorks: async (filter?: { expertise?: number; industry?: number }) => {
     if (IS_MOCK_ENABLED) {
-      return useMockData(mockServicesList);
+      return useMockData(mockWorkList);
     }
     try {
-      return await apiClient.get(ApiConstants.our_works, { params });
+      return await apiClient.get(ApiConstants.our_works, { params: filter });
     } catch (error) {
       if (axios.isCancel(error)) throw error;
-      console.warn("Services List API failed, using fallback:", error);
-      return useMockData(mockServicesList);
-    }
-  },
+      console.warn("Work List API failed:", error);
 
-  getSeo: async () => {
-    if (IS_MOCK_ENABLED) {
-      // Return a basic mock structure if needed, or re-use existing mock mechanism
-      return useMockData({});
-    }
-    try {
-      return await apiClient.get(ApiConstants.our_works_seo);
-    } catch (error) {
-      if (axios.isCancel(error)) throw error;
-      console.warn("Works SEO API failed, using fallback:", error);
-      return useMockData({});
-    }
-  },
-
-  getExpertise: async () => {
-    if (IS_MOCK_ENABLED) return useMockData([]);
-    try {
-      return await apiClient.get(ApiConstants.our_works_expertise);
-    } catch (error) {
-      if (axios.isCancel(error)) throw error;
-      console.warn("Expertise API failed:", error);
-      return useMockData([]);
-    }
-  },
-
-  getIndustries: async () => {
-    if (IS_MOCK_ENABLED) return useMockData([]);
-    try {
-      return await apiClient.get(ApiConstants.our_works_industries);
-    } catch (error) {
-      if (axios.isCancel(error)) throw error;
-      console.warn("Industries API failed:", error);
-      return useMockData([]);
+      // Fallback to mock if API fails
+      return useMockData(mockWorkList);
     }
   },
 
   getWorkDetail: async (id: number | string) => {
-    if (IS_MOCK_ENABLED) return useMockData(null);
+    if (IS_MOCK_ENABLED) {
+      const workItem = mockWorkList.data.find(
+        (item) => item.id.toString() === id.toString(),
+      );
+      return useMockData({
+        success: true,
+        message: "Work detail retrieved successfully",
+        data: workItem || null,
+      });
+    }
     try {
       // @ts-ignore - API constants type mismatch for id if strictly typed
       return await apiClient.get(ApiConstants.our_works_detail(Number(id)));
     } catch (error) {
       if (axios.isCancel(error)) throw error;
       console.warn(`Work Detail API failed for ID ${id}:`, error);
-      return useMockData(null);
+
+      // Fallback to mock if API fails
+      const workItem = mockWorkList.data.find(
+        (item) => item.id.toString() === id.toString(),
+      );
+      return useMockData({
+        success: true,
+        message: "Work detail retrieved successfully",
+        data: workItem || null,
+      });
+    }
+  },
+
+  getIndustries: async () => {
+    if (IS_MOCK_ENABLED) {
+      return useMockData({
+        success: true,
+        message: "Industry list retrieved successfully",
+        data: mockIndustryList,
+      });
+    }
+    try {
+      return await apiClient.get(ApiConstants.our_works_expertise);
+    } catch (error) {
+      if (axios.isCancel(error)) throw error;
+      console.warn("Industry List API failed:", error);
+      return useMockData({
+        success: true,
+        message: "Industry list retrieved successfully",
+        data: mockIndustryList,
+      });
+    }
+  },
+
+  getExpertise: async () => {
+    if (IS_MOCK_ENABLED) {
+      return useMockData({
+        success: true,
+        message: "Expertise list retrieved successfully",
+        data: mockExpertiseList,
+      });
+    }
+    try {
+      return await apiClient.get(ApiConstants.our_works_expertise);
+    } catch (error) {
+      if (axios.isCancel(error)) throw error;
+      console.warn("Expertise List API failed:", error);
+      return useMockData({
+        success: true,
+        message: "Expertise list retrieved successfully",
+        data: mockExpertiseList,
+      });
+    }
+  },
+
+  getSeo: async () => {
+    if (IS_MOCK_ENABLED) {
+      return useMockData({
+        success: true,
+        message: "Work SEO retrieved successfully",
+        data: null,
+      });
+    }
+    try {
+      return await apiClient.get(ApiConstants.our_works_seo);
+    } catch (error) {
+      if (axios.isCancel(error)) throw error;
+      // SEO endpoint might be missing for some items, using mock fallback silently
+      const is404 = axios.isAxiosError(error) && error.response?.status === 404;
+      if (!is404) {
+        console.warn("Work SEO API failed:", error);
+      } else {
+        console.log("Work SEO not found (404), using fallback.");
+      }
+      return useMockData({
+        success: true,
+        message: "Work SEO retrieved successfully",
+        data: null,
+      });
     }
   },
 };
+
+function useMockData<T>(data: T) {
+  return Promise.resolve({
+    data: data,
+    status: 200,
+    statusText: "OK",
+    headers: {},
+    config: {} as any,
+  });
+}
