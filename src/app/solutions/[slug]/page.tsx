@@ -1,119 +1,184 @@
-// app/solutions/[slug]/page.tsx
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
+"use client";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { ServicesService } from "@/services/ServicesService";
+import { SolutionLoadingSkeleton } from "@/components/LoadingSkelton/services/SolutionLoadingSkeleton";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import HeroBanner from "@/components/ui/HeroBanner";
-import { ImageConstants } from "@/constants/ImageConstants";
-import SolutionsOfferedSection from "@/components/sections/service-solutions/OfferedSection";
-import ProcessAccordionSection from "@/components/sections/service-solutions/ProcessAccordionSection";
-import CTASection from "@/components/sections/service-solutions/CTASection";
-import PartnerSection from "@/components/sections/service-solutions/PartnerSection";
 import ServiceHeroSection from "@/components/sections/service-solutions/ServiceHeroSection";
+import { ImageConstants } from "@/constants/ImageConstants";
+import { getImageWithPlaceholder } from "@/lib/imageUtils";
+import { usePageLoading } from "@/hooks/usePageLoading";
+import { updateSeoMetadata } from "@/lib/seoUtils";
+import Image from "next/image";
 import {
-  getAllSolutionSlugs,
-  getSolutionDetailBySlug,
-} from "@/lib/solutionDetailData";
-import { generatePageMetadata } from "@/lib/metadata";
-import { SOLUTIONS_SEO } from "@/lib/seo-data";
+  SECTION_PX,
+  CONTENT_WRAPPER_CLASSES,
+  SECTION_PY,
+} from "@/constants/layoutConstants";
+import { TITLE_SIZE, DESCRIPTION_SIZE } from "@/constants/typographyConstants";
 
-// NEXT.JS 16: Props type - params is a Promise
-type Props = {
-  params: Promise<{ slug: string }>;
-};
-
-// CRITICAL: generateMetadata for Next.js 16
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  // MUST await params in Next.js 16
-  const params = await props.params;
-  const { slug } = params;
-
-  const solutionData = SOLUTIONS_SEO[slug];
-
-  if (!solutionData) {
-    return {
-      title: "Solution Not Found",
-      description: "The solution you're looking for doesn't exist.",
-      robots: {
-        index: false,
-        follow: false,
-      },
-    };
-  }
-
-  return generatePageMetadata(solutionData, `/solutions/${slug}`);
+interface SolutionData {
+  id: number;
+  solutions_name: string;
+  solutions_title: string;
+  solutions_description: string;
+  solutions_image: string;
+  solutions_heading: number;
 }
 
-// Page component for Next.js 16
-export default async function SolutionDetailPage(props: Props) {
-  // MUST await params in Next.js 16
-  const params = await props.params;
-  const { slug } = params;
+export default function SolutionDetailPage() {
+  const params = useParams();
+  const slug = params?.slug as string;
 
-  const solutionData = getSolutionDetailBySlug(slug);
+  const [data, setData] = useState<SolutionData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [notFound, setNotFound] = useState(false);
 
-  // Use Next.js notFound() for 404s
-  if (!solutionData) {
-    notFound();
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!slug) return;
+
+      try {
+        setLoading(true);
+        setError(null);
+        setNotFound(false);
+
+        // 1. Fetch all solutions to find the ID corresponding to the slug
+        const solutionsRes = await ServicesService.getSolutions();
+
+        // Handle both API shape (data.data) and Mock shape (data)
+        const solutionsList = solutionsRes.data.data || solutionsRes.data;
+
+        let foundId: number | null = null;
+
+        if (Array.isArray(solutionsList)) {
+          for (const category of solutionsList) {
+            // Check if current category services match slug or if slug matches category services items
+            // Based on mockSolutionsList: category has `services: []`.
+            const match = category.services?.find((s: any) => s.slug === slug);
+            if (match) {
+              foundId = match.id;
+              break;
+            }
+          }
+        }
+
+        // Fallback: if slug is a number, try using it as ID (dev mode mostly)
+        if (!foundId && !isNaN(parseInt(slug))) {
+          foundId = parseInt(slug);
+        }
+
+        if (!foundId) {
+          setNotFound(true);
+          setLoading(false);
+          return;
+        }
+
+        // 2. Fetch Solution Detail
+        const response = await ServicesService.getSolutionDetail(foundId);
+
+        if (response.data?.success) {
+          const data = response.data.data;
+          setData(data);
+          setLoading(false);
+          setError(null);
+
+          // Update SEO
+          updateSeoMetadata({
+            meta_title: `${data.solutions_name} | Diginext Solutions`,
+            meta_description: data.solutions_description.slice(0, 160),
+            meta_keywords: `${data.solutions_name}, Diginext Solutions`,
+          });
+        } else {
+          setNotFound(true);
+          setLoading(false);
+          setError("Failed to load");
+        }
+      } catch (err) {
+        console.error(err);
+        setLoading(false);
+        setError("An error occurred");
+      }
+    };
+
+    fetchData();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <SolutionLoadingSkeleton />
+        <Footer />
+      </>
+    );
+  }
+
+  if (!data) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center">
+          <p className="text-xl text-gray-500">Solution not found.</p>
+        </div>
+        <Footer />
+      </>
+    );
   }
 
   return (
     <>
-      <Header forceTransparent={true} />
+      <Header />
+      <main className="min-h-screen bg-white pt-20">
+        {/* Simple Banner / Header Area */}
+        <div className="bg-gray-50 py-16 md:py-24">
+          <div className={`${SECTION_PX} ${CONTENT_WRAPPER_CLASSES}`}>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+              {data.solutions_name}
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl">
+              {data.solutions_title}
+            </p>
+          </div>
+        </div>
 
-      <div className="pt-16">
-        <HeroBanner
-          backgorundImage={ImageConstants.INSIDE_BANNER_5}
-          title={solutionData.heading || "Solution Details"}
-        />
+        {/* Content Section */}
+        <section className={`${SECTION_PX} ${SECTION_PY}`}>
+          <div className={CONTENT_WRAPPER_CLASSES}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+              {/* Description */}
+              <div className="order-2 lg:order-1">
+                <h2 className={`${TITLE_SIZE} mb-6`}>{data.solutions_title}</h2>
+                <div
+                  className={`${DESCRIPTION_SIZE} text-gray-600 space-y-4 text-justify leading-relaxed`}
+                >
+                  {data.solutions_description.split("\n\n").map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
+                </div>
+              </div>
 
-        <ServiceHeroSection
-          title={solutionData.title}
-          description={solutionData.heroDescription}
-          breadcrumbs={[
-            { label: "Home", href: "/" },
-            { label: "Solutions", href: "/solutions" },
-          ]}
-          imageSrc={solutionData.imageUrl}
-        />
-
-        {solutionData.ctaSection && (
-          <CTASection
-            title={solutionData.ctaSection.title}
-            description={solutionData.ctaSection.description}
-          />
-        )}
-
-        <SolutionsOfferedSection
-          title={solutionData.servicesOffered.title}
-          description={solutionData.servicesOffered.description}
-          services={solutionData.servicesOffered.services}
-        />
-
-        <ProcessAccordionSection
-          title={solutionData.process.title}
-          steps={solutionData.process.steps}
-          description={solutionData.process.description}
-        />
-
-        {solutionData.partnerSection && (
-          <PartnerSection
-            title={solutionData.partnerSection.title}
-            description={solutionData.partnerSection.description}
-          />
-        )}
-      </div>
-
+              {/* Image */}
+              <div className="order-1 lg:order-2">
+                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+                  <Image
+                    src={getImageWithPlaceholder(data.solutions_image)}
+                    alt={data.solutions_name}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
       <Footer />
     </>
   );
-}
-
-// Generate static params - return format stays the same
-export async function generateStaticParams() {
-  const slugs = getAllSolutionSlugs();
-
-  return slugs.map((slug) => ({
-    slug: slug,
-  }));
 }

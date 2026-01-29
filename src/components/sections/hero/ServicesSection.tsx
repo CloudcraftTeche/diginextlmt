@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ServicesService } from "@/services/ServicesService";
+import { ServicesLoadingSkeleton } from "@/components/LoadingSkelton/home/ServicesLoadingSkeleton";
 
 // Reuse layout/color constants
 import {
@@ -81,6 +82,10 @@ const ServicesSection: React.FC<ServicesProps> = ({
 
     fetchServices();
   }, []);
+
+  if (loading) {
+    return <ServicesLoadingSkeleton />;
+  }
 
   return (
     <section

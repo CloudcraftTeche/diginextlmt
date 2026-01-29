@@ -35,20 +35,20 @@ export const fadeInUpVariants: Variants = {
  */
 export const logoInVariants: Variants = {
   initial: { scale: 0.8, opacity: 0 },
-  animate: { 
-    scale: 1, 
-    opacity: 1, 
-    transition: { 
-      ...standardTransition, 
-      duration: 1 // Slightly longer duration for the logo for impact
-    } 
+  animate: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      ...standardTransition,
+      duration: 1, // Slightly longer duration for the logo for impact
+    },
   },
 };
 
 /**
  * Viewport configuration to ensure animations run only once when 50% of the element is visible.
  */
-export const onceInViewPort = { 
-  once: true, 
-  amount: 0.5 
+export const onceInViewPort = {
+  once: true,
+  amount: 0.2,
 };

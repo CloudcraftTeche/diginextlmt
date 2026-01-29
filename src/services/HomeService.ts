@@ -8,6 +8,7 @@ import { mockHomeAbout } from "@/mocks/home/homeAbout.mock";
 import { mockHomeVision } from "@/mocks/home/homeVision.mock";
 import { mockHomeFaq } from "@/mocks/home/homeFaq.mock";
 import { mockHomeSeo } from "@/mocks/home/homeSeo.mock";
+import { mockHomeFeatures } from "@/mocks/home/features.mock";
 import axios from "axios";
 
 const useMockData = async <T>(mockData: T, delay = 300) => {
@@ -97,6 +98,23 @@ export const HomeService = {
 
       console.warn("SEO API failed, using fallback data:", error);
       return useMockData(mockHomeSeo);
+    }
+  },
+
+  getFeatures: async () => {
+    if (IS_MOCK_ENABLED) {
+      return useMockData(mockHomeFeatures, 600);
+    }
+
+    try {
+      return await apiClient.get(ApiConstants.home_features);
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        throw error;
+      }
+
+      console.warn("Features API failed, using fallback data:", error);
+      return useMockData(mockHomeFeatures);
     }
   },
 };

@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
+import { CaseStudiesLoadingSkeleton } from "@/components/LoadingSkelton/home/CaseStudiesLoadingSkeleton";
 
 // Import modular constants
 import {
@@ -56,6 +57,7 @@ interface CaseStudiesSectionProps {
     slug?: string;
     navigationText?: string;
   }>;
+  isLoading?: boolean;
 }
 
 const cardEntryVariants: Variants = {
@@ -157,7 +159,12 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
         "As the best IT solution company in Dubai, we transform brands by creating powerful designs that communicate our innovative IT solution services with clarity and visual appeal.",
     },
   ],
+  isLoading = false,
 }) => {
+  if (isLoading) {
+    return <CaseStudiesLoadingSkeleton />;
+  }
+
   return (
     <section
       id="case-studies-section"

@@ -4,7 +4,10 @@ import Header from "@/components/layout/Header";
 import HeroSection from "@/components/sections/hero/HeroSection";
 import CaseStudiesSection from "@/components/sections/hero/CaseStudiesSection";
 import ServicesSection from "@/components/sections/hero/ServicesSection";
-import BrandingMarketingSection from "@/components/sections/hero/BrandingMarketingSection";
+
+import BrandingMarketingSection, {
+  FeaturesData,
+} from "@/components/sections/hero/BrandingMarketingSection";
 
 import Footer from "@/components/layout/Footer";
 import { HomeService } from "@/services/HomeService";
@@ -84,6 +87,12 @@ export default function Home() {
 
   const [insights, setInsights] = useState<AsyncState<any[]>>({
     data: [],
+    loading: true,
+    error: null,
+  });
+
+  const [features, setFeatures] = useState<AsyncState<FeaturesData | null>>({
+    data: null,
     loading: true,
     error: null,
   });
@@ -220,6 +229,32 @@ export default function Home() {
     fetchInsights();
   }, []);
 
+  // 6. Fetch Features
+  useEffect(() => {
+    const fetchFeatures = async () => {
+      try {
+        setFeatures((prev) => ({ ...prev, loading: true, error: null }));
+        const response = await HomeService.getFeatures();
+        if (response.data.success && response.data.data.length > 0) {
+          setFeatures({
+            data: response.data.data[0],
+            loading: false,
+            error: null,
+          });
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        setFeatures({
+          data: null,
+          loading: false,
+          error: "Failed to load features",
+        });
+      }
+    };
+    fetchFeatures();
+  }, []);
+
   // 5. Fetch SEO
   const [seo, setSeo] = useState<AsyncState<SeoData | null>>({
     data: null,
@@ -292,12 +327,16 @@ export default function Home() {
 
         <CaseStudiesSection
           caseStudies={caseStudiesData.length > 0 ? caseStudiesData : undefined}
+          isLoading={insights.loading}
         />
 
         <VisionSection data={about.data} isLoading={vision.loading} />
 
         <ServicesSection />
-        <BrandingMarketingSection />
+        <BrandingMarketingSection
+          data={features.data}
+          isLoading={features.loading}
+        />
         <FAQSection
           faqs={faq.data.map((item) => ({
             question: item.title,

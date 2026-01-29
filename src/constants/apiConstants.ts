@@ -12,6 +12,7 @@ export const ApiConstants = {
   home_vision: `${API}/home/visions/`,
   home_faq: `${API}/home/faq/`,
   home_seo: `${API}/home/digital-marketing/`,
+  home_features: `${API}/home/features/`,
 
   // About Us
   about_banners: `${API}/aboutus/banners/`,
@@ -25,6 +26,14 @@ export const ApiConstants = {
   services_list: `${API}/services/service-names/`,
   services_seo: `${API}/services/serviceDigitalMarket`,
   subservice_detail: `${API}/services/subservice/`,
+  solutions_list: `${API}/solutions/list/`, // Assuming this endpoint for completeness, though we rely on mock/lookup for now
+  subsolution_detail: (id: number) => `${API}/solutions/subsolutions/${id}/`,
+
+  // New Solutions Endpoints
+  solutions_names: `${API}/solutions/solutions-names/`,
+  solutions_digital_market: `${API}/solutions/solutioinDigitalMarket`, // Typo in endpoint as provided by user
+  solutions: `${API}/solutions/`,
+
   footer: `${API}/footer/`,
 
   // Insights
