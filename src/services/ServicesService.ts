@@ -104,7 +104,7 @@ export const ServicesService = {
     }
   },
 
-  getSolutionDetail: async (id: number) => {
+  getSolutionDetail: async (id: number | string) => {
     if (IS_MOCK_ENABLED) {
       return useMockData(mockSolutionDetail);
     }
@@ -161,4 +161,6 @@ export const ServicesService = {
       });
     }
   },
+
+ 
 };

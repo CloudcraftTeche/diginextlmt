@@ -18,6 +18,7 @@ import {
 import MediaDisplay from "@/components/ui/MediaDisplay";
 import { WorkService } from "@/services/WorkService";
 import { ChevronDown, Loader2 } from "lucide-react";
+import { slugify } from "@/lib/utils";
 
 // Animation Variants
 const containerVariants: Variants = {
@@ -63,8 +64,9 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
     loading: boolean;
   }>({ data: [], loading: false });
 
-  const handleWorkClick = (slug: string) => {
-    router.push(`/work/${slug}`);
+  const handleWorkClick = (work: any) => {
+    const slug = slugify(work.title);
+    router.push(`/work/${work.id}-${slug}`);
   };
 
   const toggleDropdown = async (type: "expertise" | "industries") => {
@@ -206,14 +208,10 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
         >
           {works.map((work: any) => (
             <motion.article
-              // Use ID or fallback to title/random key since API doesn't have slug yet
               key={work.id || work.title}
               variants={cardVariants}
               className="group cursor-pointer"
-              // API doesn't provide slug, using ID for now (though page expects string slug).
-              // TODO: Update API or frontend to use consistent IDs/Slugs.
-              // Using ID as string if slug is missing.
-              onClick={() => handleWorkClick(work.slug || work.id.toString())}
+              onClick={() => handleWorkClick(work)}
             >
               <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-5 bg-gray-100">
                 <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
@@ -234,10 +232,10 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
                   {/* Industry is an ID in API (number), so we might want to map it or just show safe fallback */}
-                  <span>{work.industry || "Industry"}</span>
+                  {/* <span>{work.industry}</span> */}
                   <span>•</span>
                   {/* System is at root level in API */}
-                  <span>{work.system || "System"}</span>
+                  <span>{work.system}</span>
                 </div>
 
                 <div className="flex justify-between items-start">

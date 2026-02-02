@@ -1,89 +1,132 @@
-import { Metadata } from "next";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Header from "@/components/layout/Header";
-// import { StructuredData } from "@/components/seo/StructuredData";
-// import { SITE_CONFIG } from "@/lib/constants";
-import { generatePageMetadata } from "@/lib/metadata";
-import { PAGES_SEO } from "@/lib/seo-data";
 import Footer from "@/components/layout/Footer";
 import HeroBanner from "@/components/ui/HeroBanner";
-import { ImageConstants } from "@/constants/ImageConstants";
 import ShowcaseSection, {
   ServiceItem,
 } from "@/components/sections/service-solutions/ShowcaseSection";
-import { ServicesService } from "@/services/ServicesService";
+import { ServicesService, SubSolution } from "@/services/ServicesService"; // Ensure types are exported
+import { ServicesSkeleton } from "@/components/LoadingSkelton/services/ServicesSkeleton"; // Using ServicesSkeleton as it matches listing structure
+import { updateSeoMetadata, SeoData } from "@/lib/seoUtils";
 import { getImageWithPlaceholder } from "@/lib/imageUtils";
+import { usePageLoading } from "@/hooks/usePageLoading";
+import { ImageConstants } from "@/constants/ImageConstants";
+import { slugify } from "@/lib/utils";
 
-// SEO Metadata Export - Use solutions metadata
-export const metadata: Metadata = generatePageMetadata(
-  PAGES_SEO.solutions,
-  "/solutions",
-);
+interface AsyncState<T> {
+  data: T;
+  loading: boolean;
+  error: string | null;
+}
 
-export default async function SolutionsPage() {
-  let solutionsData: ServiceItem[] = [];
-  let bannerTitle = "Our Solutions";
-  let bannerImage = ImageConstants.INSIDE_BANNER_3;
+export default function SolutionsPage() {
+  const [solutions, setSolutions] = useState<AsyncState<any[]>>({
+    data: [],
+    loading: true,
+    error: null,
+  });
 
-  try {
-    const [solutionsRes, seoRes] = await Promise.all([
-      ServicesService.getSolutions(),
-      ServicesService.getSolutionsSeo(),
-    ]);
+  const [seo, setSeo] = useState<AsyncState<any>>({
+    data: null,
+    loading: true,
+    error: null,
+  });
 
-    const solutionsList = solutionsRes.data.data;
+  useEffect(() => {
+    const fetchData = async () => {
+      // Fetch Solutions
+      ServicesService.getSolutions()
+        .then((res) => {
+          // Handle response wrapper
+          const data = res.data.data;
 
-    if (Array.isArray(solutionsList)) {
-      solutionsData = solutionsList.map((cat) => ({
-        title: cat.solutions_name,
-        description: cat.solutions_description,
-        slug: cat.solutions_name.toLowerCase().replace(/\s+/g, "-"),
-        image: getImageWithPlaceholder(cat.solutions_image),
-        imageAlt: cat.solutions_name,
-        services: cat.solutions.map(
-          (sub: { solutions_name: string; slug?: string }) => ({
-            name: sub.solutions_name,
-            slug:
-              sub.slug || sub.solutions_name.toLowerCase().replace(/\s+/g, "-"), // Use provided slug or generate one
-          }),
-        ),
-      }));
-    }
+          if (Array.isArray(data)) {
+            setSolutions({ data: data, loading: false, error: null });
+          } else {
+            // Fallback or error handling
+            setSolutions({
+              data: [],
+              loading: false,
+              error: "Invalid data format",
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setSolutions((prev) => ({
+            ...prev,
+            loading: false,
+            error: "Failed to load solutions",
+          }));
+        });
 
-    if (seoRes.data.success && seoRes.data.data) {
-      // Optional: Update banner info from SEO endpoint if needed
-      // const seoData = seoRes.data.data;
-      // if (seoData.banner_image) bannerImage = getImageWithPlaceholder(seoData.banner_image);
-    }
-  } catch (error) {
-    console.error("Failed to fetch solutions data", error);
-    // Fallback? or let empty state show
+      // Fetch SEO
+      ServicesService.getSolutionsSeo()
+        .then((res) => {
+          if (res.data.success) {
+            setSeo({ data: res.data.data, loading: false, error: null });
+
+            // Adapt API response (string | null) to SeoData (string | undefined)
+            const seoData: SeoData = {
+              meta_title: res.data.data.meta_title,
+              meta_description: res.data.data.meta_description,
+              meta_keywords: res.data.data.meta_keywords,
+              banner_image: res.data.data.banner_image || undefined,
+            };
+            updateSeoMetadata(seoData);
+          } else {
+            setSeo((prev) => ({ ...prev, loading: false }));
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setSeo((prev) => ({
+            ...prev,
+            loading: false,
+            error: "Failed to load SEO",
+          }));
+        });
+    };
+
+    fetchData();
+  }, []);
+
+  const isLoading = solutions.loading && seo.loading;
+  usePageLoading(isLoading);
+
+  if (isLoading) {
+    return <ServicesSkeleton />;
   }
 
-  // const structuredData = {
-  //   "@context": "https://schema.org",
-  //   "@type": "CollectionPage",
-  //   name: "Our Solutions",
-  //   description: PAGES_SEO.solutions.description,
-  //   url: `${SITE_CONFIG.url}/solutions`,
-  //   provider: {
-  //     "@type": "Organization",
-  //     name: SITE_CONFIG.name,
-  //     url: SITE_CONFIG.url,
-  //   },
-  // };
+  // Transform Data
+  const transformedServices: ServiceItem[] = solutions.data.map((cat: any) => ({
+    title: cat.solutions_name,
+    description: cat.solutions_description,
+    slug: `${cat.id}-${slugify(cat.solutions_name)}`,
+    image: getImageWithPlaceholder(cat.solutions_image),
+    imageAlt: cat.solutions_name,
+    services:
+      cat.solutions?.map((sub: SubSolution) => ({
+        name: sub.solutions_name,
+        slug: `${sub.id}-${slugify(sub.solutions_name)}`,
+      })) || [],
+  }));
+
+  // Determine Banner Info (Use SEO banner if available, else default)
+  const bannerTitle = seo.data?.meta_title ? "Our Solutions" : "Our Solutions"; // Could customize title from SEO if available
+  const bannerImage = seo.data?.banner_image
+    ? getImageWithPlaceholder(seo.data.banner_image)
+    : ImageConstants.INSIDE_BANNER_3;
 
   return (
     <>
-      {/* <StructuredData data={structuredData} /> */}
-
       <Header forceTransparent={true} />
 
-      {/* Main content with top padding to account for fixed header */}
       <div className="pt-16">
-        <HeroBanner backgorundImage={bannerImage} title={bannerTitle} />
-        {/* FIX: Set basePath for solutions */}
-        <ShowcaseSection services={solutionsData} basePath="/solutions" />
-
+        <HeroBanner title={bannerTitle} backgorundImage={bannerImage} />
+        <ShowcaseSection basePath="/solutions" services={transformedServices} />
         <Footer />
       </div>
     </>

@@ -42,44 +42,23 @@ export default function SolutionDetailPage() {
     const fetchData = async () => {
       if (!slug) return;
 
+      // Extract ID from slug format: {id}-{slug-name}
+      const id = slug.split("-")[0];
+
+      if (!id) {
+        setNotFound(true);
+        setLoading(false);
+        setError("Invalid solution ID");
+        return;
+      }
+
       try {
         setLoading(true);
         setError(null);
         setNotFound(false);
 
-        // 1. Fetch all solutions to find the ID corresponding to the slug
-        const solutionsRes = await ServicesService.getSolutions();
-
-        // Handle both API shape (data.data) and Mock shape (data)
-        const solutionsList = solutionsRes.data.data || solutionsRes.data;
-
-        let foundId: number | null = null;
-
-        if (Array.isArray(solutionsList)) {
-          for (const category of solutionsList) {
-            // Check if current category services match slug or if slug matches category services items
-            // Based on mockSolutionsList: category has `services: []`.
-            const match = category.services?.find((s: any) => s.slug === slug);
-            if (match) {
-              foundId = match.id;
-              break;
-            }
-          }
-        }
-
-        // Fallback: if slug is a number, try using it as ID (dev mode mostly)
-        if (!foundId && !isNaN(parseInt(slug))) {
-          foundId = parseInt(slug);
-        }
-
-        if (!foundId) {
-          setNotFound(true);
-          setLoading(false);
-          return;
-        }
-
-        // 2. Fetch Solution Detail
-        const response = await ServicesService.getSolutionDetail(foundId);
+        // Fetch Solution Detail using extracted ID
+        const response = await ServicesService.getSolutionDetail(id);
 
         if (response.data?.success) {
           const data = response.data.data;

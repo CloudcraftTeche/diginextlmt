@@ -57,43 +57,21 @@ export default function ServiceDetailPage({
     if (!slug) return;
 
     const fetchData = async () => {
+      // Extract ID from slug format: {id}-{slug-name}
+      const id = slug.split("-")[0];
+
+      if (!id || isNaN(Number(id))) {
+        setNotFound(true);
+        setSubService((prev) => ({ ...prev, loading: false }));
+        return;
+      }
+
       try {
         setSubService((prev) => ({ ...prev, loading: true, error: null }));
         setNotFound(false);
 
-        // 1. Fetch all services to find the ID corresponding to the slug
-        const servicesRes = await ServicesService.getServices();
-        if (!servicesRes.data.success)
-          throw new Error("Failed to load services list");
-
-        let foundId: number | null = null;
-        let foundTitle = "";
-
-        // Search for slug match
-        // We search in subservices of each service
-        // NOTE: The user API structure maps main services -> subservices.
-        // The current page usually handles subservices.
-
-        for (const service of servicesRes.data.data) {
-          // Check if the slug matches a subservice
-          const match = service.subservices?.find(
-            (sub: any) => slugify(sub.subservice_name) === slug,
-          );
-          if (match) {
-            foundId = match.id;
-            foundTitle = match.subservice_name;
-            break;
-          }
-        }
-
-        if (!foundId) {
-          setNotFound(true);
-          setSubService((prev) => ({ ...prev, loading: false }));
-          return;
-        }
-
-        // 2. Fetch Subservice Detail
-        const detailRes = await ServicesService.getSubService(foundId);
+        // Fetch Subservice Detail using extracted ID
+        const detailRes = await ServicesService.getSubService(Number(id));
         if (detailRes.data.success) {
           const data = detailRes.data.data;
           setSubService({
@@ -106,7 +84,7 @@ export default function ServiceDetailPage({
           updateSeoMetadata({
             meta_title: `${data.subservice_name} | DiginextServices`,
             meta_description: data.subservice_description.slice(0, 160),
-            meta_keywords: `${data.subservice_name}, Diginext`, // minimal keywords
+            meta_keywords: `${data.subservice_name}, Diginext`,
           });
         } else {
           throw new Error("Failed to load subservice detail");

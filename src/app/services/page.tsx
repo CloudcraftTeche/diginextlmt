@@ -138,12 +138,12 @@ export default function ServicesPage() {
   const transformedServices: ServiceItem[] = services.data.map((service) => ({
     title: service.service_name,
     description: service.service_description,
-    slug: slugify(service.service_name),
+    slug: `${service.id}-${slugify(service.service_name)}`,
     image: getFullImageUrl(service.service_image),
     imageAlt: service.service_name,
     services: service.subservices.map((sub) => ({
       name: sub.subservice_name,
-      slug: slugify(sub.subservice_name),
+      slug: `${sub.id}-${slugify(sub.subservice_name)}`,
     })),
   }));
 

@@ -22,4 +22,12 @@ export const LayoutService = {
       return useMockData(mockFooterData);
     }
   },
+  getNavbarData: async () => {
+    try {
+      return await apiClient.get(ApiConstants.navbar_data);
+    } catch (error) {
+      console.warn("Navbar data API failed", error);
+      throw error;
+    }
+  },
 };

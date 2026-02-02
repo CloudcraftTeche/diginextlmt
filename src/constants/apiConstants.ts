@@ -27,17 +27,20 @@ export const ApiConstants = {
   services_seo: `${API}/services/serviceDigitalMarket`,
   subservice_detail: `${API}/services/subservice/`,
   solutions_list: `${API}/solutions/list/`, // Assuming this endpoint for completeness, though we rely on mock/lookup for now
-  subsolution_detail: (id: number) => `${API}/solutions/subsolutions/${id}/`,
+  subsolution_detail: (id: number | string) =>
+    `${API}/solutions/subsolutions/${id}/`,
 
   // New Solutions Endpoints
   solutions_names: `${API}/solutions/solutions-names/`,
   solutions_digital_market: `${API}/solutions/solutioinDigitalMarket`, // Typo in endpoint as provided by user
   solutions: `${API}/solutions/`,
 
+  // layout
   footer: `${API}/footer/`,
+  navbar_data: `${API}/navbar-data/`,
 
   // Insights
-  insights_banner: `${API}/insights/banner/`,
+  insights_banner: `${API}/insights/banner`,
   insights_list: `${API}/insights/our-insights/`,
   insight_detail: `${API}/insights/our-insights/`,
 
