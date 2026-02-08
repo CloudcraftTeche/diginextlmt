@@ -8,6 +8,7 @@ import WhatsAppWidget from "@/components/WhatsAppWidget";
 import { GoogleTagManager } from "@/components/GoogleTagManager";
 import { LoadingProvider } from "@/contexts/LoadingContext";
 import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { ReduxProvider } from "@/components/providers/ReduxProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     creator: SITE_CONFIG.twitter,
   },
-};  
+};
 
 export default function RootLayout({
   children,
@@ -72,20 +73,22 @@ export default function RootLayout({
         {/* Google Tag Manager - Loads first */}
         <GoogleTagManager gtmId="GTM-WTTZD4MF" />
 
-        {/* Loading Provider wraps entire app */}
-        <LoadingProvider>
-          {/* Global Loading Overlay */}
-          <GlobalLoading />
+        {/* Redux Provider for global state */}
+        <ReduxProvider>
+          {/* Loading Provider wraps entire app */}
+          <LoadingProvider>
+            {/* Global Loading Overlay */}
+            <GlobalLoading />
 
-          {/* Main Content */}
-          {children}
+            {/* Main Content */}
+            {children}
 
-          {/* Modals and Widgets */}
-          <ContactModal />
-          <WhatsAppWidget />
-        </LoadingProvider>
+            {/* Modals and Widgets */}
+            <ContactModal />
+            <WhatsAppWidget />
+          </LoadingProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
 }
-   

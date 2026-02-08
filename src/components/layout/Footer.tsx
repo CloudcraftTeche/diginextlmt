@@ -2,6 +2,9 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { LayoutService } from "@/services/LayoutService";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { fetchFooterData } from "@/store/features/layoutSlice";
 import FooterSkeleton from "@/components/LoadingSkelton/layout/FooterSkeleton";
 import Image from "next/image";
 import { ImageConstants } from "@/constants/ImageConstants";
@@ -90,23 +93,26 @@ const Footer = () => {
     twitter: "https://x.com/Diginext_global",
   };
 
-  useEffect(() => {
-    const fetchFooterData = async () => {
-      try {
-        const response = await LayoutService.getFooter();
-        if (response.data?.success && response.data?.data?.[0]) {
-          const { title, description } = response.data.data[0];
-          setFooterInfo({ title, description });
-        }
-      } catch (error) {
-        console.error("Failed to fetch footer data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Fetch footer data from Redux if not present
+  const { footerData } = useSelector((state: RootState) => state.layout);
+  const dispatch = useDispatch<AppDispatch>();
 
-    fetchFooterData();
-  }, []);
+  useEffect(() => {
+    if (!footerData) {
+      dispatch(fetchFooterData());
+    }
+  }, [dispatch, footerData]);
+
+  useEffect(() => {
+    if (footerData && footerData.success && footerData.data?.[0]) {
+      const { title, description } = footerData.data[0];
+      setFooterInfo({ title, description });
+      setLoading(false);
+    } else if (footerData) {
+      // Data loaded but empty or invalid structure, stop loading anyway
+      setLoading(false);
+    }
+  }, [footerData]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

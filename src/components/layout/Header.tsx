@@ -12,6 +12,9 @@ import {
 } from "@/constants/layoutConstants";
 import { TITLE_SIZE, FONT_WEIGHT } from "@/constants/typographyConstants";
 import { LayoutService } from "@/services/LayoutService";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { fetchNavbarData } from "@/store/features/layoutSlice";
 
 interface SubItem {
   id: number;
@@ -78,54 +81,52 @@ const Header = ({
     { name: "Contact Us", href: "/contact" },
   ];
 
-  // Fetch navbar data from API
+  // Fetch navbar data from Redux if not present
+  const { navbarData } = useSelector((state: RootState) => state.layout);
+  const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
-    const fetchNavbarData = async () => {
-      try {
-        const response = await LayoutService.getNavbarData();
+    if (!navbarData) {
+      dispatch(fetchNavbarData());
+    }
+  }, [dispatch, navbarData]);
 
-        if (response.data?.success) {
-          const { services, solutions } = response.data.data;
+  useEffect(() => {
+    if (navbarData && navbarData.success) {
+      const { services, solutions } = navbarData.data;
 
-          // Transform services data
-          const transformedServices: ServiceItem[] = services.map(
-            (service: any) => ({
-              id: service.id,
-              title: service.service_name,
-              slug: `${service.id}-${slugify(service.service_name)}`,
-              services: service.subservices.map((sub: any) => ({
-                id: sub.id,
-                name: sub.subservice_name,
-                slug: `${sub.id}-${slugify(sub.subservice_name)}`,
-              })),
-            }),
-          );
+      // Transform services data
+      const transformedServices: ServiceItem[] = services.map(
+        (service: any) => ({
+          id: service.id,
+          title: service.service_name,
+          slug: `${service.id}-${slugify(service.service_name)}`,
+          services: service.subservices.map((sub: any) => ({
+            id: sub.id,
+            name: sub.subservice_name,
+            slug: `${sub.id}-${slugify(sub.subservice_name)}`,
+          })),
+        }),
+      );
 
-          // Transform solutions data
-          const transformedSolutions: ServiceItem[] = solutions.map(
-            (solution: any) => ({
-              id: solution.id,
-              title: solution.solutions_name,
-              slug: `${solution.id}-${slugify(solution.solutions_name)}`,
-              services: solution.solutions.map((sub: any) => ({
-                id: sub.id,
-                name: sub.solutions_name,
-                slug: `${sub.id}-${slugify(sub.solutions_name)}`,
-              })),
-            }),
-          );
+      // Transform solutions data
+      const transformedSolutions: ServiceItem[] = solutions.map(
+        (solution: any) => ({
+          id: solution.id,
+          title: solution.solutions_name,
+          slug: `${solution.id}-${slugify(solution.solutions_name)}`,
+          services: solution.solutions.map((sub: any) => ({
+            id: sub.id,
+            name: sub.solutions_name,
+            slug: `${sub.id}-${slugify(sub.solutions_name)}`,
+          })),
+        }),
+      );
 
-          setServicesData(transformedServices);
-          setSolutionsData(transformedSolutions);
-        }
-      } catch (error) {
-        console.error("Failed to fetch navbar data:", error);
-        // Keep empty arrays as fallback
-      }
-    };
-
-    fetchNavbarData();
-  }, []);
+      setServicesData(transformedServices);
+      setSolutionsData(transformedSolutions);
+    }
+  }, [navbarData]);
 
   const isActiveRoute = (href: string) => {
     if (!pathname) return false;
