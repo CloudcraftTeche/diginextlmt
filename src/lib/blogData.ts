@@ -1,6 +1,7 @@
 // lib/blogData.ts
 
 export interface BlogPost {
+  id?: number | string;
   slug: string;
   title: string;
   metaDescription: string;
@@ -8,10 +9,15 @@ export interface BlogPost {
   content: string;
   author: string;
   date: string;
+  created_at?: string;
   category: string;
   imageUrl: string;
+  image?: string;
+  banner_image?: string;
   readTime: string;
   tags: string[];
+  features?: string;
+  description?: string;
 }
 
 export const BLOG_POSTS: BlogPost[] = [
@@ -348,7 +354,7 @@ You do not have to choose between investing in IT or cybersecurity, you should i
 // Helper functions
 export function getAllBlogPosts(): BlogPost[] {
   return BLOG_POSTS.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 }
 

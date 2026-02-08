@@ -44,6 +44,13 @@ export const ApiConstants = {
   insights_list: `${API}/insights/our-insights/`,
   insight_detail: `${API}/insights/our-insights/`,
 
+  // Career
+  career: `${API}/career/`,
+
+  // Blog
+  blog_posts: `${API}/blog/`,
+  blog_post_detail: (id: number | string) => `${API}/blog/${id}/`,
+
   // Work
   our_works: `${API}/ourworks/`,
   our_works_seo: `${API}/ourworks/digital-marketing/`,

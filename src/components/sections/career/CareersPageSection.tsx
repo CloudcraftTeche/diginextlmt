@@ -16,6 +16,7 @@ import {
   Palette,
   Video,
   TrendingUp,
+  SearchX,
 } from "lucide-react";
 
 import {
@@ -35,236 +36,106 @@ import {
   onceInViewPort,
 } from "@/constants/animationVariants";
 
-interface JobListing {
-  id: string;
-  title: string;
-  experience: string;
-  workMode: string;
-  icon: React.ElementType;
-  responsibilities: string[];
-  requirements: string[];
-  additionalInfo?: {
-    title: string;
-    points: string[];
-  };
+import { CareerPost } from "@/mocks/career/careerList.mock";
+
+interface CareersPageSectionProps {
+  jobs: CareerPost[];
 }
 
-const CareersPage: React.FC = () => {
-  const [selectedJob, setSelectedJob] = useState<string>("motion-designer");
+const getJobIcon = (title: string) => {
+  const lower = title.toLowerCase();
+  if (lower.includes("motion") || lower.includes("video")) return Video;
+  if (lower.includes("design") || lower.includes("creative")) return Palette;
+  if (lower.includes("sales")) return TrendingUp;
+  if (lower.includes("business")) return Users;
+  if (
+    lower.includes("seo") ||
+    lower.includes("ppc") ||
+    lower.includes("marketing")
+  )
+    return Target;
+  if (lower.includes("manager")) return CheckCircle;
+  return Briefcase;
+};
 
-  const jobs: JobListing[] = [
-    {
-      id: "motion-designer",
-      title: "Motion & Graphic Designer",
-      experience: "2+ Years",
-      workMode: "Remote",
-      icon: Video,
-      responsibilities: [
-        "Develop engaging graphics, motion visuals, and animations for websites, social media, and digital campaigns",
-        "Create audio-visual content, including short videos, explainer animations, and motion graphics",
-        "Design SMM posts, reels, and animated content for multiple platforms",
-        "Collaborate with the marketing and web teams to ensure creative consistency",
-        "Edit and enhance video content as needed",
-        "Maintain brand identity across all digital assets",
-      ],
-      requirements: [
-        "2+ years of proven experience in motion design and graphic design",
-        "Strong portfolio with motion graphics, animations, and design projects",
-        "Expertise in tools like After Effects, Premiere Pro, Illustrator, Photoshop, Figma, etc.",
-        "Ability to work in a fast-paced remote environment",
-        "Strong creativity, attention to detail, and storytelling skills",
-        "Understanding of current design and animation trends",
-      ],
-    },
-    {
-      id: "brand-designer",
-      title: "Brand Designer",
-      experience: "2+ Years",
-      workMode: "Remote",
-      icon: Palette,
-      responsibilities: [
-        "Develop and shape brand identities for a variety of clients",
-        "Create visual concepts, brand guidelines, and design assets",
-        "Collaborate with the marketing and creative teams",
-        "Ensure brand consistency across all platforms",
-      ],
-      requirements: [
-        "Proven experience as a Brand Designer (2+ years)",
-        "Strong portfolio showcasing brand identity projects",
-        "Proficiency in design tools like Adobe Creative Suite, Figma, etc.",
-        "Strong attention to detail and creativity",
-      ],
-    },
-    {
-      id: "business-development",
-      title: "Business Development Executive",
-      experience: "4+ Years",
-      workMode: "Remote/Hybrid",
-      icon: TrendingUp,
-      responsibilities: [
-        "Pitch and acquire international clients across IT, Digital Marketing, and Event sectors",
-        "Develop and execute strategic business growth plans",
-        "Conduct market research to identify opportunities and potential clients",
-        "Build strong client relationships and manage ongoing communication",
-        "Prepare proposals, presentations, and business documents",
-        "Collaborate with internal teams to ensure seamless project delivery",
-        "Achieve monthly and quarterly sales targets as part of a performance-driven structure",
-        "Maintain a consistent sales pipeline and follow-up process",
-      ],
-      requirements: [
-        "Minimum 4 years of experience in Business Development",
-        "Proven experience dealing with IT services, Digital Marketing, and Events",
-        "Strong communication, negotiation, and presentation skills",
-        "Experience in international sales/client acquisition",
-        "Ability to understand client needs and translate them into effective solutions",
-        "Highly self-driven, proactive, and target-oriented",
-        "Comfortable working with CRM tools and business communication platforms",
-      ],
-      additionalInfo: {
-        title: "Target-Based Expectations",
-        points: [
-          "Must be confident in working under a target-driven sales model",
-          "Consistently achieve and exceed revenue acquisition goals",
-          "Maintain high performance in outreach, conversions, and client retention",
-        ],
-      },
-    },
-    {
-      id: "business-development-junior",
-      title: "Business Development Executive (Junior)",
-      experience: "0-1 Year",
-      workMode: "Remote/Hybrid",
-      icon: Users,
-      responsibilities: [
-        "Assist in pitching and communicating with international clients",
-        "Support business development activities across IT, Digital Marketing, and Events",
-        "Conduct basic market research to identify potential leads",
-        "Prepare proposals, client reports, and presentations",
-        "Coordinate with internal teams for smooth project execution",
-        "Maintain CRM data and follow up with leads",
-        "Work towards achieving monthly lead-generation and conversion targets",
-      ],
-      requirements: [
-        "0–1 year of experience (freshers with good communication skills can apply)",
-        "Strong interest in IT, Digital Marketing, or Event solutions",
-        "Excellent communication and presentation skills",
-        "Strong willingness to learn and grow in a fast-paced environment",
-        "Basic knowledge of sales or client communication is an added advantage",
-        "Confidence to work under a target-driven structure",
-      ],
-      additionalInfo: {
-        title: "Target-Based Expectations (Junior Level)",
-        points: [
-          "Meet basic monthly KPIs (lead outreach, calls, follow-ups, proposals)",
-          "Contribute to achieving team sales targets",
-          "Develop confidence in pitching and client conversions over time",
-        ],
-      },
-    },
-    {
-      id: "junior-graphic-designer",
-      title: "Junior Graphic Designer",
-      experience: "Fresher (0-1 Year)",
-      workMode: "Remote",
-      icon: Palette,
-      responsibilities: [
-        "Assist in creating graphics for social media, websites, and branding materials",
-        "Support senior designers with design tasks and revisions",
-        "Help develop visually appealing layouts and digital assets",
-        "Brainstorm creative ideas for campaigns and projects",
-        "Maintain brand consistency across all designs",
-      ],
-      requirements: [
-        "Freshers are welcome (0–1 year experience)",
-        "Basic knowledge of design tools (Photoshop, Illustrator, Canva, or Figma)",
-        "Creative mindset with strong attention to detail",
-        "Ability to follow brand guidelines and design directions",
-        "A portfolio (college projects or personal work) is a plus",
-      ],
-    },
-    {
-      id: "sales-manager",
-      title: "Sales Manager",
-      experience: "4+ Years",
-      workMode: "Remote/Hybrid",
-      icon: TrendingUp,
-      responsibilities: [
-        "Drive sales growth through strategic planning and execution",
-        "Achieve monthly and quarterly sales targets consistently",
-        "Pitch and convert clients in IT, Digital Marketing, and related services",
-        "Build, manage, and maintain strong customer relationships",
-        "Identify new business opportunities and potential markets",
-        "Lead follow-ups, negotiations, and deal closures",
-        "Prepare sales reports and performance analytics",
-        "Work closely with marketing and BD teams to support sales activities",
-      ],
-      requirements: [
-        "Proven experience in a target-based sales role",
-        "Strong communication, negotiation, and closing skills",
-        "Experience in IT, Digital Marketing, or similar industries is a plus",
-        "Ability to work under pressure and meet strict targets",
-        "Self-motivated, confident, and goal-oriented",
-        "Familiarity with CRM tools and sales pipelines",
-      ],
-      additionalInfo: {
-        title: "What We Expect",
-        points: [
-          "A strong achiever with a competitive mindset",
-          "Someone who is comfortable working in a performance-driven structure",
-          "Commitment to hitting and exceeding targets consistently",
-        ],
-      },
-    },
-    {
-      id: "ppc-expert",
-      title: "PPC Expert",
-      experience: "2+ Years",
-      workMode: "Remote",
-      icon: Target,
-      responsibilities: [
-        "Plan, execute, and optimize PPC campaigns across Google Ads, Meta Ads, and other platforms",
-        "Conduct keyword research, audience targeting, and competitor analysis",
-        "Manage budgets, bidding strategies, and campaign performance",
-        "Track, measure, and report campaign results with actionable insights",
-        "Collaborate with SEO, design, and marketing teams to improve conversions",
-        "Stay updated with the latest trends and paid advertising strategies",
-      ],
-      requirements: [
-        "Minimum 2+ years of proven PPC experience",
-        "Hands-on experience with Google Ads, Meta Ads Manager, Google Analytics",
-        "Strong skills in campaign optimization, A/B testing, and performance tracking",
-        "Ability to analyze data and make ROI-driven decisions",
-        "Good communication and reporting skills",
-        "Immediate joining preferred",
-      ],
-    },
-    {
-      id: "seo-trainee",
-      title: "SEO Trainee / Intern",
-      experience: "Fresher (0-1 Year)",
-      workMode: "Remote",
-      icon: Award,
-      responsibilities: [
-        "Assist in keyword research, on-page optimization, and technical SEO",
-        "Work on content optimization, meta tags, and improving website rankings",
-        "Support in backlink building and outreach activities",
-        "Perform SEO audits and competitor analysis",
-        "Collaborate with the digital marketing team on SEO strategies",
-        "Monitor website performance using tools like Google Analytics & Search Console",
-      ],
-      requirements: [
-        "Basic understanding of SEO concepts (training will be provided)",
-        "Interest in digital marketing and website optimization",
-        "Good analytical and research skills",
-        "Familiarity with tools like Google Analytics, Search Console, or SEMrush (added advantage)",
-        "Strong communication skills and eagerness to learn",
-        "Immediate joining preferred",
-      ],
-    },
-  ];
+const CareersPage: React.FC<CareersPageSectionProps> = ({ jobs = [] }) => {
+  const [selectedJob, setSelectedJob] = useState<number>(jobs[0]?.id || 0);
+
+  // Effect to set initial selected job if jobs change
+  React.useEffect(() => {
+    if (jobs.length > 0 && !jobs.find((j) => j.id === selectedJob)) {
+      setSelectedJob(jobs[0].id);
+    }
+  }, [jobs, selectedJob]);
+
+  if (!jobs || jobs.length === 0) {
+    return (
+      <div className="bg-gradient-to-b from-gray-50 via-white to-gray-50 min-h-screen flex flex-col items-center justify-center pt-20 pb-20">
+        <section className={`${SECTION_PX} py-20 text-center`}>
+          <div className={CONTENT_WRAPPER_CLASSES}>
+            <motion.div
+              variants={staggerContainerVariants}
+              initial="initial"
+              animate="animate"
+              className="flex flex-col items-center justify-center max-w-2xl mx-auto"
+            >
+              <motion.div
+                variants={fadeInUpVariants}
+                className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-6"
+              >
+                <SearchX className="w-10 h-10 text-orange-600" />
+              </motion.div>
+
+              <motion.h2
+                variants={fadeInUpVariants}
+                className={`${HERO_HEADING_SIZE} ${FONT_WEIGHT.medium} text-gray-900 mb-4`}
+              >
+                No Open Positions
+              </motion.h2>
+
+              <motion.p
+                variants={fadeInUpVariants}
+                className={`${DESCRIPTION_SIZE} text-gray-600 mb-8 max-w-lg`}
+              >
+                We don&apos;t have any open roles at the moment, but we&apos;re
+                always looking for talented people. Send us your CV, and
+                we&apos;ll keep you in mind for future opportunities.
+              </motion.p>
+
+              <motion.a
+                variants={fadeInUpVariants}
+                href="mailto:careers@diginext.ae"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transform hover:-translate-y-0.5"
+              >
+                <Mail className="w-5 h-5" />
+                <span>Email Us Your CV</span>
+              </motion.a>
+            </motion.div>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   const currentJob = jobs.find((job) => job.id === selectedJob) || jobs[0];
-  const JobIcon = currentJob.icon;
+  const JobIcon = getJobIcon(currentJob.heading);
+
+  // Helper to get specific section points
+  const getSectionPoints = (headingPartial: string) => {
+    const section = currentJob.sections.find((s) =>
+      s.heading.toLowerCase().includes(headingPartial.toLowerCase()),
+    );
+    return section ? section.points : [];
+  };
+
+  const responsibilities = getSectionPoints("responsibilities");
+  const requirements = getSectionPoints("requirements");
+  // Find "What We Expect" or "Target-Based Expectations" or any other section
+  const otherSections = currentJob.sections.filter(
+    (s) =>
+      !s.heading.toLowerCase().includes("responsibilities") &&
+      !s.heading.toLowerCase().includes("requirements"),
+  );
 
   const perks = [
     {
@@ -315,9 +186,9 @@ const CareersPage: React.FC = () => {
               variants={fadeInUpVariants}
               className={`${DESCRIPTION_SIZE} text-gray-600 max-w-3xl mx-auto leading-relaxed`}
             >
-              We&apos;re looking for talented individuals to help shape the future of
-              digital design and brand identity. Be part of a team that creates
-              meaningful experiences.
+              We&apos;re looking for talented individuals to help shape the
+              future of digital design and brand identity. Be part of a team
+              that creates meaningful experiences.
             </motion.p>
           </motion.div>
         </div>
@@ -334,7 +205,7 @@ const CareersPage: React.FC = () => {
             className="grid grid-cols-1 md:grid-cols-3 gap-4"
           >
             {jobs.map((job) => {
-              const Icon = job.icon;
+              const Icon = getJobIcon(job.heading);
               return (
                 <button
                   key={job.id}
@@ -363,10 +234,10 @@ const CareersPage: React.FC = () => {
                             : "text-gray-900"
                         }`}
                       >
-                        {job.title}
+                        {job.heading}
                       </h3>
                       <p className="text-sm text-gray-600">
-                        {job.experience} • {job.workMode}
+                        {job.experience} • {job.type}
                       </p>
                     </div>
                   </div>
@@ -406,15 +277,15 @@ const CareersPage: React.FC = () => {
                       <h2
                         className={`${TITLE_SIZE} ${FONT_WEIGHT.medium} text-gray-900 mb-2`}
                       >
-                        {currentJob.title}
+                        {currentJob.heading}
                       </h2>
                       <p className={`${DESCRIPTION_SIZE} text-gray-600 mb-4`}>
-                        Diginext —{" "}
+                        {currentJob.description}
                         <a
                           href="https://diginext.ae/"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-orange-600 hover:text-orange-700 underline"
+                          className="text-orange-600 hover:text-orange-700 underline ml-1"
                         >
                           https://diginext.ae/
                         </a>
@@ -433,13 +304,13 @@ const CareersPage: React.FC = () => {
                     <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
                       <MapPin className="w-4 h-4 text-gray-600" />
                       <span className="text-sm font-medium text-gray-700">
-                        {currentJob.workMode}
+                        {currentJob.type}
                       </span>
                     </div>
                     <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
                       <Clock className="w-4 h-4 text-gray-600" />
                       <span className="text-sm font-medium text-gray-700">
-                        Full Time
+                        {currentJob.job_type}
                       </span>
                     </div>
                   </div>
@@ -458,7 +329,7 @@ const CareersPage: React.FC = () => {
                     </h3>
                   </div>
                   <ul className="space-y-4">
-                    {currentJob.responsibilities.map((item, index) => (
+                    {responsibilities.map((item, index) => (
                       <li key={index} className="flex items-start gap-3">
                         <CheckCircle className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
                         <span className={`${DESCRIPTION_SIZE} text-gray-700`}>
@@ -482,7 +353,7 @@ const CareersPage: React.FC = () => {
                     </h3>
                   </div>
                   <ul className="space-y-4">
-                    {currentJob.requirements.map((item, index) => (
+                    {requirements.map((item, index) => (
                       <li key={index} className="flex items-start gap-3">
                         <CheckCircle className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
                         <span className={`${DESCRIPTION_SIZE} text-gray-700`}>
@@ -493,16 +364,19 @@ const CareersPage: React.FC = () => {
                   </ul>
                 </div>
 
-                {/* Additional Info (if exists) */}
-                {currentJob.additionalInfo && (
-                  <div className="bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200 rounded-3xl p-8 lg:p-10 shadow-sm">
+                {/* Additional Sections */}
+                {otherSections.map((section, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200 rounded-3xl p-8 lg:p-10 shadow-sm"
+                  >
                     <h3
                       className={`${TITLE_SIZE} ${FONT_WEIGHT.medium} text-gray-900 mb-6`}
                     >
-                      {currentJob.additionalInfo.title}
+                      {section.heading}
                     </h3>
                     <ul className="space-y-4">
-                      {currentJob.additionalInfo.points.map((item, index) => (
+                      {section.points.map((item, index) => (
                         <li key={index} className="flex items-start gap-3">
                           <Target className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
                           <span className={`${DESCRIPTION_SIZE} text-gray-700`}>
@@ -512,7 +386,7 @@ const CareersPage: React.FC = () => {
                       ))}
                     </ul>
                   </div>
-                )}
+                ))}
               </div>
 
               {/* Right Column - Sticky Sidebar */}
@@ -551,14 +425,14 @@ const CareersPage: React.FC = () => {
                             Subject line
                           </p>
                           <p className="text-white text-sm">
-                            {currentJob.title} Application
+                            {currentJob.heading} Application
                           </p>
                         </div>
                       </div>
                     </div>
 
                     <a
-                      href={`mailto:careers@diginext.ae?subject=${currentJob.title} Application`}
+                      href={`mailto:careers@diginext.ae?subject=${currentJob.heading} Application`}
                       className="group w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transform hover:-translate-y-0.5"
                     >
                       <span>Apply Now</span>
@@ -614,10 +488,10 @@ const CareersPage: React.FC = () => {
             <p
               className={`${DESCRIPTION_SIZE} text-gray-600 max-w-3xl mx-auto`}
             >
-              We&apos;re an equal opportunity employer and value diversity at our
-              company. We do not discriminate on the basis of race, religion,
-              color, national origin, gender, sexual orientation, age, marital
-              status, veteran status, or disability status.
+              We&apos;re an equal opportunity employer and value diversity at
+              our company. We do not discriminate on the basis of race,
+              religion, color, national origin, gender, sexual orientation, age,
+              marital status, veteran status, or disability status.
             </p>
           </motion.div>
         </div>

@@ -1,57 +1,81 @@
+"use client";
+
 // app/blog/[slug]/page.tsx
 
-import { Metadata } from "next";
+import React, { useEffect, useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import HeroBanner from "@/components/ui/HeroBanner";
 import { ImageConstants } from "@/constants/ImageConstants";
 import BlogDetailSection from "@/components/sections/blog/BlogDetailSection";
-import {
-  getAllBlogSlugs,
-  getBlogPostBySlug,
-  getAllBlogPosts,
-} from "@/lib/blogData";
+import { BlogService } from "@/services/BlogService";
 import Link from "next/link";
+import { slugify } from "@/lib/utils";
+import { useParams } from "next/navigation";
+import { BlogDetailSkeleton } from "@/components/LoadingSkelton/blog/BlogSkeleton";
 
-interface BlogDetailPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-}
+export default function BlogDetailPage() {
+  const params = useParams();
+  const slug = params?.slug as string;
 
-export async function generateMetadata({
-  params,
-}: BlogDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const [post, setPost] = useState<any>(null);
+  const [relatedPosts, setRelatedPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  if (!post) {
-    return {
-      title: "Blog Post Not Found",
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!slug) return;
+      const id = slug.split("-")[0];
+
+      if (!id) {
+        setError(true);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response: any = await BlogService.getBlogPostById(id);
+        if (response.data && response.data.success && response.data.data) {
+          const postData = response.data.data;
+          setPost(postData);
+
+          // Fetch related posts
+          const relatedResponse: any = await BlogService.getRelatedPosts(
+            postData.category,
+            postData.id,
+          );
+          if (relatedResponse.data && relatedResponse.data.success) {
+            setRelatedPosts(relatedResponse.data.data);
+          }
+        } else {
+          setError(true);
+        }
+      } catch (err) {
+        console.error(err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
     };
+
+    fetchData();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <>
+        <Header forceTransparent={true} />
+        <div className="pt-16">
+          <BlogDetailSkeleton />
+        </div>
+        <Footer />
+      </>
+    );
   }
 
-  return {
-    title: `${post.title} - DigiNext Blog`,
-    description: post.metaDescription,
-    keywords: post.tags.join(", "),
-    openGraph: {
-      title: post.title,
-      description: post.metaDescription,
-      type: "article",
-      publishedTime: post.date,
-      authors: [post.author],
-      tags: post.tags,
-    },
-  };
-}
-
-export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
-
   // If post not found, show 404
-  if (!post) {
+  if (error || !post) {
     return (
       <>
         <Header />
@@ -76,12 +100,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     );
   }
 
-  // Get related posts (same category, exclude current)
-  const allPosts = getAllBlogPosts();
-  const relatedPosts = allPosts
-    .filter((p) => p.category === post.category && p.slug !== post.slug)
-    .slice(0, 3);
-
   return (
     <>
       <Header forceTransparent={true} />
@@ -100,7 +118,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Blog", href: "/blog" },
-            { label: post.title, href: `/blog/${slug}` },
+            {
+              label: post.title,
+              href: `/blog/${post.id}-${slugify(post.title)}`,
+            },
           ]}
         />
 
@@ -108,12 +129,4 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       </div>
     </>
   );
-}
-
-export async function generateStaticParams() {
-  const slugs = getAllBlogSlugs();
-
-  return slugs.map((slug) => ({
-    slug: slug,
-  }));
 }

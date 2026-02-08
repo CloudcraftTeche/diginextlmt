@@ -154,7 +154,6 @@ export default function Home() {
       try {
         setVision((prev) => ({ ...prev, loading: true, error: null }));
 
-        // Ensure this method exists in your HomeService
         const response = await HomeService.getVision();
 
         if (response.data.success && response.data.data.length > 0) {
@@ -330,7 +329,7 @@ export default function Home() {
           isLoading={insights.loading}
         />
 
-        <VisionSection data={about.data} isLoading={vision.loading} />
+        <VisionSection data={vision.data} isLoading={vision.loading} />
 
         <ServicesSection />
         <BrandingMarketingSection

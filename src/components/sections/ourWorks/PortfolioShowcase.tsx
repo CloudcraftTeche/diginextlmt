@@ -19,6 +19,7 @@ import MediaDisplay from "@/components/ui/MediaDisplay";
 import { WorkService } from "@/services/WorkService";
 import { ChevronDown, Loader2 } from "lucide-react";
 import { slugify } from "@/lib/utils";
+import EmptyState from "@/components/ui/EmptyState";
 
 // Animation Variants
 const containerVariants: Variants = {
@@ -65,7 +66,7 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
   }>({ data: [], loading: false });
 
   const handleWorkClick = (work: any) => {
-    const slug = slugify(work.title);
+    const slug = slugify(work.banner_heading);
     router.push(`/work/${work.id}-${slug}`);
   };
 
@@ -199,60 +200,76 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
           </div>
         </div>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="visible"
-          animate="visible"
-          viewport={{ once: true, amount: 0.1 }}
-        >
-          {works.map((work: any) => (
-            <motion.article
-              key={work.id || work.title}
-              variants={cardVariants}
-              className="group cursor-pointer"
-              onClick={() => handleWorkClick(work)}
-            >
-              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-5 bg-gray-100">
-                <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
-                  {/* Access image directly from work object, fallback to banner_image or empty string */}
-                  <MediaDisplay
-                    src={work.image || work.banner_image || ""}
-                    alt={work.title}
-                  />
+        {works.length === 0 ? (
+          <EmptyState
+            title="No Projects Found"
+            description="We haven't added any case studies yet or no projects match your filters."
+            minHeight="min-h-[40vh]"
+            action={{
+              label: "Reset Filters",
+              href: "#",
+              onClick: () => {
+                onFilter("expertise", 0);
+                onFilter("industry", 0);
+              },
+            }}
+          />
+        ) : (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="visible"
+            animate="visible"
+            viewport={{ once: true, amount: 0.1 }}
+          >
+            {works.map((work: any) => (
+              <motion.article
+                key={work.id || work.banner_heading}
+                variants={cardVariants}
+                className="group cursor-pointer"
+                onClick={() => handleWorkClick(work)}
+              >
+                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-5 bg-gray-100">
+                  <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
+                    {/* Access image directly from work object, fallback to banner_image or empty string */}
+                    <MediaDisplay
+                      src={work.image || work.banner_image || ""}
+                      alt={work.banner_heading}
+                    />
+                  </div>
+
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white text-sm font-semibold px-6 py-2.5 border-2 border-white rounded-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      View Case Study
+                    </span>
+                  </div>
                 </div>
 
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <span className="text-white text-sm font-semibold px-6 py-2.5 border-2 border-white rounded-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    View Case Study
-                  </span>
-                </div>
-              </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
+                    {/* Industry is an ID in API (number), so we might want to map it or just show safe fallback */}
+                    {/* <span>{work.industry}</span> */}
+                    <span>•</span>
+                    {/* System is at root level in API */}
+                    <span>{work.system}</span>
+                  </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
-                  {/* Industry is an ID in API (number), so we might want to map it or just show safe fallback */}
-                  {/* <span>{work.industry}</span> */}
-                  <span>•</span>
-                  {/* System is at root level in API */}
-                  <span>{work.system}</span>
-                </div>
+                  <div className="flex justify-between items-start">
+                    <h3 className="text-xl font-semibold text-gray-900 group-hover:text-orange-600 transition-colors duration-300">
+                      {work.banner_heading}
+                    </h3>
+                  </div>
 
-                <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-semibold text-gray-900 group-hover:text-orange-600 transition-colors duration-300">
-                    {work.title}
-                  </h3>
+                  <p
+                    className={`${DESCRIPTION_SIZE} text-gray-600 leading-relaxed line-clamp-2`}
+                  >
+                    {work.description}
+                  </p>
                 </div>
-
-                <p
-                  className={`${DESCRIPTION_SIZE} text-gray-600 leading-relaxed line-clamp-2`}
-                >
-                  {work.description}
-                </p>
-              </div>
-            </motion.article>
-          ))}
-        </motion.div>
+              </motion.article>
+            ))}
+          </motion.div>
+        )}
       </div>
     </section>
   );

@@ -16,6 +16,7 @@ import {
   FONT_WEIGHT,
   SECTION_HEADING_SIZE,
 } from "@/constants/typographyConstants";
+import EmptyState from "@/components/ui/EmptyState";
 
 // --- Type Definitions ---
 interface ServiceSubItem {
@@ -395,17 +396,25 @@ const ShowcaseSection: React.FC<ServicesShowcaseSectionProps> = ({
   return (
     <section className={`${SECTION_PY} bg-white overflow-hidden`}>
       <div className={CONTENT_WRAPPER_CLASSES}>
-        <div className="flex flex-col">
-          {services.map((service, index) => (
-            <ServiceCard
-              key={index}
-              service={service}
-              index={index}
-              isReversed={index % 2 === 1}
-              basePath={basePath}
-            />
-          ))}
-        </div>
+        {!services || services.length === 0 ? (
+          <EmptyState
+            title="Coming Soon"
+            description="We are currently working on adding more information here. Please check back later."
+            minHeight="min-h-[40vh]"
+          />
+        ) : (
+          <div className="flex flex-col">
+            {services.map((service, index) => (
+              <ServiceCard
+                key={index}
+                service={service}
+                index={index}
+                isReversed={index % 2 === 1}
+                basePath={basePath}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

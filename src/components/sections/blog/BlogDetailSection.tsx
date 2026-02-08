@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { BlogPost } from "@/lib/blogData";
+import { getFullImageUrl } from "@/lib/imageUtils";
 import {
   CONTENT_WRAPPER_CLASSES,
   SECTION_PX,
@@ -63,12 +64,19 @@ const BlogDetailSection: React.FC<BlogDetailSectionProps> = ({
             <div className="lg:col-span-2">
               {/* Featured Image */}
               <div className="relative w-full h-96 mb-8 rounded-xl overflow-hidden bg-gray-200">
-                <Image
-                  src={post.imageUrl}
-                  alt={post.title}
-                  fill
-                  className="object-cover"
-                />
+                {(() => {
+                  const imageUrl = getFullImageUrl(
+                    post.banner_image || post.image || post.imageUrl,
+                  );
+                  return imageUrl ? (
+                    <Image
+                      src={imageUrl}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : null;
+                })()}
               </div>
 
               {/* Meta Information */}
@@ -77,110 +85,37 @@ const BlogDetailSection: React.FC<BlogDetailSectionProps> = ({
                   {post.category}
                 </span>
                 <span>•</span>
-                <span>{post.author}</span>
-                <span>•</span>
                 <span>
-                  {new Date(post.date).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  {new Date(post.created_at || post.date).toLocaleDateString(
+                    "en-US",
+                    {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    },
+                  )}
                 </span>
-                <span>•</span>
-                <span>{post.readTime}</span>
               </div>
 
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2 mb-8">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              {/* Features as Tags */}
+              {post.features && (
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {post.features.split(",").map((feature, idx) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
+                    >
+                      {feature.trim()}
+                    </span>
+                  ))}
+                </div>
+              )}
 
-              {/* Content */}
-              {/* Content */}
-              <div className="prose prose-lg max-w-none">
-                {/* Split content by paragraphs and render */}
-                {post.content.split("\n\n").map((paragraph, idx) => {
-                  // Check if it's a heading
-                  if (paragraph.startsWith("## ")) {
-                    return (
-                      <h2
-                        key={idx}
-                        className="text-2xl font-bold text-gray-900 mt-8 mb-4"
-                      >
-                        {paragraph.replace("## ", "")}
-                      </h2>
-                    );
-                  } else if (paragraph.startsWith("### ")) {
-                    return (
-                      <h3
-                        key={idx}
-                        className="text-xl font-bold text-gray-900 mt-6 mb-3"
-                      >
-                        {paragraph.replace("### ", "")}
-                      </h3>
-                    );
-                  } else if (
-                    paragraph.includes("\n- ") ||
-                    paragraph.startsWith("- ")
-                  ) {
-                    // Handle bullet point lists
-                    const items = paragraph
-                      .split("\n")
-                      .filter((line) => line.trim());
-                    return (
-                      <ul key={idx} className="list-disc pl-6 mb-6 space-y-3">
-                        {items.map((item, i) => {
-                          if (item.startsWith("- ")) {
-                            const content = item.replace("- ", "");
-                            // Handle bold text with **
-                            const parts = content.split(/(\*\*.*?\*\*)/g);
-                            return (
-                              <li
-                                key={i}
-                                className="text-gray-700 leading-relaxed"
-                              >
-                                {parts.map((part, j) => {
-                                  if (
-                                    part.startsWith("**") &&
-                                    part.endsWith("**")
-                                  ) {
-                                    return (
-                                      <strong
-                                        key={j}
-                                        className="font-semibold text-gray-900"
-                                      >
-                                        {part.slice(2, -2)}
-                                      </strong>
-                                    );
-                                  }
-                                  return part;
-                                })}
-                              </li>
-                            );
-                          }
-                          return null;
-                        })}
-                      </ul>
-                    );
-                  } else {
-                    return (
-                      <p
-                        key={idx}
-                        className="text-gray-700 leading-relaxed mb-6"
-                      >
-                        {paragraph}
-                      </p>
-                    );
-                  }
-                })}
-              </div>
+              {/* Content - HTML Rendering */}
+              <div
+                className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-orange-600 hover:prose-a:text-orange-700"
+                dangerouslySetInnerHTML={{ __html: post.content }}
+              />
             </div>
           </div>
         </div>

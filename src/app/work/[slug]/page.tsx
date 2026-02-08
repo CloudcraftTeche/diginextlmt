@@ -14,6 +14,8 @@ import GridSection from "@/components/sections/ourWorks/GridSection"; // Section
 import { notFound, useParams } from "next/navigation";
 import { WorkService } from "@/services/WorkService";
 import { Loader2 } from "lucide-react";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { SubServiceSkeleton } from "@/components/LoadingSkelton/services/SubServiceSkeleton";
 
 export default function WorkDetailPage() {
   const params = useParams();
@@ -56,11 +58,7 @@ export default function WorkDetailPage() {
   }, [slug]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-black">
-        <Loader2 className="w-10 h-10 text-white animate-spin" />
-      </div>
-    );
+    return <SubServiceSkeleton />;
   }
 
   if (error || !data) {
@@ -100,7 +98,7 @@ export default function WorkDetailPage() {
         goals: data.project_goals_section.goals.map((g: any) => ({
           title: g.heading,
           description: g.description,
-          icon: "Target", // Default icon
+          icon: "Target", 
         })),
       }
     : null;

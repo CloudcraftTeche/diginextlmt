@@ -1,41 +1,66 @@
-// app/blog/page.tsx
+"use client";
 
+import { useState, useEffect } from "react";
 import { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import HeroBanner from "@/components/ui/HeroBanner";
 import { ImageConstants } from "@/constants/ImageConstants";
 import BlogListingSection from "@/components/sections/blog/BlogListingSection";
-import { getAllBlogPosts, getAllCategories } from "@/lib/blogData";
+import { getAllCategories, BlogPost } from "@/lib/blogData";
 import { SITE_CONFIG } from "@/lib/constants";
+import { BlogListingSkeleton } from "@/components/LoadingSkelton/blog/BlogSkeleton";
+import { BlogService } from "@/services/BlogService";
 
+/*
+// Metadata cannot be exported from a Client Component.
+// You can move this to a separate layout.tsx file or a parent server component.
 export const metadata: Metadata = {
   title: "Blog - DigiNext | Digital Marketing & IT Insights",
-  description:
-    "Explore expert insights on web development, digital marketing, IT consulting, and technology trends from DigiNext Dubai.",
-  keywords:
-    "blog, digital marketing, web development, IT consulting, Dubai, technology insights",
-  openGraph: {
-    title: "Blog - DigiNext | Digital Marketing & IT Insights",
-    description:
-      "Explore expert insights on web development, digital marketing, IT consulting, and technology trends from DigiNext Dubai.",
-    type: "website",
-    url: `${SITE_CONFIG.url}/blog`,
-    siteName: "DigiNext",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog - DigiNext",
-    description: "Expert insights on digital marketing and technology",
-  },
-  alternates: {
-    canonical: `${SITE_CONFIG.url}/blog`,
-  },
+  description: "Insights, trends, and expert advice on digital marketing and technology",
 };
+*/
 
 export default function BlogPage() {
-  const blogPosts = getAllBlogPosts();
-  const categories = getAllCategories();
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response: any = await BlogService.getBlogPosts();
+        if (response.data && response.data.success) {
+          // Verify if response.data.data matches BlogPost[] structure
+          setBlogPosts(response.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch blog posts:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const categories = getAllCategories(); // Logic could move to service if dynamic
+
+  if (loading) {
+    return (
+      <>
+        <Header forceTransparent={true} />
+        <div className="pt-16">
+          <HeroBanner
+            backgorundImage={ImageConstants.INSIDE_BANNER_5}
+            title="Our Blog"
+            subtitle="Insights, trends, and expert advice on digital marketing and technology"
+          />
+          <BlogListingSkeleton />
+          <Footer />
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
