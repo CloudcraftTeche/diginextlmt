@@ -5,6 +5,7 @@ import LocationSection from "@/components/sections/location/LocationSection";
 import { Metadata } from "next";
 import { LocationService } from "@/services/LocationService";
 import { Location } from "@/types/location";
+import { slugify } from "@/lib/utils";
 
 interface LocationPageProps {
   params: Promise<{
@@ -12,20 +13,17 @@ interface LocationPageProps {
   }>;
 }
 
-// Generate static params for all locations (REQUIRED for sitemap)
-export async function generateStaticParams() {
-  const slugs = await LocationService.getAllLocationSlugs();
-  return slugs.map((slug) => ({
-    slug: slug,
-  }));
-}
-
 // Dynamic metadata based on slug
 export async function generateMetadata({
   params,
 }: LocationPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const response: any = await LocationService.getLocationBySlug(slug);
+
+  // Extract ID from slug (format: id-location-name)
+  const id = slug.split("-")[0];
+
+  // Fetch by ID directly
+  const response: any = await LocationService.getLocationById(Number(id));
   const data: Location =
     response.data && response.data.success ? response.data.data : null;
 
@@ -59,7 +57,11 @@ export default async function LocationDetailPage({
   params,
 }: LocationPageProps) {
   const { slug } = await params;
-  const response: any = await LocationService.getLocationBySlug(slug);
+
+  // Extract ID from slug (format: id-location-name)
+  const id = slug.split("-")[0];
+
+  const response: any = await LocationService.getLocationById(Number(id));
   const data: Location =
     response.data && response.data.success ? response.data.data : null;
 

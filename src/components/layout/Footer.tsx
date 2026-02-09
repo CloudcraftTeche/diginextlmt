@@ -8,6 +8,8 @@ import { fetchFooterData } from "@/store/features/layoutSlice";
 import FooterSkeleton from "@/components/LoadingSkelton/layout/FooterSkeleton";
 import Image from "next/image";
 import { ImageConstants } from "@/constants/ImageConstants";
+import { LocationService } from "@/services/LocationService";
+import { slugify } from "@/lib/utils";
 
 interface SocialIconProps {
   type: string;
@@ -68,14 +70,11 @@ const Footer = () => {
     "Industries",
   ];
 
-  const locationLinks = [
-    { name: "Abu Dhabi", slug: "abu-dhabi" },
-    { name: "Dubai", slug: "dubai" },
-    { name: "Sharjah", slug: "sharjah" },
-    { name: "Ajman", slug: "ajman" },
-    { name: "Al Ain", slug: "al-ain" },
-    { name: "Ras Al Khaimah", slug: "ras-al-khaimah" },
-  ];
+  const [locationLinks, setLocationLinks] = useState<
+    { id: number; name: string; slug: string }[]
+  >([]);
+  const [locationsLoading, setLocationsLoading] = useState(false);
+  const [locationsFetched, setLocationsFetched] = useState(false);
 
   const footerText = [
     { text: "Careers", link: "/careers" },
@@ -145,6 +144,32 @@ const Footer = () => {
       ...prev,
       [section]: !prev[section],
     }));
+  };
+
+  useEffect(() => {
+    if (openSections.locations && !locationsFetched && !locationsLoading) {
+      fetchLocations();
+    }
+  }, [openSections.locations, locationsFetched, locationsLoading]);
+
+  const fetchLocations = async () => {
+    setLocationsLoading(true);
+    try {
+      const response: any = await LocationService.getLocations();
+      if (response && response.data && Array.isArray(response.data.data)) {
+        const locations = response.data.data.map((loc: any) => ({
+          id: loc.id,
+          name: loc.location,
+          slug: `${loc.id}-${slugify(loc.location)}`,
+        }));
+        setLocationLinks(locations);
+        setLocationsFetched(true);
+      }
+    } catch (error) {
+      console.error("Failed to fetch locations:", error);
+    } finally {
+      setLocationsLoading(false);
+    }
   };
 
   const SocialIcon: React.FC<SocialIconProps> = ({ type, href }) => {
@@ -543,18 +568,24 @@ const Footer = () => {
 
                   {openSections.locations && (
                     <div className="absolute bottom-full left-0 mb-2 bg-gray-900 rounded-lg shadow-xl p-3 min-w-[180px] z-50 border border-gray-700">
-                      <ul className="space-y-2">
-                        {locationLinks.map((location, i) => (
-                          <li key={i}>
-                            <a
-                              href={`/location/${location.slug}`}
-                              className="text-gray-300 text-xs hover:text-orange-400 transition-colors block py-1 cursor-pointer"
-                            >
-                              {location.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
+                      {locationsLoading ? (
+                        <div className="text-gray-400 text-xs text-center py-2">
+                          Loading...
+                        </div>
+                      ) : (
+                        <ul className="space-y-2">
+                          {locationLinks.map((location, i) => (
+                            <li key={i}>
+                              <a
+                                href={`/location/${location.slug}`}
+                                className="text-gray-300 text-xs hover:text-orange-400 transition-colors block py-1 cursor-pointer"
+                              >
+                                {location.name}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
                   )}
                 </div>

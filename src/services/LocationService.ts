@@ -12,16 +12,14 @@ export const LocationService = {
       return useMockData(mockLocationList);
     }
     try {
-      // Future API integration
-      // return await apiClient.get(ApiConstants.locations);
-      return useMockData(mockLocationList);
+      return await apiClient.get(ApiConstants.locations);
     } catch (error) {
       console.warn("Location List API failed:", error);
       return useMockData(mockLocationList);
     }
   },
 
-  getLocationById: async (id: number | string) => {
+  getLocationById: async (id: number) => {
     if (IS_MOCK_ENABLED) {
       const location = mockLocationList.data.find(
         (item) => item.id.toString() === id.toString(),
@@ -33,16 +31,13 @@ export const LocationService = {
       });
     }
     try {
-      // Future API integration
-      // return await apiClient.get(ApiConstants.location_detail(id));
-      const location = mockLocationList.data.find(
-        (item) => item.id.toString() === id.toString(),
+      console.log(`Fetching location ID: ${id} from API...`);
+      const response = await apiClient.get(ApiConstants.location_detail(id));
+      console.log(
+        `API Response for ID ${id}:`,
+        response.data?.success ? "Success" : "Failed",
       );
-      return useMockData({
-        success: true,
-        message: "Location retrieved successfully",
-        data: location || null,
-      });
+      return response;
     } catch (error) {
       console.warn(`Location Detail API failed for ID ${id}:`, error);
       const location = mockLocationList.data.find(
@@ -54,47 +49,6 @@ export const LocationService = {
         data: location || null,
       });
     }
-  },
-
-  getLocationBySlug: async (slug: string) => {
-    // Helper to find location by slugifying the location name
-    if (IS_MOCK_ENABLED) {
-      const location = mockLocationList.data.find(
-        (item) => slugify(item.location) === slug,
-      );
-      return useMockData({
-        success: true,
-        message: "Location retrieved successfully",
-        data: location || null,
-      });
-    }
-    try {
-      // If API supports slug, use it. Otherwise fetch all and filter.
-      // For now, using mock logic as fallback
-      const location = mockLocationList.data.find(
-        (item) => slugify(item.location) === slug,
-      );
-      return useMockData({
-        success: true,
-        message: "Location retrieved successfully",
-        data: location || null,
-      });
-    } catch (error) {
-      console.warn(`Location Detail API failed for slug ${slug}:`, error);
-      const location = mockLocationList.data.find(
-        (item) => slugify(item.location) === slug,
-      );
-      return useMockData({
-        success: true,
-        message: "Location retrieved successfully",
-        data: location || null,
-      });
-    }
-  },
-
-  getAllLocationSlugs: async () => {
-    // Helper for static params
-    return mockLocationList.data.map((item) => slugify(item.location));
   },
 };
 

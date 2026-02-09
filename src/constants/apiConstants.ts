@@ -57,4 +57,8 @@ export const ApiConstants = {
   our_works_expertise: `${API}/ourworks/expertise/`,
   our_works_industries: `${API}/ourworks/industries/`,
   our_works_detail: (id: number) => `${API}/ourworks/${id}/`,
+
+  //Location
+  locations: `${API}/locations/`,
+  location_detail: (id: number) => `${API}/locations/${id}/`,
 };
