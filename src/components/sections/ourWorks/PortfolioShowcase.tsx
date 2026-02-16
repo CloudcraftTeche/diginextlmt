@@ -20,6 +20,7 @@ import { WorkService } from "@/services/WorkService";
 import { ChevronDown, Loader2 } from "lucide-react";
 import { slugify } from "@/lib/utils";
 import EmptyState from "@/components/ui/EmptyState";
+import { PortfolioGridSkeleton } from "../../LoadingSkelton/ourWorks/PortfolioGridSkeleton";
 
 // Animation Variants
 const containerVariants: Variants = {
@@ -43,12 +44,14 @@ const cardVariants: Variants = {
 };
 interface PortfolioShowcaseProps {
   works: any;
+  loading?: boolean;
   onFilter: (type: "expertise" | "industry" | "designs", id?: number) => void;
   currentFilter?: string; // Track if we're showing designs or works
 }
 
 const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
   works,
+  loading = false,
   onFilter,
   currentFilter = "works",
 }) => {
@@ -241,7 +244,9 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
           </div>
         </div>
 
-        {works.length === 0 ? (
+        {loading ? (
+          <PortfolioGridSkeleton />
+        ) : works.length === 0 ? (
           <EmptyState
             title="No Projects Found"
             description="We haven't added any case studies yet or no projects match your filters."
@@ -290,7 +295,7 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
                   <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
                     {/* Industry is an ID in API (number), so we might want to map it or just show safe fallback */}
                     {/* <span>{work.industry}</span> */}
-                    <span>•</span>
+                    {/* <span>•</span> */}
                     {/* System is at root level in API */}
                     <span>{work.system}</span>
                   </div>

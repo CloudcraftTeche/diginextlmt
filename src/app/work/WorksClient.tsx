@@ -137,6 +137,7 @@ export default function WorksClient() {
         />
         <PortfolioShowcase
           works={works.data}
+          loading={works.loading}
           onFilter={handleFilter}
           currentFilter={currentFilter}
         />
