@@ -38,6 +38,8 @@ export default function WorksClient() {
     error: null,
   });
 
+  const [currentFilter, setCurrentFilter] = useState<string>("works");
+
   const fetchWorksData = async (filter?: {
     expertise?: number;
     industry?: number;
@@ -55,6 +57,24 @@ export default function WorksClient() {
         ...prev,
         loading: false,
         error: "Failed to load works",
+      }));
+    }
+  };
+
+  const fetchDesignsData = async () => {
+    setWorks((prev) => ({ ...prev, loading: true })); // Set loading true on fetch
+    try {
+      const res = await WorkService.getDesigns();
+      const designsData = Array.isArray(res.data)
+        ? res.data
+        : res.data?.data || [];
+      setWorks({ data: designsData, loading: false, error: null });
+    } catch (err) {
+      console.error(err);
+      setWorks((prev) => ({
+        ...prev,
+        loading: false,
+        error: "Failed to load designs",
       }));
     }
   };
@@ -83,8 +103,19 @@ export default function WorksClient() {
       });
   }, []);
 
-  const handleFilter = (type: "expertise" | "industry", id: number) => {
-    // Fetch with filters
+  const handleFilter = (
+    type: "expertise" | "industry" | "designs",
+    id?: number,
+  ) => {
+    // Handle designs filter separately
+    if (type === "designs") {
+      setCurrentFilter("designs");
+      fetchDesignsData();
+      return;
+    }
+
+    // Fetch works with filters
+    setCurrentFilter("works");
     const filter = type === "expertise" ? { expertise: id } : { industry: id };
     fetchWorksData(filter);
   };
@@ -104,7 +135,11 @@ export default function WorksClient() {
           backgorundImage={ImageConstants.INSIDE_BANNER_3}
           title="Our Works"
         />
-        <PortfolioShowcase works={works.data} onFilter={handleFilter} />
+        <PortfolioShowcase
+          works={works.data}
+          onFilter={handleFilter}
+          currentFilter={currentFilter}
+        />
         <Footer />
       </div>
     </>

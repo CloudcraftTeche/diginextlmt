@@ -43,12 +43,14 @@ const cardVariants: Variants = {
 };
 interface PortfolioShowcaseProps {
   works: any;
-  onFilter: (type: "expertise" | "industry", id: number) => void;
+  onFilter: (type: "expertise" | "industry" | "designs", id?: number) => void;
+  currentFilter?: string; // Track if we're showing designs or works
 }
 
 const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
   works,
   onFilter,
+  currentFilter = "works",
 }) => {
   const router = useRouter();
 
@@ -56,6 +58,7 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
   const [openDropdown, setOpenDropdown] = useState<
     "expertise" | "industries" | null
   >(null);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [expertiseData, setExpertiseData] = useState<{
     data: any[];
     loading: boolean;
@@ -67,7 +70,12 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
 
   const handleWorkClick = (work: any) => {
     const slug = work.slug || slugify(work.banner_heading);
-    router.push(`/work/${slug}`);
+    // Route to design detail page if on designs, otherwise to work detail page
+    if (currentFilter === "designs") {
+      router.push(`/work/design/${slug}`);
+    } else {
+      router.push(`/work/${slug}`);
+    }
   };
 
   const toggleDropdown = async (type: "expertise" | "industries") => {
@@ -102,7 +110,18 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
 
   const handleFilterClick = (type: "expertise" | "industry", id: number) => {
     onFilter(type, id);
+    setActiveFilter(`${type}-${id}`);
     setOpenDropdown(null);
+  };
+
+  const handleDesignsClick = () => {
+    onFilter("designs");
+    setActiveFilter("designs");
+  };
+
+  const handleShowAllWorks = () => {
+    onFilter("expertise", 0); // Passing 0 will reset to show all works
+    setActiveFilter(null);
   };
 
   return (
@@ -122,6 +141,28 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
 
           {/* Filter Chips */}
           <div className="flex gap-4 relative">
+            {/* Show All Works Button */}
+            {activeFilter && (
+              <button
+                onClick={handleShowAllWorks}
+                className="flex items-center gap-2 px-6 py-2 rounded-full transition-all duration-300 border border-gray-300 text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200"
+              >
+                Show All Works
+              </button>
+            )}
+
+            {/* Designs Button */}
+            <button
+              onClick={handleDesignsClick}
+              className={`flex items-center gap-2 px-6 py-2 rounded-full transition-all duration-300 border border-black text-sm font-medium ${
+                activeFilter === "designs"
+                  ? "bg-black text-white"
+                  : "bg-transparent text-black hover:bg-black hover:text-white"
+              }`}
+            >
+              Designs
+            </button>
+
             {/* Expertise Chip */}
             <div className="relative">
               <button

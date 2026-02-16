@@ -122,6 +122,48 @@ export const WorkService = {
       });
     }
   },
+
+  getDesigns: async () => {
+    if (IS_MOCK_ENABLED) {
+      return useMockData({
+        success: true,
+        message: "Designs retrieved successfully",
+        data: [],
+      });
+    }
+    try {
+      return await apiClient.get(ApiConstants.design);
+    } catch (error) {
+      if (axios.isCancel(error)) throw error;
+      console.warn("Design List API failed:", error);
+      return useMockData({
+        success: true,
+        message: "Designs retrieved successfully",
+        data: [],
+      });
+    }
+  },
+
+  getDesignDetail: async (slug: string) => {
+    if (IS_MOCK_ENABLED) {
+      return useMockData({
+        success: true,
+        message: "Design detail retrieved successfully",
+        data: null,
+      });
+    }
+    try {
+      return await apiClient.get(ApiConstants.design_detail(slug));
+    } catch (error) {
+      if (axios.isCancel(error)) throw error;
+      console.warn(`Design Detail API failed for slug ${slug}:`, error);
+      return useMockData({
+        success: true,
+        message: "Design detail retrieved successfully",
+        data: null,
+      });
+    }
+  },
 };
 
 function useMockData<T>(data: T) {

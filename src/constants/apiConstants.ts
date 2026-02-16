@@ -58,6 +58,10 @@ export const ApiConstants = {
   our_works_industries: `${API}/ourworks/industries/`,
   our_works_detail: (id: number | string) => `${API}/ourworks/${id}/`,
 
+  // Design
+  design: `${API}/design/`,
+  design_detail: (slug: string) => `${API}/design/${slug}/`,
+
   //Location
   locations: `${API}/locations/`,
   location_detail: (id: number | string) => `${API}/locations/${id}/`,
