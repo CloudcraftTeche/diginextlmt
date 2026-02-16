@@ -66,8 +66,8 @@ const PortfolioShowcase: React.FC<PortfolioShowcaseProps> = ({
   }>({ data: [], loading: false });
 
   const handleWorkClick = (work: any) => {
-    const slug = slugify(work.banner_heading);
-    router.push(`/work/${work.id}-${slug}`);
+    const slug = work.slug || slugify(work.banner_heading);
+    router.push(`/work/${slug}`);
   };
 
   const toggleDropdown = async (type: "expertise" | "industries") => {

@@ -135,17 +135,19 @@ export default function ServicesPage() {
   const pageTitle = bannerData?.banner_description_title || "Our Services";
   const pageImage = getFullImageUrl(bannerData?.image);
 
-  const transformedServices: ServiceItem[] = services.data.map((service) => ({
-    title: service.service_name,
-    description: service.service_description,
-    slug: `${service.id}-${slugify(service.service_name)}`,
-    image: getFullImageUrl(service.service_image),
-    imageAlt: service.service_name,
-    services: service.subservices.map((sub) => ({
-      name: sub.subservice_name,
-      slug: `${sub.id}-${slugify(sub.subservice_name)}`,
-    })),
-  }));
+  const transformedServices: ServiceItem[] = services.data.map(
+    (service: any) => ({
+      title: service.service_name,
+      description: service.service_description,
+      slug: service.slug || slugify(service.service_name),
+      image: getFullImageUrl(service.service_image),
+      imageAlt: service.service_name,
+      services: service.subservices.map((sub: any) => ({
+        name: sub.subservice_name,
+        slug: sub.slug || slugify(sub.subservice_name),
+      })),
+    }),
+  );
 
   return (
     <>

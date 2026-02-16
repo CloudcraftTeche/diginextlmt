@@ -160,7 +160,7 @@ const Footer = () => {
         const locations = response.data.data.map((loc: any) => ({
           id: loc.id,
           name: loc.location,
-          slug: `${loc.id}-${slugify(loc.location)}`,
+          slug: loc.slug || slugify(loc.location),
         }));
         setLocationLinks(locations);
         setLocationsFetched(true);

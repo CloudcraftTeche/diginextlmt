@@ -100,11 +100,11 @@ const Header = ({
         (service: any) => ({
           id: service.id,
           title: service.service_name,
-          slug: `${service.id}-${slugify(service.service_name)}`,
+          slug: service.slug || slugify(service.service_name),
           services: service.subservices.map((sub: any) => ({
             id: sub.id,
             name: sub.subservice_name,
-            slug: `${sub.id}-${slugify(sub.subservice_name)}`,
+            slug: sub.slug || slugify(sub.subservice_name),
           })),
         }),
       );
@@ -114,11 +114,11 @@ const Header = ({
         (solution: any) => ({
           id: solution.id,
           title: solution.solutions_name,
-          slug: `${solution.id}-${slugify(solution.solutions_name)}`,
+          slug: solution.slug || slugify(solution.solutions_name),
           services: solution.solutions.map((sub: any) => ({
             id: sub.id,
             name: sub.solutions_name,
-            slug: `${sub.id}-${slugify(sub.solutions_name)}`,
+            slug: sub.slug || slugify(sub.solutions_name),
           })),
         }),
       );

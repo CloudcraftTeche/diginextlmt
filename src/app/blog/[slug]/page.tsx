@@ -26,16 +26,15 @@ export default function BlogDetailPage() {
   useEffect(() => {
     const fetchData = async () => {
       if (!slug) return;
-      const id = slug.split("-")[0];
 
-      if (!id) {
+      if (!slug) {
         setError(true);
         setLoading(false);
         return;
       }
 
       try {
-        const response: any = await BlogService.getBlogPostById(id);
+        const response: any = await BlogService.getBlogPostById(slug);
         if (response.data && response.data.success && response.data.data) {
           const postData = response.data.data;
           setPost(postData);
@@ -43,7 +42,7 @@ export default function BlogDetailPage() {
           // Fetch related posts
           const relatedResponse: any = await BlogService.getRelatedPosts(
             postData.category,
-            postData.id,
+            postData.id, // Keep using ID for related posts if API requires it, or check if that needs slug too. Assuming ID for internal relation is fine or available on postData
           );
           if (relatedResponse.data && relatedResponse.data.success) {
             setRelatedPosts(relatedResponse.data.data);
@@ -120,7 +119,7 @@ export default function BlogDetailPage() {
             { label: "Blog", href: "/blog" },
             {
               label: post.title,
-              href: `/blog/${post.id}-${slugify(post.title)}`,
+              href: `/blog/${post.slug || slugify(post.title)}`,
             },
           ]}
         />

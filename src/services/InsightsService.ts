@@ -37,31 +37,34 @@ export const InsightsService = {
     }
   },
 
-  getInsightById: async (id: string) => {
+  getInsightById: async (idOrSlug: string) => {
     if (IS_MOCK_ENABLED) {
       // Find in list or return separate mock if available
       const insight = mockInsightsList.data.find(
-        (item) => item.id.toString() === id,
+        (item: any) =>
+          item.id.toString() === idOrSlug || item.slug === idOrSlug,
       );
       return useMockData({
         success: true,
         message: "Insight retrieved successfully",
-        data: insight ? [insight] : [],
+        data: insight ? insight : null,
       });
     }
     try {
-      return await apiClient.get(`${ApiConstants.insight_detail}${id}/`);
+      // API expects ID or Slug in URL: /insights/our-insights/{id}/
+      return await apiClient.get(`${ApiConstants.insight_detail}${idOrSlug}/`);
     } catch (error) {
       if (axios.isCancel(error)) throw error;
-      console.warn(`Insight ${id} API failed, using fallback:`, error);
+      console.warn(`Insight ${idOrSlug} API failed, using fallback:`, error);
       // Fallback
       const insight = mockInsightsList.data.find(
-        (item) => item.id.toString() === id,
+        (item: any) =>
+          item.id.toString() === idOrSlug || item.slug === idOrSlug,
       );
       return useMockData({
         success: true,
         message: "Insight retrieved successfully",
-        data: insight ? [insight] : [],
+        data: insight ? insight : null,
       });
     }
   },

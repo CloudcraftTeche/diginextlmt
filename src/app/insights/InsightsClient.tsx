@@ -96,7 +96,7 @@ export default function InsightsClient() {
       ? item.description.split(" ").slice(0, 20).join(" ").substring(0, 110) +
         "..."
       : "",
-    slug: item.id.toString(), // Use ID as slug for now
+    slug: item.slug || item.id.toString(), // Use slug from API if available
     navigationText: "Read Case Study",
     category: item.category, // Pass category if section supports it
   }));

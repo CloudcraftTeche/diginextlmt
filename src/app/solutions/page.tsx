@@ -104,13 +104,13 @@ export default function SolutionsPage() {
   const transformedServices: ServiceItem[] = solutions.data.map((cat: any) => ({
     title: cat.solutions_name,
     description: cat.solutions_description,
-    slug: `${cat.id}-${slugify(cat.solutions_name)}`,
+    slug: cat.slug || slugify(cat.solutions_name),
     image: getImageWithPlaceholder(cat.solutions_image),
     imageAlt: cat.solutions_name,
     services:
       cat.solutions?.map((sub: SubSolution) => ({
         name: sub.solutions_name,
-        slug: `${sub.id}-${slugify(sub.solutions_name)}`,
+        slug: sub.slug || slugify(sub.solutions_name),
       })) || [],
   }));
 

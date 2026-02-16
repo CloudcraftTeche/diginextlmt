@@ -37,7 +37,7 @@ export const WorkService = {
     }
     try {
       // @ts-ignore - API constants type mismatch for id if strictly typed
-      return await apiClient.get(ApiConstants.our_works_detail(Number(id)));
+      return await apiClient.get(ApiConstants.our_works_detail(id));
     } catch (error) {
       if (axios.isCancel(error)) throw error;
       console.warn(`Work Detail API failed for ID ${id}:`, error);

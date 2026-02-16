@@ -42,13 +42,10 @@ export default function SolutionDetailPage() {
     const fetchData = async () => {
       if (!slug) return;
 
-      // Extract ID from slug format: {id}-{slug-name}
-      const id = slug.split("-")[0];
-
-      if (!id) {
+      if (!slug) {
         setNotFound(true);
         setLoading(false);
-        setError("Invalid solution ID");
+        setError("Invalid solution slug");
         return;
       }
 
@@ -57,8 +54,8 @@ export default function SolutionDetailPage() {
         setError(null);
         setNotFound(false);
 
-        // Fetch Solution Detail using extracted ID
-        const response = await ServicesService.getSolutionDetail(id);
+        // Fetch Solution Detail using slug
+        const response = await ServicesService.getSolutionDetail(slug);
 
         if (response.data?.success) {
           const data = response.data.data;

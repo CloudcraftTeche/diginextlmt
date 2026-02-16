@@ -29,17 +29,14 @@ export default function WorkDetailPage() {
     const fetchData = async () => {
       if (!slug) return;
 
-      // Extract ID from slug format: {id}-{slug-name}
-      const id = slug.split("-")[0];
-
-      if (!id) {
+      if (!slug) {
         setError(true);
         setLoading(false);
         return;
       }
 
       try {
-        const response: any = await WorkService.getWorkDetail(id);
+        const response: any = await WorkService.getWorkDetail(slug);
 
         if (response.data && response.data.success) {
           setData(response.data.data);
@@ -98,7 +95,7 @@ export default function WorkDetailPage() {
         goals: data.project_goals_section.goals.map((g: any) => ({
           title: g.heading,
           description: g.description,
-          icon: "Target", 
+          icon: "Target",
         })),
       }
     : null;

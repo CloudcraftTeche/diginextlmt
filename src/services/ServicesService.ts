@@ -91,7 +91,7 @@ export const ServicesService = {
     }
   },
 
-  getSubService: async (id: number) => {
+  getSubService: async (id: number | string) => {
     if (IS_MOCK_ENABLED) {
       return useMockData(mockSubServiceDetail);
     }
@@ -161,6 +161,4 @@ export const ServicesService = {
       });
     }
   },
-
- 
 };

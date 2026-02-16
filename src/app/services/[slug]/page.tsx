@@ -57,10 +57,7 @@ export default function ServiceDetailPage({
     if (!slug) return;
 
     const fetchData = async () => {
-      // Extract ID from slug format: {id}-{slug-name}
-      const id = slug.split("-")[0];
-
-      if (!id || isNaN(Number(id))) {
+      if (!slug) {
         setNotFound(true);
         setSubService((prev) => ({ ...prev, loading: false }));
         return;
@@ -70,8 +67,8 @@ export default function ServiceDetailPage({
         setSubService((prev) => ({ ...prev, loading: true, error: null }));
         setNotFound(false);
 
-        // Fetch Subservice Detail using extracted ID
-        const detailRes = await ServicesService.getSubService(Number(id));
+        // Fetch Subservice Detail using slug
+        const detailRes = await ServicesService.getSubService(slug);
         if (detailRes.data.success) {
           const data = detailRes.data.data;
           setSubService({
