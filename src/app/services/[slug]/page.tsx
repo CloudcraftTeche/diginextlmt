@@ -15,6 +15,7 @@ import PartnerSection from "@/components/sections/service-solutions/PartnerSecti
 import CTASection from "@/components/sections/service-solutions/CTASection";
 import FAQSection from "@/components/sections/FAQSection";
 import { updateSeoMetadata } from "@/lib/seoUtils";
+import HeroBanner from "@/components/ui/HeroBanner";
 
 // --- Types matching the API response ---
 interface Section1 {
@@ -138,8 +139,14 @@ export default function ServiceDetailPage({
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-white pt-20">
+      <main className="min-h-screen bg-white pt-10">
         {/* Hero Section */}
+        <HeroBanner
+          title={data.subservice_name}
+          // description={data.subservice_description}
+          // imageSrc={getImageWithPlaceholder(data.sub_service_image)}
+          // imageAlt={data.subservice_name}
+        />
         <ServiceHeroSection
           title={data.subservice_name}
           description={data.subservice_description}
