@@ -17,6 +17,7 @@ import {
   SECTION_HEADING_SIZE,
 } from "@/constants/typographyConstants";
 import EmptyState from "@/components/ui/EmptyState";
+import { ShowcaseSkeleton } from "@/components/LoadingSkelton/services/ShowcaseSkeleton";
 
 // --- Type Definitions ---
 interface ServiceSubItem {
@@ -387,12 +388,18 @@ const ServiceCard: React.FC<{
 interface ServicesShowcaseSectionProps {
   services?: ServiceItem[];
   basePath: string;
+  isLoading?: boolean;
 }
 
 const ShowcaseSection: React.FC<ServicesShowcaseSectionProps> = ({
   services = SERVICES_DATA,
   basePath,
+  isLoading = false,
 }) => {
+  if (isLoading) {
+    return <ShowcaseSkeleton />;
+  }
+
   return (
     <section className={`${SECTION_PY} bg-white overflow-hidden`}>
       <div className={CONTENT_WRAPPER_CLASSES}>

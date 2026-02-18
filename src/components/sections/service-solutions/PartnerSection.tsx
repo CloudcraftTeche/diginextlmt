@@ -4,13 +4,13 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 interface PartnerSectionProps {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
 }
 
 const PartnerSection: React.FC<PartnerSectionProps> = ({
-  title,
-  description,
+  title = "Partner With DigiNext",
+  description = "At DigiNext, we believe in the power of collaboration. We’re always open to exploring partnerships with businesses that share our vision and values. Whether you’re looking to integrate our services, co-develop a solution, or explore new opportunities, we’d love to hear from you.",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -19,7 +19,7 @@ const PartnerSection: React.FC<PartnerSectionProps> = ({
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     const element = document.querySelector("#partner-section");

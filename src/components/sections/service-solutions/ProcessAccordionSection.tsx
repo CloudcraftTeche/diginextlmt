@@ -5,19 +5,16 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 
 // Import modular constants
-import { 
-  fadeInUpVariants} from "@/constants/animationVariants"; 
+import { fadeInUpVariants } from "@/constants/animationVariants";
 
-import {
-  FONT_WEIGHT,
-} from "@/constants/typographyConstants"; 
+import { FONT_WEIGHT } from "@/constants/typographyConstants";
 
 import {
   SECTION_PY,
   CONTENT_WRAPPER_CLASSES,
   PRIMARY_ORANGE_TEXT,
   WHITE_TEXT,
-} from "@/constants/layoutConstants"; 
+} from "@/constants/layoutConstants";
 
 interface ProcessStep {
   title: string;
@@ -25,15 +22,46 @@ interface ProcessStep {
 }
 
 interface ProcessAccordionSectionProps {
-  title: string;
-  steps: ProcessStep[];
+  title?: string;
+  steps?: ProcessStep[];
   description?: string;
 }
 
 const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
-  title,
-  steps,
-  description,
+  title = "How We Work",
+  steps = [
+    {
+      title: "Discovery & Consultation",
+      description:
+        "We begin by understanding your business, goals, target audience, and challenges. Through in-depth consultations, we gather all the insights needed to build a solution that truly fits your needs.",
+    },
+    {
+      title: "Strategy & Planning",
+      description:
+        "Our experts develop a clear, data-driven roadmap tailored to your objectives. We define the scope, timelines, and key milestones to ensure every step moves your project forward with purpose.",
+    },
+    {
+      title: "Design & Development",
+      description:
+        "Our creative and technical teams collaborate to bring your vision to life. From compelling designs to robust development, we focus on quality, performance, and a seamless user experience at every stage.",
+    },
+    {
+      title: "Review & Refinement",
+      description:
+        "Before delivery, we rigorously test and review every detail. Your feedback shapes the final result — we refine and optimize until the solution meets and exceeds your expectations.",
+    },
+    {
+      title: "Launch & Delivery",
+      description:
+        "We deliver your project on time and with precision. Our team ensures a smooth launch, handling every technical detail so your solution goes live without disruption.",
+    },
+    {
+      title: "Support & Growth",
+      description:
+        "Our relationship does not end at delivery. We provide ongoing support, monitoring, and optimization to ensure your solution continues to perform, evolve, and drive measurable results over time.",
+    },
+  ],
+  description = "A transparent, results-driven approach that turns your vision into reality — from the first conversation to long-term success.",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -62,7 +90,7 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
           setHasAnimated(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (sectionRef.current) {
@@ -220,11 +248,15 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
                 tabIndex={0}
               >
                 {/* Step Number */}
-                <div className={`${PRIMARY_ORANGE_TEXT} text-sm ${FONT_WEIGHT.semibold} mb-3 group-hover:text-orange-400 transition-colors duration-500`}>
+                <div
+                  className={`${PRIMARY_ORANGE_TEXT} text-sm ${FONT_WEIGHT.semibold} mb-3 group-hover:text-orange-400 transition-colors duration-500`}
+                >
                   {String(index + 1).padStart(2, "0")}
                 </div>
 
-                <h3 className={`text-md sm:text-md ${FONT_WEIGHT.semibold} mb-3 text-black group-hover:${WHITE_TEXT} transition-colors duration-500`}>
+                <h3
+                  className={`text-md sm:text-md ${FONT_WEIGHT.semibold} mb-3 text-black group-hover:${WHITE_TEXT} transition-colors duration-500`}
+                >
                   {step.title}
                 </h3>
                 <p className="text-gray-600 text-justify text-xs sm:text-xs md:text-sm lg:text-sm group-hover:text-gray-200 transition-colors duration-500 mb-4 leading-relaxed flex-grow">

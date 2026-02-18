@@ -3,33 +3,43 @@
 import React, { useEffect, useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import HeroBanner from "@/components/ui/HeroBanner";
-import { ImageConstants } from "@/constants/ImageConstants";
 import ServiceHeroSection from "@/components/sections/service-solutions/ServiceHeroSection";
 import { ServicesService } from "@/services/ServicesService";
 import { SubServiceSkeleton } from "@/components/LoadingSkelton/services/SubServiceSkeleton";
-import { slugify } from "@/lib/utils";
-import { getFullImageUrl } from "@/lib/imageUtils";
+import { getImageWithPlaceholder } from "@/lib/imageUtils";
 import { usePageLoading } from "@/hooks/usePageLoading";
 import Link from "next/link";
 import ProcessAccordionSection from "@/components/sections/service-solutions/ProcessAccordionSection";
-import OfferedSection from "@/components/sections/service-solutions/OfferedSection";
+import SolutionsOfferedSection from "@/components/sections/service-solutions/OfferedSection";
 import PartnerSection from "@/components/sections/service-solutions/PartnerSection";
 import CTASection from "@/components/sections/service-solutions/CTASection";
 import FAQSection from "@/components/sections/FAQSection";
 import { updateSeoMetadata } from "@/lib/seoUtils";
+
+// --- Types matching the API response ---
+interface Section1 {
+  id: number;
+  title: string;
+  description: string;
+}
+
+interface Section2Item {
+  id: number;
+  title: string;
+  description: string;
+}
 
 interface SubServiceData {
   id: number;
   subservice_name: string;
   subservice_description: string;
   sub_service_image: string;
-}
-
-interface AsyncState<T> {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
+  slug: string;
+  meta_title: string | null;
+  meta_description: string | null;
+  meta_keywords: string | null;
+  latest_service_section1: Section1 | null;
+  service_section2: Section2Item[];
 }
 
 export default function ServiceDetailPage({
@@ -37,89 +47,72 @@ export default function ServiceDetailPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  // Unwrap params using React.use() or await in useEffect (standard for next 15 client comps is to just use it, but params is a promise in 15)
-  // We'll use local state to track unwrapped slug
   const [slug, setSlug] = useState<string | null>(null);
 
   useEffect(() => {
     params.then((p) => setSlug(p.slug));
   }, [params]);
 
-  const [subService, setSubService] = useState<AsyncState<SubServiceData>>({
-    data: null,
-    loading: true,
-    error: null,
-  });
-
+  const [data, setData] = useState<SubServiceData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
 
     const fetchData = async () => {
-      if (!slug) {
-        setNotFound(true);
-        setSubService((prev) => ({ ...prev, loading: false }));
-        return;
-      }
-
       try {
-        setSubService((prev) => ({ ...prev, loading: true, error: null }));
+        setLoading(true);
         setNotFound(false);
 
-        // Fetch Subservice Detail using slug
-        const detailRes = await ServicesService.getSubService(slug);
-        if (detailRes.data.success) {
-          const data = detailRes.data.data;
-          setSubService({
-            data: data,
-            loading: false,
-            error: null,
-          });
+        const response = await ServicesService.getSubService(slug);
 
-          // Update SEO
+        if (response.data?.success) {
+          const result = response.data.data as SubServiceData;
+          setData(result);
+
+          // Update SEO — prefer API meta fields, fall back to name/description
           updateSeoMetadata({
-            meta_title: `${data.subservice_name} | DiginextServices`,
-            meta_description: data.subservice_description.slice(0, 160),
-            meta_keywords: `${data.subservice_name}, Diginext`,
+            meta_title:
+              result.meta_title ??
+              `${result.subservice_name} | Diginext Services`,
+            meta_description:
+              result.meta_description ??
+              result.subservice_description.slice(0, 160),
+            meta_keywords:
+              result.meta_keywords ?? `${result.subservice_name}, Diginext`,
           });
         } else {
-          throw new Error("Failed to load subservice detail");
+          setNotFound(true);
         }
       } catch (err) {
         console.error(err);
-        setSubService((prev) => ({
-          ...prev,
-          loading: false,
-          error: "Failed to load",
-        }));
+        setNotFound(true);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [slug]);
 
-  usePageLoading(subService.loading);
+  usePageLoading(loading);
 
-  if (!slug || subService.loading) {
+  if (!slug || loading) {
     return <SubServiceSkeleton />;
   }
 
-  if (notFound || subService.error || !subService.data) {
+  if (notFound || !data) {
     return (
       <>
         <Header />
         <div className="min-h-screen flex items-center justify-center pt-16">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              {notFound
-                ? "Service Not Found"
-                : "Something successfully Went Wrong"}
+              Service Not Found
             </h1>
             <p className="text-gray-600 mb-8">
-              {notFound
-                ? "The service you're looking for doesn't exist."
-                : "Please try again later."}
+              The service you&apos;re looking for doesn&apos;t exist.
             </p>
             <Link
               href="/services"
@@ -134,68 +127,49 @@ export default function ServiceDetailPage({
     );
   }
 
-  const { subservice_name, subservice_description, sub_service_image } =
-    subService.data;
+  // service_section2: first item is the section header, the rest are individual services
+  const offeredHeader = data.service_section2?.[0] ?? null;
+  const offeredServices =
+    data.service_section2?.slice(1).map((item) => ({
+      title: item.title,
+      description: item.description,
+    })) ?? [];
 
   return (
     <>
-      <Header forceTransparent={true} />
-
-      <div className="pt-16">
-        {/* Hero Banner - Using a generic banner or maybe fetch one if API provided it (it doesn't) */}
-        {/* We'll use the subservice image as the banner or a default if not generic enough */}
-        <HeroBanner
-          backgorundImage={ImageConstants.INSIDE_BANNER_5}
-          title={subservice_name}
-        />
-
-        {/* Service Hero Section */}
+      <Header />
+      <main className="min-h-screen bg-white pt-20">
+        {/* Hero Section */}
         <ServiceHeroSection
-          title={subservice_name}
-          description={subservice_description}
-          breadcrumbs={[
-            { label: "Home", href: "/" },
-            { label: "Services", href: "/services" },
-            { label: subservice_name, href: `/services/${slug}` },
-          ]}
-          imageSrc={getFullImageUrl(sub_service_image)}
+          title={data.subservice_name}
+          description={data.subservice_description}
+          imageSrc={getImageWithPlaceholder(data.sub_service_image)}
+          imageAlt={data.subservice_name}
         />
 
-        {/* Since the API does not provide Data for CTA, Offered, Process, Partner, FAQ sections, 
-            we cannot render them dynamically. 
-            We omit them to avoid showing static invalid data. */}
-
-        {/*
-        {serviceData.ctaSection && (
+        {/* CTA Section */}
+        {data.latest_service_section1 && (
           <CTASection
-            title={serviceData.ctaSection.title}
-            description={serviceData.ctaSection.description}
+            title={data.latest_service_section1.title}
+            description={data.latest_service_section1.description}
+            buttonText="Let's Talk"
+            buttonLink="/contact#contact-form"
           />
         )}
 
-        <OfferedSection
-          title={serviceData.servicesOffered.title}
-          description={serviceData.servicesOffered.description}
-          services={serviceData.servicesOffered.services}
-        />
-
-        <ProcessAccordionSection
-          title={serviceData.process.title}
-          steps={serviceData.process.steps}
-          description={serviceData.process.description}
-        />
-
-        {serviceData.partnerSection && (
-          <PartnerSection
-            title={serviceData.partnerSection.title}
-            description={serviceData.partnerSection.description}
+        {/* Offered Services Section */}
+        {offeredHeader && offeredServices.length > 0 && (
+          <SolutionsOfferedSection
+            title={offeredHeader.title}
+            description={offeredHeader.description}
+            services={offeredServices}
           />
         )}
 
-        <FAQSection faqs={serviceData.faqs.items} description="" />
-        */}
-      </div>
-
+        <ProcessAccordionSection />
+        <PartnerSection />
+        <FAQSection />
+      </main>
       <Footer />
     </>
   );

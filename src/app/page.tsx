@@ -39,12 +39,6 @@ interface VisionData {
   description: string;
 }
 
-interface FaqData {
-  id: number;
-  title: string;
-  description: string;
-}
-
 interface SeoData {
   id: number;
   meta_title: string;
@@ -75,12 +69,6 @@ export default function Home() {
 
   const [vision, setVision] = useState<AsyncState<VisionData | null>>({
     data: null,
-    loading: true,
-    error: null,
-  });
-
-  const [faq, setFaq] = useState<AsyncState<FaqData[]>>({
-    data: [],
     loading: true,
     error: null,
   });
@@ -174,32 +162,6 @@ export default function Home() {
       }
     };
     fetchVision();
-  }, []);
-
-  // 4. Fetch FAQ
-  useEffect(() => {
-    const fetchFaq = async () => {
-      try {
-        setFaq((prev) => ({ ...prev, loading: true, error: null }));
-        const response = await HomeService.getFaq();
-        if (response.data.success) {
-          setFaq({
-            data: response.data.data,
-            loading: false,
-            error: null,
-          });
-        } else {
-          throw new Error();
-        }
-      } catch (error) {
-        setFaq({
-          data: [],
-          loading: false,
-          error: "Failed to load FAQ section",
-        });
-      }
-    };
-    fetchFaq();
   }, []);
 
   // 5. Fetch Insights
@@ -308,11 +270,7 @@ export default function Home() {
   }));
 
   const isPageLoading =
-    banner.loading &&
-    about.loading &&
-    vision.loading &&
-    faq.loading &&
-    seo.loading;
+    banner.loading && about.loading && vision.loading && seo.loading;
   usePageLoading(isPageLoading);
 
   return (
@@ -336,13 +294,7 @@ export default function Home() {
           data={features.data}
           isLoading={features.loading}
         />
-        <FAQSection
-          faqs={faq.data.map((item) => ({
-            question: item.title,
-            answer: item.description,
-          }))}
-          isLoading={faq.loading}
-        />
+        <FAQSection />
         <Footer />
       </div>
     </>

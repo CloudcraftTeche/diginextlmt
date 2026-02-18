@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   SECTION_PX,
@@ -13,16 +13,18 @@ import {
   FONT_WEIGHT,
 } from "@/constants/typographyConstants";
 
+import { FAQLoadingSkeleton } from "../LoadingSkelton/home/FAQLoadingSkeleton";
+import { HomeService } from "@/services/HomeService";
+
 interface FAQItem {
   question: string;
   answer: string;
 }
 
-import { FAQLoadingSkeleton } from "../LoadingSkelton/home/FAQLoadingSkeleton";
-
 interface FAQSectionProps {
   title?: string;
   description?: string;
+  /** Pass FAQs directly to skip internal fetching */
   faqs?: FAQItem[];
   isLoading?: boolean;
 }
@@ -30,10 +32,43 @@ interface FAQSectionProps {
 const FAQSection: React.FC<FAQSectionProps> = ({
   title = "Have Any Questions In Mind?",
   description = "Our team is available to help you if you require trustworthy IT solution services, customised strategies or professional advice on IT solutions. Together, we can transform your questions into opportunities.",
-  faqs = [],
-  isLoading = false,
+  faqs: faqsProp,
+  isLoading: isLoadingProp,
 }) => {
-  const [openIndex, setOpenIndex] = useState<number>(0); // Last item open by default
+  const [openIndex, setOpenIndex] = useState<number>(0);
+  const [fetchedFaqs, setFetchedFaqs] = useState<FAQItem[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // Only fetch internally when no faqs are passed as props
+  useEffect(() => {
+    if (faqsProp !== undefined) return;
+
+    const fetchFaq = async () => {
+      try {
+        setLoading(true);
+        const response = await HomeService.getFaq();
+        if (response.data.success) {
+          setFetchedFaqs(
+            response.data.data.map(
+              (item: { title: string; description: string }) => ({
+                question: item.title,
+                answer: item.description,
+              }),
+            ),
+          );
+        }
+      } catch {
+        // silently fail — empty list is fine
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFaq();
+  }, [faqsProp]);
+
+  const faqs = faqsProp ?? fetchedFaqs;
+  const isLoading = isLoadingProp ?? loading;
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? -1 : index);
@@ -42,6 +77,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
   if (isLoading) {
     return <FAQLoadingSkeleton />;
   }
+
   return (
     <section
       id="faq-section"
@@ -72,9 +108,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                       onClick={() => toggleFAQ(index)}
                       className="w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
                     >
-                      <span
-                        className={`${TITLE_SIZE}  pr-4 leading-snug`}
-                      >
+                      <span className={`${TITLE_SIZE} pr-4 leading-snug`}>
                         {faq.question}
                       </span>
                       <div className="flex-shrink-0 ml-2">
@@ -113,9 +147,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                     {openIndex === index && (
                       <div className="px-4 sm:px-6 pb-4 sm:pb-5">
                         <div className="pt-2 border-t border-gray-100">
-                          <p className={DESCRIPTION_SIZE}>
-                            {faq.answer}
-                          </p>
+                          <p className={DESCRIPTION_SIZE}>{faq.answer}</p>
                         </div>
                       </div>
                     )}
