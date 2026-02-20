@@ -1,7 +1,7 @@
 import { API } from "@/config/apiConfig";
 
 export const ApiConstants = {
-  contact_leads_create: "/api/contact/leads/",
+  contact_leads_create: `${API}/contact/leads/`,
   api_subscribe_create: "/api/subscribe/",
   trust_section: "/api/home/text1/",
   services: "/api/services/service-names/",

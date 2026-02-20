@@ -79,10 +79,10 @@ export default function InsightsClient() {
     fetchData();
   }, []);
 
-  const isLoading = banner.loading && insights.loading;
+  const isLoading = banner.loading || insights.loading;
   usePageLoading(isLoading);
 
-  if (isLoading && !banner.data && !insights.data.length) {
+  if (isLoading) {
     return <InsightsSkeleton />;
   }
 
@@ -108,7 +108,7 @@ export default function InsightsClient() {
       <Header />
       <HeroBanner
         title={bannerData?.title || "Our Projects & Case Studies"}
-        subtitle={bannerData?.subtitle}
+        // subtitle={bannerData?.subtitle}
         // Use banner image from API if valid, else fallback
         backgorundImage={
           bannerData?.banner_image

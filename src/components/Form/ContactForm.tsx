@@ -14,10 +14,11 @@ import {
   Check,
   Phone,
 } from "lucide-react";
-import { apiService } from "@/services/apiService";
+import { ContactService } from "@/services/ContactService";
 import { SERVICES } from "@/constants/services";
 import { SOLUTIONS } from "@/constants/solutions";
 import { LeadPayload } from "@/types/api.types";
+import axios from "axios";
 // Import PhoneInput
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
@@ -38,6 +39,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -60,6 +62,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   }, []);
 
   const handleSubmit = async () => {
+    setFieldErrors({});
     if (
       !formData.name ||
       !formData.email ||
@@ -96,38 +99,75 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
         submitted_at: new Date().toISOString(),
       };
 
-      await apiService.createLead(leadData);
+      const response = await ContactService.createLead(leadData);
 
-      setSubmitStatus({
-        type: "success",
-        message:
-          "Message sent successfully! We'll get back to you within 24 hours.",
-      });
+      if (response.data?.success) {
+        setSubmitStatus({
+          type: "success",
+          message:
+            response.data.message ||
+            "Message sent successfully! We'll get back to you within 24 hours.",
+        });
 
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        service: "",
-        message: "",
-      });
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          service: "",
+          message: "",
+        });
 
-      setTimeout(() => {
-        setSubmitStatus({ type: "", message: "" });
-        if (onSuccess) {
-          onSuccess();
+        setTimeout(() => {
+          setSubmitStatus({ type: "", message: "" });
+          if (onSuccess) {
+            onSuccess();
+          }
+        }, 3000);
+      } else {
+        // Handle validation errors from the data object
+        if (response.data?.data) {
+          setFieldErrors(response.data.data);
+          setSubmitStatus({
+            type: "error",
+            message:
+              response.data.message || "Please correct the errors below.",
+          });
+        } else {
+          setSubmitStatus({
+            type: "error",
+            message:
+              response.data?.message ||
+              "Something went wrong. Please try again.",
+          });
         }
-      }, 3000);
-    } catch (error) {
+      }
+    } catch (error: any) {
       console.error("Form submission failed:", error);
-      setSubmitStatus({
-        type: "error",
-        message:
-          error instanceof Error
-            ? error.message
-            : "Failed to send message. Please try again or contact us directly.",
-      });
+
+      if (axios.isAxiosError(error) && error.response?.data) {
+        const errorData = error.response.data;
+        if (errorData.data) {
+          setFieldErrors(errorData.data);
+          setSubmitStatus({
+            type: "error",
+            message: errorData.message || "Validation failed.",
+          });
+        } else {
+          setSubmitStatus({
+            type: "error",
+            message: errorData.message || "Server error occurred.",
+          });
+        }
+      } else {
+        setSubmitStatus({
+          type: "error",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Failed to send message. Please try again or contact us directly.",
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -136,9 +176,18 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Clear error for the field being changed
+    const apiFieldName = e.target.name === "name" ? "fullname" : e.target.name;
+    if (fieldErrors[apiFieldName]) {
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[apiFieldName];
+        return next;
+      });
+    }
   };
 
   const combinedOptions = [...new Set([...SERVICES, ...SOLUTIONS])];
@@ -146,6 +195,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
   const handleServiceSelect = (value: string) => {
     setFormData({ ...formData, service: value });
     setIsDropdownOpen(false);
+    if (fieldErrors["service"]) {
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next["service"];
+        return next;
+      });
+    }
   };
 
   return (
@@ -159,7 +215,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
       <div className="mb-8">
         <h3 className="text-3xl font-bold text-gray-900 mb-3">Get In Touch</h3>
         <p className="text-gray-600 text-lg">
-          Fill out the form below and we&apos;ll get back to you within 24 hours.
+          Fill out the form below and we&apos;ll get back to you within 24
+          hours.
         </p>
       </div>
 
@@ -190,7 +247,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               Full Name <span className="text-orange-500">*</span>
             </label>
             <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors" />
+              <User
+                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${fieldErrors.fullname ? "text-red-400" : "text-gray-400 group-focus-within:text-orange-500"}`}
+              />
               <input
                 type="text"
                 id="name"
@@ -198,10 +257,19 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white"
+                className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl text-gray-900 outline-none transition-all ${
+                  fieldErrors.fullname
+                    ? "border-red-200 bg-red-50 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                    : "border-gray-200 bg-gray-50 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"
+                }`}
                 placeholder="John Doe"
               />
             </div>
+            {fieldErrors.fullname && (
+              <p className="mt-1 text-xs text-red-500 font-medium">
+                {fieldErrors.fullname[0]}
+              </p>
+            )}
           </div>
 
           <div className="group">
@@ -212,7 +280,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               Email Address <span className="text-orange-500">*</span>
             </label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors" />
+              <Mail
+                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${fieldErrors.email ? "text-red-400" : "text-gray-400 group-focus-within:text-orange-500"}`}
+              />
               <input
                 type="email"
                 id="email"
@@ -220,10 +290,19 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 text-gray-900 rounded-xl focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white"
+                className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl text-gray-900 outline-none transition-all ${
+                  fieldErrors.email
+                    ? "border-red-200 bg-red-50 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                    : "border-gray-200 bg-gray-50 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"
+                }`}
                 placeholder="john@example.com"
               />
             </div>
+            {fieldErrors.email && (
+              <p className="mt-1 text-xs text-red-500 font-medium">
+                {fieldErrors.email[0]}
+              </p>
+            )}
           </div>
         </div>
 
@@ -236,21 +315,29 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               Phone Number
             </label>
 
-            <div className="relative phone-input-wrapper">
+            <div
+              className={`relative phone-input-wrapper ${fieldErrors.phone ? "error" : ""}`}
+            >
               <PhoneInput
                 defaultCountry="ae"
                 value={formData.phone}
                 onChange={(phone) => {
-                  console.log("Phone onChange - Received value:", phone);
-                  setFormData((prev) => {
-                    console.log("Setting phone to:", phone);
-                    return { ...prev, phone: phone };
-                  });
+                  setFormData((prev) => ({ ...prev, phone: phone }));
+                  if (fieldErrors.phone) {
+                    setFieldErrors((prev) => {
+                      const next = { ...prev };
+                      delete next.phone;
+                      return next;
+                    });
+                  }
                 }}
-                inputClassName="!w-full !pl-4 !pr-4 !py-3.5 !border-2 !border-gray-200 !rounded-r-xl !text-gray-900 !bg-gray-50 focus:!border-orange-500 focus:!ring-4 focus:!ring-orange-500/10 !outline-none !transition-all focus:!bg-white !h-[54px]"
+                inputClassName={`!w-full !pl-4 !pr-4 !py-3.5 !border-2 !border-gray-200 !rounded-r-xl !text-gray-900 !outline-none !transition-all !h-[54px] ${
+                  fieldErrors.phone
+                    ? "!bg-red-50 !border-red-200"
+                    : "!bg-gray-50 focus:!bg-white focus:!border-orange-500 focus:!ring-4 focus:!ring-orange-500/10"
+                }`}
                 countrySelectorStyleProps={{
-                  buttonClassName:
-                    "!border-2 !border-r-0 !border-gray-200 !rounded-l-xl !bg-gray-50 hover:!bg-white focus:!border-orange-500 focus:!ring-4 focus:!ring-orange-500/10 !transition-all !h-[54px]",
+                  buttonClassName: `!border-2 !border-r-0 !border-gray-200 !rounded-l-xl !bg-gray-50 hover:!bg-white focus:!border-orange-500 focus:!ring-4 focus:!ring-orange-500/10 !transition-all !h-[54px] ${fieldErrors.phone ? "!border-red-200" : ""}`,
                   dropdownStyleProps: {
                     className:
                       "!border-2 !border-gray-200 !rounded-xl !shadow-xl !mt-2",
@@ -264,6 +351,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
                 }}
               />
             </div>
+            {fieldErrors.phone && (
+              <p className="mt-1 text-xs text-red-500 font-medium">
+                {fieldErrors.phone[0]}
+              </p>
+            )}
 
             <style jsx global>{`
               .phone-input-wrapper .react-international-phone-input-container {
@@ -290,6 +382,15 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               .phone-input-wrapper .react-international-phone-input {
                 border-left: 0 !important;
               }
+
+              .phone-input-wrapper.error .react-international-phone-input {
+                border-color: #fecaca !important;
+              }
+              .phone-input-wrapper.error
+                .react-international-phone-input:focus {
+                border-color: #ef4444 !important;
+                box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+              }
             `}</style>
           </div>
 
@@ -301,17 +402,28 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               Company Name
             </label>
             <div className="relative">
-              <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors" />
+              <Building2
+                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${fieldErrors.company ? "text-red-400" : "text-gray-400 group-focus-within:text-orange-500"}`}
+              />
               <input
                 type="text"
                 id="company"
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all bg-gray-50 focus:bg-white"
+                className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl text-gray-900 outline-none transition-all ${
+                  fieldErrors.company
+                    ? "border-red-200 bg-red-50 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                    : "border-gray-200 bg-gray-50 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"
+                }`}
                 placeholder="Your Company"
               />
             </div>
+            {fieldErrors.company && (
+              <p className="mt-1 text-xs text-red-500 font-medium">
+                {fieldErrors.company[0]}
+              </p>
+            )}
           </div>
         </div>
 
@@ -323,21 +435,29 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
             Service/Solution <span className="text-orange-500">*</span>
           </label>
           <div className="relative">
-            <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors pointer-events-none z-10" />
+            <Briefcase
+              className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors pointer-events-none z-10 ${fieldErrors.service ? "text-red-400" : "text-gray-400 group-focus-within:text-orange-500"}`}
+            />
             <button
               type="button"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className={`w-full pl-12 pr-12 py-3.5 border-2 rounded-xl text-left outline-none transition-all ${
-                isDropdownOpen
-                  ? "border-orange-500 ring-4 ring-orange-500/10 bg-white"
-                  : "border-gray-200 bg-gray-50 hover:bg-white"
+                fieldErrors.service
+                  ? "border-red-200 bg-red-50"
+                  : isDropdownOpen
+                    ? "border-orange-500 ring-4 ring-orange-500/10 bg-white"
+                    : "border-gray-200 bg-gray-50 hover:bg-white"
               } ${formData.service ? "text-gray-900" : "text-gray-500"}`}
             >
               {formData.service || "Select a service/solution"}
             </button>
             <ChevronDown
-              className={`absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 transition-transform pointer-events-none ${
-                isDropdownOpen ? "rotate-180 text-orange-500" : ""
+              className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-transform pointer-events-none ${
+                isDropdownOpen
+                  ? "rotate-180 text-orange-500"
+                  : fieldErrors.service
+                    ? "text-red-400"
+                    : "text-gray-400"
               }`}
             />
 
@@ -371,6 +491,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               )}
             </AnimatePresence>
           </div>
+          {fieldErrors.service && (
+            <p className="mt-1 text-xs text-red-500 font-medium">
+              {fieldErrors.service[0]}
+            </p>
+          )}
         </div>
 
         <div className="group">
@@ -381,7 +506,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
             Your Message <span className="text-orange-500">*</span>
           </label>
           <div className="relative">
-            <MessageSquare className="absolute left-4 top-4 text-gray-400 w-5 h-5 group-focus-within:text-orange-500 transition-colors" />
+            <MessageSquare
+              className={`absolute left-4 top-4 w-5 h-5 transition-colors ${fieldErrors.message ? "text-red-400" : "text-gray-400 group-focus-within:text-orange-500"}`}
+            />
             <textarea
               id="message"
               name="message"
@@ -389,10 +516,19 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
               onChange={handleChange}
               required
               rows={2}
-              className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all resize-none bg-gray-50 focus:bg-white"
+              className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl text-gray-900 outline-none transition-all resize-none ${
+                fieldErrors.message
+                  ? "border-red-200 bg-red-50 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                  : "border-gray-200 bg-gray-50 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"
+              }`}
               placeholder="Tell us about your project requirements..."
             />
           </div>
+          {fieldErrors.message && (
+            <p className="mt-1 text-xs text-red-500 font-medium">
+              {fieldErrors.message[0]}
+            </p>
+          )}
         </div>
 
         <button

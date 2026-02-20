@@ -13,6 +13,7 @@ import {
 } from "@/constants/layoutConstants";
 import { useRouter } from "next/navigation";
 import { getFullImageUrl } from "@/lib/imageUtils";
+import ServicesProvided from "./ServicesProvided";
 
 // Animation variants
 const fadeInUpVariants = {
@@ -25,6 +26,18 @@ const staggerContainerVariants = {
   animate: { transition: { staggerChildren: 0.1 } },
 };
 
+export interface ChallengeItem {
+  id: number;
+  text: string;
+}
+
+export interface ChallengeSection {
+  id: number;
+  title: string;
+  description: string;
+  items: ChallengeItem[];
+}
+
 export interface InsightData {
   id: number;
   category: string;
@@ -34,6 +47,7 @@ export interface InsightData {
   image: string;
   insight_date: string;
   slug: string;
+  challenge_sections?: ChallengeSection[];
 }
 
 interface CaseStudyPageProps {
@@ -50,6 +64,17 @@ const CaseStudyPage = ({ data }: CaseStudyPageProps) => {
   const servicesList = data.services
     ? data.services.split(",").map((s) => s.trim())
     : [];
+
+  const serviceDetails = [
+    {
+      label: "Services",
+      value: data.services,
+    },
+    {
+      label: "Timescale",
+      value: data.insight_date,
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -129,33 +154,86 @@ const CaseStudyPage = ({ data }: CaseStudyPageProps) => {
           </motion.div>
         </div>
       </section>
-
-      {/* Content Section */}
-      <section className={`${SECTION_PX} ${SECTION_PY} bg-white`}>
+      ={/* Overview Section */}
+      <section
+        className={`${SECTION_PX} ${SECTION_PY} bg-white border-t border-gray-100`}
+      >
         <div className={CONTENT_WRAPPER_CLASSES}>
           <motion.div
             variants={staggerContainerVariants}
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
           >
-            <motion.h2
-              variants={fadeInUpVariants}
-              className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6"
-            >
-              Overview
-            </motion.h2>
-
-            <motion.p
-              variants={fadeInUpVariants}
-              className="text-lg text-gray-600 leading-relaxed whitespace-pre-wrap"
-            >
-              {data.description}
-            </motion.p>
+            <div className="flex flex-col gap-6">
+              <motion.h2
+                variants={fadeInUpVariants}
+                className="text-xl sm:text-2xl lg:text-2xl font-semibold text-gray-900 mb-4 leading-tight"
+              >
+                Overview
+              </motion.h2>
+              <motion.p
+                variants={fadeInUpVariants}
+                className="text-lg text-gray-600 leading-relaxed whitespace-pre-wrap text-justify"
+              >
+                {data.description}
+              </motion.p>
+            </div>
           </motion.div>
         </div>
       </section>
+      {/* Challenge Sections */}
+      {data.challenge_sections &&
+        data.challenge_sections.map((section) => (
+          <section
+            key={section.id}
+            className={`${SECTION_PX} ${SECTION_PY} bg-gray-50`}
+          >
+            <div className={CONTENT_WRAPPER_CLASSES}>
+              <motion.div
+                variants={staggerContainerVariants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
+              >
+                <div className="flex flex-col gap-8">
+                  <motion.h2
+                    variants={fadeInUpVariants}
+                    className="text-xl sm:text-2xl lg:text-2xl font-semibold text-gray-900 mb-4 leading-tight"
+                  >
+                    {section.title}
+                  </motion.h2>
+                  <div className="space-y-8">
+                    <motion.p
+                      variants={fadeInUpVariants}
+                      className="text-lg text-gray-700 leading-relaxed text-justify"
+                    >
+                      {section.description}
+                    </motion.p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {section.items.map((item, idx) => (
+                        <motion.div
+                          key={item.id}
+                          variants={fadeInUpVariants}
+                          custom={idx}
+                          className="flex gap-4 p-6 bg-white rounded-xl shadow-sm border border-gray-100"
+                        >
+                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-sm">
+                            {idx + 1}
+                          </div>
+                          <p className="text-gray-700 leading-snug">
+                            {item.text}
+                          </p>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        ))}
     </div>
   );
 };
