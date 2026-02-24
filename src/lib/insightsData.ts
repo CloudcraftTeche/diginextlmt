@@ -2755,7 +2755,7 @@ export const caseStudyData: CaseStudyData = {
     },
   },
   "optimum-corporate": {
-    client: "asdfsafsdfsadf",
+    client: "Optimum Corporate",
     industry: "Business Consulting & Corporate Services",
     timeline: "6 Months",
     services: [
@@ -2769,9 +2769,9 @@ export const caseStudyData: CaseStudyData = {
       "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=1000&fit=crop",
 
     overview: {
-      title: "About Optimum Coadsdsaarporate",
+      title: "About Optimum Corporate",
       description:
-        "Optimum Corporatesdfaf is a comprehensive business services firm specializing in company formation, documentation, compliance, corporate advisory, and ongoing business management. Serving entrepreneurs, SMEs, and international investors, they streamline UAE business operations with professional efficiency. While operationally strong, their online presence lacked the visibility needed to capture executives and decision-makers relying on search engines for business consulting and setup services.",
+        "Optimum Corporate is a comprehensive business services firm specializing in company formation, documentation, compliance, corporate advisory, and ongoing business management. Serving entrepreneurs, SMEs, and international investors, they streamline UAE business operations with professional efficiency. While operationally strong, their online presence lacked the visibility needed to capture executives and decision-makers relying on search engines for business consulting and setup services.",
     },
 
     challenges: [
