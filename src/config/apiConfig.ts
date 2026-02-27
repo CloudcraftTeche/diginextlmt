@@ -9,9 +9,10 @@ export const DEFAULT_HEADERS = {
   "Content-Type": "application/json",
 } as const;
 export const IS_MOCK_ENABLED = false;
-export const ENABLE_FEATURES_MOCK={
-  insights_list:false,
-  insights_banner:false,
-  insights_detail:true,
-}
+export const ENABLE_FEATURES = {
+  insights_list: false,
+  insights_banner: false,
+  insights_detail: true,
+  home_banner_video: true,
+};
 export const API = "/api";

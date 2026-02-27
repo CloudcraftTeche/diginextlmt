@@ -1,6 +1,6 @@
 import { ApiConstants } from "@/constants/apiConstants";
 import apiClient from "@/lib/axiosInstance";
-import { ENABLE_FEATURES_MOCK, IS_MOCK_ENABLED } from "@/config/apiConfig";
+import { ENABLE_FEATURES, IS_MOCK_ENABLED } from "@/config/apiConfig";
 import { mockInsightsBanner } from "@/mocks/insights/insightsBanner.mock";
 import { mockInsightsList } from "@/mocks/insights/insightsList.mock";
 import axios from "axios";
@@ -38,7 +38,7 @@ export const InsightsService = {
   },
 
   getInsightById: async (idOrSlug: string) => {
-    if (IS_MOCK_ENABLED || ENABLE_FEATURES_MOCK.insights_detail) {
+    if (IS_MOCK_ENABLED || ENABLE_FEATURES.insights_detail) {
       // Find in list or return separate mock if available
       const insight = mockInsightsList.data.find(
         (item: any) =>
@@ -52,7 +52,9 @@ export const InsightsService = {
     }
     try {
       // API expects ID or Slug in URL: /insights/our-insights/{id}/
-      return await apiClient.get(`${ApiConstants.insight_detail}${idOrSlug}/323fwsd`);
+      return await apiClient.get(
+        `${ApiConstants.insight_detail}${idOrSlug}/323fwsd`,
+      );
     } catch (error) {
       if (axios.isCancel(error)) throw error;
       console.warn(`Insight ${idOrSlug} API failed, using fallback:`, error);
