@@ -116,28 +116,34 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       className={`${SECTION_PX} ${SECTION_PY} bg-white overflow-hidden`}
       aria-labelledby="hero-heading"
     >
-      {/* Full-width black background */}
-      {ENABLE_FEATURES.home_banner_video ? (
-        <video
-          src="/video/AdobeStock_310092617.mov"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-[600px] object-cover rounded-xl xs:rounded-2xl relative overflow-hidden"
-        />
-      ) : (
-        <div className="w-full bg-black via-black to-gray-800 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 lg:p-10 relative overflow-hidden">
-          {/* Constrained content wrapper */}
-          <div className={CONTENT_WRAPPER_CLASSES}>
-            <motion.div
-              className="flex flex-col lg:flex-row gap-6 xs:gap-8 sm:gap-10 lg:gap-8 xl:gap-10 2xl:gap-12 items-start lg:items-center min-h-[250px] xs:min-h-[300px] sm:min-h-[350px] lg:min-h-[420px] relative z-10"
-              variants={staggerContainerVariants}
-              initial="initial"
-              whileInView="animate"
-              viewport={onceInViewPort}
-            >
-              {/* Left Side - Dynamic Image (5/12 width) */}
+      {/* Full-width black container */}
+      <div
+        className={`w-full ${!ENABLE_FEATURES.home_banner_video ? "bg-black via-black to-gray-800" : "bg-black"} rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 lg:p-10 relative overflow-hidden`}
+      >
+        {ENABLE_FEATURES.home_banner_video && (
+          <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+            <iframe
+              src="https://www.youtube.com/embed/f0VwfemT-lM?autoplay=1&mute=1&loop=1&playlist=f0VwfemT-lM&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+              allow="autoplay; encrypted-media"
+              className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            />
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-black/60" />
+          </div>
+        )}
+
+        {/* Constrained content wrapper */}
+        <div className={`${CONTENT_WRAPPER_CLASSES} relative z-10`}>
+          <motion.div
+            className="flex flex-col lg:flex-row gap-6 xs:gap-8 sm:gap-10 lg:gap-8 xl:gap-10 2xl:gap-12 items-start lg:items-center min-h-[250px] xs:min-h-[300px] sm:min-h-[350px] lg:min-h-[420px]"
+            variants={staggerContainerVariants}
+            initial="initial"
+            whileInView="animate"
+            viewport={onceInViewPort}
+          >
+            {/* Left Side - Dynamic Image (5/12 width) */}
+            {/* Optionally hide image when video is enabled for cleaner look */}
+            {!ENABLE_FEATURES.home_banner_video && (
               <motion.div
                 className="w-full lg:w-5/12 flex justify-center lg:justify-start items-center order-1 lg:order-1"
                 variants={logoInVariants}
@@ -164,103 +170,105 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   </AnimatePresence>
                 </div>
               </motion.div>
+            )}
 
-              {/* Right Side - Content (7/12 width) */}
-              <div className="w-full lg:w-7/12 order-2 lg:order-2">
-                {/* Title Navigation */}
-                <motion.div
-                  className="flex flex-wrap gap-2 xs:gap-3 sm:gap-4 mb-4 xs:mb-5 sm:mb-6"
-                  variants={fadeInUpVariants}
-                >
-                  {slides.map((slide, index) => (
-                    <motion.button
-                      key={index}
-                      onClick={() => handleDotClick(index)}
-                      variants={slideTitleVariants}
-                      animate={currentSlide === index ? "active" : "inactive"}
-                      className={`${HERO_HEADING_SIZE} ${FONT_WEIGHT.light} transition-all duration-500 ease-out hover:scale-105 ${
-                        currentSlide === index
-                          ? PRIMARY_ORANGE_TEXT
-                          : "text-white/50 hover:text-white/70"
-                      }`}
-                    >
-                      {slide.title}
-                      {index < slides.length - 1 && (
-                        <span className="text-white/30 mx-1">.</span>
-                      )}
-                    </motion.button>
-                  ))}
-                </motion.div>
-
-                {/* Animated Content */}
-                <motion.div
-                  className="relative min-h-[100px] xs:min-h-[100px] sm:min-h-[100px] mb-4 xs:mb-5 sm:mb-6"
-                  variants={fadeInUpVariants}
-                >
-                  <AnimatePresence mode="wait">
-                    <motion.p
-                      key={currentSlide}
-                      variants={slideContentVariants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      className={`${LIGHT_HERO_DESCRIPTION_SIZE} ${FONT_WEIGHT.light} leading-relaxed text-justify text-gray-300 w-full absolute`}
-                    >
-                      {slideData.content}
-                    </motion.p>
-                  </AnimatePresence>
-                </motion.div>
-
-                {/* Progress Dots */}
-                <motion.div
-                  className="flex justify-center lg:justify-start gap-1 xs:gap-2 sm:gap-2 mb-4 xs:mb-5 sm:mb-6"
-                  variants={fadeInUpVariants}
-                >
-                  {slides.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleDotClick(index)}
-                      className={`h-1 xs:h-2 sm:h-2 rounded-full transition-all duration-300 ${
-                        currentSlide === index
-                          ? "w-6 xs:w-8 sm:w-8 bg-orange-500"
-                          : "w-1 xs:w-2 sm:w-2 bg-white/30 hover:bg-white/50"
-                      }`}
-                      aria-label={`Go to slide ${index + 1}`}
-                    />
-                  ))}
-                </motion.div>
-
-                {/* Animated Buttons */}
-                <motion.div
-                  className="flex flex-row gap-2 xs:gap-3 sm:gap-4 justify-center lg:justify-start"
-                  variants={fadeInUpVariants}
-                >
-                  <Link
-                    href={primaryButtonLink}
-                    className={`group inline-flex items-center justify-center px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white ${FONT_WEIGHT.normal} rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 ${HERO_BUTTON_SIZE} overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25`}
+            {/* Right Side - Content (7/12 width, or full width if video is active) */}
+            <div
+              className={`w-full ${!ENABLE_FEATURES.home_banner_video ? "lg:w-7/12" : "lg:w-full max-w-4xl mx-auto text-center lg:text-left"} order-2 lg:order-2`}
+            >
+              {/* Title Navigation */}
+              <motion.div
+                className="flex flex-wrap gap-2 xs:gap-3 sm:gap-4 mb-4 xs:mb-5 sm:mb-6"
+                variants={fadeInUpVariants}
+              >
+                {slides.map((slide, index) => (
+                  <motion.button
+                    key={index}
+                    onClick={() => handleDotClick(index)}
+                    variants={slideTitleVariants}
+                    animate={currentSlide === index ? "active" : "inactive"}
+                    className={`${HERO_HEADING_SIZE} ${FONT_WEIGHT.light} transition-all duration-500 ease-out hover:scale-105 ${
+                      currentSlide === index
+                        ? PRIMARY_ORANGE_TEXT
+                        : "text-white/50 hover:text-white/70"
+                    }`}
                   >
-                    <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
-                      {primaryButtonText}
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-300" />
-                  </Link>
+                    {slide.title}
+                    {index < slides.length - 1 && (
+                      <span className="text-white/30 mx-1">.</span>
+                    )}
+                  </motion.button>
+                ))}
+              </motion.div>
 
-                  <Link
-                    href={secondaryButtonLink}
-                    className={`group inline-flex items-center justify-center px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-white/90 backdrop-blur-sm text-black ${FONT_WEIGHT.normal} rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/50 ${HERO_BUTTON_SIZE} overflow-hidden relative hover:bg-white hover:shadow-xl hover:shadow-white/10`}
+              {/* Animated Content */}
+              <motion.div
+                className="relative min-h-[100px] xs:min-h-[100px] sm:min-h-[100px] mb-4 xs:mb-5 sm:mb-6"
+                variants={fadeInUpVariants}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={currentSlide}
+                    variants={slideContentVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    className={`${LIGHT_HERO_DESCRIPTION_SIZE} ${FONT_WEIGHT.light} leading-relaxed text-justify text-gray-300 w-full absolute`}
                   >
-                    <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
-                      {secondaryButtonText}
-                    </span>
-                    <div className="absolute -inset-1 bg-white rounded-full opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-300" />
-                  </Link>
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
+                    {slideData.content}
+                  </motion.p>
+                </AnimatePresence>
+              </motion.div>
+
+              {/* Progress Dots */}
+              <motion.div
+                className="flex justify-center lg:justify-start gap-1 xs:gap-2 sm:gap-2 mb-4 xs:mb-5 sm:mb-6"
+                variants={fadeInUpVariants}
+              >
+                {slides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleDotClick(index)}
+                    className={`h-1 xs:h-2 sm:h-2 rounded-full transition-all duration-300 ${
+                      currentSlide === index
+                        ? "w-6 xs:w-8 sm:w-8 bg-orange-500"
+                        : "w-1 xs:w-2 sm:w-2 bg-white/30 hover:bg-white/50"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </motion.div>
+
+              {/* Animated Buttons */}
+              <motion.div
+                className="flex flex-row gap-2 xs:gap-3 sm:gap-4 justify-center lg:justify-start"
+                variants={fadeInUpVariants}
+              >
+                <Link
+                  href={primaryButtonLink}
+                  className={`group inline-flex items-center justify-center px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white ${FONT_WEIGHT.normal} rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-300 ${HERO_BUTTON_SIZE} overflow-hidden relative hover:shadow-xl hover:shadow-orange-500/25`}
+                >
+                  <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
+                    {primaryButtonText}
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-300" />
+                </Link>
+
+                <Link
+                  href={secondaryButtonLink}
+                  className={`group inline-flex items-center justify-center px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-white/90 backdrop-blur-sm text-black ${FONT_WEIGHT.normal} rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/50 ${HERO_BUTTON_SIZE} overflow-hidden relative hover:bg-white hover:shadow-xl hover:shadow-white/10`}
+                >
+                  <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
+                    {secondaryButtonText}
+                  </span>
+                  <div className="absolute -inset-1 bg-white rounded-full opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-300" />
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
-      )}
+      </div>
     </section>
   );
 };
