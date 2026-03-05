@@ -74,7 +74,7 @@ export const mockServicesList = [
     id: 3,
     service_name: "Digital Marketing",
     service_description:
-      "Our digital marketing services are designed to make you more visible, get people engaged in what you have to say, and bring in consistent, measurable growth on all of your online platforms.",
+      "Our dasdfasfigital marketing services are designed to make you more visible, get people engaged in what you have to say, and bring in consistent, measurable growth on all of your online platforms.",
     service_image: "/media/service_images/DM.webp",
     subservices: [
       {

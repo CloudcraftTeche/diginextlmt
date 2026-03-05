@@ -135,7 +135,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Constrained content wrapper */}
         <div className={`${CONTENT_WRAPPER_CLASSES} relative z-10`}>
           <motion.div
-            className="flex flex-col lg:flex-row gap-6 xs:gap-8 sm:gap-10 lg:gap-8 xl:gap-10 2xl:gap-12 items-start lg:items-center min-h-[250px] xs:min-h-[300px] sm:min-h-[350px] lg:min-h-[420px]"
+            className="flex flex-col lg:flex-row gap-6 xs:gap-8 sm:gap-10 lg:gap-8 xl:gap-10 2xl:gap-12 items-start lg:items-center min-h-[250px] xs:min-h-[300px] sm:min-h-[350px] lg:min-h-[420px] 2xl:min-h-[800px]"
             variants={staggerContainerVariants}
             initial="initial"
             whileInView="animate"
