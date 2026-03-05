@@ -104,7 +104,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
       <div className={CARD_PADDING}>
         <div className="mb-2 xs:mb-3 sm:mb-4">
           <h3
-            className={`${TITLE_SIZE} text-black group-hover:text-white transition-colors duration-500`}
+            className={`${TITLE_SIZE} text-black transition-colors duration-500`}
           >
             {title}
             {percentage && (
