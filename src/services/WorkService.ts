@@ -148,7 +148,7 @@ export const WorkService = {
     if (IS_MOCK_ENABLED) {
       return useMockData({
         success: true,
-        message: "Design detail retrieved successfully",
+        message: "Design detail retrieved successfully ",
         data: null,
       });
     }
