@@ -221,7 +221,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               </motion.div>
 
               {/* Progress Dots */}
-              <motion.div
+              {/* <motion.div
                 className="flex justify-center lg:justify-start gap-1 xs:gap-2 sm:gap-2 mb-4 xs:mb-5 sm:mb-6"
                 variants={fadeInUpVariants}
               >
@@ -237,7 +237,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
-              </motion.div>
+              </motion.div> */}
 
               {/* Animated Buttons */}
               <motion.div

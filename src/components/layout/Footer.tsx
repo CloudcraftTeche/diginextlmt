@@ -257,7 +257,7 @@ const Footer = () => {
     <footer
       id="footer-section"
       className="py-3 xs:py-4 sm:py-6 lg:py-8 bg-white relative"
-      style={{ zIndex: 100 }}
+      // style={{ zIndex: 100 }}
     >
       <div className="px-3 xs:px-4 sm:px-6 lg:px-8">
         <div className="bg-black rounded-xl p-4 xs:p-5 sm:p-8 lg:p-12">
@@ -269,7 +269,7 @@ const Footer = () => {
                   <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl font-medium text-white mb-3 xs:mb-4 sm:mb-6">
                     {newsletter.title}
                   </h2>
-                  <p className="text-gray-300 text-xs xs:text-sm sm:text-base leading-relaxed">
+                  <p className="text-gray-300 text-normal xs:text-sm sm:text-base leading-relaxed">
                     {newsletter.description}
                   </p>
                 </div>
@@ -281,12 +281,12 @@ const Footer = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder={newsletter.placeholder}
-                      className="flex-1 px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-white/90 text-black placeholder-gray-500 rounded-l-md border-2 border-transparent focus:border-orange-500 focus:outline-none text-xs xs:text-sm sm:text-base"
+                      className="flex-1 px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-white/90 text-black placeholder-gray-500 rounded-l-md border-2 border-transparent focus:border-orange-500 focus:outline-none text-normal xs:text-sm sm:text-base"
                     />
                     <button
                       onClick={handleNewsletterSubmit}
                       disabled={!isValidEmail(email) || isSubmitting}
-                      className="px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-r-md transition-all duration-300 text-xs xs:text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      className="px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-r-md transition-all duration-300 text-normal xs:text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                       {isSubmitting ? "..." : newsletter.buttonText}
                     </button>
@@ -309,7 +309,7 @@ const Footer = () => {
                     height={200}
                   />
                 </div>
-                <p className="text-gray-300 text-xs xs:text-sm sm:text-base leading-relaxed mb-4">
+                <p className="text-gray-300 text-normal xs:text-sm sm:text-base leading-relaxed mb-4">
                   {footerInfo.description}
                 </p>
               </div>
@@ -361,7 +361,7 @@ const Footer = () => {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm">
+                    <p className="text-gray-300 group-hover:text-orange-400 text-normal xs:text-sm">
                       {contact.address}
                     </p>
                   </a>
@@ -376,7 +376,7 @@ const Footer = () => {
                     >
                       <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                     </svg>
-                    <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm">
+                    <p className="text-gray-300 group-hover:text-orange-400 text-normal xs:text-sm">
                       {contact.phone}
                     </p>
                   </a>
@@ -392,7 +392,7 @@ const Footer = () => {
                       <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                       <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                     </svg>
-                    <p className="text-gray-300 group-hover:text-orange-400 text-xs xs:text-sm">
+                    <p className="text-gray-300 group-hover:text-orange-400 text-normal xs:text-sm">
                       {contact.email}
                     </p>
                   </a>
@@ -431,7 +431,7 @@ const Footer = () => {
                     <li key={i}>
                       <Link
                         href="/services"
-                        className="text-gray-300 text-xs xs:text-sm hover:text-orange-400 transition-colors cursor-pointer"
+                        className="text-gray-300 text-normal xs:text-sm hover:text-orange-400 transition-colors cursor-pointer"
                       >
                         {service}
                       </Link>
@@ -472,7 +472,7 @@ const Footer = () => {
                     <li key={i}>
                       <Link
                         href="/solutions"
-                        className="text-gray-300 text-xs xs:text-sm hover:text-orange-400 transition-colors cursor-pointer"
+                        className="text-gray-300 text-normal xs:text-sm hover:text-orange-400 transition-colors cursor-pointer"
                       >
                         {solution}
                       </Link>
@@ -513,7 +513,7 @@ const Footer = () => {
                     <li key={i}>
                       <a
                         href="#"
-                        className="text-gray-300 text-xs xs:text-sm hover:text-orange-400 transition-colors cursor-pointer"
+                        className="text-gray-300 text-normal xs:text-sm hover:text-orange-400 transition-colors cursor-pointer"
                       >
                         {link}
                       </a>
@@ -530,7 +530,7 @@ const Footer = () => {
                   <a
                     key={i}
                     href={item.link}
-                    className="text-gray-300 text-xs xs:text-sm hover:text-orange-400 transition cursor-pointer relative z-30"
+                    className="text-gray-300 text-normal xs:text-sm hover:text-orange-400 transition cursor-pointer relative z-30"
                     onClick={(e) => {
                       if (item.link === "#") {
                         e.preventDefault();
@@ -546,7 +546,7 @@ const Footer = () => {
                 <div className="relative">
                   <button
                     onClick={() => toggleSection("locations")}
-                    className="text-gray-300 text-xs xs:text-sm hover:text-orange-400 transition cursor-pointer relative z-30 flex items-center gap-1"
+                    className="text-gray-300 text-normal xs:text-sm hover:text-orange-400 transition cursor-pointer relative z-30 flex items-center gap-1"
                   >
                     Locations
                     <svg
@@ -569,7 +569,7 @@ const Footer = () => {
                   {openSections.locations && (
                     <div className="absolute bottom-full left-0 mb-2 bg-gray-900 rounded-lg shadow-xl p-3 min-w-[180px] z-50 border border-gray-700">
                       {locationsLoading ? (
-                        <div className="text-gray-400 text-xs text-center py-2">
+                        <div className="text-gray-400 text-normal text-center py-2">
                           Loading...
                         </div>
                       ) : (
@@ -578,7 +578,7 @@ const Footer = () => {
                             <li key={i}>
                               <a
                                 href={`/location/${location.slug}`}
-                                className="text-gray-300 text-xs hover:text-orange-400 transition-colors block py-1 cursor-pointer"
+                                className="text-gray-300 text-normal hover:text-orange-400 transition-colors block py-1 cursor-pointer"
                               >
                                 {location.name}
                               </a>
@@ -605,30 +605,30 @@ const Footer = () => {
               </div>
 
               <div className="flex flex-col lg:flex-row justify-between items-center space-y-3 xs:space-y-4 sm:space-y-0 text-center lg:text-left">
-                <p className="text-gray-400 text-xs xs:text-sm">
+                <p className="text-gray-400 text-normal xs:text-sm">
                   © 2025 DigiNext - Branding Agency Dubai. All Rights Reserved
                 </p>
                 <div className="flex flex-col xs:flex-row gap-2 xs:gap-3 sm:gap-4">
-                  <span className="text-gray-400 text-xs xs:text-sm">
+                  <span className="text-gray-400 text-normal xs:text-sm">
                     DigiNext is a part of L M TECH IT SERVICES
                   </span>
                   <span className="text-gray-400 hidden xs:inline">|</span>
                   <div className="flex flex-wrap justify-center gap-2 xs:gap-3">
                     <a
                       href="#"
-                      className="text-gray-400 text-xs xs:text-sm hover:text-orange-400 cursor-pointer relative z-30"
+                      className="text-gray-400 text-normal xs:text-sm hover:text-orange-400 cursor-pointer relative z-30"
                     >
                       Terms & Conditions
                     </a>
                     <a
                       href="#"
-                      className="text-gray-400 text-xs xs:text-sm hover:text-orange-400 cursor-pointer relative z-30"
+                      className="text-gray-400 text-normal xs:text-sm hover:text-orange-400 cursor-pointer relative z-30"
                     >
                       Privacy Policy
                     </a>
                     <a
                       href="#"
-                      className="text-gray-400 text-xs xs:text-sm hover:text-orange-400 cursor-pointer relative z-30"
+                      className="text-gray-400 text-normal xs:text-sm hover:text-orange-400 cursor-pointer relative z-30"
                     >
                       Payment Policy
                     </a>

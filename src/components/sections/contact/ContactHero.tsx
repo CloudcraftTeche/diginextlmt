@@ -33,7 +33,7 @@ const ContactHero = () => {
 
       <motion.div
         style={{ y, opacity }}
-        className="relative z-10 max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 py-24 lg:py-32"
+        className="relative z-10 flex items-center justify-center min-h-screen max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16"
       >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -71,6 +71,52 @@ const ContactHero = () => {
             automate your business processes—get in touch with us today and
             let&apos;s grow your business together.
           </p>
+        </motion.div>
+      </motion.div>
+
+      {/* Scroll Down Indicator */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+      >
+        <span className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400">
+          Scroll Down
+        </span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+          className="flex flex-col items-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="text-orange-400"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="text-orange-400 opacity-40 -mt-2"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
         </motion.div>
       </motion.div>
 

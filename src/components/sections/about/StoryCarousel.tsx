@@ -143,11 +143,11 @@ function JourneyValuesContent({ missions = [], text }: { missions?: MissionData[
       <div className="relative z-10">
         {/* Header Section */}
         <div className="max-w-[1750px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 mb-12 lg:mb-16">
-          <div className="flex items-start">
+          {/* <div className="flex items-start">
             <div className="inline-flex items-center gap-2 mb-6">
               <Rocket className="w-6 h-6 text-orange-500" />
             </div>
-          </div>
+          </div> */}
           <h2 
             className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-4 lg:mb-6 transition-all duration-1000 ${
               isInView

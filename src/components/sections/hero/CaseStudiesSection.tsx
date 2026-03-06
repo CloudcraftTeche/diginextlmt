@@ -116,7 +116,7 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
         </div>
 
         <p
-          className={`${DESCRIPTION_SIZE} ${FONT_WEIGHT.light} text-gray-600 text-justify leading-relaxed mb-3 xs:mb-4 sm:mb-5 md:mb-6 line-clamp-3`}
+          className={`${DESCRIPTION_SIZE} ${FONT_WEIGHT.light} text-gray-600 text-left leading-relaxed mb-3 xs:mb-4 sm:mb-5 md:mb-6 line-clamp-3`}
         >
           {description}
         </p>

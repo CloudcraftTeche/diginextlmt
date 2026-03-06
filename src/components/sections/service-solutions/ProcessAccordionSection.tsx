@@ -120,7 +120,7 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
             initial="hidden"
             animate={isVisible ? "visible" : "hidden"}
             variants={fadeInUpVariants}
-            className={`text-2xl sm:text-3xl md:text-4xl text-black ${FONT_WEIGHT.semibold}`}
+            className={`text-2xl sm:text-3xl md:text-4xl ml-4 text-black ${FONT_WEIGHT.semibold}`}
           >
             {title}
           </motion.h2>
@@ -161,7 +161,7 @@ const ProcessAccordionSection: React.FC<ProcessAccordionSectionProps> = ({
             animate={isVisible ? "visible" : "hidden"}
             variants={fadeInUpVariants}
             transition={{ delay: 0.2 }}
-            className="text-sm sm:text-base text-gray-500 mt-2 max-w-4xl"
+            className="text-sm sm:text-base text-gray-500 mt-2 max-w-4xl ml-4"
           >
             {description}
           </motion.p>

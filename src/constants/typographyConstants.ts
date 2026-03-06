@@ -14,6 +14,7 @@ export const TEXT_COLOR_SECONDARY = "text-gray-700";
 
 // Font Weights
 export const FONT_WEIGHT = {
+  base: "font-base",
   thin: "font-thin",
   light: "font-light",
   normal: "font-normal",
@@ -40,11 +41,11 @@ export const LIGHT_HERO_DESCRIPTION_SIZE =
   "text-xs xs:text-sm sm:text-sm lg:text-base xl:text-lg 2xl:text-xl";
 export const HERO_DESCRIPTION_SIZE =
   `${GRAY_TEXT_DARK} ${FONT_WEIGHT.normal} text-justify ` +
-  "text-xs xs:text-sm sm:text-sm lg:text-base xl:text-lg 2xl:text-xl";
+  "text-xs xs:text-sm sm:text-sm lg:text-sm xl:text-md 2xl:text-lg";
 
 export const DESCRIPTION_SIZE =
   `${GRAY_TEXT_DARK} ${FONT_WEIGHT.normal} text-justify ` +
-  "text-xs xs:text-sm sm:text-sm lg:text-base xl:text-md 2xl:text-lg";
+  "text-xs xs:text-sm sm:text-sm lg:text-base xl:text-base 2xl:text-md";
 
 export const CENTER_DESCRIPTION_SIZE =
   `${GRAY_TEXT_DARK} ${FONT_WEIGHT.normal} text-center ` +
