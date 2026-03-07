@@ -181,7 +181,7 @@ const CaseStudyPage = ({ data }: CaseStudyPageProps) => {
               <div className="lg:col-span-5 relative">
                 <motion.div
                   variants={fadeInUpVariants}
-                  className="relative z-10 aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] group"
+                  className="relative z-10 aspect-[5/4] rounded-3xl overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] group"
                 >
                   <img
                     src={getFullImageUrl(data.image)}
