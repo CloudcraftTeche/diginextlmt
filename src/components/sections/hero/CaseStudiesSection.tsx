@@ -92,8 +92,8 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
         <Image
           src={image}
           alt={title}
-          width={400}
-          height={300}
+          width={2048}
+          height={1536}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           priority={true}
         />
@@ -227,7 +227,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
 
         {/* Case Studies Grid - Using COMMON_GAP_MD */}
         <motion.div
-          className={` ${COMMON_GAP_MD} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20`}
+          className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ${COMMON_GAP_MD} mb-20`}
           variants={cardsContainerVariants}
           initial="animate"
           whileInView="animate"

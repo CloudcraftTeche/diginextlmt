@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import React from "react";
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -51,7 +51,6 @@ interface CaseStudiesSectionProps {
     navigationText?: string;
     category?: string;
   }>;
-  itemsPerPage?: number;
 }
 
 const CaseStudyCard: React.FC<CaseStudyProps> = ({
@@ -70,8 +69,8 @@ const CaseStudyCard: React.FC<CaseStudyProps> = ({
         <Image
           src={image}
           alt={title}
-          width={400}
-          height={300}
+          width={2048}
+          height={1536}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           priority={true}
         />
@@ -142,73 +141,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
         "As the best IT solution company in Dubai, we transform brands by creating powerful designs that communicate our innovative IT solution services with clarity and visual appeal.",
     },
   ],
-  itemsPerPage = 9,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // Calculate pagination
-  const totalPages = Math.ceil(caseStudies.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentCaseStudies = caseStudies.slice(startIndex, endIndex);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    // Scroll to top of section
-    document.getElementById("case-studies-section")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      handlePageChange(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      handlePageChange(currentPage + 1);
-    }
-  };
-
-  // Generate page numbers to display
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxPagesToShow = 5;
-
-    if (totalPages <= maxPagesToShow) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= 3) {
-        for (let i = 1; i <= 4; i++) {
-          pages.push(i);
-        }
-        pages.push("...");
-        pages.push(totalPages);
-      } else if (currentPage >= totalPages - 2) {
-        pages.push(1);
-        pages.push("...");
-        for (let i = totalPages - 3; i <= totalPages; i++) {
-          pages.push(i);
-        }
-      } else {
-        pages.push(1);
-        pages.push("...");
-        pages.push(currentPage - 1);
-        pages.push(currentPage);
-        pages.push(currentPage + 1);
-        pages.push("...");
-        pages.push(totalPages);
-      }
-    }
-
-    return pages;
-  };
-
   return (
     <section
       id="case-studies-section"
@@ -255,7 +188,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
         <div
           className={`grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ${COMMON_GAP_MD}`}
         >
-          {currentCaseStudies.map((study, index) => (
+          {caseStudies.map((study, index) => (
             <CaseStudyCard
               key={`${study.title}-${index}`}
               image={study.image}
@@ -268,69 +201,6 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
             />
           ))}
         </div>
-
-        {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-8 sm:mt-12">
-            {/* Previous Button */}
-            <button
-              onClick={handlePrevious}
-              disabled={currentPage === 1}
-              className={`p-2 rounded-lg border transition-all duration-200 ${
-                currentPage === 1
-                  ? "border-gray-200 text-gray-400 cursor-not-allowed"
-                  : "border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-orange-500"
-              }`}
-              aria-label="Previous page"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            {/* Page Numbers */}
-            <div className="flex items-center gap-1 sm:gap-2">
-              {getPageNumbers().map((page, index) => (
-                <React.Fragment key={index}>
-                  {page === "..." ? (
-                    <span className="px-2 text-gray-400">...</span>
-                  ) : (
-                    <button
-                      onClick={() => handlePageChange(page as number)}
-                      className={`min-w-[40px] h-10 px-3 rounded-lg font-medium transition-all duration-200 ${
-                        currentPage === page
-                          ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
-                          : "text-gray-700 hover:bg-gray-50 border border-gray-300 hover:border-orange-500"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-
-            {/* Next Button */}
-            <button
-              onClick={handleNext}
-              disabled={currentPage === totalPages}
-              className={`p-2 rounded-lg border transition-all duration-200 ${
-                currentPage === totalPages
-                  ? "border-gray-200 text-gray-400 cursor-not-allowed"
-                  : "border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-orange-500"
-              }`}
-              aria-label="Next page"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        )}
-
-        {/* Pagination Info */}
-        {totalPages > 1 && (
-          <div className="text-center mt-4 text-sm text-gray-600">
-            Showing {startIndex + 1} - {Math.min(endIndex, caseStudies.length)}{" "}
-            of {caseStudies.length} case studies
-          </div>
-        )}
       </div>
     </section>
   );

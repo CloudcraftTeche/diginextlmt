@@ -118,44 +118,36 @@ const ServicesSection: React.FC<ServicesProps> = ({
             {subtitle}
           </motion.p>
 
-          {/* Services Cards Grid */}
+          {/* Services Cards — Horizontal Scroll */}
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 xl:gap-8 w-full"
+            className="w-full overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
             variants={fadeInUpVariants}
           >
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUpVariants}
-                className="relative flex flex-col p-7 lg:p-8 bg-white border border-gray-300 rounded-2xl
-                hover:bg-black hover:border-black hover:text-white hover:shadow-lg
-                transition-all duration-500 ease-out group"
-              >
-                {/* Title */}
-                <h3
-                  className={`${TITLE_SIZE} mb-4 group-hover:text-white transition-colors duration-500`}
+            <div className="flex gap-5 lg:gap-6 snap-x snap-mandatory w-max">
+              {services.map((service, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeInUpVariants}
+                  className="snap-start flex-shrink-0 w-72 sm:w-80 lg:w-96 relative flex flex-col p-7 lg:p-8 bg-white border border-gray-300 rounded-2xl
+                  hover:bg-black hover:border-black hover:text-white hover:shadow-lg
+                  transition-all duration-500 ease-out group"
                 >
-                  {service.title}
-                </h3>
+                  {/* Title */}
+                  <h3
+                    className={`${TITLE_SIZE} mb-4 group-hover:text-white transition-colors duration-500`}
+                  >
+                    {service.title}
+                  </h3>
 
-                {/* Description */}
-                <p
-                  className={`${DESCRIPTION_SIZE} ${FONT_WEIGHT.light} group-hover:text-white leading-relaxed`}
-                >
-                  {service.description}
-                </p>
-
-                {/* CTA Button */}
-                {/* <Link
-                  href={service.link || "/contact"}
-                  aria-label={`Contact for ${service.title}`}
-                  className="mt-auto inline-flex items-center font-semibold text-base text-black group-hover:text-orange-400 transition-all duration-300"
-                >
-                  <span>Connect to Us</span>
-                  <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:rotate-45 transition-transform duration-300" />
-                </Link> */}
-              </motion.div>
-            ))}
+                  {/* Description */}
+                  <p
+                    className={`${DESCRIPTION_SIZE} ${FONT_WEIGHT.light} group-hover:text-white leading-relaxed`}
+                  >
+                    {service.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         </motion.div>
       </div>
