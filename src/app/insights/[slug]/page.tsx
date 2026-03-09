@@ -20,6 +20,7 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
 
   try {
     const response = await InsightsService.getInsightById(slug);
+    console.log("response", response);
     if (response.data.success && response.data.data) {
       caseStudy = response.data.data;
 

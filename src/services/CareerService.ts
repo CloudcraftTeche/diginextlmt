@@ -1,4 +1,4 @@
-import { IS_MOCK_ENABLED } from "@/config/apiConfig";
+import { IS_MOCK_ENABLED } from "@/config/appConfig";
 import { ApiConstants } from "@/constants/apiConstants";
 import apiClient from "@/lib/axiosInstance";
 import { mockCareerList, CareerPost } from "@/mocks/career/careerList.mock";

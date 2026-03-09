@@ -1,6 +1,6 @@
 import { ApiConstants } from "@/constants/apiConstants";
 import apiClient from "@/lib/axiosInstance";
-import { ENABLE_FEATURES, IS_MOCK_ENABLED } from "@/config/apiConfig";
+import { ENABLE_FEATURES, IS_MOCK_ENABLED } from "@/config/appConfig";
 import { mockInsightsBanner } from "@/mocks/insights/insightsBanner.mock";
 import { mockInsightsList } from "@/mocks/insights/insightsList.mock";
 import axios from "axios";
@@ -53,7 +53,7 @@ export const InsightsService = {
     try {
       // API expects ID or Slug in URL: /insights/our-insights/{id}/
       return await apiClient.get(
-        `${ApiConstants.insight_detail}${idOrSlug}/323fwsd`,
+        `${ApiConstants.insight_detail}${idOrSlug}/`,
       );
     } catch (error) {
       if (axios.isCancel(error)) throw error;

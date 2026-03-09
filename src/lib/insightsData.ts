@@ -42,7 +42,7 @@ type CaseStudyData = {
   [key: string]: CaseStudy;
 };
 
-export const caseStudyData: CaseStudyData = {
+export const caseStudyData: CaseStudyData = {/* 
   "back-to-roots-ayurveda": {
     client: "Back to Roots Ayurveda",
     industry: "Health & Wellness",
@@ -59,7 +59,7 @@ export const caseStudyData: CaseStudyData = {
     overview: {
       title: "About Back to Roots Ayurveda",
       description:
-        "Back to Roots Ayurveda is a health and wellness brand that wants to bring the ancient healing art of Ayurveda into the present. Their goal is to help people get back in balance, get healthier, and reconnect with natural healing methods through real Ayurvedic treatments, one-on-one consultations, and traditional therapies. The brand had real knowledge and holistic wellness experiences, but their online presence did not show how valuable they were.",
+        "Backasdaf to Roots Ayurveda is a health and wellness brand that wants to bring the ancient healing art of Ayurveda into the present. Their goal is to help people get back in balance, get healthier, and reconnect with natural healing methods through real Ayurvedic treatments, one-on-one consultations, and traditional therapies. The brand had real knowledge and holistic wellness experiences, but their online presence did not show how valuable they were.",
     },
 
     challenges: [
@@ -2891,4 +2891,4 @@ export const caseStudyData: CaseStudyData = {
         "Optimum Corporate always provided reliable business support services. DigiNext unlocked their digital potential through structured SEO, authoritative content, and optimized user experience. Today, the firm operates from a strengthened digital foundation, consistently attracting qualified clients while positioning itself as a trusted UAE corporate services partner.",
     },
   },
-};
+ */};

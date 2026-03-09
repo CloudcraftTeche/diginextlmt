@@ -27,7 +27,7 @@ import {
 } from "@/constants/layoutConstants";
 import { getImageWithPlaceholder } from "@/lib/imageUtils";
 import { HeroLoadingSkelton } from "../../LoadingSkelton/home/HeroLoadingSkelton";
-import { ENABLE_FEATURES } from "@/config/apiConfig";
+import { ENABLE_FEATURES } from "@/config/appConfig";
 
 interface Slide {
   title: string;

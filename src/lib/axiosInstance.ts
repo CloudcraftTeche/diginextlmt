@@ -11,7 +11,7 @@ import {
   API_TIMEOUT,
   DEFAULT_HEADERS,
   IS_MOCK_ENABLED,
-} from "../config/apiConfig";
+} from "../config/appConfig";
 import { ERROR_MESSAGES } from "../config/errorMessages";
 import { ApiError } from "next/dist/server/api-utils";
 import { showToast } from "./toast";

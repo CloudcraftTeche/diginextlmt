@@ -12,7 +12,7 @@ export const IS_MOCK_ENABLED = false;
 export const ENABLE_FEATURES = {
   insights_list: false,
   insights_banner: false,
-  insights_detail: true,
+  insights_detail: false,
   home_banner_video: true,
 };
 export const API = "/api";

@@ -1,4 +1,4 @@
-import { API } from "@/config/apiConfig";
+import { API } from "@/config/appConfig";
 
 export const ApiConstants = {
   contact_leads_create: `${API}/contact/leads/`,

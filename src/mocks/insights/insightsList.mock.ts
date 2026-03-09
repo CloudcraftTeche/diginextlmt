@@ -1,7 +1,7 @@
 export const mockInsightsList = {
   success: true,
   message: "Our insights retrieved successfully",
-  data: [
+  data: [/* 
     {
       id: 23,
       challenge_sections: [
@@ -3490,5 +3490,5 @@ export const mockInsightsList = {
       created_at: "2026-01-21T07:00:23.417382Z",
       updated_at: "2026-01-24T18:10:01.254637Z",
     },
-  ],
+   */],
 };

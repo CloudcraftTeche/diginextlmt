@@ -2,7 +2,7 @@
 
 import { ApiConstants } from "@/constants/apiConstants";
 import apiClient from "@/lib/axiosInstance";
-import { IS_MOCK_ENABLED } from "@/config/apiConfig";
+import { IS_MOCK_ENABLED } from "@/config/appConfig";
 import { mockHomeBanners } from "@/mocks/home/homeBanners.mock";
 import { mockHomeAbout } from "@/mocks/home/homeAbout.mock";
 import { mockHomeVision } from "@/mocks/home/homeVision.mock";

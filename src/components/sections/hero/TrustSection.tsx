@@ -1,5 +1,5 @@
 "use client";
-import { IS_MOCK_ENABLED } from "@/config/apiConfig";
+import { IS_MOCK_ENABLED } from "@/config/appConfig";
 import { ImageConstants } from "@/constants/ImageConstants";
 import { apiService } from "@/services/apiService";
 import React, { useState, useEffect, useRef, useMemo } from "react";
@@ -37,7 +37,7 @@ const StatItem: React.FC<StatItemProps> = ({
           setIsVisible(true);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     if (itemRef.current) {
@@ -148,7 +148,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
       { name: "Company 15", logo: ImageConstants.COMPANY_LOGO_15 },
       { name: "Company 16", logo: ImageConstants.COMPANY_LOGO_16 },
     ],
-    []
+    [],
   );
 
   const clientLogos = useMemo(() => {
@@ -164,7 +164,7 @@ const TrustSection: React.FC<TrustSectionProps> = ({
         setIsLoading(true);
 
         const res = await apiService.getTrustSection();
-        console.warn(res,'resop')
+        console.warn(res, "resop");
         const item = res?.data?.data?.[0];
         if (item) {
           setApiTitle(item.title);
@@ -371,7 +371,9 @@ const TrustSection: React.FC<TrustSectionProps> = ({
               width: auto;
               object-fit: contain;
               // opacity: 0.7;
-              transition: opacity 0.3s ease, transform 0.3s ease;
+              transition:
+                opacity 0.3s ease,
+                transform 0.3s ease;
             }
 
             .logo-item:hover img {

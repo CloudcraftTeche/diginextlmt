@@ -2,7 +2,7 @@
 
 import { ApiConstants } from "@/constants/apiConstants";
 import apiClient from "@/lib/axiosInstance";
-import { IS_MOCK_ENABLED } from "@/config/apiConfig";
+import { IS_MOCK_ENABLED } from "@/config/appConfig";
 import { LeadPayload } from "@/types/api.types";
 import axios from "axios";
 

@@ -1,6 +1,6 @@
 // src/lib/imageUtils.ts
 
-import { IMAGE_BASE_URL } from "@/config/apiConfig";
+import { IMAGE_BASE_URL } from "@/config/appConfig";
 
 /**
  * Constructs full image URL from API response
@@ -60,8 +60,7 @@ export const extractHostname = (url: string): string => {
 
 export const getMediaType = (url: string): "video" | "youtube" | "image" => {
   if (!url) return "image";
-  if (url.includes("youtube.com") || url.includes("youtu.be"))
-    return "youtube";
+  if (url.includes("youtube.com") || url.includes("youtu.be")) return "youtube";
   if (url.endsWith(".mp4") || url.endsWith(".webm") || url.endsWith(".ogg"))
     return "video";
   return "image";

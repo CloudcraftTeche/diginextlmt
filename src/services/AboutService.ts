@@ -2,7 +2,7 @@
 
 import { ApiConstants } from "@/constants/apiConstants";
 import apiClient from "@/lib/axiosInstance";
-import { IS_MOCK_ENABLED } from "@/config/apiConfig";
+import { IS_MOCK_ENABLED } from "@/config/appConfig";
 import { mockAboutBanners } from "@/mocks/about/aboutBanners.mock";
 import { mockAboutText1 } from "@/mocks/about/aboutText1.mock";
 import { mockAboutText2 } from "@/mocks/about/aboutText2.mock";

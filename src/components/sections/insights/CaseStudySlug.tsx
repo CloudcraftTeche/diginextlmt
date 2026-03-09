@@ -38,29 +38,58 @@ export interface ChallengeSection {
   items: ChallengeItem[];
 }
 
-export interface SolutionItem {
+export interface StrategyBlockPoint {
   id: number;
   text: string;
+  order: number;
 }
 
-export interface SolutionSection {
+export interface StrategyBlock {
   id: number;
+  heading: string;
+  order: number;
+  points: StrategyBlockPoint[];
+}
+
+export interface Strategy {
+  id: number;
+  heading: string;
+  description: string;
+  blocks: StrategyBlock[];
+}
+
+export interface ResultBlock {
+  id: number;
+  image: string | null;
+  heading: string;
   title: string;
   description: string;
-  items: SolutionItem[];
+  order: number;
 }
 
-export interface ResultSection {
+export interface Results {
   id: number;
-  metric: string;
-  value: string;
+  heading: string;
   description: string;
-  icon_name: string;
+  blocks: ResultBlock[];
 }
 
-export interface AdditionalResult {
+export interface AchievementPoint {
   id: number;
   text: string;
+  order: number;
+}
+
+export interface Achievements {
+  id: number;
+  heading: string;
+  points: AchievementPoint[];
+}
+
+export interface Growth {
+  id: number;
+  heading: string;
+  description: string;
 }
 
 export interface InsightData {
@@ -73,11 +102,16 @@ export interface InsightData {
   insight_date: string;
   slug: string;
   challenge_sections?: ChallengeSection[];
+  strategy?: Strategy;
+  results?: Results;
+  achievements?: Achievements;
+  growth?: Growth;
+  // Deprecated fields kept for backward compatibility if needed temporarily
   solution_title?: string;
   solution_description?: string;
-  solution_sections?: SolutionSection[];
-  result_sections?: ResultSection[];
-  additional_results?: AdditionalResult[];
+  solution_sections?: any[];
+  result_sections?: any[];
+  additional_results?: any[];
   conclusion_title?: string;
   conclusion_description?: string;
 }
@@ -262,8 +296,8 @@ const CaseStudyPage = ({ data }: CaseStudyPageProps) => {
               </section>
             ))}
 
-            {/* Solution Section */}
-            {(data.solution_title || data.solution_sections) && (
+            {/* Strategy (formerly Solution) Section */}
+            {data.strategy && (
               <section className="relative py-20 bg-gray-900 rounded-[40px] px-8 md:px-12 lg:px-20 overflow-hidden text-white shadow-2xl">
                 <div className="absolute top-0 right-0 w-1/3 h-full bg-orange-500/5 blur-[120px] pointer-events-none" />
                 <div className="relative z-10">
@@ -271,107 +305,119 @@ const CaseStudyPage = ({ data }: CaseStudyPageProps) => {
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-12 h-[2px] bg-blue-500 rounded-full" />
                       <h2 className="text-sm font-bold tracking-[.3em] uppercase text-blue-400">
-                        Our Solution
+                        Our Strategy
                       </h2>
                     </div>
                     <h2 className="text-3xl md:text-5xl font-bold mb-8">
-                      {data.solution_title || "The Strategic Roadmap"}
+                      {data.strategy.heading}
                     </h2>
                     <p className="text-gray-400 text-lg leading-relaxed">
-                      {data.solution_description}
+                      {data.strategy.description}
                     </p>
                   </div>
 
                   <div className="space-y-20">
-                    {data.solution_sections?.map((section) => (
-                      <div
-                        key={section.id}
-                        className="grid lg:grid-cols-3 gap-12"
-                      >
-                        <div className="lg:col-span-1">
-                          <h3 className="text-2xl font-bold text-white mb-4">
-                            {section.title}
-                          </h3>
-                          <p className="text-gray-500 leading-relaxed">
-                            {section.description}
-                          </p>
+                    {data.strategy.blocks
+                      ?.sort((a, b) => a.order - b.order)
+                      .map((block) => (
+                        <div
+                          key={block.id}
+                          className="grid lg:grid-cols-3 gap-12"
+                        >
+                          <div className="lg:col-span-1">
+                            <h3 className="text-2xl font-bold text-white mb-4">
+                              {block.heading}
+                            </h3>
+                          </div>
+                          <div className="lg:col-span-2 grid sm:grid-cols-2 gap-4">
+                            {block.points
+                              ?.sort((a, b) => a.order - b.order)
+                              .map((point) => (
+                                <div
+                                  key={point.id}
+                                  className="flex items-start gap-4 p-5 bg-white/5 rounded-xl border border-white/5 hover:border-white/10 transition-colors"
+                                >
+                                  <div className="mt-1 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                                  <p className="text-gray-300 text-sm leading-relaxed">
+                                    {point.text}
+                                  </p>
+                                </div>
+                              ))}
+                          </div>
                         </div>
-                        <div className="lg:col-span-2 grid sm:grid-cols-2 gap-4">
-                          {section.items.map((item) => (
-                            <div
-                              key={item.id}
-                              className="flex items-start gap-4 p-5 bg-white/5 rounded-xl border border-white/5 hover:border-white/10 transition-colors"
-                            >
-                              <div className="mt-1 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
-                              <p className="text-gray-300 text-sm leading-relaxed">
-                                {item.text}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </div>
               </section>
             )}
 
             {/* Results & Metrics Section */}
-            {data.result_sections && data.result_sections.length > 0 && (
+            {data.results && (
               <section className="py-20">
                 <div className="text-center max-w-2xl mx-auto mb-16">
                   <h2 className="text-sm font-bold tracking-[.3em] uppercase text-orange-500 mb-4">
-                    Final Outcomes
+                    {data.results.heading}
                   </h2>
                   <h3 className="text-4xl font-bold text-gray-900 mb-6">
-                    Results that speak louder than words
+                    {data.results.description}
                   </h3>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {data.result_sections.map((result, idx) => (
-                    <motion.div
-                      key={result.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.1 }}
-                      className="bg-white p-10 rounded-3xl border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 text-center flex flex-col items-center"
-                    >
-                      <div className="w-16 h-16 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500 mb-6 group-hover:scale-110 transition-transform">
-                        <span className="text-2xl font-bold">
-                          {result.value.replace("%", "")}
-                        </span>
-                        {result.value.includes("%") && (
-                          <span className="text-sm">%</span>
-                        )}
-                      </div>
-                      <h4 className="text-2xl font-bold text-gray-900 mb-2">
-                        {result.value}
-                      </h4>
-                      <p className="text-gray-400 uppercase tracking-widest text-[10px] font-bold mb-4">
-                        {result.metric}
-                      </p>
-                      <p className="text-gray-600 text-sm leading-relaxed">
-                        {result.description}
-                      </p>
-                    </motion.div>
-                  ))}
+                  {data.results.blocks
+                    ?.sort((a, b) => a.order - b.order)
+                    .map((block, idx) => (
+                      <motion.div
+                        key={block.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: idx * 0.1 }}
+                        className="bg-white p-10 rounded-3xl border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 text-center flex flex-col items-center"
+                      >
+                        <div className="w-16 h-16 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500 mb-6 group-hover:scale-110 transition-transform">
+                          <span className="text-2xl font-light">
+                            {block.heading.replace("%", "")}
+                          </span>
+                          {block.heading.includes("%") && (
+                            <span className="text-sm">%</span>
+                          )}
+                        </div>
+                        <h4 className="text-xl font-bold text-gray-900 mb-2">
+                          {block.heading}
+                        </h4>
+                        <p className="text-gray-400 uppercase tracking-widest text-[10px] font-bold mb-4">
+                          {block.title}
+                        </p>
+                        <p className="text-gray-600 text-sm leading-relaxed">
+                          {block.description}
+                        </p>
+                      </motion.div>
+                    ))}
                 </div>
 
-                {data.additional_results &&
-                  data.additional_results.length > 0 && (
-                    <div className="mt-12 p-8 bg-gray-50 rounded-[32px] border border-gray-100 flex flex-wrap gap-8 justify-center">
-                      {data.additional_results.map((item) => (
-                        <div key={item.id} className="flex items-center gap-3">
-                          <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-                          <span className="text-gray-700 font-medium">
-                            {item.text}
-                          </span>
-                        </div>
-                      ))}
+                {data.achievements && (
+                  <div className="mt-12 p-8 bg-gray-50 rounded-[32px] border border-gray-100">
+                    <h4 className="text-center text-lg font-bold text-gray-900 mb-8 uppercase tracking-widest">
+                      {data.achievements.heading}
+                    </h4>
+                    <div className="flex flex-wrap gap-8 justify-center">
+                      {data.achievements.points
+                        ?.sort((a, b) => a.order - b.order)
+                        .map((item) => (
+                          <div
+                            key={item.id}
+                            className="flex items-center gap-3"
+                          >
+                            <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                            <span className="text-gray-700 font-medium">
+                              {item.text}
+                            </span>
+                          </div>
+                        ))}
                     </div>
-                  )}
+                  </div>
+                )}
               </section>
             )}
           </div>
@@ -389,8 +435,8 @@ const CaseStudyPage = ({ data }: CaseStudyPageProps) => {
         />
       </div>
 
-      {/* Modern Conclusion Section */}
-      {(data.conclusion_title || data.conclusion_description) && (
+      {/* Growth (formerly Conclusion) Section */}
+      {data.growth && (
         <section className="py-32 bg-[#0A0A0A] overflow-hidden relative">
           <div className="absolute inset-0 bg-blue-500/5 blur-[120px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-1/2" />
           <div
@@ -398,14 +444,14 @@ const CaseStudyPage = ({ data }: CaseStudyPageProps) => {
           >
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 leading-tight">
-                {data.conclusion_title}
+                {data.growth.heading}
               </h2>
               <div className="relative">
                 <div className="absolute -top-8 -left-8 text-orange-500/20 text-9xl font-serif">
                   “
                 </div>
-                <p className="text-xl md:text-3xl text-gray-400 italic leading-relaxed font-light px-12">
-                  {data.conclusion_description}
+                <p className="text-xl md:text-xl text-gray-400 italic leading-relaxed font-light px-12">
+                  {data.growth.description}
                 </p>
                 <div className="absolute -bottom-16 -right-8 text-blue-500/20 text-9xl font-serif">
                   ”

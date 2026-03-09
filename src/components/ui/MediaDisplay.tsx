@@ -11,7 +11,7 @@ interface MediaDisplayProps {
   className?: string;
 }
 
-import { IMAGE_BASE_URL } from "@/config/apiConfig";
+import { IMAGE_BASE_URL } from "@/config/appConfig";
 import { getMediaType } from "@/lib/imageUtils";
 
 const MediaDisplay: React.FC<MediaDisplayProps> = ({ src, alt, className }) => {

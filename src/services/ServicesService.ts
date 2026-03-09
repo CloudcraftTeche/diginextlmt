@@ -1,6 +1,6 @@
 import { ApiConstants } from "@/constants/apiConstants";
 import apiClient from "@/lib/axiosInstance";
-import { IS_MOCK_ENABLED } from "@/config/apiConfig";
+import { IS_MOCK_ENABLED } from "@/config/appConfig";
 import { mockServicesBanner } from "@/mocks/services/servicesBanner.mock";
 import { mockServicesList } from "@/mocks/services/servicesList.mock";
 import { mockServicesSeo } from "@/mocks/services/servicesSeo.mock";
