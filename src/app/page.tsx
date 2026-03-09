@@ -257,7 +257,7 @@ export default function Home() {
     image: getFullImageUrl(item.image),
   }));
 
-  const caseStudiesData = insights.data.slice(0, 4).map((item) => ({
+  const caseStudiesData = insights.data.slice(0, 3).map((item) => ({
     image: getFullImageUrl(item.image),
     title: item.title,
     percentage: item.insight_date || "Recent",
