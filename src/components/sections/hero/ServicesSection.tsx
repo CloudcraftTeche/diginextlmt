@@ -1,6 +1,6 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ServicesService } from "@/services/ServicesService";
 import { ServicesLoadingSkeleton } from "@/components/LoadingSkelton/home/ServicesLoadingSkeleton";
 
@@ -31,6 +31,12 @@ interface ServiceCard {
   link?: string;
 }
 
+interface ApiServiceItem {
+  service_name: string;
+  service_description: string;
+  slug?: string;
+}
+
 interface ServicesProps {
   title?: string;
   subtitle?: string;
@@ -46,13 +52,14 @@ const ServicesSection: React.FC<ServicesProps> = ({
     initialServices || [],
   );
   const [loading, setLoading] = useState(true);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const response = await ServicesService.getServices();
 
-        let serviceList: any[] = [];
+        let serviceList: ApiServiceItem[] = [];
         // Handle both direct array (mock) and envelope structure (API)
         if (Array.isArray(response.data)) {
           serviceList = response.data;
@@ -61,7 +68,7 @@ const ServicesSection: React.FC<ServicesProps> = ({
         }
 
         if (serviceList.length > 0) {
-          const mappedServices = serviceList.map((item: any) => ({
+          const mappedServices = serviceList.map((item: ApiServiceItem) => ({
             title: item.service_name,
             description: item.service_description,
             // Generate basic slug if missing, e.g. "Design" -> "design"
@@ -83,6 +90,18 @@ const ServicesSection: React.FC<ServicesProps> = ({
     fetchServices();
   }, []);
 
+  const scroll = (direction: "left" | "right") => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const scrollAmount = 350; // Approximated card width + gap
+      if (direction === "left") {
+        container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      } else {
+        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }
+    }
+  };
+
   if (loading) {
     return <ServicesLoadingSkeleton />;
   }
@@ -101,29 +120,57 @@ const ServicesSection: React.FC<ServicesProps> = ({
           whileInView="animate"
           viewport={onceInViewPort}
         >
-          {/* Section Title */}
-          <motion.h2
-            id="services-heading"
-            variants={fadeInUpVariants}
-            className={`${HERO_HEADING_SIZE} text-center mb-3`}
-          >
-            {title}
-          </motion.h2>
+          {/* Header Section with Buttons */}
+          <div className="w-full relative flex flex-col items-center mb-10">
+            <div className="text-center max-w-3xl">
+              {/* Section Title */}
+              <motion.h2
+                id="services-heading"
+                variants={fadeInUpVariants}
+                className={`${HERO_HEADING_SIZE} mb-3`}
+              >
+                {title}
+              </motion.h2>
 
-          {/* Subtitle */}
-          <motion.p
-            variants={fadeInUpVariants}
-            className={`${CENTER_DESCRIPTION_SIZE} max-w-5xl leading-relaxed mb-10`}
-          >
-            {subtitle}
-          </motion.p>
+              {/* Subtitle */}
+              <motion.p
+                variants={fadeInUpVariants}
+                className={`${CENTER_DESCRIPTION_SIZE} leading-relaxed`}
+              >
+                {subtitle}
+              </motion.p>
+            </div>
+
+            {/* Scroll Buttons - Desktop Only or Hidden on Mobile if preferred */}
+            <motion.div
+              variants={fadeInUpVariants}
+              className="hidden md:flex gap-3 md:absolute md:right-0 md:bottom-2 mt-6 md:mt-0"
+            >
+              <button
+                onClick={() => scroll("left")}
+                className="p-3 border border-gray-300 rounded-full hover:bg-black hover:text-white transition-all duration-300"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="p-3 border border-gray-300 rounded-full hover:bg-black hover:text-white transition-all duration-300"
+                aria-label="Scroll right"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </motion.div>
+          </div>
 
           {/* Services Cards — Horizontal Scroll */}
           <motion.div
-            className="w-full overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
+            ref={scrollContainerRef}
+            className="w-full overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory touch-pan-x"
             variants={fadeInUpVariants}
+            data-lenis-prevent
           >
-            <div className="flex gap-5 lg:gap-6 snap-x snap-mandatory w-max">
+            <div className="flex gap-5 lg:gap-6 w-max">
               {services.map((service, index) => (
                 <motion.div
                   key={index}
