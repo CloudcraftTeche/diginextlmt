@@ -174,7 +174,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Right Side - Content (7/12 width, or full width if video is active) */}
             <div
-              className={`w-full ${!ENABLE_FEATURES.home_banner_video ? "lg:w-7/12" : "lg:w-full max-w-4xl mx-auto text-center lg:text-left"} order-2 lg:order-2`}
+              className={`w-full ${!ENABLE_FEATURES.home_banner_video ? "lg:w-7/12" : "lg:w-full max-w-4xl text-left"} order-2 lg:order-2`}
             >
               {/* Title Navigation */}
               <motion.div
@@ -241,7 +241,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
               {/* Animated Buttons */}
               <motion.div
-                className="flex flex-row gap-2 xs:gap-3 sm:gap-4 justify-center lg:justify-start"
+                className="flex flex-row gap-2 xs:gap-3 sm:gap-4 justify-start"
                 variants={fadeInUpVariants}
               >
                 <Link

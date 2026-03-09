@@ -3,6 +3,8 @@ import { ImageConstants } from "@/constants/ImageConstants";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { AboutLoadingSkelton } from "../../LoadingSkelton/home/AboutLoadingSkelton";
 
+import { CONTENT_WRAPPER_CLASSES } from "@/constants/layoutConstants";
+
 interface StatItemProps {
   number: string;
   suffix: string;
@@ -157,7 +159,7 @@ const AboutSection: React.FC<TrustSectionProps> = ({
       id="trust-section"
       className="px-4 sm:px-6 lg:px-8 bg-white overflow-hidden pt-[clamp(1rem,5vw,4rem)] lg:pt-2"
     >
-      <div className="max-w-7xl mx-auto ">
+      <div className={CONTENT_WRAPPER_CLASSES}>
         {/* Header Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-6 ">
           {/* Left Side - Title and Description */}
