@@ -164,13 +164,19 @@ const ServicesSection: React.FC<ServicesProps> = ({
           </div>
 
           {/* Services Cards — Horizontal Scroll */}
-          <motion.div
+          <div
             ref={scrollContainerRef}
-            className="w-full overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory touch-pan-x"
-            variants={fadeInUpVariants}
-            data-lenis-prevent
+            className="w-full overflow-x-auto pb-4 relative z-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory"
+            style={{
+              touchAction: "pan-x",
+              WebkitOverflowScrolling: "touch",
+            }}
+            data-lenis-prevent="true"
           >
-            <div className="flex gap-5 lg:gap-6 w-max">
+            <div
+              className="flex gap-5 lg:gap-6 w-max"
+              data-lenis-prevent="true"
+            >
               {services.map((service, index) => (
                 <motion.div
                   key={index}
@@ -195,7 +201,7 @@ const ServicesSection: React.FC<ServicesProps> = ({
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

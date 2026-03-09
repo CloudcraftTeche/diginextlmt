@@ -245,7 +245,7 @@ const WhatsAppWidget = () => {
                 />
               </div>
               <div>
-                <h4 style={styles.supportTitle}>Aidank Support</h4>
+                <h4 style={styles.supportTitle}>Diginext Support</h4>
                 <div style={styles.onlineStatus}>
                   <div style={styles.onlineDot}></div>
                   <p style={styles.onlineText}>Online</p>
