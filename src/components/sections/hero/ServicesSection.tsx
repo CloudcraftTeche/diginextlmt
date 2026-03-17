@@ -44,7 +44,7 @@ interface ServicesProps {
 }
 
 const ServicesSection: React.FC<ServicesProps> = ({
-  title = "Our Main IT Solutions",
+  title = "Creative & Supportive Services",
   subtitle = "Maintain high standards of ethics in engaging and delivering content and strategy that result in measurable business growth.",
   services: initialServices,
 }) => {
